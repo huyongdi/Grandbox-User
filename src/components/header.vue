@@ -5,7 +5,7 @@
       <img class="logo-img" src="../../static/img/logo.png" alt="grandbox">
     </div>
     <ul id="pathUl">
-      <li class="home-li">
+      <li class="li-1">
         <router-link to="/myData">
           <span class="img-analyze li-img"></span>
           <span>我的数据</span>
@@ -44,6 +44,8 @@
     <div class="pull-right po" @click="toPage1(1)">
       <img src="../../static/img/header-2.png"/>
       <img class="register-img" src="../../static/img/header-11.png"/>
+
+
       <span class="register-span">帮助</span>
     </div>
 
@@ -72,29 +74,24 @@
       }
     },
     mounted: function () {  //兼容刷新的时候
-      let currentName = this.$router.currentRoute.name;
-      const _ul = $("#pathUl");
-      _ul.find('.active').removeClass('active');
-      _ul.find('li').each(function () {
-        const href = $(this).find("a").attr("href");
-        currentName = currentName.includes('-') ? currentName.substring(0, currentName.indexOf('-')) : currentName;
-        if (href && href.includes(currentName)) {
-          $(this).addClass('active')
-        }
-      })
+      this.getActive();
     },
     watch: {
       '$route'(to, from) {
-        const currentPath = to.name;
-      }
-    },
-    created: function () {
-      this.uname = localStorage.uname;
-      if (!localStorage.token) {
-//        this.$router.push({path: '/login?next=' + this.$route.path})
+        this.getActive();
       }
     },
     methods: {
+      getActive: function () {  //通过子页面判断左边具体的active
+        const currentPath = this.$router.currentRoute.name;
+        console.log(currentPath);
+
+        const _header = $("#pathUl");
+        _header.find('>.active').removeClass('active');
+        if(currentPath == 'myData'){
+          $(".li-1").addClass('active')
+        }
+      },
       toPage1: function (type) {
         if (type) { //帮助
           window.location.href =this.helpHtml;
@@ -195,6 +192,7 @@
           width: 100%;
           height: 100%;
           display: inline-block;
+          text-decoration: none;
         }
         .li-img {
           display: inline-block;

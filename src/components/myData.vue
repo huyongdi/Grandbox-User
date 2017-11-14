@@ -14,15 +14,11 @@
       }
     },
     updated: function () {
-      this.getActive();
     },
     methods: {
-      toPage: function (pagePath) {
-        this.$router.push({path: '' + pagePath})
-      },
-      getActive: function () {  //通过子页面判断左边具体的active
-        const currentPath = this.$router.currentRoute.name;
-      },
+
+
+
     }
   }
 </script>

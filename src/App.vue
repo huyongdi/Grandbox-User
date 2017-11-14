@@ -4,7 +4,6 @@
     <nav-header v-if="!inLogin"></nav-header>
 
     <div class="router-content">
-      <span class="test">123</span>
       <router-view></router-view>
     </div>
 
@@ -36,10 +35,9 @@
       }
     },
     created: function () {
-      this.baseBind()
+      this.baseBind();
     },
     mounted: function () {
-
       this.baseBind();
       const name = this.$router.currentRoute.name;
       if(name === 'aHome' || name === 'login'){
@@ -49,7 +47,7 @@
       }
     },
     updated: function () {
-      this.baseBind()
+      this.baseBind();
     },
     watch: {
       '$route' (to, from) { //路由变化的时候判断需不需要加载头部
@@ -130,262 +128,19 @@
         .router-content{
           width: 100%;
           min-height: calc(~'100vh - 50px');
+          background: url("../static/img/html-bc.png");
+
+          padding: 30px 60px;
         }
 
         /*用户版结束*/
 
 
-        /*表格样式*/
-        table {
-          tr.interleave {
-            background-color: @interleave;
-          }
-        }
-        table.my-table {
-          margin-top: 15px;
-          border: 1px solid @tableSha;
-          border-radius: 5px;
-          box-shadow: 0 0 10px 1px @tableSha;
-          width: 100%;
-          max-width: 100%;
-          border-spacing: 0;
-          border-collapse: separate;
-          overflow-x: auto;
-          /*overflow: hidden;*/
-          thead {
-            background-color: rgb(230, 239, 245);
-            overflow: hidden;
-            tr {
-              th {
-                padding: 5px 10px 5px 10px;
-                border-bottom: 2px solid rgb(206, 219, 227);
-                border-top: none;
-                vertical-align:middle;
-              }
-              th:first-child {
-                border-top-left-radius: 5px;
-              }
-              th:last-child {
-                border-top-right-radius: 5px;
-              }
-              th:not(:first-child) {
-                border-left: 1px dashed @tdBorder;
-              }
-              th {
-                .img1 { //th上面显示的图
-                  width: 29px;
-                  height: 32px;
-                  background: url(../static/img/th-2.png);
-                  float: right;
-                  margin-top: -6px;
-                  margin-bottom: -6px;
-                  margin-right: -10px;
-                  cursor: pointer;
-                  position: relative;
-                  &:hover {
-                    .hide-content {
-                      display: block;
-                    }
-                  }
-                  .hide-content {
-                    position: absolute;
-                    top: 32px;
-                    display: none;
-                    .img2 {
-                      cursor: pointer;
-                      background-color: transparent;
-                      z-index: 11;
-                      margin-left: 6px;
-                    }
-                    ul {
-                      margin: -5px 0 0 -30px;
-                      border: 1px solid @tableSha;
-                      box-shadow: 0 0 10px 1px @tableSha;
-                      padding: 0;
-                      z-index: 10;
-                      background-color: #fff;
-                      font-weight: normal;
-                      cursor: pointer;
-                      li {
-                        padding: 5px 20px;
-                        white-space: nowrap;
-                        &:hover {
-                          background-color: @trIn;
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-          tbody {
-            cursor: pointer;
-            font-size: 12px;
-            tr {
-              /*td:first-child {
-                border-bottom-left-radius: 5px;
-              }*/
-              /*td:last-child {*/
-              /*border-bottom-right-radius: 5px;*/
-              /*}*/
-              td {
-                padding: 5px 10px 5px 10px;
-                border-top: none;
-                border-bottom: 1px dashed @tdBorder;
-                vertical-align: middle;
-              }
-              td:not(:first-child) {
-                border-left: 1px dashed @tdBorder;
-              }
-              &:hover {
-                background-color: @trHover;
-              }
-            }
-            tr.tr-bc {
-              background-color: rgb(246, 248, 250);
-            }
-            tr.in {
-              background-color: @trIn;
-            }
-            tr:last-child {
-              td {
-                border-bottom: none;
-              }
-              td:first-child {
-                border-bottom-left-radius: 5px;
-              }
-              td:last-child {
-                border-bottom-right-radius: 5px;
-              }
-            }
-          }
-          table tr:first-child th:first-child {
-            border-top-left-radius: 5px
-          }
-        }
-        table.no-shadow {
-          border-radius: 0;
-          box-shadow: none;
-        }
-        table.table-top{
-          thead{
-            tr{
-              th{
-                vertical-align: top;
-              }
-            }
-          }
-          tbody{
-            tr{
-              td{
-                vertical-align: top;
-              }
-            }
-          }
-        }
 
-        /*修改表格插件样式*/
-        .el-table {
-          border-radius: 5px;
-          border: 1px solid @tableSha;
-          .el-table__header-wrapper { //表头
-            table {
-              thead {
-                background-color: rgb(230, 239, 245);
-                tr {
-                  th {
-                    height: 30px;
-                    border-bottom: 2px solid rgb(206, 219, 227);
-                    border-top: none;
-                    background-color: rgb(230, 239, 245);
-                    > .cell {
-                      padding: 0px 10px;
-                      line-height: 20px;
-                      background-color: rgb(230, 239, 245);
-                    }
-                  }
-                }
-              }
-            }
-          }
-          .el-table__body-wrapper {
-            /*overflow: visible;*/
-            font-size: 12px;
-            table {
-              tbody {
-                tr {
-                  td {
-                    height: 28px;
-                    > .cell {
-                      padding: 0 10px;
-                      line-height: 20px;
-                    }
-                  }
-                  &:hover {
-                    background-color: @trHover;
-                    td {
-                      background-color: @trHover;
-                    }
-                  }
-                }
-                tr.el-table__row--striped {
-                  td {
-                    background-color: #f6f8fa;
-                  }
-                }
-              }
-            }
-          }
-        }
 
-        /*筛选框样式*/
-        .filtrate-content {
-          width: 290px;
-          border: 1px solid @tableSha;
-          border-radius: 5px;
-          box-shadow: 0 0 10px 1px @tableSha;
-          position: absolute;
-          right: 0;
-          top: 40px;
-          padding: 14px 14px 20px 14px;
-          background-color: #fff;
-          z-index: 10;
-          .up {
-            position: absolute;
-            right: 20px;
-            top: -9px;
-          }
-          .title {
-            padding-bottom: 9px;
-            border-bottom: 1px solid @fliterBorder;
-          }
-          .content {
-            padding-top: 6px;
-            .left {
-              float: left;
-              width: 70px;
-            }
-            .right {
-              float: left;
-              width: 185px;
-              input {
-                border: 1px solid @fliterBorder;
-                border-radius: 3px;
-                width: 100%;
-              }
-            }
-            .single {
-              margin: 3px 0;
-              min-height: 28px;
-            }
-          }
-          .search-btn {
-            margin-top: 20px;
-            margin-left: 90px;
-          }
-        }
-        /*页面共用样式*/
+
+
+       /* !*页面共用样式*!
         .all-content {
           height: 100%;
           .under {
@@ -400,8 +155,8 @@
               z-index: 20;
               float: left;
               width: 250px;
-              /*min-height: calc(~'100vh - 58px');*/
-              /*height: 100%;*/
+              !*min-height: calc(~'100vh - 58px');*!
+              !*height: 100%;*!
               margin: 0;
               padding: 0;
               color: @color;
@@ -417,9 +172,9 @@
                   border-right: 1px solid @triangle-color;
                   color: @in;
                 }
-                /*.children {*/
-                /*display: block;*/
-                /*}*/
+                !*.children {*!
+                !*display: block;*!
+                !*}*!
               }
               .father {
                 height: 40px;
@@ -449,7 +204,7 @@
                 }
               }
               .children {
-                /*display: none;*/
+                !*display: none;*!
                 border-top: 1px solid #fbfbfb;
                 border-bottom: 1px solid #d3d4d4;
                 font-size: 13px;
@@ -467,15 +222,15 @@
             }
             .under-right {
 
-              /*position: absolute;*/
-              /*top:50px;*/
+              !*position: absolute;*!
+              !*top:50px;*!
 
               margin-left: 250px;
               background: url("../static/img/html-bc.png");
               background-size: 100% 100%;
               border-left: 1px solid rgb(211, 212, 212);
               display: inline-block;
-              /*width: calc(~'100vw - 270px');*/
+              !*width: calc(~'100vw - 270px');*!
               min-width: 1170px;
               min-height: calc(~'100vh - 58px');
               padding-left: 25px;
@@ -502,7 +257,7 @@
                 margin: 0;
               }
 
-              /*几个结果页面的共用样式*/
+              !*几个结果页面的共用样式*!
               .cover {
                 bottom: 0;
                 position: fixed;
@@ -520,9 +275,9 @@
                   content: "修改受检者关注的基因和表型";
                   right: -200px;
                   position: absolute;
-                  /*width: 200px;*/
-                  /*height: 100px;*/
-                  /*background-color: #fff;*/
+                  !*width: 200px;*!
+                  !*height: 100px;*!
+                  !*background-color: #fff;*!
                 }
               }
               .light-search {
@@ -533,9 +288,9 @@
                   right: 100px;
                   width: 100px;
                   position: absolute;
-                  /*width: 200px;*/
-                  /*height: 100px;*/
-                  /*background-color: #fff;*/
+                  !*width: 200px;*!
+                  !*height: 100px;*!
+                  !*background-color: #fff;*!
                 }
               }
               .long {
@@ -587,20 +342,20 @@
                 }
               }
 
-              /*修改bootstrap样式*/
+              !*修改bootstrap样式*!
 
               .tooltip{
-                /*white-space: nowrap;*/
+                !*white-space: nowrap;*!
                 .tooltip-inner{
                   text-align: left;
                 }
               }
               .modal-dialog {
-                /*position: absolute;*/
-                /*margin: 10px auto;*/
-                /*left: 0;*/
-                /*right: 0;*/
-                /*top: 50%;*/
+                !*position: absolute;*!
+                !*margin: 10px auto;*!
+                !*left: 0;*!
+                !*right: 0;*!
+                !*top: 50%;*!
                 .modal-header {
                   padding: 8px 15px;
                   font-size: 14px;
@@ -623,78 +378,33 @@
                 }
               }
 
-              /*.modal.in .modal-dialog {*/
-              /*-webkit-transform: translate(0, 0%);*/
-              /*-ms-transform: translate(0, 0%);*/
-              /*-o-transform: translate(0, 0%);*/
-              /*transform: translate(0, 0%);*/
-              /*}*/
+              !*.modal.in .modal-dialog {*!
+              !*-webkit-transform: translate(0, 0%);*!
+              !*-ms-transform: translate(0, 0%);*!
+              !*-o-transform: translate(0, 0%);*!
+              !*transform: translate(0, 0%);*!
+              !*}*!
 
-              /*.modal.fade .modal-dialog {*/
-              /*-webkit-transition: -webkit-transform .3s ease-out;*/
-              /*-o-transition: -o-transform .3s ease-out;*/
-              /*transition: transform .3s ease-out;*/
-              /*-webkit-transform: translate(0, -75%);*/
-              /*-ms-transform: translate(0, -75%);*/
-              /*-o-transform: translate(0, -75%);*/
-              /*transform: translate(0, -75%)*/
-              /*}*/
+              !*.modal.fade .modal-dialog {*!
+              !*-webkit-transition: -webkit-transform .3s ease-out;*!
+              !*-o-transition: -o-transform .3s ease-out;*!
+              !*transition: transform .3s ease-out;*!
+              !*-webkit-transform: translate(0, -75%);*!
+              !*-ms-transform: translate(0, -75%);*!
+              !*-o-transform: translate(0, -75%);*!
+              !*transform: translate(0, -75%)*!
+              !*}*!
 
-              /*.modal.in .modal-dialog {*/
-              /*-webkit-transform: translate(0, -50%);*/
-              /*-ms-transform: translate(0, -50%);*/
-              /*-o-transform: translate(0, -50%);*/
-              /*transform: translate(0, -50%)*/
-              /*}*/
+              !*.modal.in .modal-dialog {*!
+              !*-webkit-transform: translate(0, -50%);*!
+              !*-ms-transform: translate(0, -50%);*!
+              !*-o-transform: translate(0, -50%);*!
+              !*transform: translate(0, -50%)*!
+              !*}*!
             }
           }
-        }
-        /*加载动画*/
-        .spinner {
-          z-index: 10000;
-          position: fixed;
-          top: 50%;
-          left: 45%;
-          width: 150px;
-          text-align: center;
-          div {
-            width: 30px;
-            height: 30px;
-            background-color: #258dc1;
-            border-radius: 100%;
-            display: inline-block;
-            -webkit-animation: bounceDelay 1.4s infinite ease-in-out;
-            animation: bounceDelay 1.4s infinite ease-in-out;
-            -webkit-animation-fill-mode: both;
-            animation-fill-mode: both;
-          }
-          .bounce1 {
-            -webkit-animation-delay: -0.32s;
-            animation-delay: -0.32s;
-          }
-          .bounce2 {
-            -webkit-animation-delay: -0.16s;
-            animation-delay: -0.16s;
-          }
-        }
-        @-webkit-keyframes bounceDelay {
-          0%, 80%, 100% {
-            -webkit-transform: scale(0.0)
-          }
-          40% {
-            -webkit-transform: scale(1.0)
-          }
-        }
-        @keyframes bounceDelay {
-          0%, 80%, 100% {
-            transform: scale(0.0);
-            -webkit-transform: scale(0.0);
-          }
-          40% {
-            transform: scale(1.0);
-            -webkit-transform: scale(1.0);
-          }
-        }
+        }*/
+
 
       }
     }
