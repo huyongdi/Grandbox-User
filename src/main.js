@@ -16,29 +16,20 @@ Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.use(Vuex);
 
+let apiUrl = 'https://analyze.grandbox.site/';
 
 Vue.prototype.loginAxios = axios.create({
-//  baseURL: 'http://118.26.69.171:8083/',
-  baseURL: 'https://analyze.grandbox.site/',
+  baseURL: apiUrl,
 });
 Vue.prototype.myAxios = axios.create({
-  baseURL: 'https://analyze.grandbox.site/',
-//  baseURL: 'http://118.26.69.171:7777/',
+  baseURL: apiUrl,
   headers:{'Authorization': localStorage.token}
 });
 
-/*请求地址*/
-//Vue.prototype.anaUrl = 'http://118.26.69.171:8083/';
-Vue.prototype.anaUrl = 'https://analyze.grandbox.site/';
-Vue.prototype.dbUrl = 'https://analyze.grandbox.site/';
-//Vue.prototype.dbUrl = 'https://dev-biomeddb.grandbox.site/';
 
-/*页面地址*/
-Vue.prototype.dbHtml = '/biomeddb/';
-Vue.prototype.anaHtml = '/analyze/';
-Vue.prototype.manHtml = '/manage/';
-
-Vue.prototype.feedBackHtml=' https://redmine.grandbox.site';//反馈中心地址
+Vue.prototype.helpHtml='https://www.grandbox.site/manage/help/announcement';//帮助地址
+Vue.prototype.feedBackHtml='https://redmine.grandbox.site';//反馈中心地址
+Vue.prototype.changePassword='https://www.grandbox.site/manage/updatePassword';//修改密码地址
 
 /*自定义全局函数*/
 // 捕获错误
@@ -100,6 +91,7 @@ Vue.prototype.switchHide = function (ID) {
     _ele.addClass('hide')
   }
 };
+
 new Vue({
   el: '#app',
   router,

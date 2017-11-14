@@ -2,71 +2,48 @@
 <template>
   <div class="header">
     <div class="pull-left logo po" @click="toMajorPage">
-      <img class="logo-img" src="../../../static/img/logo.png" alt="grandbox">
-      <img class="pull-right" src="../../../static/img/header-2.png"/>
+      <img class="logo-img" src="../../static/img/logo.png" alt="grandbox">
     </div>
     <ul id="pathUl">
-      <li class="home-li" @mouseover="showProject" @mouseleave="hideProject">
-        <i class="triangle"></i>
-        <router-link to="/home">
+      <li class="home-li">
+        <router-link to="/myData">
           <span class="img-analyze li-img"></span>
-          <span>分析系统</span>
+          <span>我的数据</span>
         </router-link>
-        <img class="right-img" src="../../../static/img/header-2.png"/>
-
-        <ul class="change-project hide">
-          <li @click="toPage(0)">
-            <a>
-              <img src="../../../static/img/project-1.png" alt="">
-              <span>管理系统</span>
-            </a>
-
-          </li>
-          <li @click="toPage(1)">
-            <a>
-              <img src="../../../static/img/project-2.png" alt="">
-              <span>医学数据库</span>
-            </a>
-          </li>
-        </ul>
-
       </li>
       <li>
         <router-link to="/dataM/foo/platform">
           <span class="img-dataManage li-img"></span>
-          <span>数据管理</span>
+          <span>疾病</span>
         </router-link>
-        <img class="right-img" src="../../../static/img/header-2.png"/>
       </li>
       <li>
         <router-link to="/dataA/foo/sgList">
           <span class="img-dataAnalysis li-img"></span>
-          <span>数据分析</span>
+          <span>基因</span>
         </router-link>
-        <img class="right-img" src="../../../static/img/header-2.png"/>
       </li>
       <li>
         <router-link to="/taskM/foo/done">
           <span class="img-taskManage li-img"></span>
-          <span>任务管理</span>
+          <span>表型</span>
         </router-link>
-        <img class="right-img" src="../../../static/img/header-2.png"/>
       </li>
     </ul>
 
     <div class="pull-right po" @click="out">
-      <img src="../../../static/img/header-2.png"/>
-      <img class="register-img" src="../../../static/img/header-8.png"/>
+      <img src="../../static/img/header-2.png"/>
+      <img class="register-img" src="../../static/img/header-8.png"/>
       <span class="register-span">注销</span>
     </div>
     <div class="pull-right po" @click="toPage1(0)">
-      <img src="../../../static/img/header-2.png"/>
-      <img class="register-img" src="../../../static/img/header-12.png"/>
+      <img src="../../static/img/header-2.png"/>
+      <img class="register-img" src="../../static/img/header-12.png"/>
       <span class="register-span">反馈</span>
     </div>
     <div class="pull-right po" @click="toPage1(1)">
-      <img src="../../../static/img/header-2.png"/>
-      <img class="register-img" src="../../../static/img/header-11.png"/>
+      <img src="../../static/img/header-2.png"/>
+      <img class="register-img" src="../../static/img/header-11.png"/>
       <span class="register-span">帮助</span>
     </div>
 
@@ -74,13 +51,13 @@
     <div class="pull-right po dropdown">
       <div class="dropdown-toggle name-content" aria-haspopup="true" aria-expanded="true" data-toggle="dropdown"
            id="hideContent">
-        <img src="../../../static/img/header-2.png"/>
-        <img class="register-img" src="../../../static/img/header-9.png"/>
+        <img src="../../static/img/header-2.png"/>
+        <img class="register-img" src="../../static/img/header-9.png"/>
         <span class="register-span">{{uname}}</span>
         <i class="triangle"></i>
       </div>
       <ul class="dropdown-menu" aria-labelledby="hideContent">
-      <li><a :href="manHtml+'updatePassword'">修改密码</a></li>
+        <li><a :href="changePassword" target="_blank">修改密码</a></li>
       </ul>
     </div>
   </div>
@@ -107,7 +84,7 @@
       })
     },
     watch: {
-      '$route' (to, from) {
+      '$route'(to, from) {
         const currentPath = to.name;
       }
     },
@@ -120,34 +97,18 @@
     methods: {
       toPage1: function (type) {
         if (type) { //帮助
-          window.location.href = this.manHtml + "help/announcement?prev=1";
+          window.location.href =this.helpHtml;
         } else { //反馈
           window.open(this.feedBackHtml)
         }
       },
-      toMajorPage:function () {
+      toMajorPage: function () {
         this.$router.push({path: '/'})
-      },
-      toPage:function (type) {
-        if(type){ //数据库
-//          window.location.href=this.dbHtml
-          window.open(this.dbHtml)
-        }else{
-//          window.location.href=this.manHtml
-          window.open(this.manHtml)
-        }
-      },
-      showProject:function () {
-        $(".change-project").removeClass('hide')
-      },
-      hideProject:function () {
-        $(".change-project").addClass('hide')
       },
       out: function () {
         if (confirm('确定要退出登录吗？')) {
           localStorage.removeItem('token');
           localStorage.removeItem('uname');
-//          this.$router.push({path: '/login?next=' + this.$route.path})
           this.$router.push({path: '/'})
         }
       },
@@ -157,75 +118,28 @@
 
 <style scoped lang="less">
   .header {
-    position: absolute;
-    .home-li.active{
-      .triangle{
-        border-top: 7px solid rgb(0,118,192);
-      }
-    }
-    .home-li{
-      position: relative;
-      .triangle{
-        position: absolute;
-        float: right;
-        width: 0;
-        height: 0;
-        border-top: 7px solid #fff;
-        border-right: 8px solid transparent;
-        border-left: 7px solid transparent;
-        right: 15px;
-        top: 22px;
-      }
-      .change-project{
-        position: absolute;
-        padding-left: 0;
-        border: 1px solid #ccc;
-        width: 100%;
-        z-index: 1000;
-        color: #333;
-        left: -1px;
-        top: 50px;
-        li{
-          height: 40px;
-          line-height: 40px;
-          background-color: #fff;
-          border-right: 1px solid #ccc;
-          &:hover{
-            background-color: rgb(241,242,244);
-          }
-          img{
-            float: left;
-            margin: 11px 10px 0 20px;
-          }
-          span{
-            float: left;
-          }
-        }
-      }
-    }
     min-width: 1300px;
     height: 50px;
     line-height: 40px;
     width: 100%;
     color: #fff;
-    background: url('../../../static/img/header-bc.png') no-repeat center;
+    background: url('../../static/img/header-bc.png') no-repeat center;
     background-size: 100%;
     border-bottom: 1px solid rgb(0, 77, 144);
 
     .logo {
+      position: relative;
       width: 251px;
-      line-height: 48px;
+      line-height: 49px;
       text-align: center;
-    }
-
-    .font-content {
-
-      .cloud {
-        margin: 0 6px 0 32px;
-      }
-
-      .header-font {
-        margin-right: 28px;
+      &:after {
+        position: absolute;
+        top: 0;
+        content: "";
+        width: 1px;
+        height: 50px;
+        right: 0;
+        background-image: linear-gradient(180deg, #05afe7, #0c4983);
       }
     }
 
@@ -233,23 +147,21 @@
       margin: 0;
       li.active {
         background-color: #fff;
-        /*border-bottom: 1px solid #fff;*/
         color: rgb(0, 118, 192);
-        height: 51px;
         .img-dataAnalysis {
-          background: url(../../../static/img/all-3.png) -34px -59px no-repeat;
+          background: url(../../static/img/all-3.png) -34px -59px no-repeat;
         }
         .img-taskManage {
           background-size: 28px 19px;
-          background: url(../../../static/img/all-3.png) -34px -89px no-repeat;
+          background: url(../../static/img/all-3.png) -34px -89px no-repeat;
         }
-        .img-dataManage{
+        .img-dataManage {
           background-size: 21px 21px;
-          background: url(../../../static/img/all-3.png) -34px -30px no-repeat;
+          background: url(../../static/img/all-3.png) -34px -30px no-repeat;
         }
-        .img-analyze{
+        .img-analyze {
           background-size: 22px 21px;
-          background: url(../../../static/img/all-3.png) -34px 1px no-repeat;
+          background: url(../../static/img/all-3.png) -34px 1px no-repeat;
         }
       }
       li {
@@ -260,11 +172,23 @@
         position: relative;
         height: 50px;
         line-height: 50px;
-        .right-img {
+        &:before {
           position: absolute;
-          right: 0;
           top: 0;
-          height: 100%;
+          content: "";
+          width: 1px;
+          height: 50px;
+          left: 0;
+          background-image: linear-gradient(180deg, #13c8fd, #1a7eb9);
+        }
+        &:after {
+          position: absolute;
+          top: 0;
+          content: "";
+          width: 1px;
+          height: 50px;
+          right: 0;
+          background-image: linear-gradient(180deg, #05afe7, #0c4983);
         }
         a {
           color: inherit;
@@ -281,21 +205,20 @@
         }
         .img-analyze {
           background-size: 21px 20px;
-          /*background: url(../../../static/img/header-4.png) no-repeat center;*/
-          background: url(../../../static/img/all-3.png) 0 1px no-repeat;
+          background: url(../../static/img/all-3.png) 0 1px no-repeat;
         }
         .img-dataManage {
           background-size: 21px 21px;
-          background: url(../../../static/img/all-3.png) 0 -30px no-repeat;
+          background: url(../../static/img/all-3.png) 0 -30px no-repeat;
         }
         .img-dataAnalysis {
           background-size: 22px 21px;
-          background: url(../../../static/img/all-3.png) 0 -59px no-repeat;
+          background: url(../../static/img/all-3.png) 0 -59px no-repeat;
 
         }
         .img-taskManage {
           background-size: 28px 19px;
-          background: url(../../../static/img/all-3.png) 0 -89px no-repeat;
+          background: url(../../static/img/all-3.png) 0 -89px no-repeat;
         }
       }
     }
@@ -314,18 +237,14 @@
         margin-left: 25px;
       }
     }
-
     .dropdown-menu {
       left: 0;
     }
-
     .register-img {
       margin: 0 5px 2px 20px;
     }
-
     .register-span {
       margin-right: 20px;
     }
-
   }
 </style>

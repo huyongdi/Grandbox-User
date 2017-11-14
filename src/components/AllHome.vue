@@ -77,7 +77,7 @@
     },
     created: function () {
       if (localStorage.token) {
-        this.$router.push({path: '/home'})
+        this.$router.push({path: '/myData'})
       }
     },
     methods: {

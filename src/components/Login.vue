@@ -27,32 +27,8 @@
         <img class="register-img" src="../../static/img/header-10.png"/>
         <span class="register-span">登录</span>
       </div>
-      <!--<div class="pull-right po">-->
-        <!--<img src="../../static/img/header-2.png"/>-->
-        <!--<img class="register-img" src="../../static/img/header-3.png"/>-->
-        <!--<span class="register-span">注册</span>-->
-      <!--</div>-->
     </div>
     <div class="content">
-      <div class="content-left pull-left bc-fff">
-        <ul id="active-ul">
-          <li @click="clickLi" class="po li-analyze active" data-type="0">
-            <i class="img-analyze"></i>
-            <span>Analyze一分析解读平台</span>
-            <i class="triangle"></i>
-          </li>
-          <li @click="clickLi" class="po li-manage" data-type="1">
-            <i class="img-manage"></i>
-            <span>Management一项目管理系统</span>
-            <i class="triangle"></i>
-          </li>
-          <li @click="clickLi" class="po li-data" data-type="2">
-            <i class="img-data"></i>
-            <span>BioMedDB一医学大数据库</span>
-            <i class="triangle"></i>
-          </li>
-        </ul>
-      </div>
       <div class="content-right">
         <div class="row">
           <div class="col-sm-11">
@@ -112,7 +88,7 @@
     methods: {
       toPage: function (type) {
         if (type) { //帮助
-          window.location.href = this.manHtml + "help/announcement?prev=1";
+          window.location.href = this.helpHtml;
         } else { //反馈
           window.open(this.feedBackHtml)
         }
@@ -130,18 +106,8 @@
           localStorage.token = resp.data.data.token;
           localStorage.uname = resp.data.data.personnel;
 
-          const type = $("#active-ul").find('.active').data('type');
-          if(type === 0){ //分析项目
-            const nextPath = _vue.$route.query.next?_vue.$route.query.next:'/home';
-            _vue.$router.push({path: nextPath});
-          }else if(type === 1){ //管理项目
-            _vue.$route.query.next = '';
-            window.location.href=_vue.manHtml+'person'
-          }else{
-            _vue.$route.query.next = '';
-            window.location.href=_vue.dbHtml
-          }
-
+          const nextPath = _vue.$route.query.next ? _vue.$route.query.next : '/home';
+          _vue.$router.push({path: nextPath});
 
         }).catch(function (error) {
           _vue.catchFun(error);
@@ -151,7 +117,7 @@
         $(".content-left").find(".active").removeClass('active');
         $(event.target).closest('li').addClass('active')
       },
-      toMajorPage:function () {
+      toMajorPage: function () {
         this.$router.push({path: '/'})
       }
     }
@@ -164,7 +130,7 @@
   @font-color: rgb(21, 65, 65);
   .all {
     height: 100%;
-      min-width: 1300px;
+    min-width: 1300px;
     .header {
       height: 50px;
       line-height: 48px;
@@ -278,7 +244,7 @@
         float: left;
         min-height: 100%;
         padding-left: 32px;
-        width: calc(~'100vw - 285px');
+        width: calc(~'100vw - 0px');
         min-width: 1050px;
         .login-logo {
           margin-top: 40px;
@@ -287,31 +253,31 @@
         .login-content {
           color: @font-color;
           margin: 5vh 0 7vh 0;
-          .block{
+          .block {
             margin: 20px 0;
-            input{
+            input {
               width: 20vw;
             }
           }
-          .login-img{
+          .login-img {
             margin-top: 10px;
           }
         }
-        .alert{
+        .alert {
           width: 100%;
           padding: 25px 20px;
-          background-color: rgb(237,246,251);
-          .alert-img{
+          background-color: rgb(237, 246, 251);
+          .alert-img {
             width: 15px;
             height: 15px;
             background: url('../../static/img/all-2.png') 0 15px;
           }
-          .alert-title{
-            color: rgb( 21, 65, 65 );
+          .alert-title {
+            color: rgb(21, 65, 65);
             font-weight: bold;
           }
-          .alert-content{
-            color: rgb( 49, 49, 49 );
+          .alert-content {
+            color: rgb(49, 49, 49);
             font-weight: bold;
             margin-top: 12px;
           }
