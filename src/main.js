@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-default/index.css'
+import 'element-ui/lib/theme-chalk/index.css'
 import App from './App'
 import router from './router'
 import axios from 'axios'
@@ -57,7 +57,11 @@ Vue.prototype.catchFun = function (error) {
         alertContent = error.response.data
       }
     }
-    alert(error.response.status + ' : ' + alertContent);
+    this.$message({
+      showClose: true,
+      message: error.response.status + ' : ' + alertContent,
+      type: 'error'
+    });
     if (error.response.status === 401) {
       if (this.$route.name !== 'login') {
          localStorage.token = '';
@@ -65,7 +69,11 @@ Vue.prototype.catchFun = function (error) {
       }
     }
   } else {
-    alert(error.message);
+    this.$message({
+      showClose: true,
+      message: error.message,
+      type: 'error'
+    });
   }
 };
 // 字符串转化为数组

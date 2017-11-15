@@ -1,5 +1,8 @@
-.test {
-  color: red;
+.break-word {
+  word-wrap: break-word;
+}
+.top5 {
+  margin-top: 5px;
 }
 .base-color {
   /*标题背景底色*/
@@ -447,4 +450,19 @@ table.table-top tbody tr td {
     transform: scale(1);
     -webkit-transform: scale(1);
   }
+}
+/*修改element插件的样式*/
+#addModal .el-input__inner {
+  height: 25px;
+  line-height: 25px;
+}
+#addModal .el-cascader__label {
+  line-height: 25px;
+}
+#addModal .el-input__icon {
+  line-height: 20px;
+}
+#addModal .el-cascader {
+  line-height: normal;
+  font-size: 12px;
 }

@@ -10,8 +10,12 @@
 @interleave: rgb(246, 248, 250);
 @fliterBorder: rgb(212, 212, 212);
 
-.test{
-  color: red;
+.break-word{
+  word-wrap: break-word;
+}
+
+.top5{
+  margin-top: 5px;
 }
 
 .base-color { /*标题背景底色*/
@@ -523,3 +527,23 @@ table.table-top{
     -webkit-transform: scale(1.0);
   }
 }
+
+
+/*修改element插件的样式*/
+#addModal{
+  .el-input__inner{
+    height: 25px;
+    line-height: 25px;
+  }
+  .el-cascader__label{
+    line-height: 25px;
+  }
+  .el-input__icon{
+    line-height: 20px;
+  }
+  .el-cascader{
+    line-height: normal;
+    font-size: 12px;
+  }
+}
+

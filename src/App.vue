@@ -129,8 +129,10 @@
           width: 100%;
           min-height: calc(~'100vh - 50px');
           background: url("../static/img/html-bc.png");
-
           padding: 30px 60px;
+          .top-content{
+
+          }
         }
 
         /*用户版结束*/
