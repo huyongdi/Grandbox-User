@@ -1,5 +1,5 @@
 <template>
-  <div id="my-data">
+  <div id="my-data" class="p-div">
     <loading v-if="loading"></loading>
     <div class="top-content">
       <span class="my-btn refresh" @click="refresh"><img src="../../static/img/red-refresh.png" alt="">数据刷新</span>

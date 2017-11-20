@@ -84,7 +84,6 @@
     methods: {
       getActive: function () {  //通过子页面判断左边具体的active
         const currentPath = this.$router.currentRoute.name;
-        console.log(currentPath);
 
         const _header = $("#pathUl");
         _header.find('>.active').removeClass('active');

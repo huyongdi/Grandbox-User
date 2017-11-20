@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="p-div">
 123
 
   </div>

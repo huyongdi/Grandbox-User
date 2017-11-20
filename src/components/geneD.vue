@@ -1,5 +1,5 @@
 <template>
-  <div id="gene-d">
+  <div id="gene-d" class="p-div">
     <div class="title">
       【基因】AVP
     </div>

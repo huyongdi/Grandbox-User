@@ -73,6 +73,8 @@
 </template>
 
 <script>
+  import Vue from 'vue'
+
   export default {
     data: function () {
       return {
@@ -82,7 +84,7 @@
     },
     created: function () {
       if (localStorage.token) {
-        this.$router.push({path: '/home'})
+        this.$router.push({path: '/myData'})
       }
     },
     methods: {
@@ -105,8 +107,6 @@
         }).then(function (resp) {
           localStorage.token = resp.data.data.token;
           localStorage.uname = resp.data.data.personnel;
-
-          window.myTime = 2*60*60;
 
           const nextPath = _vue.$route.query.next ? _vue.$route.query.next : '/myData';
           _vue.$router.push({path: nextPath});

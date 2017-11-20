@@ -1,5 +1,5 @@
 <template>
-  <div class="gene-page">
+  <div class="gene-page p-div">
     <loading v-if="loading"></loading>
     <div class="title-below">
       <div class="search-div">

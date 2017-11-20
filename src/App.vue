@@ -128,7 +128,7 @@
           width: 100%;
           min-height: calc(~'100vh - 50px');
           background: url("../static/img/html-bc.png");
-          >div{
+          .p-div{
             padding: 30px 60px;
           }
           .top-content{
