@@ -106,7 +106,9 @@
           localStorage.token = resp.data.data.token;
           localStorage.uname = resp.data.data.personnel;
 
-          const nextPath = _vue.$route.query.next ? _vue.$route.query.next : '/home';
+          window.myTime = 2*60*60;
+
+          const nextPath = _vue.$route.query.next ? _vue.$route.query.next : '/myData';
           _vue.$router.push({path: nextPath});
 
         }).catch(function (error) {

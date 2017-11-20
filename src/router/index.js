@@ -5,6 +5,8 @@ import Login from '@/components/Login'
 import MyData from '@/components/myData'
 import Gene from '@/components/Gene'
 import GeneD from '@/components/geneD'
+import Disease from '@/components/disease'
+import Phenotype from '@/components/phenotype'
 
 
 Vue.use(Router);
@@ -35,6 +37,16 @@ export default new Router({
       path: '/geneD',
       name: 'geneD',
       component: GeneD
+    },
+    {
+      path: '/disease',
+      name: 'disease',
+      component: Disease
+    },
+    {
+      path: '/phenotype',
+      name: 'phenotype',
+      component: Phenotype
     },
   ]
 })

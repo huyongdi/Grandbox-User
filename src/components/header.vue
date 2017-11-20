@@ -12,7 +12,7 @@
         </router-link>
       </li>
       <li class="li-2">
-        <router-link to="/dataM/foo/platform">
+        <router-link to="/disease">
           <span class="img-dataManage li-img"></span>
           <span>疾病档案库</span>
         </router-link>
@@ -24,7 +24,7 @@
         </router-link>
       </li>
       <li class="li-4">
-        <router-link to="/taskM/foo/done">
+        <router-link to="/phenotype">
           <span class="img-taskManage li-img"></span>
           <span>表型档案库</span>
         </router-link>
@@ -90,8 +90,12 @@
         _header.find('>.active').removeClass('active');
         if(currentPath == 'myData'){
           $(".li-1").addClass('active')
-        }else if(currentPath == 'gene'){
+        }else if(currentPath == 'gene' || currentPath == 'geneD'){
           $(".li-3").addClass('active')
+        }else if(currentPath == 'disease'){
+          $(".li-2").addClass('active')
+        }else if(currentPath == 'phenotype'){
+          $(".li-4").addClass('active')
         }
       },
       toPage1: function (type) {

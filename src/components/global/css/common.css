@@ -4,6 +4,9 @@
 .top5 {
   margin-top: 5px;
 }
+.mr-left15 {
+  margin-left: 15px;
+}
 .base-color {
   /*标题背景底色*/
   padding: 8px 10px;
@@ -70,6 +73,9 @@ a {
 }
 .bold {
   font-weight: bold;
+}
+ul {
+  padding: 0;
 }
 ul li {
   list-style: none;
@@ -191,6 +197,31 @@ select::-ms-expand {
 table tr.interleave {
   background-color: #f6f8fa;
 }
+table.special-table {
+  width: 100%;
+  max-width: 100%;
+}
+table.special-table tbody td {
+  border: 1px solid  #cfddd9;
+  font-size: 12px;
+  padding: 9px 15px;
+}
+table.special-table tbody td .img-a img {
+  width: 60px;
+}
+table.special-table tbody td.t-bc {
+  background-color: #e4ecea;
+}
+table.no-shadow {
+  border-radius: 0;
+  box-shadow: none;
+}
+table.table-top thead tr th {
+  vertical-align: top;
+}
+table.table-top tbody tr td {
+  vertical-align: top;
+}
 table.my-table {
   margin-top: 15px;
   border: 1px solid #b9b8b8;
@@ -305,16 +336,6 @@ table.my-table tbody tr:last-child td:last-child {
 }
 table.my-table table tr:first-child th:first-child {
   border-top-left-radius: 5px;
-}
-table.no-shadow {
-  border-radius: 0;
-  box-shadow: none;
-}
-table.table-top thead tr th {
-  vertical-align: top;
-}
-table.table-top tbody tr td {
-  vertical-align: top;
 }
 /*修改表格插件样式*/
 .el-table {

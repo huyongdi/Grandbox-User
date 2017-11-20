@@ -100,10 +100,12 @@ Vue.prototype.switchHide = function (ID) {
   }
 };
 
+console.log(window.myTime)
+
 new Vue({
   el: '#app',
   router,
-
+//  store,
   template: '<App/>',
   components: {App}
 });
