@@ -70,7 +70,7 @@
     name: 'header',
     data: function () {
       return {
-        uname: ''
+        uname: localStorage.uname
       }
     },
     mounted: function () {  //兼容刷新的时候

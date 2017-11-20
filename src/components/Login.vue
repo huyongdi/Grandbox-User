@@ -84,7 +84,7 @@
     },
     created: function () {
       if (localStorage.token) {
-        this.$router.push({path: '/myData'})
+//        this.$router.push({path: '/myData'})
       }
     },
     methods: {
@@ -98,16 +98,17 @@
       login: function () {
         const _vue = this;
         this.loginAxios({
-          url: 'user/login/',
+          url: 'auth/login',
           method: 'post',
           data: {
             username: this.inputName,
             password: this.inputPassword
           }
         }).then(function (resp) {
-          localStorage.token = resp.data.data.token;
-          localStorage.uname = resp.data.data.personnel;
-
+          localStorage.token = resp.data.token;
+          let data = JSON.parse(_vue.Base64.decode(resp.data.token.split('.')[1]));
+          localStorage.uname = data.name;
+          localStorage.time = data.exp;
           const nextPath = _vue.$route.query.next ? _vue.$route.query.next : '/myData';
           _vue.$router.push({path: nextPath});
 

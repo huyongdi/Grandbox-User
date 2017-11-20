@@ -465,17 +465,32 @@
       }
     },
     created: function () {
-      this.getList();
-      this.getCap();
-      const _vue = this;
-      $('#editModal').on('show.bs.modal', function (e) {
-        _vue.hasGene = '';
-        _vue.inputPanel = '';
-        $("#editModal").on("click", function () {
-          _vue.showPanel = false;
-        })
+            const _vue = this;
+      this.myAxios({
+        url: 'auth/login',
+        method: 'post',
+        data: {
+          username: 'admin@qq.com',
+          password: '1234'
+        }
+      }).then(function (resp) {
+
+
+      }).catch(function (error) {
+        _vue.catchFun(error);
       });
-      this.getPanelOp();
+
+//      this.getList();
+//      this.getCap();
+//      const _vue = this;
+//      $('#editModal').on('show.bs.modal', function (e) {
+//        _vue.hasGene = '';
+//        _vue.inputPanel = '';
+//        $("#editModal").on("click", function () {
+//          _vue.showPanel = false;
+//        })
+//      });
+//      this.getPanelOp();
     },
     methods: {
       /*获取capture选择框*/
