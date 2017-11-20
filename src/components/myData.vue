@@ -626,6 +626,17 @@
         this.hide1 = false;
         this.hide2 = true;
         this.hide3 = true;
+
+        this.addInfo = {
+          name: '',
+          number: '',
+          gender: '',
+          national: '',
+          nativePlace: '',
+          birth: '',
+          patientCase: '',
+        };
+
         $("#addModal").modal("show")
       },
       show: function (type) {
@@ -638,6 +649,7 @@
           this.hide2 = false;
         } else if (type == 3) {
           this.hide3 = false;
+
         }
       },
       receiveFuzzy0: function (data) {
@@ -717,7 +729,7 @@
           width: 100%;
           float: left;
         }
-        .save-content{
+        .save-content {
           width: 100%;
           text-align: center;
           margin-top: 20px;

@@ -547,3 +547,84 @@ table.table-top{
   }
 }
 
+/*模拟表格*/
+.shadow {
+  border: 1px solid @tableSha;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 1px @tableSha;
+}
+.similar-table {
+  > div {
+    padding: 0;
+    margin: 0;
+  }
+  background: #fff;
+  .shadow;
+  .similar-thead {
+    span {
+      background-color: rgb(230, 239, 245);
+    }
+    span:first-child {
+      border-top-left-radius: 5px;
+    }
+    span:last-child {
+      border-top-right-radius: 5px;
+    }
+    span:not(:first-child) {
+      border-left: 1px dashed @tdBorder;
+    }
+    border-bottom: 2px solid rgb(206, 219, 227);
+  }
+  .similar-th, .similar-td {
+    height: 28px;
+    line-height: 28px;
+  }
+  .similar-tbody {
+    > span:not(:last-child) {
+      border-right: 1px dashed @tdBorder;
+    }
+    > span {
+      padding: 0;
+      > div {
+        padding-left: 15px;
+        cursor: pointer;
+        overflow: hidden;
+        word-break: break-all;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        &:hover {
+          background-color: rgb(255, 245, 231)
+        }
+      }
+      >div:not(:last-child){
+        border-bottom: 1px dashed @tdBorder;
+      }
+      > div.in:not(.tooltip) {
+        background-color: rgb(255, 236, 210);
+      }
+      > div.special-bc {
+        background-color: rgb(246, 248, 250);
+        &:hover {
+          background-color: rgb(255, 245, 231)
+        }
+      }
+    }
+    /*左下角和右下角div*/
+    >span:first-child{
+      >div:last-child{
+        border-bottom-left-radius: 5px;
+      }
+      >div:first-child{
+        border-top-left-radius: 5px;
+      }
+    }
+    >span:last-child{
+      >div:last-child{
+        border-bottom-right-radius: 5px;
+      }
+      >div:first-child{
+        border-top-right-radius: 5px;
+      }
+    }
+  }
+}

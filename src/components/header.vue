@@ -11,22 +11,22 @@
           <span>我的数据</span>
         </router-link>
       </li>
-      <li>
+      <li class="li-2">
         <router-link to="/dataM/foo/platform">
           <span class="img-dataManage li-img"></span>
-          <span>疾病</span>
+          <span>疾病档案库</span>
         </router-link>
       </li>
-      <li>
-        <router-link to="/dataA/foo/sgList">
+      <li class="li-3">
+        <router-link to="/gene">
           <span class="img-dataAnalysis li-img"></span>
-          <span>基因</span>
+          <span>基因档案库</span>
         </router-link>
       </li>
-      <li>
+      <li class="li-4">
         <router-link to="/taskM/foo/done">
           <span class="img-taskManage li-img"></span>
-          <span>表型</span>
+          <span>表型档案库</span>
         </router-link>
       </li>
     </ul>
@@ -90,6 +90,8 @@
         _header.find('>.active').removeClass('active');
         if(currentPath == 'myData'){
           $(".li-1").addClass('active')
+        }else if(currentPath == 'gene'){
+          $(".li-3").addClass('active')
         }
       },
       toPage1: function (type) {

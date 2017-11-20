@@ -466,3 +466,83 @@ table.table-top tbody tr td {
   line-height: normal;
   font-size: 12px;
 }
+/*模拟表格*/
+.shadow {
+  border: 1px solid #b9b8b8;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 1px #b9b8b8;
+}
+.similar-table {
+  background: #fff;
+  border: 1px solid #b9b8b8;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 1px #b9b8b8;
+}
+.similar-table > div {
+  padding: 0;
+  margin: 0;
+}
+.similar-table .similar-thead {
+  border-bottom: 2px solid #cedbe3;
+}
+.similar-table .similar-thead span {
+  background-color: #e6eff5;
+}
+.similar-table .similar-thead span:first-child {
+  border-top-left-radius: 5px;
+}
+.similar-table .similar-thead span:last-child {
+  border-top-right-radius: 5px;
+}
+.similar-table .similar-thead span:not(:first-child) {
+  border-left: 1px dashed #e1e2e3;
+}
+.similar-table .similar-th,
+.similar-table .similar-td {
+  height: 28px;
+  line-height: 28px;
+}
+.similar-table .similar-tbody {
+  /*左下角和右下角div*/
+}
+.similar-table .similar-tbody > span:not(:last-child) {
+  border-right: 1px dashed #e1e2e3;
+}
+.similar-table .similar-tbody > span {
+  padding: 0;
+}
+.similar-table .similar-tbody > span > div {
+  padding-left: 15px;
+  cursor: pointer;
+  overflow: hidden;
+  word-break: break-all;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.similar-table .similar-tbody > span > div:hover {
+  background-color: #fff5e7;
+}
+.similar-table .similar-tbody > span > div:not(:last-child) {
+  border-bottom: 1px dashed #e1e2e3;
+}
+.similar-table .similar-tbody > span > div.in:not(.tooltip) {
+  background-color: #ffecd2;
+}
+.similar-table .similar-tbody > span > div.special-bc {
+  background-color: #f6f8fa;
+}
+.similar-table .similar-tbody > span > div.special-bc:hover {
+  background-color: #fff5e7;
+}
+.similar-table .similar-tbody > span:first-child > div:last-child {
+  border-bottom-left-radius: 5px;
+}
+.similar-table .similar-tbody > span:first-child > div:first-child {
+  border-top-left-radius: 5px;
+}
+.similar-table .similar-tbody > span:last-child > div:last-child {
+  border-bottom-right-radius: 5px;
+}
+.similar-table .similar-tbody > span:last-child > div:first-child {
+  border-top-right-radius: 5px;
+}
