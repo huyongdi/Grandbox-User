@@ -118,141 +118,157 @@
             <ul id="breadcrumb">
               <li><a href="javascript:void(0)"><span class="fa fa-home"> </span></a></li>
               <li @click="show(1)"><a :class="{'in':!hide1}" href="javascript:void(0)">1. 基本信息</a></li>
-              <li @click="show(2)"><a :class="{'in':!hide2}" href="javascript:void(0)">2. 样本信息</a></li>
+              <li @click="show(2)"><a :class="{'in':!hide2}" href="javascript:void(0)">2. 表型信息</a></li>
+              <li @click="show(2)"><a :class="{'in':!hide2}" href="javascript:void(0)">2. 检测项目</a></li>
               <li @click="show(3)"><a :class="{'in':!hide3}" href="javascript:void(0)">3. 预览/提交信息</a></li>
             </ul>
 
             <div class="info-content">
-              <div :class="{'hide':hide1}">
-                <div class="row">
-                  <div class="col-xs-6">
-                    <div class="col-xs-4"><span class="star">*</span>受检者姓名</div>
-                    <div class="col-xs-8">
-                      <el-input placeholder="" v-model="addInfo.name"></el-input>
-                    </div>
-                  </div>
-                  <div class="col-xs-6">
-                    <div class="col-xs-4"><span class="star">*</span>编号</div>
-                    <div class="col-xs-8">
-                      <el-input placeholder="" v-model="addInfo.number"></el-input>
-                    </div>
-                  </div>
-                  <div class="col-xs-6">
-                    <div class="col-xs-4">性别</div>
-                    <div class="col-xs-8">
-                      <template>
-                        <el-select v-model="addInfo.gender" placeholder="请选择">
-                          <el-option
-                            v-for="item in genderOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                      </template>
-                    </div>
-                  </div>
-                  <div class="col-xs-6">
-                    <div class="col-xs-4">名族</div>
-                    <div class="col-xs-8">
-                      <el-input placeholder="" v-model="addInfo.national"></el-input>
-                    </div>
-                  </div>
-                  <div class="col-xs-6">
-                    <div class="col-xs-4">籍贯</div>
-                    <div class="col-xs-8">
-                      <el-input placeholder="" v-model="addInfo.nativePlace"></el-input>
-                    </div>
-                  </div>
-                  <div class="col-xs-6">
-                    <div class="col-xs-4">出生日期</div>
-                    <div class="col-xs-8">
-                      <el-date-picker v-model="addInfo.birth" type="date" placeholder="选择日期" value-format="yyyy-MM-dd"></el-date-picker>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div :class="{'hide':hide2}">
-                <div class="row">
-                  <div class="col-xs-12">
-                    <fuzzyQuery placeholder='请输入表型' :leftData="leftData" :rightData="originalRightData" title="已选表型"
-                                @sendInput="receiveFuzzy0"></fuzzyQuery>
-                  </div>
-                  <div class="col-xs-12 panel-content">
-                    <cascadeQuery :leftData="panelOptions" :rightData="panelRight"></cascadeQuery>
-                  </div>
-                  <div class="col-xs-12 case-content">
-                    <span class="title">病例：</span>
+              <form action="" id="addDataFormCap">
+                <div :class="{'hide':hide1}">
+                  <div class="row">
                     <div class="col-xs-6">
-                      <el-input
-                        type="textarea"
-                        :autosize="{ minRows: 5, maxRows: 5}"
-                        placeholder="请输入内容"
-                        v-model="addInfo.patientCase">
-                      </el-input>
+                      <div class="col-xs-4"><span class="star">*</span>受检者姓名</div>
+                      <div class="col-xs-8">
+                        <el-input placeholder="" name="name" v-model="addInfo.name"></el-input>
+                      </div>
                     </div>
-
-                  </div>
-                </div>
-              </div>
-
-              <div :class="{'hide':hide3}">
-                <div class="title">待提交信息：</div>
-                <div class="row">
-                  <div class="col-xs-3" v-if="addInfo.name">
-                    <div class="col-xs-5">姓名：</div>
-                    <div class="col-xs-7">{{addInfo.name}}</div>
-                  </div>
-                  <div class="col-xs-3" v-if="addInfo.number">
-                    <div class="col-xs-5">编号：</div>
-                    <div class="col-xs-7">{{addInfo.number}}</div>
-                  </div>
-                  <div class="col-xs-3" v-if="addInfo.gender">
-                    <div class="col-xs-5">性别：</div>
-                    <div class="col-xs-7">{{addInfo.gender}}</div>
-                  </div>
-                  <div class="col-xs-3" v-if="addInfo.national">
-                    <div class="col-xs-5">名族：</div>
-                    <div class="col-xs-7">{{addInfo.national}}</div>
-                  </div>
-                  <div class="col-xs-3" v-if="addInfo.nativePlace">
-                    <div class="col-xs-5">籍贯：</div>
-                    <div class="col-xs-7">{{addInfo.nativePlace}}</div>
-                  </div>
-                  <div class="col-xs-4" v-if="addInfo.birth">
-                    <div class="col-xs-5">出生日期：</div>
-                    <div class="col-xs-7">{{addInfo.birth}}</div>
-                  </div>
-                </div>
-
-                <div class="more row">
-                  <div class="col-xs-6" v-if="originalRightData.length!=0">
-                    <div class="col-xs-3">已选表型：</div>
-                    <div class="col-xs-9">
-                      <span v-for="list in originalRightData" class="show-phenotype po" :title="list.value">{{list.value}}</span>
+                    <div class="col-xs-6">
+                      <div class="col-xs-4"><span class="star">*</span>编号</div>
+                      <div class="col-xs-8">
+                        <el-input placeholder="" name="obj1.code" v-model="addInfo.number"></el-input>
+                      </div>
+                    </div>
+                    <div class="col-xs-6">
+                      <div class="col-xs-4">性别</div>
+                      <div class="col-xs-8">
+                        <template>
+                          <el-select v-model="addInfo.gender" placeholder="请选择">
+                            <el-option
+                              v-for="item in genderOptions"
+                              :key="item.value"
+                              :label="item.label"
+                              :value="item.value">
+                            </el-option>
+                          </el-select>
+                        </template>
+                      </div>
+                    </div>
+                    <div class="col-xs-6">
+                      <div class="col-xs-4">名族</div>
+                      <div class="col-xs-8">
+                        <el-input placeholder="" v-model="addInfo.national"></el-input>
+                      </div>
+                    </div>
+                    <div class="col-xs-6">
+                      <div class="col-xs-4">籍贯</div>
+                      <div class="col-xs-8">
+                        <el-input placeholder="" v-model="addInfo.nativePlace"></el-input>
+                      </div>
+                    </div>
+                    <div class="col-xs-6">
+                      <div class="col-xs-4">出生日期</div>
+                      <div class="col-xs-8">
+                        <el-date-picker v-model="addInfo.birth" type="date" placeholder="选择日期" value-format="yyyy-MM-dd"></el-date-picker>
+                      </div>
+                    </div>
+                    <div class="col-xs-6">
+                      <div class="col-xs-4">上传文件</div>
+                      <div class="col-xs-8">
+                        <div class="upload-content" id="upload">
+                          <input type="text" class="show-name" id="file-name" @click.stop="">
+                          <span class="text">选择</span>
+                          <input type='file' name="bed" class="hide-input" id="hide-add" @change="changeFile">
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div class="col-xs-6" v-if="panelRight.length!=0">
-                    <div class="col-xs-3">已选项目：</div>
-                    <div class="col-xs-9">
-                      <span v-for="list in panelRight" class="show-phenotype po" :title="list.vueShow">{{list.vueShow}}</span>
+                </div>
+
+                <div :class="{'hide':hide2}">
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <fuzzyQuery placeholder='请输入表型' :leftData="leftData" :rightData="originalRightData" title="已选表型"
+                                  @sendInput="receiveFuzzy0"></fuzzyQuery>
+                    </div>
+                    <div class="col-xs-12 panel-content">
+                      <cascadeQuery :leftData="panelOptions" :rightData="panelRight"></cascadeQuery>
+                    </div>
+                    <div class="col-xs-12 case-content">
+                      <span class="title">病历：</span>
+                      <div class="col-xs-6">
+                        <el-input
+                          type="textarea"
+                          :autosize="{ minRows: 5, maxRows: 5}"
+                          placeholder="请输入内容"
+                          v-model="addInfo.patientCase">
+                        </el-input>
+                      </div>
+
                     </div>
                   </div>
-                  <div class="col-xs-12 top5" v-if="addInfo.patientCase">
-                    <div class="col-xs-1">病例：</div>
-                    <div class="col-xs-11 break-word">{{addInfo.patientCase}}</div>
+                </div>
+
+                <div :class="{'hide':hide3}">
+                  <div class="title">待提交信息：</div>
+                  <div class="row">
+                    <div class="col-xs-3" v-if="addInfo.name">
+                      <div class="col-xs-5">姓名：</div>
+                      <div class="col-xs-7">{{addInfo.name}}</div>
+                    </div>
+                    <div class="col-xs-3" v-if="addInfo.number">
+                      <div class="col-xs-5">编号：</div>
+                      <div class="col-xs-7">{{addInfo.number}}</div>
+                    </div>
+                    <div class="col-xs-3" v-if="addInfo.gender">
+                      <div class="col-xs-5">性别：</div>
+                      <div class="col-xs-7">{{addInfo.gender}}</div>
+                    </div>
+                    <div class="col-xs-3" v-if="addInfo.national">
+                      <div class="col-xs-5">名族：</div>
+                      <div class="col-xs-7">{{addInfo.national}}</div>
+                    </div>
+                    <div class="col-xs-3" v-if="addInfo.nativePlace">
+                      <div class="col-xs-5">籍贯：</div>
+                      <div class="col-xs-7">{{addInfo.nativePlace}}</div>
+                    </div>
+                    <div class="col-xs-4" v-if="addInfo.birth">
+                      <div class="col-xs-5">出生日期：</div>
+                      <div class="col-xs-7">{{addInfo.birth}}</div>
+                    </div>
+                    <div class="col-xs-4" :class="{'hide':fileHide}">
+                      <div class="col-xs-5">文件名：</div>
+                      <div class="col-xs-7" id="fileName-show"></div>
+                    </div>
                   </div>
+
+                  <div class="more row">
+                    <div class="col-xs-6" v-if="originalRightData.length!=0">
+                      <div class="col-xs-3">已选表型：</div>
+                      <div class="col-xs-9">
+                        <span v-for="list in originalRightData" class="show-phenotype po" :title="list.value">{{list.value}}</span>
+                      </div>
+                    </div>
+                    <div class="col-xs-6" v-if="panelRight.length!=0">
+                      <div class="col-xs-3">已选项目：</div>
+                      <div class="col-xs-9">
+                        <span v-for="list in panelRight" class="show-phenotype po" :title="list.vueShow">{{list.vueShow}}</span>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 top5" v-if="addInfo.patientCase">
+                      <div class="col-xs-1">病例：</div>
+                      <div class="col-xs-11 break-word">{{addInfo.patientCase}}</div>
+                    </div>
+                  </div>
+
+                  <div class="save-content">
+
+                    <span @click="saveAdd" class="my-btn"><img src="../../static/img/red-save.png" alt="">保存</span>
+                  </div>
+
+
                 </div>
-
-                <div class="save-content">
-
-                  <span @click="" class="my-btn"><img src="../../static/img/red-save.png" alt="">保存</span>
-                </div>
-
-
-              </div>
-
+              </form>
             </div>
 
           </div>
@@ -461,26 +477,14 @@
           nativePlace: '',
           birth: '',
           patientCase: '',
-        }
+        },
+        fileHide: true
       }
     },
     created: function () {
-            const _vue = this;
-      this.myAxios({
-        url: 'auth/login',
-        method: 'post',
-        data: {
-          username: 'admin@qq.com',
-          password: '1234'
-        }
-      }).then(function (resp) {
+      const _vue = this;
 
-
-      }).catch(function (error) {
-        _vue.catchFun(error);
-      });
-
-//      this.getList();
+      this.getList();
 //      this.getCap();
 //      const _vue = this;
 //      $('#editModal').on('show.bs.modal', function (e) {
@@ -523,15 +527,15 @@
         this.results = [];
         this.loading = true;
         this.doneHttp = false;
-        const axiosUrl = this.inputValue ? 'sample/datafile/' + '?page=' + this.pageNum + '&query=' + this.inputValue + '&capture=GrandExome'
-          : 'sample/datafile/' + '?page=' + this.pageNum + '&capture=' + this.captureCode;
-
+        const axiosUrl = this.inputValue ? 'manage/sample' + '?page=' + this.pageNum + '&query=' + this.inputValue :
+          'manage/sample' + '?page=' + this.pageNum;
         this.myAxios({
           url: axiosUrl,
           method: 'get'
         }).then(function (resp) {
-          _vue.count = resp.data.count;
-          _vue.results = resp.data.results;
+          let data = resp.data;
+          _vue.count = data.meta.total;
+          _vue.results = data.data;
           _vue.loading = false;
           _vue.doneHttp = true;
         }).catch(function (error) {
@@ -654,6 +658,31 @@
 
         $("#addModal").modal("show")
       },
+      saveAdd: function () {
+        const fileNameArr = $("#hide-add").val().split('.');
+        const fileName = fileNameArr[fileNameArr.length - 1];
+        const _vue = this;
+        if (fileName == 'xls' || fileName == 'xlsx') {
+          this.loading = true;
+          let postData = new FormData(document.getElementById('addDataFormCap'));
+          postData.append("obj", JSON.stringify({'a': 123, 'b': 456}));
+          this.myAxios({
+            url: 'https://analyze.grandbox.site/sample/capture/',
+            method: 'post',
+            data: postData
+          }).then(function () {
+
+          }).catch(function (error) {
+            _vue.catchFun(error)
+          })
+        } else {
+          this.alert('文件请上传excel格式')
+        }
+      },
+      changeFile: function (e) {
+        console.log($(e.target.files[0]))
+      },
+
       show: function (type) {
         this.hide1 = true;
         this.hide2 = true;
@@ -663,8 +692,12 @@
         } else if (type == 2) {
           this.hide2 = false;
         } else if (type == 3) {
+          const value = $.trim($("#file-name").val());
+          if (value) {
+            this.fileHide = false;
+            $("#fileName-show").html(value)
+          }
           this.hide3 = false;
-
         }
       },
       receiveFuzzy0: function (data) {

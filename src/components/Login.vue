@@ -105,7 +105,7 @@
             password: this.inputPassword
           }
         }).then(function (resp) {
-          localStorage.token = resp.data.token;
+          localStorage.token = 'Bearer '+resp.data.token;
           let data = JSON.parse(_vue.Base64.decode(resp.data.token.split('.')[1]));
           localStorage.uname = data.name;
           localStorage.time = data.exp;

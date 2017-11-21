@@ -22,6 +22,10 @@
   margin-left: 15px;
 }
 
+input::-webkit-input-placeholder{color:#b4bccc}
+input:-ms-input-placeholder {color:#b4bccc}
+input::placeholder{color:#b4bccc}
+
 .base-color { /*标题背景底色*/
   padding: 8px 10px;
   margin-left: -10px;
@@ -191,7 +195,7 @@ select::-ms-expand {
 
 .upload-content {
   display: inline-block;
-  width: 50%;
+  width: 100%;
   padding: 0;
   .show-name {
     background-color: #fff;
@@ -209,8 +213,8 @@ select::-ms-expand {
     border-radius: 3px;
     display: inline-block;
     width: 24%;
-    height: 24px;
-    line-height: 24px;
+    height: 26px;
+    line-height: 26px;
     text-align: center;
     background-color: rgb(238, 238, 238);
   }
