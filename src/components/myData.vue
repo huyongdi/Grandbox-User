@@ -32,14 +32,9 @@
         <td colspan="11" class="center">暂无数据</td>
       </tr>
       <tr v-for="(list,index) in results" :class="{'tr-bc':index%2}">
-        <td>{{list.code}}</td>
-        <td><span v-if="list.sample">{{list.sample.code}}</span></td>
-        <td>
-              <span v-if="list.patient">
-                <span data-toggle="tooltip" data-placement="top" :data-original-title='list.patient.name'>{{list.patientNameView}}</span>
-                （{{list.patient.gender}}）
-              </span>
-        </td>
+        <td>{{list._id}}</td>
+        <td>{{list.sn}}</td>
+        <td>{{list.name}}</td>
         <td><span v-if="list.captureInfo">{{list.captureInfo.code}}</span></td>
         <td>{{list.dataFormat}}</td>
         <td>
@@ -119,8 +114,8 @@
               <li><a href="javascript:void(0)"><span class="fa fa-home"> </span></a></li>
               <li @click="show(1)"><a :class="{'in':!hide1}" href="javascript:void(0)">1. 基本信息</a></li>
               <li @click="show(2)"><a :class="{'in':!hide2}" href="javascript:void(0)">2. 表型信息</a></li>
-              <li @click="show(2)"><a :class="{'in':!hide2}" href="javascript:void(0)">2. 检测项目</a></li>
-              <li @click="show(3)"><a :class="{'in':!hide3}" href="javascript:void(0)">3. 预览/提交信息</a></li>
+              <li @click="show(3)"><a :class="{'in':!hide3}" href="javascript:void(0)">3. 检测项目</a></li>
+              <li @click="show(4)"><a :class="{'in':!hide4}" href="javascript:void(0)">4. 预览/提交信息</a></li>
             </ul>
 
             <div class="info-content">
@@ -191,9 +186,6 @@
                       <fuzzyQuery placeholder='请输入表型' :leftData="leftData" :rightData="originalRightData" title="已选表型"
                                   @sendInput="receiveFuzzy0"></fuzzyQuery>
                     </div>
-                    <div class="col-xs-12 panel-content">
-                      <cascadeQuery :leftData="panelOptions" :rightData="panelRight"></cascadeQuery>
-                    </div>
                     <div class="col-xs-12 case-content">
                       <span class="title">病历：</span>
                       <div class="col-xs-6">
@@ -209,7 +201,13 @@
                   </div>
                 </div>
 
-                <div :class="{'hide':hide3}">
+                <div :class="{'hide':hide3}" class="over-hide">
+                  <div class="col-xs-12 panel-content">
+                    <cascadeQuery :leftData="panelOptions" :rightData="panelRight"></cascadeQuery>
+                  </div>
+                </div>
+
+                <div :class="{'hide':hide4}">
                   <div class="title">待提交信息：</div>
                   <div class="row">
                     <div class="col-xs-3" v-if="addInfo.name">
@@ -409,6 +407,44 @@
                 </div>
               </div>
             </div>
+
+            <div class="one">
+              <div class="base-color title">上传文件</div>
+
+              <div class="one-content">
+                <div class="row">
+
+                  <div class="col-sm-6">
+                    <span class="name">选择类型：</span>
+                    <template>
+                      <el-radio v-model="radioEdit" label="1">追加</el-radio>
+                      <el-radio v-model="radioEdit" label="2">覆盖</el-radio>
+                    </template>
+                  </div>
+                  <div class="col-sm-6" :class="{'opacity0':radioEdit == '1'}">
+                    <span class="name">覆盖目标：</span>
+                    <el-select v-model="addInfo.gender" placeholder="请选择" class="content">
+                      <el-option
+                        v-for="item in fileOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </div>
+                  <div class="col-sm-6">
+                    <span class="name">选择文件：</span>
+                    <div class="upload-content content" id="upload-edit">
+                      <input type="text" class="show-name" id="file-name-edit" @click.stop="">
+                      <span class="text">选择</span>
+                      <input type='file' name="bed" class="hide-input" id="hide-edit" @change="changeFile">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
           </div>
         </div>
       </div>
@@ -455,6 +491,7 @@
         hide1: false,
         hide2: true,
         hide3: true,
+        hide4: true,
         genderOptions: [{
           value: '男',
           label: '男'
@@ -464,6 +501,13 @@
         }, {
           value: '未知',
           label: '未知'
+        }],
+        fileOptions: [{
+          value: 'add',
+          label: '追加'
+        }, {
+          value: 'edit',
+          label: '覆盖'
         }],
         leftData: [],
         originalRightData: [],
@@ -478,7 +522,8 @@
           birth: '',
           patientCase: '',
         },
-        fileHide: true
+        fileHide: true,
+        radioEdit:'1'
       }
     },
     created: function () {
@@ -687,17 +732,20 @@
         this.hide1 = true;
         this.hide2 = true;
         this.hide3 = true;
+        this.hide4 = true;
         if (type == 1) {
           this.hide1 = false;
         } else if (type == 2) {
           this.hide2 = false;
-        } else if (type == 3) {
+        } else if(type == 3){
+          this.hide3 = false;
+        } else if (type == 4) {
           const value = $.trim($("#file-name").val());
           if (value) {
             this.fileHide = false;
             $("#fileName-show").html(value)
           }
-          this.hide3 = false;
+          this.hide4 = false;
         }
       },
       receiveFuzzy0: function (data) {
@@ -901,8 +949,8 @@
     #editModal {
       input, select {
         display: inline-block;
-        height: 24px;
-        line-height: 24px;
+        height: 25px;
+        line-height: 25px;
       }
       select {
         padding: 0 12px;
@@ -925,6 +973,13 @@
         .one-content {
           .row {
             margin-top: 5px;
+            .hide-input{
+              display: none;
+            }
+            .text{
+              height: 25px;
+              line-height: 25px;
+            }
             .name {
               display: inline-block;
               width: 28%;
@@ -977,6 +1032,9 @@
               input {
                 padding-right: 24px;
                 width: 100%;
+              }
+              .show-name{
+                width: 70%;
               }
               img {
                 position: absolute;

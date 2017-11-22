@@ -26,6 +26,10 @@ input::-webkit-input-placeholder{color:#b4bccc}
 input:-ms-input-placeholder {color:#b4bccc}
 input::placeholder{color:#b4bccc}
 
+.opacity0{
+  opacity: 0;
+}
+
 .base-color { /*标题背景底色*/
   padding: 8px 10px;
   margin-left: -10px;
@@ -73,7 +77,9 @@ input::placeholder{color:#b4bccc}
 .block {
   display: block;
 }
-
+.over-hide{
+  overflow: hidden;
+}
 .fr {
   float: right;
 }
@@ -561,7 +567,7 @@ table.my-table {
 
 
 /*修改element插件的样式*/
-#addModal{
+.modal-body,#addModal{
   .el-input__inner{
     height: 25px;
     line-height: 25px;
