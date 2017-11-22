@@ -1,9 +1,9 @@
 <!--模糊搜索框-->
 <template>
-  <div class="fuzzy-content" id="fuzzy-content">
+  <div class="fuzzy-content row fuzzy-content">
 
-    <div class="left">
-      <span class="name bold">{{leftName?leftName:'临床表型'}}：</span>
+    <div class="col-xs-6">
+      <span class="name bold">{{leftName?leftName:'临床表型'}}</span>
       <div class="content inline" id="panel-1" @click.stop="">
         <input  v-model="fuzzyInput" :placeholder='placeholder' @keyup.enter="sendInput">
         <img src="../../../static/img/trio-2.png" alt="" @click.stop="sendInput">
@@ -14,11 +14,10 @@
           <!--<li v-show="leftData.length == 0">暂无数据</li>-->
         </ul>
       </div>
-
     </div>
 
-    <div class="right">
-      <span class="name bold">已选表型：</span>
+    <div class="col-xs-6">
+      <span class="name bold">已选表型</span>
       <div class="content inline lage-w" @click.stop="">
         <div class="has-panel">
           <span class="hasPanel-one" :data-key="list.key" @click="rightRemove(list.key)" v-for="list in rightData" :title="list.value">
@@ -88,12 +87,14 @@
 <style scoped lang="less">
   @border: #d3d3d3;
   @bc:rgb(240,244,247);
-  #fuzzy-content {
+  .fuzzy-content {
     height: 150px;
     overflow: hidden;
     .name{
       display: inline-block;
       width: 20%;
+      /*text-align: right;*/
+      margin-right: 3.8%;
     }
     .content{
       width: 50%;
@@ -104,10 +105,10 @@
       width: 70%;
     }
     .left,.right{
-      width: 49%;
+      width: 50%;
       float: left;
     }
-    .left{
+    .col-xs-6{
       .content{
         input {
           height: 24px;
@@ -153,7 +154,7 @@
         }
       }
     }
-    .right{
+    .col-xs-6{
       .name{
         float: left;
       }

@@ -15,15 +15,15 @@
     <table id="sg-table" class="bc-fff my-table">
       <thead>
       <tr>
-        <th>文件编号</th>
         <th>样本编号</th>
         <th>受检者</th>
-        <th>检测平台</th>
-        <th>数据格式</th>
-        <th>数据量(Mbp)</th>
-        <th>Q30</th>
-        <th>备注</th>
-        <th>分析结果</th>
+
+        <th>年龄</th>
+        <th>名族</th>
+        <th>籍贯</th>
+        <th>病历</th>
+
+        <th>状态</th>
         <th>选项</th>
       </tr>
       </thead>
@@ -32,20 +32,14 @@
         <td colspan="11" class="center">暂无数据</td>
       </tr>
       <tr v-for="(list,index) in results" :class="{'tr-bc':index%2}">
-        <td>{{list._id}}</td>
         <td>{{list.sn}}</td>
-        <td>{{list.name}}</td>
-        <td><span v-if="list.captureInfo">{{list.captureInfo.code}}</span></td>
-        <td>{{list.dataFormat}}</td>
-        <td>
-          <span v-if="list.volume==-1"> - </span>
-          <span v-else="">{{list.volume}}</span>
-        </td>
-        <td>
-          <span v-if="list.q30==-1"> - </span>
-          <span v-else="">{{list.q30}}</span>
-        </td>
-        <td>{{list.comment ? list.comment : ' 无 '}}</td>
+        <td>{{list.name}} ({{list.gender}})</td>
+
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>{{list.medical_record}}</td>
+
         <td>
           <span v-if="list.jobs && list.jobs.length==0">待分析</span>
           <div v-else="" class="dropdown">
@@ -91,14 +85,13 @@
           </div>
         </td>
         <td>
-          <img src="../../static/img/edit.png" @click="listEdit(list.code)" title="编辑">
+          <img class="edit" src="../../static/img/edit.png" @click="listEdit(list._id)" title="编辑">
+          <span class="fa fa-file-excel-o fa-lg" title="上传文件" @click="showUpModal(list._id)"></span>
         </td>
       </tr>
       </tbody>
     </table>
-
     <page :childCount="count" :childReset="0" @childCurrent="getCurrent"></page>
-
 
     <!--添加样本-->
     <div class="modal fade" tabindex="-1" role="dialog" id="addModal">
@@ -119,7 +112,7 @@
             </ul>
 
             <div class="info-content">
-              <el-form id="addDataFormCap" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+              <el-form id="" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
                 <div :class="{'hide':hide1}">
 
                   <div class="row">
@@ -129,8 +122,8 @@
                       </el-form-item>
                     </div>
                     <div class="col-xs-6">
-                      <el-form-item label="编号" prop="number">
-                        <el-input v-model="ruleForm.number"></el-input>
+                      <el-form-item label="编号" prop="sn">
+                        <el-input v-model="ruleForm.sn"></el-input>
                       </el-form-item>
                     </div>
                     <div class="col-xs-6">
@@ -157,22 +150,6 @@
                         <el-input v-model="ruleForm.age"></el-input>
                       </el-form-item>
                     </div>
-                    <!--<div class="col-xs-6">-->
-                    <!--<div class="col-xs-4">出生日期</div>-->
-                    <!--<div class="col-xs-8">-->
-                    <!--<el-date-picker v-model="addInfo.birth" type="date" placeholder="选择日期" value-format="yyyy-MM-dd"></el-date-picker>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="col-xs-6">-->
-                    <!--<div class="col-xs-4">上传文件</div>-->
-                    <!--<div class="col-xs-8">-->
-                    <!--<div class="upload-content" id="upload">-->
-                    <!--<input type="text" class="show-name" id="file-name" @click.stop="">-->
-                    <!--<span class="text">选择</span>-->
-                    <!--<input type='file' name="bed" class="hide-input" id="hide-add" @change="changeFile">-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</div>-->
                   </div>
                 </div>
 
@@ -183,7 +160,7 @@
                                   @sendInput="receiveFuzzy0"></fuzzyQuery>
                     </div>
                     <div class="col-xs-12 case-content">
-                      <span class="title bold">病历：</span>
+                      <span class="title bold">病历</span>
                       <div class="col-xs-6">
                         <el-input
                           type="textarea"
@@ -210,9 +187,9 @@
                       <div class="col-xs-5">姓名：</div>
                       <div class="col-xs-7">{{ruleForm.name}}</div>
                     </div>
-                    <div class="col-xs-3" v-if="ruleForm.number">
+                    <div class="col-xs-3" v-if="ruleForm.sn">
                       <div class="col-xs-5">编号：</div>
-                      <div class="col-xs-7">{{ruleForm.number}}</div>
+                      <div class="col-xs-7">{{ruleForm.sn}}</div>
                     </div>
                     <div class="col-xs-3" v-if="gender">
                       <div class="col-xs-5">性别：</div>
@@ -242,19 +219,19 @@
 
                   <div class="more row">
                     <div class="col-xs-6" v-if="originalRightData.length!=0">
-                      <div class="col-xs-3">已选表型：</div>
+                      <div class="col-xs-3">已选表型</div>
                       <div class="col-xs-9">
                         <span v-for="list in originalRightData" class="show-phenotype po" :title="list.value">{{list.value}}</span>
                       </div>
                     </div>
                     <div class="col-xs-6" v-if="panelRight.length!=0">
-                      <div class="col-xs-3">已选项目：</div>
+                      <div class="col-xs-3">已选项目</div>
                       <div class="col-xs-9">
                         <span v-for="list in panelRight" class="show-phenotype po" :title="list.vueShow">{{list.vueShow}}</span>
                       </div>
                     </div>
                     <div class="col-xs-12 top5" v-if="ruleForm.patientCase">
-                      <div class="col-xs-1">病例：</div>
+                      <div class="col-xs-1">病历</div>
                       <div class="col-xs-11 break-word">{{ruleForm.patientCase}}</div>
                     </div>
                   </div>
@@ -273,7 +250,6 @@
       </div>
     </div>
 
-
     <!--点击单列的编辑-->
     <div class="modal fade" tabindex="-1" role="dialog" id="editModal">
       <div class="modal-dialog modal-lg" role="document">
@@ -291,149 +267,109 @@
             </div>
 
 
-            <div class="one">
-              <div class="base-color title">文件信息</div>
-              <div class="one-content">
+            <el-form id="editDataFormCap" :model="editForm" :rules="rules" ref="editForm" label-width="100px" class="demo-ruleForm">
                 <div class="row">
-                  <div class="col-sm-6">
-                    <span class="name">文件编号：</span>
-                    <span class="content" id="edit-code">{{editModalData.code}}</span>
+                  <div class="col-xs-6">
+                    <el-form-item label="受检者姓名" prop="name">
+                      <el-input v-model="editForm.name"></el-input>
+                    </el-form-item>
                   </div>
-                  <div class="col-sm-6">
-                    <span class="name">样本编号：</span>
-                    <input class="form-control content" id="edit-sampleCode" v-if="editModalData.patient" :value="editModalData.patient.code">
+                  <div class="col-xs-6">
+                    <el-form-item label="编号" prop="sn">
+                      <el-input v-model="editForm.sn"></el-input>
+                    </el-form-item>
+                  </div>
+                  <div class="col-xs-6">
+                    <el-form-item label="性别" prop="gender">
+                      <el-select v-model="editGender" placeholder="请选择性别">
+                        <el-option label="未知" value="未知"></el-option>
+                        <el-option label="男" value="男"></el-option>
+                        <el-option label="女" value="女"></el-option>
+                      </el-select>
+                    </el-form-item>
+                  </div>
+                  <div class="col-xs-6">
+                    <el-form-item label="名族">
+                      <el-input v-model="editForm.national"></el-input>
+                    </el-form-item>
+                  </div>
+                  <div class="col-xs-6">
+                    <el-form-item label="籍贯" prop="nativePlace">
+                      <el-input v-model="editForm.nativePlace"></el-input>
+                    </el-form-item>
+                  </div>
+                  <div class="col-xs-6">
+                    <el-form-item label="年龄">
+                      <el-input v-model="editForm.age"></el-input>
+                    </el-form-item>
+                  </div>
+                  <div class="col-xs-12">
+                    <fuzzyQuery placeholder='请输入表型' :leftData="leftData" :rightData="originalRightData" title="已选表型"
+                                @sendInput="receiveFuzzy0"></fuzzyQuery>
+                  </div>
+                  <div class="col-xs-12 panel-content">
+                    <cascadeQuery :leftData="panelOptions" :rightData="panelRight"></cascadeQuery>
+                  </div>
+                  <div class="col-xs-10 case-content-edit">
+                    <span class="title bold">病历</span>
+                    <div class="">
+                      <el-input
+                        type="textarea"
+                        :autosize="{ minRows: 5, maxRows: 5}"
+                        placeholder="请输入内容"
+                        v-model="editForm.patientCase">
+                      </el-input>
+                    </div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-sm-6">
-                    <span class="name">Capture：</span>
-                    <select v-if="editModalData.captureInfo" :value="editModalData.captureInfo.code" class="form-control content" id="edit-capture">
-                      <option v-for="list in capArr" :value="list.code">{{list.code}}</option>
-                    </select>
-                  </div>
-                  <!--<div class="col-sm-6">-->
-                  <!--<span class="name">-->
-                  <!--<router-link class="common-a toArea" to="/dataM/foo/capList">新增捕获区域</router-link>-->
-                  <!--</span>-->
-                  <!--</div>-->
-                </div>
-              </div>
+            </el-form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--上传文件-->
+    <div class="modal fade" tabindex="-1" role="dialog" id="fileModal">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">上传excel文件</h4>
+          </div>
+          <div class="modal-body">
+
+            <div class="modal-btn">
+              <span class="my-btn" @click="saveFile"><img src="../../static/img/red-save.png" alt="">保存</span>
+              <span class="my-btn close-btn" data-dismiss="modal"><img src="../../static/img/red-close.png" alt="">关闭</span>
             </div>
+            <form action="" id="addDataFormCap">
+              <div class="one">
+                <div class="one-content">
+                  <div class="row">
 
-            <div class="one">
-              <div class="base-color title">受检者信息</div>
-              <div class="one-content">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <span class="name">受检者姓名：</span>
-                    <input v-if="editModalData.patient" class="form-control content" id="edit-patientName" :value="editModalData.patient.name">
-                  </div>
-                  <div class="col-sm-6">
-                    <span class="name">受检者性别：</span>
-                    <input v-if="editModalData.patient" class="form-control content" id="edit-gender" :value="editModalData.patient.gender">
-                  </div>
-                </div>
-              </div>
-            </div>
+                    <div class="col-sm-6">
+                      <span class="name">选择类型：</span>
+                      <template>
+                        <el-radio v-model="radioEdit" label="1">追加</el-radio>
+                        <el-radio v-model="radioEdit" label="2">覆盖</el-radio>
+                      </template>
+                    </div>
 
-            <div class="one">
-              <div class="base-color title">数据信息</div>
-              <div class="one-content">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <span class="name">数据格式：</span>
-                    <select name="dataFormat" id="edit-dateFormat" class="form-control content" :value="editModalData.dataFormat">
-                      <option value="fastq">fastq</option>
-                      <option value="fastqSE">fastqSE</option>
-                      <option value="vcf">vcf</option>
-                    </select>
-                  </div>
-                  <div class="col-sm-6">
-                    <span class="name">数据量：</span>
-                    <input class="form-control content" id="edit-volume" :value="editModalData.volume == -1?' - ':editModalData.volume">
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-6">
-                    <span class="name">Q30：</span>
-                    <input class="form-control content" id="edit-q30" :value="editModalData.q30 == -1?' - ' :editModalData.q30">
-                  </div>
-                  <div class="col-sm-6">
-                    <span class="name pull-left">备注：</span>
-                    <textarea class="form-control content" id="edit-comment" :value="editModalData.comment"></textarea>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="one">
-              <div class="base-color title">基因信息</div>
-              <div class="one-content">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <div>
-                      <span class="name">Panel信息：</span>
-                      <div class="content inline" id="panel-1" @click.stop="">
-                        <input @keyup.enter="searchPanel" v-model="inputPanel">
-                        <img src="../../static/img/trio-2.png" alt="" @click.stop="searchPanel">
-
-                        <ul class="hide-ul" v-show="showPanel">
-                          <li v-for="list in panelData" @click.stop="addPanel(list)" :title="list.name">
-                            {{list.name}}
-                          </li>
-                          <li v-show="panelData.length == 0">暂无数据</li>
-                        </ul>
+                    <div class="col-sm-6">
+                      <span class="name">选择文件：</span>
+                      <div class="upload-content content" id="upload-edit">
+                        <input type="text" class="show-name" id="file-name-edit" @click.stop="">
+                        <span class="text">选择</span>
+                        <input type='file' name="data_file" class="hide-input" id="hide-edit" @change="changeFile">
                       </div>
                     </div>
-
-                    <div class="top">
-                      <span class="name pull-left">Gene信息：</span>
-                      <div class="content inline">
-                        <textarea class="form-control" v-model="hasGene"></textarea>
-                      </div>
-                    </div>
-
-                  </div>
-                  <div class="col-sm-6">
-                    <span class="name pull-left">已选panel：</span>
-                    <div class="content inline has-panel">
-                        <span class="hasPanel-one" @click="removePanel(list.code)" v-for="list in hasPanel">
-                          <span class='hasPanel-name'>{{list.name}}</span>
-                          <span class="close">&times;</span>
-                        </span>
-                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </form>
 
-            <div class="one">
-              <div class="base-color title">上传文件</div>
-
-              <div class="one-content">
-                <div class="row">
-
-                  <div class="col-sm-6">
-                    <span class="name">选择类型：</span>
-                    <template>
-                      <el-radio v-model="radioEdit" label="1">追加</el-radio>
-                      <el-radio v-model="radioEdit" label="2">覆盖</el-radio>
-                    </template>
-                  </div>
-
-                  <div class="col-sm-6">
-                    <span class="name">选择文件：</span>
-                    <div class="upload-content content" id="upload-edit">
-                      <input type="text" class="show-name" id="file-name-edit" @click.stop="">
-                      <span class="text">选择</span>
-                      <input type='file' name="bed" class="hide-input" id="hide-edit" @change="changeFile">
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-
-            </div>
           </div>
         </div>
       </div>
@@ -462,20 +398,29 @@
         hide3: true,
         hide4: true,
         gender: '未知',
+        editGender: '未知',
+        editId:0,
         ruleForm: {
           name: '',
-          number: '',
+          sn: '',
           national: '',
           nativePlace: '',
           age: '',
-          birth: '',
+          patientCase: '',
+        },
+        editForm: {
+          name: '',
+          sn: '',
+          national: '',
+          nativePlace: '',
+          age: '',
           patientCase: '',
         },
         rules: {
           name: [
             { required: true, message: '请输入姓名', trigger: 'blur' },
           ],
-          number: [
+          sn: [
             { required: true, message: '请输入编号', trigger: 'blur' },
           ],
           nativePlace:[
@@ -495,7 +440,7 @@
         originalPanelData: [],
         results: [],
         inputValue: this.$route.query.sa ? this.$route.query.sa : '',
-        editModalData: '',
+        editModalData: {},
         loading: false,
         count: 0,
         pageNum: 1,
@@ -521,19 +466,22 @@
 //        }],
       }
     },
-    created: function () {
+    mounted: function () {
       const _vue = this;
 
       this.getList();
 //      this.getCap();
 //      const _vue = this;
-//      $('#editModal').on('show.bs.modal', function (e) {
+      const _editM = $('#editModal');
+      _editM.on('show.bs.modal', function (e) {
 //        _vue.hasGene = '';
 //        _vue.inputPanel = '';
 //        $("#editModal").on("click", function () {
 //          _vue.showPanel = false;
-//        })
-//      });
+//        });
+        _editM.find(".fuzzy-content").find('.name').css("textAlign",'right');
+        _editM.find(".cascade-content").find('.title').css("textAlign",'right')
+      });
 //      this.getPanelOp();
     },
     methods: {
@@ -598,44 +546,54 @@
       /*编辑每列*/
       saveEdit: function () {
         const _vue = this;
-        let axiosObj = {
-          captureInfo: {
-            code: $.trim($('#edit-capture').val())
-          },
-          patient: {
-            code: $.trim($('#edit-sampleCode').val()),
-            name: $.trim($('#edit-patientName').val()),
-            gender: $.trim($('#edit-gender').val()),
-          },
-          dateFormat: $.trim($('#edit-dateFormat').val()),
-          volume: $('#edit-volume').val() === ' - ' ? -1 : $.trim($('#edit-volume').val()),
-          q30: $('#edit-q30').val() === ' - ' ? -1 : $.trim($('#edit-q30').val()),
-          comment: $.trim($('#edit-comment').val()),
-          geneinfo: {
-            panels: _vue.hasPanel,
-            genes: _vue.strToArr(_vue.hasGene)
-          },
-        };
+//        let axiosObj = {
+//          captureInfo: {
+//            code: $.trim($('#edit-capture').val())
+//          },
+//          patient: {
+//            code: $.trim($('#edit-sampleCode').val()),
+//            name: $.trim($('#edit-patientName').val()),
+//            gender: $.trim($('#edit-gender').val()),
+//          },
+//          dateFormat: $.trim($('#edit-dateFormat').val()),
+//          volume: $('#edit-volume').val() === ' - ' ? -1 : $.trim($('#edit-volume').val()),
+//          q30: $('#edit-q30').val() === ' - ' ? -1 : $.trim($('#edit-q30').val()),
+//          comment: $.trim($('#edit-comment').val()),
+//          geneinfo: {
+//            panels: _vue.hasPanel,
+//            genes: _vue.strToArr(_vue.hasGene)
+//          },
+//        };
+
+        this.editForm.gender = this.editGender;
 
         this.myAxios({
-          url: 'sample/datafile/' + _vue.editModalData.id + '/',
+          url: 'manage/sample/' + this.editId,
           method: 'patch',
-          data: axiosObj
+          data: this.editForm
         }).then(function () {
-          alert('编辑成功')
-          $('#editModal').modal('hide')
+          _vue.success('编辑成功');
+          $('#editModal').modal('hide');
+          _vue.getList()
         }).catch(function (error) {
           _vue.catchFun(error)
         })
       },
-      listEdit: function (code) {
+      listEdit: function (_id) {
         const _vue = this;
         $.each(this.results, function (i, data) {
-          if (data.code === code) {
-            _vue.editModalData = data
+          if (data._id === _id) {  //如果直接赋予整个对象，会双向改变，改变列表
+            _vue.editGender = data.gender;
+            _vue.editId = data._id;
+            _vue.editForm.name = data.name;
+            _vue.editForm.sn = data.sn;
+            _vue.editForm.national = data.national;
+            _vue.editForm.nativePlace = data.nativePlace;
+            _vue.editForm.age = data.age;
+            _vue.editForm.patientCase = data.patientCase;
           }
         });
-        this.showPanelModal();
+//        this.showPanelModal();
         $('#editModal').modal('show')
       },
 
@@ -688,7 +646,7 @@
 
         this.ruleForm = {
           name: '',
-          number: '',
+          sn: '',
           gender: '',
           national: '',
           nativePlace: '',
@@ -706,7 +664,7 @@
           method: 'post',
           data: {
             name: this.ruleForm.name,
-            sn: this.ruleForm.number,
+            sn: this.ruleForm.sn,
             gender:this.gender,
             medical_record:this.ruleForm.patientCase,
             nation: this.ruleForm.national, /*名族*/
@@ -719,31 +677,47 @@
           $("#addModal").modal("hide");
           _vue.getList();
         }).catch(function (error) {
-
           _vue.catchFun(error)
         })
-
-//        const fileNameArr = $("#hide-add").val().split('.');
-//        const fileName = fileNameArr[fileNameArr.length - 1];
-//        if (fileName == 'xls' || fileName == 'xlsx') {
-//          this.loading = true;
-//          let postData = new FormData(document.getElementById('addDataFormCap'));
-//          postData.append("obj", JSON.stringify({'a': 123, 'b': 456}));
-//          this.myAxios({
-//            url: 'https://analyze.grandbox.site/sample/capture/',
-//            method: 'post',
-//            data: postData
-//          }).then(function () {
-//
-//          }).catch(function (error) {
-//            _vue.catchFun(error)
-//          })
-//        } else {
-//          this.alert('文件请上传excel格式')
-//        }
       },
       changeFile: function (e) {
         console.log($(e.target.files[0]))
+      },
+
+      /*上传EXCEL*/
+      showUpModal:function (_id) {
+
+        const _vue = this;
+        $.each(this.results, function (i, data) {
+          if (data._id === _id) {  //如果直接赋予整个对象，会双向改变，改变列表
+            _vue.editId = data._id;
+          }
+        });
+
+        $("#fileModal").modal("show")
+      },
+      saveFile:function () {
+        const _vue = this;
+        const fileNameArr = $("#hide-edit").val().split('.');
+        const fileName = fileNameArr[fileNameArr.length - 1];
+        if (fileName == 'xls' || fileName == 'xlsx') {
+          this.loading = true;
+          let postData = new FormData(document.getElementById('addDataFormCap'));
+//          postData.append("type", JSON.stringify({'a': 123, 'b': 456}));
+          postData.append("append", this.radioEdit==1?1:0);
+          this.myAxios({
+            url: 'manage/sample/' + this.editId+'/data_file',
+            method: 'post',
+            data: postData
+          }).then(function () {
+            _vue.success('上传成功');
+            $('#fileModal').modal('hide');
+          }).catch(function (error) {
+            _vue.catchFun(error)
+          })
+        } else {
+          this.alert('文件请上传excel格式')
+        }
       },
 
       show: function (type) {
@@ -966,133 +940,161 @@
     }
 
     /*修改样本信息弹框样式*/
-    #editModal {
-      input, select {
-        display: inline-block;
-        height: 25px;
-        line-height: 25px;
-      }
-      select {
-        padding: 0 12px;
-      }
-      textarea {
-        display: inline-block;
-        margin-left: 4px;
-        height: 65px;
-      }
-      .one:not(:first-child) {
-        margin: 15px 0;
-      }
-      .close-btn {
-        margin-left: 20px;
-      }
-      .one {
-        .title {
-          margin-bottom: 5px;
+    #editModal,#fileModal {
+      .modal-body{
+        padding-bottom: 50px;
+        input, select {
+          display: inline-block;
+          height: 25px;
+          line-height: 25px;
         }
-        .one-content {
-          .row {
-            margin-top: 5px;
-            .hide-input {
-              display: none;
-            }
-            .text {
-              height: 25px;
-              line-height: 25px;
-            }
-            .name {
-              display: inline-block;
-              width: 28%;
-            }
-            .top {
-              margin-top: 10px;
-            }
-            .has-panel {
-              height: 100px;
-              overflow-y: auto;
-              border: 1px solid #d4d4d4;
-              .hasPanel-one {
-                display: block;
+        select {
+          padding: 0 12px;
+        }
+        textarea {
+          display: inline-block;
+          margin-left: 4px;
+          height: 65px;
+        }
+        .one:not(:first-child) {
+          margin: 15px 0;
+        }
+        .close-btn {
+          margin-left: 20px;
+        }
+        .one {
+          .title {
+            margin-bottom: 5px;
+          }
+          .one-content {
+            .row {
+              margin-top: 5px;
+              .hide-input {
+                display: none;
+              }
+              .text {
                 height: 25px;
                 line-height: 25px;
-                width: 100%;
-                cursor: pointer;
-                padding: 0 20px;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                &:hover {
-                  background-color: rgb(220, 238, 249);
-                }
-                .hasPanel-name {
-                  white-space: nowrap;
-                  overflow: hidden;
-                  text-overflow: ellipsis;
-                  width: 100%;
-                  float: left;
-                }
-                .close {
-                  position: absolute;
-                  right: 10px;
-                  margin-top: 5px;
-                  font-size: 14px;
-                }
               }
-            }
-            .content {
-              width: 60%;
-              font-size: 12px;
-              position: relative;
-
-              .toArea {
+              .name {
                 display: inline-block;
-                margin-top: 5px;
+                width: 28%;
               }
-              /*基因信息*/
-              input {
-                padding-right: 24px;
-                width: 100%;
+              .top {
+                margin-top: 10px;
               }
-              .show-name {
-                width: 70%;
-              }
-              img {
-                position: absolute;
-                top: 0;
-                right: 0;
-                height: 24px;
-                margin-left: -1px;
-                cursor: pointer;
-              }
-              .hide-ul {
-                padding: 0;
-                position: absolute;
-                left: 0;
-                width: 100%;
-                background-color: #fff;
-                z-index: 10;
-                max-height: 100px;
+              .has-panel {
+                height: 100px;
                 overflow-y: auto;
-                border-right: 1px solid rgb(209, 209, 209);
-                border-left: 1px solid rgb(209, 209, 209);
-                border-bottom: 1px solid rgb(209, 209, 209);
-                li {
-                  height: 26px;
-                  line-height: 26px;
-                  font-size: 12px;
-                  white-space: nowrap;
-                  text-overflow: ellipsis;
-                  overflow: hidden;
-                  padding-left: 10px;
+                border: 1px solid #d4d4d4;
+                .hasPanel-one {
+                  display: block;
+                  height: 25px;
+                  line-height: 25px;
+                  width: 100%;
                   cursor: pointer;
+                  padding: 0 20px;
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
                   &:hover {
                     background-color: rgb(220, 238, 249);
+                  }
+                  .hasPanel-name {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    width: 100%;
+                    float: left;
+                  }
+                  .close {
+                    position: absolute;
+                    right: 10px;
+                    margin-top: 5px;
+                    font-size: 14px;
+                  }
+                }
+              }
+              .content {
+                width: 60%;
+                font-size: 12px;
+                position: relative;
+
+                .toArea {
+                  display: inline-block;
+                  margin-top: 5px;
+                }
+                /*基因信息*/
+                input {
+                  padding-right: 24px;
+                  width: 100%;
+                }
+                .show-name {
+                  width: 70%;
+                }
+                img {
+                  position: absolute;
+                  top: 0;
+                  right: 0;
+                  height: 24px;
+                  margin-left: -1px;
+                  cursor: pointer;
+                }
+                .hide-ul {
+                  padding: 0;
+                  position: absolute;
+                  left: 0;
+                  width: 100%;
+                  background-color: #fff;
+                  z-index: 10;
+                  max-height: 100px;
+                  overflow-y: auto;
+                  border-right: 1px solid rgb(209, 209, 209);
+                  border-left: 1px solid rgb(209, 209, 209);
+                  border-bottom: 1px solid rgb(209, 209, 209);
+                  li {
+                    height: 26px;
+                    line-height: 26px;
+                    font-size: 12px;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    padding-left: 10px;
+                    cursor: pointer;
+                    &:hover {
+                      background-color: rgb(220, 238, 249);
+                    }
                   }
                 }
               }
             }
           }
         }
+
+        .case-content-edit{
+          >span{
+            float: left;
+            width: 11.5%;
+            margin-right: 1.8%;
+            text-align: right;
+          }
+          >div{
+            float: left;
+            width: 60%;
+          }
+        }
+        /*修改引入的fuzzyquery样式*/
+        .fuzzy-content{
+          .name{
+            text-align: right;
+          }
+        }
+      }
+    }
+
+    table{
+      .edit{
+        margin-right: 15px;
       }
     }
   }

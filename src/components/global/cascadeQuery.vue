@@ -1,8 +1,8 @@
 <!--模糊搜索框-->
 <template>
-  <div class="fuzzy-content" id="cascade-content">
-    <div class="left">
-      <span class="title bold">检测项目：</span>
+  <div class="fuzzy-content row cascade-content">
+    <div class="col-xs-6">
+      <span class="title bold">检测项目</span>
       <el-cascader
         placeholder="可搜索"
         :options="leftData"
@@ -15,8 +15,8 @@
       ></el-cascader>
     </div>
 
-    <div class="right">
-      <span class="title bold">已选项目：</span>
+    <div class="col-xs-6">
+      <span class="title bold">已选项目</span>
       <div class="has-panel lage-w inline">
         <span class="hasPanel-one" :data-key="list.id" @click="rightRemove(list.id)" v-for="list in rightData" :title="list.vueShow">
           <span class='hasPanel-name'>{{list.vueShow}}</span>
@@ -92,12 +92,14 @@
 <style scoped lang="less">
   @border: #d3d3d3;
   @bc: rgb(240, 244, 247);
-  #cascade-content {
+  .cascade-content {
     height: 150px;
     overflow: hidden;
     .title {
       display: inline-block;
       width: 20%;
+      /*text-align: right;*/
+      margin-right: 3.8%;
     }
     .content {
       width: 50%;
@@ -107,16 +109,12 @@
     .lage-w {
       width: 70%;
     }
-    .left, .right {
-      width: 49%;
-      float: left;
-    }
-    .left {
+    .col-xs-6 {
         .el-cascader{
           width: 50%;
         }
     }
-    .right {
+    .col-xs-6 {
       .title {
         float: left;
         width: 20%;
