@@ -28,17 +28,16 @@ Vue.prototype.myAxios = axios.create({
 });
 
 Vue.prototype.myAxios.interceptors.request.use(function (config) {
-
   const currentSecond = new Date().getTime() / 1000;
   if (currentSecond > parseFloat(localStorage.time)) {
     $.ajax({
-      url:apiUrl + 'auth/refresh',
-      type:'get',
-      async:false,
+      url: apiUrl + 'auth/refresh',
+      type: 'get',
+      async: false,
       beforeSend: function (xhr) {
-        xhr.setRequestHeader("Authorization", 'Bearer ' + localStorage.token);
+        xhr.setRequestHeader("Authorization",localStorage.token);
       },
-      complete:function (resp) {
+      complete: function (resp) {
         localStorage.token = resp.getResponseHeader('Authorization');
       }
     });
@@ -56,29 +55,22 @@ Vue.prototype.changePassword = 'https://www.grandbox.site/manage/updatePassword'
 Vue.prototype.catchFun = function (error) {
   if (error.response) {
     let alertContent = '';
-    if (error.response.data.detail) {
-      if (typeof error.response.data.detail === 'string') {
-        alertContent = error.response.data.detail
+    if (error.response.data.errors) {
+      if (typeof error.response.data.errors === 'string') {
+        alertContent = error.response.data.message+ ' '+ error.response.data.errors
       } else {
         const arr = [];
-        $.each(error.response.data.detail, function (i, value) {
+        $.each(error.response.data.errors, function (i, value) {
           arr.push(i + ' : ' + value)
         });
-        alertContent = arr.join(' ; ')
+        alertContent = error.response.data.message+' : '+arr.join(' ; ')
       }
     } else {
-      if (typeof error.response.data === 'object') {
-        const arr = [];
-        $.each(error.response.data, function (i, value) {
-          arr.push(i + ' : ' + value)
-        });
-        alertContent = arr.join(' ; ')
-      } else {
-        alertContent = error.response.data
-      }
+      alertContent = error.response.data.message;
     }
+
     this.$message({
-      showClose: true,
+//      showClose: true,
       message: error.response.status + ' : ' + alertContent,
       type: 'error'
     });
@@ -89,8 +81,9 @@ Vue.prototype.catchFun = function (error) {
       }
     }
   } else {
+
     this.$message({
-      showClose: true,
+//      showClose: true,
       message: error.message,
       type: 'error'
     });
@@ -121,9 +114,18 @@ Vue.prototype.switchHide = function (ID) {
 };
 
 //错误提示
+
+Vue.prototype.success = function (message) {
+  this.$message({
+//    showClose: true,
+    message: message,
+    type: 'success'
+  });
+};
+
 Vue.prototype.alert = function (message) {
   this.$message({
-    showClose: true,
+//    showClose: true,
     message: message,
     type: 'error'
   });

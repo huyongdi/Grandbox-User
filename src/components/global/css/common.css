@@ -65,6 +65,10 @@ input::placeholder {
 .fr {
   float: right;
 }
+.bold {
+  font-weight: 700;
+  color: #5a5e66;
+}
 .fl {
   float: left;
 }

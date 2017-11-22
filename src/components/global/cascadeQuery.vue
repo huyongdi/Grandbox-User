@@ -2,7 +2,7 @@
 <template>
   <div class="fuzzy-content" id="cascade-content">
     <div class="left">
-      <span class="title">检测项目：</span>
+      <span class="title bold">检测项目：</span>
       <el-cascader
         placeholder="可搜索"
         :options="leftData"
@@ -16,7 +16,7 @@
     </div>
 
     <div class="right">
-      <span class="title">已选项目：</span>
+      <span class="title bold">已选项目：</span>
       <div class="has-panel lage-w inline">
         <span class="hasPanel-one" :data-key="list.id" @click="rightRemove(list.id)" v-for="list in rightData" :title="list.vueShow">
           <span class='hasPanel-name'>{{list.vueShow}}</span>
@@ -60,7 +60,7 @@
           if(data.id == arrId){
             flag = false;
             _vue.$message({
-              showClose: true,
+//              showClose: true,
               message: '请勿重复添加',
               type: 'warning'
             });

@@ -3,7 +3,7 @@
   <div class="fuzzy-content" id="fuzzy-content">
 
     <div class="left">
-      <span class="name">{{leftName?leftName:'临床表型'}}：</span>
+      <span class="name bold">{{leftName?leftName:'临床表型'}}：</span>
       <div class="content inline" id="panel-1" @click.stop="">
         <input  v-model="fuzzyInput" :placeholder='placeholder' @keyup.enter="sendInput">
         <img src="../../../static/img/trio-2.png" alt="" @click.stop="sendInput">
@@ -18,7 +18,7 @@
     </div>
 
     <div class="right">
-      <span class="name">已选表型：</span>
+      <span class="name bold">已选表型：</span>
       <div class="content inline lage-w" @click.stop="">
         <div class="has-panel">
           <span class="hasPanel-one" :data-key="list.key" @click="rightRemove(list.key)" v-for="list in rightData" :title="list.value">
@@ -57,7 +57,7 @@
         $.each(_vue.rightData, function (i, data) {
           if (list.key === data.key) {
             _vue.$message({
-              showClose: true,
+//              showClose: true,
               message: '请勿重复添加',
               type: 'warning'
             });

@@ -115,90 +115,86 @@
               <li @click="show(1)"><a :class="{'in':!hide1}" href="javascript:void(0)">1. 基本信息</a></li>
               <li @click="show(2)"><a :class="{'in':!hide2}" href="javascript:void(0)">2. 表型信息</a></li>
               <li @click="show(3)"><a :class="{'in':!hide3}" href="javascript:void(0)">3. 检测项目</a></li>
-              <li @click="show(4)"><a :class="{'in':!hide4}" href="javascript:void(0)">4. 预览/提交信息</a></li>
+              <li @click="show(4)"><a :class="{'in':!hide4}" href="javascript:void(0)">4. 预览/提交数据</a></li>
             </ul>
 
             <div class="info-content">
-              <form action="" id="addDataFormCap">
+              <el-form id="addDataFormCap" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
                 <div :class="{'hide':hide1}">
+
                   <div class="row">
                     <div class="col-xs-6">
-                      <div class="col-xs-4"><span class="star">*</span>受检者姓名</div>
-                      <div class="col-xs-8">
-                        <el-input placeholder="" name="name" v-model="addInfo.name"></el-input>
-                      </div>
+                      <el-form-item label="受检者姓名" prop="name">
+                        <el-input v-model="ruleForm.name"></el-input>
+                      </el-form-item>
                     </div>
                     <div class="col-xs-6">
-                      <div class="col-xs-4"><span class="star">*</span>编号</div>
-                      <div class="col-xs-8">
-                        <el-input placeholder="" name="obj1.code" v-model="addInfo.number"></el-input>
-                      </div>
+                      <el-form-item label="编号" prop="number">
+                        <el-input v-model="ruleForm.number"></el-input>
+                      </el-form-item>
                     </div>
                     <div class="col-xs-6">
-                      <div class="col-xs-4">性别</div>
-                      <div class="col-xs-8">
-                        <template>
-                          <el-select v-model="addInfo.gender" placeholder="请选择">
-                            <el-option
-                              v-for="item in genderOptions"
-                              :key="item.value"
-                              :label="item.label"
-                              :value="item.value">
-                            </el-option>
-                          </el-select>
-                        </template>
-                      </div>
+                      <el-form-item label="性别" prop="gender">
+                        <el-select v-model="gender" placeholder="请选择性别">
+                          <el-option label="未知" value="未知"></el-option>
+                          <el-option label="男" value="男"></el-option>
+                          <el-option label="女" value="女"></el-option>
+                        </el-select>
+                      </el-form-item>
                     </div>
                     <div class="col-xs-6">
-                      <div class="col-xs-4">名族</div>
-                      <div class="col-xs-8">
-                        <el-input placeholder="" v-model="addInfo.national"></el-input>
-                      </div>
+                      <el-form-item label="名族">
+                        <el-input v-model="ruleForm.national"></el-input>
+                      </el-form-item>
                     </div>
                     <div class="col-xs-6">
-                      <div class="col-xs-4">籍贯</div>
-                      <div class="col-xs-8">
-                        <el-input placeholder="" v-model="addInfo.nativePlace"></el-input>
-                      </div>
+                      <el-form-item label="籍贯" prop="nativePlace">
+                        <el-input v-model="ruleForm.nativePlace"></el-input>
+                      </el-form-item>
                     </div>
                     <div class="col-xs-6">
-                      <div class="col-xs-4">出生日期</div>
-                      <div class="col-xs-8">
-                        <el-date-picker v-model="addInfo.birth" type="date" placeholder="选择日期" value-format="yyyy-MM-dd"></el-date-picker>
-                      </div>
+                      <el-form-item label="年龄">
+                        <el-input v-model="ruleForm.age"></el-input>
+                      </el-form-item>
                     </div>
-                    <div class="col-xs-6">
-                      <div class="col-xs-4">上传文件</div>
-                      <div class="col-xs-8">
-                        <div class="upload-content" id="upload">
-                          <input type="text" class="show-name" id="file-name" @click.stop="">
-                          <span class="text">选择</span>
-                          <input type='file' name="bed" class="hide-input" id="hide-add" @change="changeFile">
-                        </div>
-                      </div>
-                    </div>
+                    <!--<div class="col-xs-6">-->
+                    <!--<div class="col-xs-4">出生日期</div>-->
+                    <!--<div class="col-xs-8">-->
+                    <!--<el-date-picker v-model="addInfo.birth" type="date" placeholder="选择日期" value-format="yyyy-MM-dd"></el-date-picker>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-xs-6">-->
+                    <!--<div class="col-xs-4">上传文件</div>-->
+                    <!--<div class="col-xs-8">-->
+                    <!--<div class="upload-content" id="upload">-->
+                    <!--<input type="text" class="show-name" id="file-name" @click.stop="">-->
+                    <!--<span class="text">选择</span>-->
+                    <!--<input type='file' name="bed" class="hide-input" id="hide-add" @change="changeFile">-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
                   </div>
                 </div>
 
-                <div :class="{'hide':hide2}">
-                  <div class="row">
+                <div :class="{'hide':hide2}" class="over-hide">
+
                     <div class="col-xs-12">
                       <fuzzyQuery placeholder='请输入表型' :leftData="leftData" :rightData="originalRightData" title="已选表型"
                                   @sendInput="receiveFuzzy0"></fuzzyQuery>
                     </div>
                     <div class="col-xs-12 case-content">
-                      <span class="title">病历：</span>
+                      <span class="title bold">病历：</span>
                       <div class="col-xs-6">
                         <el-input
                           type="textarea"
                           :autosize="{ minRows: 5, maxRows: 5}"
                           placeholder="请输入内容"
-                          v-model="addInfo.patientCase">
+                          v-model="ruleForm.patientCase">
                         </el-input>
                       </div>
 
                     </div>
-                  </div>
+
                 </div>
 
                 <div :class="{'hide':hide3}" class="over-hide">
@@ -207,37 +203,41 @@
                   </div>
                 </div>
 
-                <div :class="{'hide':hide4}">
-                  <div class="title">待提交信息：</div>
+                <div :class="{'hide':hide4}" class="show-info">
+                  <div class="title bold">待提交信息：</div>
                   <div class="row">
-                    <div class="col-xs-3" v-if="addInfo.name">
+                    <div class="col-xs-3" v-if="ruleForm.name">
                       <div class="col-xs-5">姓名：</div>
-                      <div class="col-xs-7">{{addInfo.name}}</div>
+                      <div class="col-xs-7">{{ruleForm.name}}</div>
                     </div>
-                    <div class="col-xs-3" v-if="addInfo.number">
+                    <div class="col-xs-3" v-if="ruleForm.number">
                       <div class="col-xs-5">编号：</div>
-                      <div class="col-xs-7">{{addInfo.number}}</div>
+                      <div class="col-xs-7">{{ruleForm.number}}</div>
                     </div>
-                    <div class="col-xs-3" v-if="addInfo.gender">
+                    <div class="col-xs-3" v-if="gender">
                       <div class="col-xs-5">性别：</div>
-                      <div class="col-xs-7">{{addInfo.gender}}</div>
+                      <div class="col-xs-7">{{gender}}</div>
                     </div>
-                    <div class="col-xs-3" v-if="addInfo.national">
+                    <div class="col-xs-3" v-if="ruleForm.national">
                       <div class="col-xs-5">名族：</div>
-                      <div class="col-xs-7">{{addInfo.national}}</div>
+                      <div class="col-xs-7">{{ruleForm.national}}</div>
                     </div>
-                    <div class="col-xs-3" v-if="addInfo.nativePlace">
+                    <div class="col-xs-3" v-if="ruleForm.nativePlace">
                       <div class="col-xs-5">籍贯：</div>
-                      <div class="col-xs-7">{{addInfo.nativePlace}}</div>
+                      <div class="col-xs-7 warp">{{ruleForm.nativePlace}}</div>
                     </div>
-                    <div class="col-xs-4" v-if="addInfo.birth">
-                      <div class="col-xs-5">出生日期：</div>
-                      <div class="col-xs-7">{{addInfo.birth}}</div>
+                    <div class="col-xs-4" v-if="ruleForm.age">
+                      <div class="col-xs-5">年龄：</div>
+                      <div class="col-xs-7">{{ruleForm.age}}</div>
                     </div>
-                    <div class="col-xs-4" :class="{'hide':fileHide}">
+                    <!--  <div class="col-xs-4" v-if="addInfo.birth">
+                        <div class="col-xs-5">出生日期：</div>
+                        <div class="col-xs-7">{{addInfo.birth}}</div>
+                      </div>-->
+                    <!--<div class="col-xs-4" :class="{'hide':fileHide}">
                       <div class="col-xs-5">文件名：</div>
                       <div class="col-xs-7" id="fileName-show"></div>
-                    </div>
+                    </div>-->
                   </div>
 
                   <div class="more row">
@@ -253,20 +253,19 @@
                         <span v-for="list in panelRight" class="show-phenotype po" :title="list.vueShow">{{list.vueShow}}</span>
                       </div>
                     </div>
-                    <div class="col-xs-12 top5" v-if="addInfo.patientCase">
+                    <div class="col-xs-12 top5" v-if="ruleForm.patientCase">
                       <div class="col-xs-1">病例：</div>
-                      <div class="col-xs-11 break-word">{{addInfo.patientCase}}</div>
+                      <div class="col-xs-11 break-word">{{ruleForm.patientCase}}</div>
                     </div>
                   </div>
 
                   <div class="save-content">
-
                     <span @click="saveAdd" class="my-btn"><img src="../../static/img/red-save.png" alt="">保存</span>
                   </div>
 
 
                 </div>
-              </form>
+              </el-form>
             </div>
 
           </div>
@@ -421,17 +420,7 @@
                       <el-radio v-model="radioEdit" label="2">覆盖</el-radio>
                     </template>
                   </div>
-                  <div class="col-sm-6" :class="{'opacity0':radioEdit == '1'}">
-                    <span class="name">覆盖目标：</span>
-                    <el-select v-model="addInfo.gender" placeholder="请选择" class="content">
-                      <el-option
-                        v-for="item in fileOptions"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                      </el-option>
-                    </el-select>
-                  </div>
+
                   <div class="col-sm-6">
                     <span class="name">选择文件：</span>
                     <div class="upload-content content" id="upload-edit">
@@ -467,6 +456,39 @@
     },
     data: function () {
       return {
+        /*添加样本*/
+        hide1: false,
+        hide2: true,
+        hide3: true,
+        hide4: true,
+        gender: '未知',
+        ruleForm: {
+          name: '',
+          number: '',
+          national: '',
+          nativePlace: '',
+          age: '',
+          birth: '',
+          patientCase: '',
+        },
+        rules: {
+          name: [
+            { required: true, message: '请输入姓名', trigger: 'blur' },
+          ],
+          number: [
+            { required: true, message: '请输入编号', trigger: 'blur' },
+          ],
+          nativePlace:[
+            { min: 0, max: 32, message: '籍贯长度在32个字符内', trigger: 'blur' }
+          ]
+        },
+        leftData: [],
+        originalRightData: [],
+        panelRight: [],
+        panelOptions: [],
+        fileHide: true,
+        radioEdit: '1',
+
         capArr: [],
         doneHttp: '',
         geneInput: '',
@@ -487,43 +509,16 @@
         hasGene: '',
         showPanel: false,
 
-        /*添加样本*/
-        hide1: false,
-        hide2: true,
-        hide3: true,
-        hide4: true,
-        genderOptions: [{
-          value: '男',
-          label: '男'
-        }, {
-          value: '女',
-          label: '女'
-        }, {
-          value: '未知',
-          label: '未知'
-        }],
-        fileOptions: [{
-          value: 'add',
-          label: '追加'
-        }, {
-          value: 'edit',
-          label: '覆盖'
-        }],
-        leftData: [],
-        originalRightData: [],
-        panelRight: [],
-        panelOptions: [],
-        addInfo: {
-          name: '',
-          number: '',
-          gender: '',
-          national: '',
-          nativePlace: '',
-          birth: '',
-          patientCase: '',
-        },
-        fileHide: true,
-        radioEdit:'1'
+//        genderOptions: [{
+//          value: '男',
+//          label: '男'
+//        }, {
+//          value: '女',
+//          label: '女'
+//        }, {
+//          value: '未知',
+//          label: '未知'
+//        }],
       }
     },
     created: function () {
@@ -691,7 +686,7 @@
         this.hide2 = true;
         this.hide3 = true;
 
-        this.addInfo = {
+        this.ruleForm = {
           name: '',
           number: '',
           gender: '',
@@ -704,25 +699,48 @@
         $("#addModal").modal("show")
       },
       saveAdd: function () {
-        const fileNameArr = $("#hide-add").val().split('.');
-        const fileName = fileNameArr[fileNameArr.length - 1];
         const _vue = this;
-        if (fileName == 'xls' || fileName == 'xlsx') {
-          this.loading = true;
-          let postData = new FormData(document.getElementById('addDataFormCap'));
-          postData.append("obj", JSON.stringify({'a': 123, 'b': 456}));
-          this.myAxios({
-            url: 'https://analyze.grandbox.site/sample/capture/',
-            method: 'post',
-            data: postData
-          }).then(function () {
 
-          }).catch(function (error) {
-            _vue.catchFun(error)
-          })
-        } else {
-          this.alert('文件请上传excel格式')
-        }
+        this.myAxios({
+          url: 'manage/sample',
+          method: 'post',
+          data: {
+            name: this.ruleForm.name,
+            sn: this.ruleForm.number,
+            gender:this.gender,
+            medical_record:this.ruleForm.patientCase,
+            nation: this.ruleForm.national, /*名族*/
+            native_place: this.ruleForm.nativePlace, /*籍贯*/
+            age: this.ruleForm.age, /**/
+//            sn: this.addInfo.birth, /*表型 检测项目*/
+          }
+        }).then(function () {
+          _vue.success('添加成功');
+          $("#addModal").modal("hide");
+          _vue.getList();
+        }).catch(function (error) {
+
+          _vue.catchFun(error)
+        })
+
+//        const fileNameArr = $("#hide-add").val().split('.');
+//        const fileName = fileNameArr[fileNameArr.length - 1];
+//        if (fileName == 'xls' || fileName == 'xlsx') {
+//          this.loading = true;
+//          let postData = new FormData(document.getElementById('addDataFormCap'));
+//          postData.append("obj", JSON.stringify({'a': 123, 'b': 456}));
+//          this.myAxios({
+//            url: 'https://analyze.grandbox.site/sample/capture/',
+//            method: 'post',
+//            data: postData
+//          }).then(function () {
+//
+//          }).catch(function (error) {
+//            _vue.catchFun(error)
+//          })
+//        } else {
+//          this.alert('文件请上传excel格式')
+//        }
       },
       changeFile: function (e) {
         console.log($(e.target.files[0]))
@@ -737,14 +755,14 @@
           this.hide1 = false;
         } else if (type == 2) {
           this.hide2 = false;
-        } else if(type == 3){
+        } else if (type == 3) {
           this.hide3 = false;
         } else if (type == 4) {
-          const value = $.trim($("#file-name").val());
-          if (value) {
-            this.fileHide = false;
-            $("#fileName-show").html(value)
-          }
+//          const value = $.trim($("#file-name").val());
+//          if (value) {
+//            this.fileHide = false;
+//            $("#fileName-show").html(value)
+//          }
           this.hide4 = false;
         }
       },
@@ -808,9 +826,6 @@
           font-size: 12px;
           margin-right: 5px;
         }
-        .col-xs-6 {
-          margin-top: 10px;
-        }
         .case-content {
           .title {
             float: left;
@@ -829,6 +844,11 @@
           width: 100%;
           text-align: center;
           margin-top: 20px;
+        }
+        .show-info{
+          .title{
+            margin-bottom: 15px;
+          }
         }
       }
       #breadcrumb {
@@ -973,10 +993,10 @@
         .one-content {
           .row {
             margin-top: 5px;
-            .hide-input{
+            .hide-input {
               display: none;
             }
-            .text{
+            .text {
               height: 25px;
               line-height: 25px;
             }
@@ -1033,7 +1053,7 @@
                 padding-right: 24px;
                 width: 100%;
               }
-              .show-name{
+              .show-name {
                 width: 70%;
               }
               img {
