@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import AllHome from '@/components/AllHome'
 import Login from '@/components/Login'
+import Report from '@/components/Report'
+import Result from '@/components/result'
 import MyData from '@/components/myData'
 import Gene from '@/components/Gene'
 import GeneD from '@/components/geneD'
@@ -32,6 +34,16 @@ export default new Router({
       path: '/gene',
       name: 'gene',
       component: Gene
+    },
+    {
+      path: '/result',
+      name: 'result',
+      component: Result
+    },
+    {
+      path: '/report',
+      name: 'report',
+      component: Report
     },
     {
       path: '/geneD',

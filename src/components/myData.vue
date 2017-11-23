@@ -33,56 +33,23 @@
       </tr>
       <tr v-for="(list,index) in results" :class="{'tr-bc':index%2}">
         <td>{{list.sn}}</td>
-        <td>{{list.name}} ({{list.gender}})</td>
-
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>{{list.medical_record}}</td>
+        <td><span v-if="list.patient">{{list.patient.name}} ({{list.patient.gender}})</span></td>
+        <td><span v-if="list.patient">{{list.patient.age?list.patient.age:'-'}}</span></td>
+        <td><span v-if="list.patient">{{list.patient.national?list.patient.national:'-'}}</span></td>
+        <td><span v-if="list.patient">{{list.patient.nativePlace?list.patient.nativePlace:'-'}}</span></td>
+        <td><span v-if="list.patient">{{list.patient.medical_record?list.patient.medical_record:'-'}}</span></td>
 
         <td>
-          <span v-if="list.jobs && list.jobs.length==0">待分析</span>
-          <div v-else="" class="dropdown">
-
-            <div v-for="listJob in list.jobs">
-              <router-link v-if="listJob.app.code === 'grandmgd'"
-                           :to="{path:'/taskM/foo/sgResult',query:{id:listJob.id}}">
-                <i data-toggle="tooltip" data-placement="top"
-                   :data-original-title="listJob.app.name+'('+listJob.id+')'"
-                   v-if="listJob.status == 'completed'" class="fa fa-check text-success po">已完成</i>
+          <div v-if="list.data_file">
+            <div v-for="data in list.data_file">
+              <i v-if='data.status == 0' class="fa fa-hourglass-1 text-success">等待</i>
+              <router-link :to="{path:'/result',query:{id:list._id}}">
+                <i v-if='data.status == 1' class="fa fa-check text-success po">已完成</i>
               </router-link>
-              <router-link v-if="listJob.app.code === 'grandmito'"
-                           :to="{path:'/taskM/foo/mtResult',query:{id:listJob.id}}">
-                <i data-toggle="tooltip" data-placement="top"
-                   :data-original-title="listJob.app.name+'('+listJob.id+')'"
-                   v-if="listJob.status == 'completed'" class="fa fa-check text-success po">已完成</i>
-              </router-link>
-              <router-link v-if="listJob.app.code === 'grandwcnv'"
-                           :to="{path:'/taskM/foo/cnvResult',query:{id:listJob.id}}">
-                <i data-toggle="tooltip" data-placement="top"
-                   :data-original-title="listJob.app.name+'('+listJob.id+')'"
-                   v-if="listJob.status == 'completed'" class="fa fa-check text-success po">已完成</i>
-              </router-link>
-              <router-link v-if="listJob.app.code === 'grandanno'"
-                           :to="{path:'/taskM/foo/snvResult',query:{id:listJob.id}}">
-                <i data-toggle="tooltip" data-placement="top"
-                   :data-original-title="listJob.app.name+'('+listJob.id+')'"
-                   v-if="listJob.status == 'completed'" class="fa fa-check text-success po">已完成</i>
-              </router-link>
-              <router-link v-if="listJob.app.code === 'grandtrio'"
-                           :to="{path:'/taskM/foo/trioResult',query:{id:listJob.id}}">
-                <i data-toggle="tooltip" data-placement="top"
-                   :data-original-title="listJob.app.name+'('+listJob.id+')'"
-                   v-if="listJob.status == 'completed'" class="fa fa-check text-success po">已完成</i>
-              </router-link>
-              <span v-if="listJob.status == 'running'"> <!--避免字跟着一起转-->
-                  <i class="fa fa-spinner fa-pulse text-success"></i>运行中
-                </span>
-              <i v-if="listJob.status == 'error'" class="fa fa-bug text-danger">出错</i>
-              <i v-if='listJob.status == "waiting"' class="fa fa-hourglass-1 text-success">等待</i>
+              <i v-if='data.status == -1' class="fa fa-bug text-danger">出错</i>
             </div>
-
           </div>
+          <div v-else="">待分析</div>
         </td>
         <td>
           <img class="edit" src="../../static/img/edit.png" @click="listEdit(list._id)" title="编辑">
@@ -676,12 +643,46 @@
           _vue.success('添加成功');
           $("#addModal").modal("hide");
           _vue.getList();
+          _vue.socket();
         }).catch(function (error) {
           _vue.catchFun(error)
         })
       },
       changeFile: function (e) {
         console.log($(e.target.files[0]))
+      },
+
+      socket:function () {
+        const socket = new WebSocket('ws://localhost:8080');
+//        socket.onopen = function(event) {
+//
+//          // 发送一个初始化消息
+//          socket.send('I am the client');
+//
+//          // 监听消息
+//          socket.onmessage = function(event) {
+//            console.log('Client received a message',event);
+//          };
+//
+//          // 监听Socket的关闭
+//          socket.onclose = function(event) {
+//            console.log('Client notified socket has closed',event);
+//          };
+//
+//          // 关闭Socket....
+//          //socket.close()
+//        };
+
+// Connection opened
+        socket.addEventListener('open', function (event) {
+          socket.send('Hello Server!');
+        });
+
+// Listen for messages
+        socket.addEventListener('message', function (event) {
+          console.log('Message from server', event.data);
+        });
+
       },
 
       /*上传EXCEL*/
@@ -712,6 +713,7 @@
           }).then(function () {
             _vue.success('上传成功');
             $('#fileModal').modal('hide');
+            _vue.loading = false;
           }).catch(function (error) {
             _vue.catchFun(error)
           })

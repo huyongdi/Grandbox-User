@@ -19,6 +19,7 @@ Vue.use(ElementUI);
 Vue.use(Vuex);
 
 let apiUrl = 'http://192.168.2.192:8000/api/';
+//let apiUrl = 'http://118.26.69.171:8765/api/';
 Vue.prototype.loginAxios = axios.create({
   baseURL: apiUrl,
 });
@@ -76,7 +77,7 @@ Vue.prototype.catchFun = function (error) {
     });
     if (error.response.status === 401) {
       if (this.$route.name !== 'login') {
-        localStorage.token = '';
+//        localStorage.token = '';
         this.$router.push({path: '/', query: {'next': this.$route.path}})
       }
     }

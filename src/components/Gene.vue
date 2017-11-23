@@ -17,9 +17,9 @@
              <div  class="similar-td" v-if="list"><!--:data-original-title-->
                <div v-if="!list.special" data-toggle="tooltip" data-placement="top" :data-original-title="'名称：'+list.symbol+'<br>别名：'+list.synonyms"
                     :class="{'special-bc':index%2!=0,'isLetter':list.special}"
-                    @click="toGeneD(list)">{{list.symbol}}</div>
+                    @click="toGeneD(list)"><span v-if="list.name">{{list.name.symbol}}</span></div>
                <div class="v-else" :class="{'special-bc':index%2!=0,'isLetter':list.special}"
-                    @click="toGeneD(list)">{{list.symbol}}</div>
+                    @click="toGeneD(list)">{{list.name.symbol}}</div>
              </div>
              <div class="similar-td" v-else="" :class="{'special-bc':index%2!=0}">  </div>
           </div>
@@ -81,9 +81,10 @@
 //        _vue.currentExtraCount = 0;
         _vue.currentExtraData = [];
 
+        console.log(_vue.respGeneData);
 
         $.each(_vue.respGeneData, function (i, data) {
-          const currentFirstLetter = data.symbol.substring(0, 1);
+          const currentFirstLetter = data.name.symbol.substring(0, 1);
           if (currentFirstLetter != _vue.firstLetter) {
             _vue.firstLetter = currentFirstLetter;
             newArr.push({symbol:currentFirstLetter,special:true,synonyms:'-'});
@@ -121,10 +122,11 @@
 //        _vue.firstLetter = '';
         _vue.loading = true;
         this.myAxios({
-          url:'knowledge/genehome/?page='+_vue.allGenePage+'&query='+_vue.geneValue
+          url:'biomeddb/gene/?page='+_vue.allGenePage+'&query='+_vue.geneValue
         }).then(function (resp) {
-          _vue.respGeneData = resp.data.results;
-          _vue.allGeneCount =resp.data.count/120;
+          let result = resp.data;
+          _vue.respGeneData = result.data;
+          _vue.allGeneCount =result.meta.total/120;
 
           if (_vue.currentExtraData.length !== 0) {
             _vue.currentExtraData = _vue.currentExtraData.reverse();
