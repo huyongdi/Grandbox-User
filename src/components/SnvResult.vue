@@ -203,12 +203,7 @@
                 <th style="width: 70px">区域</th>
                 <th>功能</th>
                 <th style="min-width:100px">疾病</th>
-                <th class="warp" style="width: 103px">
-                  CLINVAR
-                  <i class="fa fa-question-circle-o po flag-th" data-toggle="tooltip" data-placement="top"
-                     data-original-title="O代表other,B代表Benign,LB代表Likely benign,P代表Pathogenic,LP代表Likely Pathogenic，NP代表not provided">
-                  </i>
-                </th>
+
                 <th style="width: 50px">HGMD</th>
                 <th style="width: 102px">
                   东亚/本地

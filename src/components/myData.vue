@@ -46,7 +46,7 @@
                 <span v-if="data.status == 1"> <!--避免字跟着一起转-->
                   <i class="fa fa-spinner fa-pulse text-success"></i>运行中
                 </span>
-              <router-link :to="{path:'/result',query:{id:list._id}}">
+              <router-link :to="{path:'/result',query:{id:list._id}}" title="查看结果">
                 <i v-if='data.status == 2' class="fa fa-check text-success po">已完成</i>
               </router-link>
               <i v-if='data.status == -1' class="fa fa-bug text-danger">出错</i>
@@ -704,7 +704,7 @@
         const _vue = this;
         const fileNameArr = $("#hide-edit").val().split('.');
         const fileName = fileNameArr[fileNameArr.length - 1];
-        if (fileName == 'xls' || fileName == 'xlsx') {
+        if (fileName == 'xls' || fileName == 'xlsx' || fileName == 'vcf') {
           this.loading = true;
           let postData = new FormData(document.getElementById('addDataFormCap'));
 //          postData.append("type", JSON.stringify({'a': 123, 'b': 456}));
@@ -717,6 +717,7 @@
             _vue.success('上传成功');
             $('#fileModal').modal('hide');
             _vue.loading = false;
+            _vue.getList()
           }).catch(function (error) {
             _vue.catchFun(error)
           })
