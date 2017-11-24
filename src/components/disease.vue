@@ -8,6 +8,7 @@
 <script>
   import page from './global/Page.vue'
 
+
   export default {
     data: function () {
       return {

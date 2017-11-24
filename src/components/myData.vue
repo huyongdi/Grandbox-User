@@ -40,11 +40,14 @@
         <td><span v-if="list.patient">{{list.patient.medical_record?list.patient.medical_record:'-'}}</span></td>
 
         <td>
-          <div v-if="list.data_file">
-            <div v-for="data in list.data_file">
+          <div v-if="list.data_files">
+            <div v-for="data in list.data_files">
               <i v-if='data.status == 0' class="fa fa-hourglass-1 text-success">等待</i>
+                <span v-if="data.status == 1"> <!--避免字跟着一起转-->
+                  <i class="fa fa-spinner fa-pulse text-success"></i>运行中
+                </span>
               <router-link :to="{path:'/result',query:{id:list._id}}">
-                <i v-if='data.status == 1' class="fa fa-check text-success po">已完成</i>
+                <i v-if='data.status == 2' class="fa fa-check text-success po">已完成</i>
               </router-link>
               <i v-if='data.status == -1' class="fa fa-bug text-danger">出错</i>
             </div>

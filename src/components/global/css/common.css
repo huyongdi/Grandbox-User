@@ -1,139 +1,153 @@
-.break-word {
+html {
+  /*表格样式*/
+  /*修改表格插件样式*/
+  /*筛选框样式*/
+  /*加载动画*/
+  /*修改element插件的样式*/
+  /*模拟表格*/
+}
+html .break-word {
   word-wrap: break-word;
 }
-.top5 {
+html .top5 {
   margin-top: 5px;
 }
-.mr-left15 {
+html .mr-left15 {
   margin-left: 15px;
 }
-input::-webkit-input-placeholder {
+html input::-webkit-input-placeholder {
   color: #b4bccc;
 }
-input:-ms-input-placeholder {
+html input:-ms-input-placeholder {
   color: #b4bccc;
 }
-input::placeholder {
+html input::placeholder {
   color: #b4bccc;
 }
-.opacity0 {
+html .opacity0 {
   opacity: 0;
 }
-.base-color {
+html .base-color {
   /*标题背景底色*/
   padding: 8px 10px;
   margin-left: -10px;
   background-color: #f5f5f5;
 }
-.light-font {
+html .light-font {
   /*浅字体*/
   font-size: 13px;
   color: #7d7d7d;
 }
-.span-a {
+html .span-a {
   color: #337ab7;
   cursor: pointer;
 }
-.span-a:hover {
+html .span-a:hover {
   text-decoration: underline;
   color: #23527c;
 }
-.warp {
+html .warp {
   word-break: break-all;
 }
-.nowrap {
+html .nowrap {
   white-space: nowrap;
 }
-.font-12 {
+html .red {
+  color: red;
+}
+html .font-12 {
   font-size: 12px;
 }
-.break-all {
+html .break-all {
   word-break: break-all;
 }
-.po {
+html .po {
   cursor: pointer;
 }
-.inline {
+html .inline {
   display: inline-block;
 }
-.block {
+html .block {
   display: block;
 }
-.over-hide {
+html .over-hide {
   overflow: hidden;
 }
-.fr {
+html .fa-lg {
+  font-size: 1.2em;
+}
+html .fr {
   float: right;
 }
-.bold {
+html .bold {
   font-weight: 700;
   color: #5a5e66;
 }
-.fl {
+html .fl {
   float: left;
 }
-.center {
+html .center {
   text-align: center;
 }
-a {
+html a {
   text-decoration: none;
 }
-.modal-btn {
+html .modal-btn {
   margin: 5px 0 15px 0;
 }
-.modal-btn .close-btn {
+html .modal-btn .close-btn {
   margin-left: 20px;
 }
-.common-a {
+html .common-a {
   cursor: pointer;
 }
-.common-a:hover {
+html .common-a:hover {
   text-decoration: underline;
 }
-.bold {
+html .bold {
   font-weight: bold;
 }
-ul {
+html ul {
   padding: 0;
 }
-ul li {
+html ul li {
   list-style: none;
 }
-.rea {
+html .rea {
   position: relative;
 }
-.search-div {
+html .search-div {
   display: inline-block;
 }
-.search-div .search-input {
+html .search-div .search-input {
   width: 240px;
   float: left;
   height: 28px;
 }
-.search-div .my-btn {
+html .search-div .my-btn {
   float: left;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   width: 45px;
   margin-left: -6px;
 }
-.search-div .my-btn img {
+html .search-div .my-btn img {
   margin-left: 3px;
 }
-input,
-textarea {
+html input,
+html textarea {
   border: 1px solid #d4d4d4;
   border-radius: 3px;
   padding: 2px 8px;
 }
-input:focus,
-textarea:focus {
+html input:focus,
+html textarea:focus {
   outline: none;
 }
-select::-ms-expand {
+html select::-ms-expand {
   display: none;
 }
-.my-select {
+html .my-select {
   border: 1px solid #d4d4d4;
   border-radius: 3px;
   height: 26px;
@@ -146,10 +160,10 @@ select::-ms-expand {
   -ms-appearance: none;
   background: url(../../../../static/img/select-right.png) no-repeat scroll right center transparent;
 }
-.my-select:focus {
+html .my-select:focus {
   outline: none;
 }
-.my-btn {
+html .my-btn {
   display: inline-block;
   width: 95px;
   height: 28px;
@@ -161,31 +175,31 @@ select::-ms-expand {
   background: linear-gradient(to bottom, #f46554, #ea533f);
   cursor: pointer;
 }
-.my-btn img {
+html .my-btn img {
   margin: -3px 5px 0 0;
 }
-.my-btn:active {
+html .my-btn:active {
   background: linear-gradient(to bottom, #ea533f, #f46544);
 }
-.noResult-td img {
+html .noResult-td img {
   width: 500px;
 }
-.upload-content {
+html .upload-content {
   display: inline-block;
   width: 100%;
   padding: 0;
 }
-.upload-content .show-name {
+html .upload-content .show-name {
   background-color: #fff;
   width: 78%;
   margin-right: -2%;
   padding-right: 2%;
   float: left;
 }
-.upload-content .show-name:focus {
+html .upload-content .show-name:focus {
   outline: none;
 }
-.upload-content .text {
+html .upload-content .text {
   cursor: pointer;
   border: 1px solid #d4d4d4;
   border-radius: 3px;
@@ -196,52 +210,51 @@ select::-ms-expand {
   text-align: center;
   background-color: #eeeeee;
 }
-.upload-content .hide-input {
+html .upload-content .hide-input {
   display: none;
 }
-.shadow {
+html .shadow {
   border: 1px solid #b9b8b8;
   border-radius: 5px;
   box-shadow: 0 0 10px 1px #b9b8b8;
 }
-.shadow-top {
+html .shadow-top {
   border-top: 5px solid #0076c0;
   border-radius: 5px;
   box-shadow: 0 0 10px 1px #b9b8b8;
 }
-.bc-fff {
+html .bc-fff {
   background-color: #fff;
 }
-/*表格样式*/
-table tr.interleave {
+html table tr.interleave {
   background-color: #f6f8fa;
 }
-table.special-table {
+html table.special-table {
   width: 100%;
   max-width: 100%;
 }
-table.special-table tbody td {
-  border: 1px solid  #cfddd9;
+html table.special-table tbody td {
+  border: 1px solid #cfddd9;
   font-size: 12px;
   padding: 9px 15px;
 }
-table.special-table tbody td .img-a img {
+html table.special-table tbody td .img-a img {
   width: 60px;
 }
-table.special-table tbody td.t-bc {
+html table.special-table tbody td.t-bc {
   background-color: #e4ecea;
 }
-table.no-shadow {
+html table.no-shadow {
   border-radius: 0;
   box-shadow: none;
 }
-table.table-top thead tr th {
+html table.table-top thead tr th {
   vertical-align: top;
 }
-table.table-top tbody tr td {
+html table.table-top tbody tr td {
   vertical-align: top;
 }
-table.my-table {
+html table.my-table {
   margin-top: 15px;
   border: 1px solid #b9b8b8;
   border-radius: 5px;
@@ -253,26 +266,26 @@ table.my-table {
   overflow-x: auto;
   /*overflow: hidden;*/
 }
-table.my-table thead {
+html table.my-table thead {
   background-color: #e6eff5;
   overflow: hidden;
 }
-table.my-table thead tr th {
+html table.my-table thead tr th {
   padding: 5px 10px 5px 10px;
   border-bottom: 2px solid #cedbe3;
   border-top: none;
   vertical-align: middle;
 }
-table.my-table thead tr th:first-child {
+html table.my-table thead tr th:first-child {
   border-top-left-radius: 5px;
 }
-table.my-table thead tr th:last-child {
+html table.my-table thead tr th:last-child {
   border-top-right-radius: 5px;
 }
-table.my-table thead tr th:not(:first-child) {
+html table.my-table thead tr th:not(:first-child) {
   border-left: 1px dashed #e1e2e3;
 }
-table.my-table thead tr th .img1 {
+html table.my-table thead tr th .img1 {
   width: 29px;
   height: 32px;
   background: url(../../../../static/img/th-2.png);
@@ -283,21 +296,21 @@ table.my-table thead tr th .img1 {
   cursor: pointer;
   position: relative;
 }
-table.my-table thead tr th .img1:hover .hide-content {
+html table.my-table thead tr th .img1:hover .hide-content {
   display: block;
 }
-table.my-table thead tr th .img1 .hide-content {
+html table.my-table thead tr th .img1 .hide-content {
   position: absolute;
   top: 32px;
   display: none;
 }
-table.my-table thead tr th .img1 .hide-content .img2 {
+html table.my-table thead tr th .img1 .hide-content .img2 {
   cursor: pointer;
   background-color: transparent;
   z-index: 11;
   margin-left: 6px;
 }
-table.my-table thead tr th .img1 .hide-content ul {
+html table.my-table thead tr th .img1 .hide-content ul {
   margin: -5px 0 0 -30px;
   border: 1px solid #b9b8b8;
   box-shadow: 0 0 10px 1px #b9b8b8;
@@ -307,96 +320,94 @@ table.my-table thead tr th .img1 .hide-content ul {
   font-weight: normal;
   cursor: pointer;
 }
-table.my-table thead tr th .img1 .hide-content ul li {
+html table.my-table thead tr th .img1 .hide-content ul li {
   padding: 5px 20px;
   white-space: nowrap;
 }
-table.my-table thead tr th .img1 .hide-content ul li:hover {
+html table.my-table thead tr th .img1 .hide-content ul li:hover {
   background-color: #ffecd2;
 }
-table.my-table tbody {
+html table.my-table tbody {
   cursor: pointer;
   font-size: 12px;
 }
-table.my-table tbody tr {
+html table.my-table tbody tr {
   /*td:first-child {
-        border-bottom-left-radius: 5px;
-      }*/
+          border-bottom-left-radius: 5px;
+        }*/
   /*td:last-child {*/
   /*border-bottom-right-radius: 5px;*/
   /*}*/
 }
-table.my-table tbody tr td {
+html table.my-table tbody tr td {
   padding: 5px 10px 5px 10px;
   border-top: none;
   border-bottom: 1px dashed #e1e2e3;
   vertical-align: middle;
 }
-table.my-table tbody tr td:not(:first-child) {
+html table.my-table tbody tr td:not(:first-child) {
   border-left: 1px dashed #e1e2e3;
 }
-table.my-table tbody tr:hover {
+html table.my-table tbody tr:hover {
   background-color: #fff5e7;
 }
-table.my-table tbody tr.tr-bc {
+html table.my-table tbody tr.tr-bc {
   background-color: #f6f8fa;
 }
-table.my-table tbody tr.in {
+html table.my-table tbody tr.in {
   background-color: #ffecd2;
 }
-table.my-table tbody tr:last-child td {
+html table.my-table tbody tr:last-child td {
   border-bottom: none;
 }
-table.my-table tbody tr:last-child td:first-child {
+html table.my-table tbody tr:last-child td:first-child {
   border-bottom-left-radius: 5px;
 }
-table.my-table tbody tr:last-child td:last-child {
+html table.my-table tbody tr:last-child td:last-child {
   border-bottom-right-radius: 5px;
 }
-table.my-table table tr:first-child th:first-child {
+html table.my-table table tr:first-child th:first-child {
   border-top-left-radius: 5px;
 }
-/*修改表格插件样式*/
-.el-table {
+html .el-table {
   border-radius: 5px;
   border: 1px solid #b9b8b8;
 }
-.el-table .el-table__header-wrapper table thead {
+html .el-table .el-table__header-wrapper table thead {
   background-color: #e6eff5;
 }
-.el-table .el-table__header-wrapper table thead tr th {
+html .el-table .el-table__header-wrapper table thead tr th {
   height: 30px;
   border-bottom: 2px solid #cedbe3;
   border-top: none;
   background-color: #e6eff5;
 }
-.el-table .el-table__header-wrapper table thead tr th > .cell {
+html .el-table .el-table__header-wrapper table thead tr th > .cell {
   padding: 0px 10px;
   line-height: 20px;
   background-color: #e6eff5;
 }
-.el-table .el-table__body-wrapper {
+html .el-table .el-table__body-wrapper {
   /*overflow: visible;*/
   font-size: 12px;
 }
-.el-table .el-table__body-wrapper table tbody tr td {
+html .el-table .el-table__body-wrapper table tbody tr td {
   height: 28px;
 }
-.el-table .el-table__body-wrapper table tbody tr td > .cell {
+html .el-table .el-table__body-wrapper table tbody tr td > .cell {
   padding: 0 10px;
   line-height: 20px;
 }
-.el-table .el-table__body-wrapper table tbody tr:hover {
+html .el-table .el-table__body-wrapper table tbody tr:hover {
   background-color: #fff5e7;
 }
-.el-table .el-table__body-wrapper table tbody tr:hover td {
+html .el-table .el-table__body-wrapper table tbody tr:hover td {
   background-color: #fff5e7;
 }
-.el-table .el-table__body-wrapper table tbody tr.el-table__row--striped td {
+html .el-table .el-table__body-wrapper table tbody tr.el-table__row--striped td {
   background-color: #f6f8fa;
 }
-/*筛选框样式*/
-.filtrate-content {
+html .filtrate-content {
   width: 290px;
   border: 1px solid #b9b8b8;
   border-radius: 5px;
@@ -408,41 +419,40 @@ table.my-table table tr:first-child th:first-child {
   background-color: #fff;
   z-index: 10;
 }
-.filtrate-content .up {
+html .filtrate-content .up {
   position: absolute;
   right: 20px;
   top: -9px;
 }
-.filtrate-content .title {
+html .filtrate-content .title {
   padding-bottom: 9px;
   border-bottom: 1px solid #d4d4d4;
 }
-.filtrate-content .content {
+html .filtrate-content .content {
   padding-top: 6px;
 }
-.filtrate-content .content .left {
+html .filtrate-content .content .left {
   float: left;
   width: 70px;
 }
-.filtrate-content .content .right {
+html .filtrate-content .content .right {
   float: left;
   width: 185px;
 }
-.filtrate-content .content .right input {
+html .filtrate-content .content .right input {
   border: 1px solid #d4d4d4;
   border-radius: 3px;
   width: 100%;
 }
-.filtrate-content .content .single {
+html .filtrate-content .content .single {
   margin: 3px 0;
   min-height: 28px;
 }
-.filtrate-content .search-btn {
+html .filtrate-content .search-btn {
   margin-top: 20px;
   margin-left: 90px;
 }
-/*加载动画*/
-.spinner {
+html .spinner {
   z-index: 10000;
   position: fixed;
   top: 50%;
@@ -450,7 +460,7 @@ table.my-table table tr:first-child th:first-child {
   width: 150px;
   text-align: center;
 }
-.spinner div {
+html .spinner div {
   width: 30px;
   height: 30px;
   background-color: #258dc1;
@@ -461,11 +471,11 @@ table.my-table table tr:first-child th:first-child {
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
 }
-.spinner .bounce1 {
+html .spinner .bounce1 {
   -webkit-animation-delay: -0.32s;
   animation-delay: -0.32s;
 }
-.spinner .bounce2 {
+html .spinner .bounce2 {
   -webkit-animation-delay: -0.16s;
   animation-delay: -0.16s;
 }
@@ -491,71 +501,69 @@ table.my-table table tr:first-child th:first-child {
     -webkit-transform: scale(1);
   }
 }
-/*修改element插件的样式*/
-.modal-body .el-input__inner,
-#addModal .el-input__inner {
+html .modal-body .el-input__inner,
+html #addModal .el-input__inner {
   height: 25px;
   line-height: 25px;
 }
-.modal-body .el-cascader__label,
-#addModal .el-cascader__label {
+html .modal-body .el-cascader__label,
+html #addModal .el-cascader__label {
   line-height: 25px;
 }
-.modal-body .el-input__icon,
-#addModal .el-input__icon {
+html .modal-body .el-input__icon,
+html #addModal .el-input__icon {
   line-height: 20px;
 }
-.modal-body .el-cascader,
-#addModal .el-cascader {
+html .modal-body .el-cascader,
+html #addModal .el-cascader {
   line-height: normal;
   font-size: 12px;
 }
-/*模拟表格*/
-.shadow {
+html .shadow {
   border: 1px solid #b9b8b8;
   border-radius: 5px;
   box-shadow: 0 0 10px 1px #b9b8b8;
 }
-.similar-table {
+html .similar-table {
   background: #fff;
   border: 1px solid #b9b8b8;
   border-radius: 5px;
   box-shadow: 0 0 10px 1px #b9b8b8;
 }
-.similar-table > div {
+html .similar-table > div {
   padding: 0;
   margin: 0;
 }
-.similar-table .similar-thead {
+html .similar-table .similar-thead {
   border-bottom: 2px solid #cedbe3;
 }
-.similar-table .similar-thead span {
+html .similar-table .similar-thead span {
   background-color: #e6eff5;
 }
-.similar-table .similar-thead span:first-child {
+html .similar-table .similar-thead span:first-child {
   border-top-left-radius: 5px;
 }
-.similar-table .similar-thead span:last-child {
+html .similar-table .similar-thead span:last-child {
   border-top-right-radius: 5px;
 }
-.similar-table .similar-thead span:not(:first-child) {
+html .similar-table .similar-thead span:not(:first-child) {
   border-left: 1px dashed #e1e2e3;
 }
-.similar-table .similar-th,
-.similar-table .similar-td {
+html .similar-table .similar-th,
+html .similar-table .similar-td {
   height: 28px;
   line-height: 28px;
 }
-.similar-table .similar-tbody {
+html .similar-table .similar-tbody {
   /*左下角和右下角div*/
 }
-.similar-table .similar-tbody > span:not(:last-child) {
+html .similar-table .similar-tbody > span:not(:last-child) {
   border-right: 1px dashed #e1e2e3;
 }
-.similar-table .similar-tbody > span {
+html .similar-table .similar-tbody > span {
   padding: 0;
 }
-.similar-table .similar-tbody > span > div {
+html .similar-table .similar-tbody > span > div {
   padding-left: 15px;
   cursor: pointer;
   overflow: hidden;
@@ -563,30 +571,30 @@ table.my-table table tr:first-child th:first-child {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.similar-table .similar-tbody > span > div:hover {
+html .similar-table .similar-tbody > span > div:hover {
   background-color: #fff5e7;
 }
-.similar-table .similar-tbody > span > div:not(:last-child) {
+html .similar-table .similar-tbody > span > div:not(:last-child) {
   border-bottom: 1px dashed #e1e2e3;
 }
-.similar-table .similar-tbody > span > div.in:not(.tooltip) {
+html .similar-table .similar-tbody > span > div.in:not(.tooltip) {
   background-color: #ffecd2;
 }
-.similar-table .similar-tbody > span > div.special-bc {
+html .similar-table .similar-tbody > span > div.special-bc {
   background-color: #f6f8fa;
 }
-.similar-table .similar-tbody > span > div.special-bc:hover {
+html .similar-table .similar-tbody > span > div.special-bc:hover {
   background-color: #fff5e7;
 }
-.similar-table .similar-tbody > span:first-child > div:last-child {
+html .similar-table .similar-tbody > span:first-child > div:last-child {
   border-bottom-left-radius: 5px;
 }
-.similar-table .similar-tbody > span:first-child > div:first-child {
+html .similar-table .similar-tbody > span:first-child > div:first-child {
   border-top-left-radius: 5px;
 }
-.similar-table .similar-tbody > span:last-child > div:last-child {
+html .similar-table .similar-tbody > span:last-child > div:last-child {
   border-bottom-right-radius: 5px;
 }
-.similar-table .similar-tbody > span:last-child > div:first-child {
+html .similar-table .similar-tbody > span:last-child > div:first-child {
   border-top-right-radius: 5px;
 }

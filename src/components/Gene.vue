@@ -17,12 +17,15 @@
              <div  class="similar-td" v-if="list"><!--:data-original-title-->
                <div v-if="!list.special" data-toggle="tooltip" data-placement="top" :data-original-title="'名称：'+list.symbol+'<br>别名：'+list.synonyms"
                     :class="{'special-bc':index%2!=0,'isLetter':list.special}"
-                    @click="toGeneD(list)"><span v-if="list.name">{{list.name.symbol}}</span></div>
+                    @click="toGeneD(list)">
+                 <span v-if="list.name">{{list.name.symbol}}</span>
+               </div>
                <div class="v-else" :class="{'special-bc':index%2!=0,'isLetter':list.special}"
                     @click="toGeneD(list)">{{list.name.symbol}}</div>
              </div>
              <div class="similar-td" v-else="" :class="{'special-bc':index%2!=0}">  </div>
           </div>
+
 
         </span>
       </div>

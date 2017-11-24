@@ -30,6 +30,7 @@ Vue.prototype.myAxios = axios.create({
 
 Vue.prototype.myAxios.interceptors.request.use(function (config) {
   const currentSecond = new Date().getTime() / 1000;
+
   if (currentSecond > parseFloat(localStorage.time)) {
     $.ajax({
       url: apiUrl + 'auth/refresh',
@@ -43,6 +44,8 @@ Vue.prototype.myAxios.interceptors.request.use(function (config) {
       }
     });
     config.headers.Authorization = localStorage.token;
+    let data = JSON.parse(Vue.prototype.Base64.decode(localStorage.token.substring(6,localStorage.token.length-1).split('.')[1]));
+    localStorage.time = data.exp;
   }
   return config
 });
@@ -69,6 +72,7 @@ Vue.prototype.catchFun = function (error) {
     } else {
       alertContent = error.response.data.message;
     }
+
 
     this.$message({
 //      showClose: true,

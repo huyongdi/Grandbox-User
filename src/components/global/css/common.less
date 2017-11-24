@@ -10,361 +10,375 @@
 @interleave: rgb(246, 248, 250);
 @fliterBorder: rgb(212, 212, 212);
 
-.break-word{
-  word-wrap: break-word;
-}
-
-.top5{
-  margin-top: 5px;
-}
-
-.mr-left15{
-  margin-left: 15px;
-}
-
-input::-webkit-input-placeholder{color:#b4bccc}
-input:-ms-input-placeholder {color:#b4bccc}
-input::placeholder{color:#b4bccc}
-
-.opacity0{
-  opacity: 0;
-}
-
-.base-color { /*标题背景底色*/
-  padding: 8px 10px;
-  margin-left: -10px;
-  background-color: rgb(245, 245, 245);
-}
-
-.light-font { /*浅字体*/
-  font-size: 13px;
-  color: rgb(125, 125, 125);
-}
-
-.span-a {
-  color: #337ab7;
-  cursor: pointer;
-  &:hover {
-    text-decoration: underline;
-    color: #23527c;
+html {
+  .break-word {
+    word-wrap: break-word;
   }
-}
 
-.warp {
-  word-break: break-all;
-}
-
-.nowrap {
-  white-space: nowrap;
-}
-
-.font-12 {
-  font-size: 12px;
-}
-
-.break-all {
-  word-break: break-all;
-}
-
-.po {
-  cursor: pointer;
-}
-
-.inline {
-  display: inline-block;
-}
-
-.block {
-  display: block;
-}
-.over-hide{
-  overflow: hidden;
-}
-.fr {
-  float: right;
-}
-.bold{
-  font-weight: 700;
-  color: #5a5e66;
-}
-.fl {
-  float: left;
-}
-
-.center {
-  text-align: center;
-}
-
-a {
-  text-decoration: none;
-}
-
-.modal-btn {
-  margin: 5px 0 15px 0;
-  .close-btn {
-    margin-left: 20px;
+  .top5 {
+    margin-top: 5px;
   }
-}
 
-.common-a {
-  cursor: pointer;
-  &:hover {
-    text-decoration: underline;
+  .mr-left15 {
+    margin-left: 15px;
   }
-}
 
-.bold {
-  font-weight: bold;
-}
-
-ul {
-  padding: 0;
-  li {
-    list-style: none;
+  input::-webkit-input-placeholder {
+    color: #b4bccc
   }
-}
-
-.rea {
-  position: relative;
-}
-
-.search-div {
-  display: inline-block;
-  .search-input {
-    width: 240px;
-    float: left;
-    height: 28px;
+  input:-ms-input-placeholder {
+    color: #b4bccc
   }
-  .my-btn {
-    float: left;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    width: 45px;
-    margin-left: -6px;
-    img {
-      margin-left: 3px;
+  input::placeholder {
+    color: #b4bccc
+  }
+
+  .opacity0 {
+    opacity: 0;
+  }
+
+  .base-color { /*标题背景底色*/
+    padding: 8px 10px;
+    margin-left: -10px;
+    background-color: rgb(245, 245, 245);
+  }
+
+  .light-font { /*浅字体*/
+    font-size: 13px;
+    color: rgb(125, 125, 125);
+  }
+
+  .span-a {
+    color: #337ab7;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+      color: #23527c;
     }
   }
-}
 
-input, textarea {
-  border: 1px solid #d4d4d4;
-  border-radius: 3px;
-  padding: 2px 8px;
-  &:focus {
-    outline: none;
+  .warp {
+    word-break: break-all;
   }
-}
 
-select::-ms-expand {
-  display: none;
-}
-
-.my-select {
-  border: 1px solid #d4d4d4;
-  border-radius: 3px;
-  height: 26px;
-  line-height: 26px;
-  padding-left: 5px;
-  padding-right: 24px;
-  appearance: none;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  -ms-appearance: none;
-  background: url(../../../../static/img/select-right.png) no-repeat scroll right center transparent;
-  &:focus {
-    outline: none;
+  .nowrap {
+    white-space: nowrap;
   }
-}
 
-.my-btn {
-  display: inline-block;
-  width: 95px;
-  height: 28px;
-  line-height: 28px;
-  border-radius: 3px;
-  border: 1px solid #df3a24;
-  text-align: center;
-  color: #fff;
-  background: linear-gradient(to bottom, #f46554, #ea533f);
-  cursor: pointer;
-  img {
-    margin: -3px 5px 0 0;
+  .red {
+    color: red;
   }
-  &:active {
-    background: linear-gradient(to bottom, #ea533f, #f46544);
-  }
-}
 
-.noResult-td {
-  img {
-    width: 500px
+  .font-12 {
+    font-size: 12px;
   }
-}
 
-.upload-content {
-  display: inline-block;
-  width: 100%;
-  padding: 0;
-  .show-name {
-    background-color: #fff;
-    width: 78%;
-    margin-right: -2%;
-    padding-right: 2%;
+  .break-all {
+    word-break: break-all;
+  }
+
+  .po {
+    cursor: pointer;
+  }
+
+  .inline {
+    display: inline-block;
+  }
+
+  .block {
+    display: block;
+  }
+  .over-hide {
+    overflow: hidden;
+  }
+  .fa-lg {
+    font-size: 1.2em;
+  }
+  .fr {
+    float: right;
+  }
+  .bold {
+    font-weight: 700;
+    color: #5a5e66;
+  }
+  .fl {
     float: left;
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  .modal-btn {
+    margin: 5px 0 15px 0;
+    .close-btn {
+      margin-left: 20px;
+    }
+  }
+
+  .common-a {
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .bold {
+    font-weight: bold;
+  }
+
+  ul {
+    padding: 0;
+    li {
+      list-style: none;
+    }
+  }
+
+  .rea {
+    position: relative;
+  }
+
+  .search-div {
+    display: inline-block;
+    .search-input {
+      width: 240px;
+      float: left;
+      height: 28px;
+    }
+    .my-btn {
+      float: left;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      width: 45px;
+      margin-left: -6px;
+      img {
+        margin-left: 3px;
+      }
+    }
+  }
+
+  input, textarea {
+    border: 1px solid #d4d4d4;
+    border-radius: 3px;
+    padding: 2px 8px;
     &:focus {
       outline: none;
     }
   }
-  .text {
-    cursor: pointer;
-    border: 1px solid #d4d4d4;
-    border-radius: 3px;
-    display: inline-block;
-    width: 24%;
-    height: 26px;
-    line-height: 26px;
-    text-align: center;
-    background-color: rgb(238, 238, 238);
-  }
-  .hide-input {
+
+  select::-ms-expand {
     display: none;
   }
-}
 
-.shadow {
-  border: 1px solid @tableSha;
-  border-radius: 5px;
-  box-shadow: 0 0 10px 1px @tableSha;
-}
-
-.shadow-top {
-  border-top: 5px solid rgb(0, 118, 192);
-  border-radius: 5px;
-  box-shadow: 0 0 10px 1px @tableSha;
-}
-
-.bc-fff {
-  background-color: #fff;
-}
-
-/*表格样式*/
-table {
-  tr.interleave {
-    background-color: @interleave;
+  .my-select {
+    border: 1px solid #d4d4d4;
+    border-radius: 3px;
+    height: 26px;
+    line-height: 26px;
+    padding-left: 5px;
+    padding-right: 24px;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    -ms-appearance: none;
+    background: url(../../../../static/img/select-right.png) no-repeat scroll right center transparent;
+    &:focus {
+      outline: none;
+    }
   }
-}
-table.special-table {
-  width: 100%;
-  max-width: 100%;
-  tbody{
-    td{
-      border: 1px solid  #cfddd9;
-      font-size: 12px;
-      padding: 9px 15px;
-      .img-a{
-        img{
-          width: 60px;
+
+  .my-btn {
+    display: inline-block;
+    width: 95px;
+    height: 28px;
+    line-height: 28px;
+    border-radius: 3px;
+    border: 1px solid #df3a24;
+    text-align: center;
+    color: #fff;
+    background: linear-gradient(to bottom, #f46554, #ea533f);
+    cursor: pointer;
+    img {
+      margin: -3px 5px 0 0;
+    }
+    &:active {
+      background: linear-gradient(to bottom, #ea533f, #f46544);
+    }
+  }
+
+  .noResult-td {
+    img {
+      width: 500px
+    }
+  }
+
+  .upload-content {
+    display: inline-block;
+    width: 100%;
+    padding: 0;
+    .show-name {
+      background-color: #fff;
+      width: 78%;
+      margin-right: -2%;
+      padding-right: 2%;
+      float: left;
+      &:focus {
+        outline: none;
+      }
+    }
+    .text {
+      cursor: pointer;
+      border: 1px solid #d4d4d4;
+      border-radius: 3px;
+      display: inline-block;
+      width: 24%;
+      height: 26px;
+      line-height: 26px;
+      text-align: center;
+      background-color: rgb(238, 238, 238);
+    }
+    .hide-input {
+      display: none;
+    }
+  }
+
+  .shadow {
+    border: 1px solid @tableSha;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 1px @tableSha;
+  }
+
+  .shadow-top {
+    border-top: 5px solid rgb(0, 118, 192);
+    border-radius: 5px;
+    box-shadow: 0 0 10px 1px @tableSha;
+  }
+
+  .bc-fff {
+    background-color: #fff;
+  }
+
+  /*表格样式*/
+  table {
+    tr.interleave {
+      background-color: @interleave;
+    }
+  }
+  table.special-table {
+    width: 100%;
+    max-width: 100%;
+    tbody {
+      td {
+        border: 1px solid #cfddd9;
+        font-size: 12px;
+        padding: 9px 15px;
+        .img-a {
+          img {
+            width: 60px;
+          }
+        }
+      }
+      td.t-bc {
+        background-color: #e4ecea;
+      }
+    }
+  }
+  table.no-shadow {
+    border-radius: 0;
+    box-shadow: none;
+  }
+  table.table-top {
+    thead {
+      tr {
+        th {
+          vertical-align: top;
         }
       }
     }
-    td.t-bc{
-      background-color: #e4ecea;
-    }
-  }
-}
-table.no-shadow {
-  border-radius: 0;
-  box-shadow: none;
-}
-table.table-top{
-  thead{
-    tr{
-      th{
-        vertical-align: top;
+    tbody {
+      tr {
+        td {
+          vertical-align: top;
+        }
       }
     }
   }
-  tbody{
-    tr{
-      td{
-        vertical-align: top;
-      }
-    }
-  }
-}
 
-
-table.my-table {
-  margin-top: 15px;
-  border: 1px solid @tableSha;
-  border-radius: 5px;
-  box-shadow: 0 0 10px 1px @tableSha;
-  width: 100%;
-  max-width: 100%;
-  border-spacing: 0;
-  border-collapse: separate;
-  overflow-x: auto;
-  /*overflow: hidden;*/
-  thead {
-    background-color: rgb(230, 239, 245);
-    overflow: hidden;
-    tr {
-      th {
-        padding: 5px 10px 5px 10px;
-        border-bottom: 2px solid rgb(206, 219, 227);
-        border-top: none;
-        vertical-align:middle;
-      }
-      th:first-child {
-        border-top-left-radius: 5px;
-      }
-      th:last-child {
-        border-top-right-radius: 5px;
-      }
-      th:not(:first-child) {
-        border-left: 1px dashed @tdBorder;
-      }
-      th {
-        .img1 { //th上面显示的图
-          width: 29px;
-          height: 32px;
-          background: url(../../../../static/img/th-2.png);
-          float: right;
-          margin-top: -6px;
-          margin-bottom: -6px;
-          margin-right: -10px;
-          cursor: pointer;
-          position: relative;
-          &:hover {
+  table.my-table {
+    margin-top: 15px;
+    border: 1px solid @tableSha;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 1px @tableSha;
+    width: 100%;
+    max-width: 100%;
+    border-spacing: 0;
+    border-collapse: separate;
+    overflow-x: auto;
+    /*overflow: hidden;*/
+    thead {
+      background-color: rgb(230, 239, 245);
+      overflow: hidden;
+      tr {
+        th {
+          padding: 5px 10px 5px 10px;
+          border-bottom: 2px solid rgb(206, 219, 227);
+          border-top: none;
+          vertical-align: middle;
+        }
+        th:first-child {
+          border-top-left-radius: 5px;
+        }
+        th:last-child {
+          border-top-right-radius: 5px;
+        }
+        th:not(:first-child) {
+          border-left: 1px dashed @tdBorder;
+        }
+        th {
+          .img1 { //th上面显示的图
+            width: 29px;
+            height: 32px;
+            background: url(../../../../static/img/th-2.png);
+            float: right;
+            margin-top: -6px;
+            margin-bottom: -6px;
+            margin-right: -10px;
+            cursor: pointer;
+            position: relative;
+            &:hover {
+              .hide-content {
+                display: block;
+              }
+            }
             .hide-content {
-              display: block;
-            }
-          }
-          .hide-content {
-            position: absolute;
-            top: 32px;
-            display: none;
-            .img2 {
-              cursor: pointer;
-              background-color: transparent;
-              z-index: 11;
-              margin-left: 6px;
-            }
-            ul {
-              margin: -5px 0 0 -30px;
-              border: 1px solid @tableSha;
-              box-shadow: 0 0 10px 1px @tableSha;
-              padding: 0;
-              z-index: 10;
-              background-color: #fff;
-              font-weight: normal;
-              cursor: pointer;
-              li {
-                padding: 5px 20px;
-                white-space: nowrap;
-                &:hover {
-                  background-color: @trIn;
+              position: absolute;
+              top: 32px;
+              display: none;
+              .img2 {
+                cursor: pointer;
+                background-color: transparent;
+                z-index: 11;
+                margin-left: 6px;
+              }
+              ul {
+                margin: -5px 0 0 -30px;
+                border: 1px solid @tableSha;
+                box-shadow: 0 0 10px 1px @tableSha;
+                padding: 0;
+                z-index: 10;
+                background-color: #fff;
+                font-weight: normal;
+                cursor: pointer;
+                li {
+                  padding: 5px 20px;
+                  white-space: nowrap;
+                  &:hover {
+                    background-color: @trIn;
+                  }
                 }
               }
             }
@@ -372,298 +386,296 @@ table.my-table {
         }
       }
     }
-  }
-  tbody {
-    cursor: pointer;
-    font-size: 12px;
-    tr {
-      /*td:first-child {
-        border-bottom-left-radius: 5px;
-      }*/
-      /*td:last-child {*/
-      /*border-bottom-right-radius: 5px;*/
-      /*}*/
-      td {
-        padding: 5px 10px 5px 10px;
-        border-top: none;
-        border-bottom: 1px dashed @tdBorder;
-        vertical-align: middle;
-      }
-      td:not(:first-child) {
-        border-left: 1px dashed @tdBorder;
-      }
-      &:hover {
-        background-color: @trHover;
-      }
-    }
-    tr.tr-bc {
-      background-color: rgb(246, 248, 250);
-    }
-    tr.in {
-      background-color: @trIn;
-    }
-    tr:last-child {
-      td {
-        border-bottom: none;
-      }
-      td:first-child {
-        border-bottom-left-radius: 5px;
-      }
-      td:last-child {
-        border-bottom-right-radius: 5px;
-      }
-    }
-  }
-  table tr:first-child th:first-child {
-    border-top-left-radius: 5px
-  }
-}
-
-
-/*修改表格插件样式*/
-.el-table {
-  border-radius: 5px;
-  border: 1px solid @tableSha;
-  .el-table__header-wrapper { //表头
-    table {
-      thead {
-        background-color: rgb(230, 239, 245);
-        tr {
-          th {
-            height: 30px;
-            border-bottom: 2px solid rgb(206, 219, 227);
-            border-top: none;
-            background-color: rgb(230, 239, 245);
-            > .cell {
-              padding: 0px 10px;
-              line-height: 20px;
-              background-color: rgb(230, 239, 245);
-            }
-          }
+    tbody {
+      cursor: pointer;
+      font-size: 12px;
+      tr {
+        /*td:first-child {
+          border-bottom-left-radius: 5px;
+        }*/
+        /*td:last-child {*/
+        /*border-bottom-right-radius: 5px;*/
+        /*}*/
+        td {
+          padding: 5px 10px 5px 10px;
+          border-top: none;
+          border-bottom: 1px dashed @tdBorder;
+          vertical-align: middle;
         }
-      }
-    }
-  }
-  .el-table__body-wrapper {
-    /*overflow: visible;*/
-    font-size: 12px;
-    table {
-      tbody {
-        tr {
-          td {
-            height: 28px;
-            > .cell {
-              padding: 0 10px;
-              line-height: 20px;
-            }
-          }
-          &:hover {
-            background-color: @trHover;
-            td {
-              background-color: @trHover;
-            }
-          }
+        td:not(:first-child) {
+          border-left: 1px dashed @tdBorder;
         }
-        tr.el-table__row--striped {
-          td {
-            background-color: #f6f8fa;
-          }
-        }
-      }
-    }
-  }
-}
-
-/*筛选框样式*/
-.filtrate-content {
-  width: 290px;
-  border: 1px solid @tableSha;
-  border-radius: 5px;
-  box-shadow: 0 0 10px 1px @tableSha;
-  position: absolute;
-  right: 0;
-  top: 40px;
-  padding: 14px 14px 20px 14px;
-  background-color: #fff;
-  z-index: 10;
-  .up {
-    position: absolute;
-    right: 20px;
-    top: -9px;
-  }
-  .title {
-    padding-bottom: 9px;
-    border-bottom: 1px solid @fliterBorder;
-  }
-  .content {
-    padding-top: 6px;
-    .left {
-      float: left;
-      width: 70px;
-    }
-    .right {
-      float: left;
-      width: 185px;
-      input {
-        border: 1px solid @fliterBorder;
-        border-radius: 3px;
-        width: 100%;
-      }
-    }
-    .single {
-      margin: 3px 0;
-      min-height: 28px;
-    }
-  }
-  .search-btn {
-    margin-top: 20px;
-    margin-left: 90px;
-  }
-}
-
-/*加载动画*/
-.spinner {
-  z-index: 10000;
-  position: fixed;
-  top: 50%;
-  left: 45%;
-  width: 150px;
-  text-align: center;
-  div {
-    width: 30px;
-    height: 30px;
-    background-color: #258dc1;
-    border-radius: 100%;
-    display: inline-block;
-    -webkit-animation: bounceDelay 1.4s infinite ease-in-out;
-    animation: bounceDelay 1.4s infinite ease-in-out;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
-  }
-  .bounce1 {
-    -webkit-animation-delay: -0.32s;
-    animation-delay: -0.32s;
-  }
-  .bounce2 {
-    -webkit-animation-delay: -0.16s;
-    animation-delay: -0.16s;
-  }
-}
-@-webkit-keyframes bounceDelay {
-  0%, 80%, 100% {
-    -webkit-transform: scale(0.0)
-  }
-  40% {
-    -webkit-transform: scale(1.0)
-  }
-}
-@keyframes bounceDelay {
-  0%, 80%, 100% {
-    transform: scale(0.0);
-    -webkit-transform: scale(0.0);
-  }
-  40% {
-    transform: scale(1.0);
-    -webkit-transform: scale(1.0);
-  }
-}
-
-
-/*修改element插件的样式*/
-.modal-body,#addModal{
-  .el-input__inner{
-    height: 25px;
-    line-height: 25px;
-  }
-  .el-cascader__label{
-    line-height: 25px;
-  }
-  .el-input__icon{
-    line-height: 20px;
-  }
-  .el-cascader{
-    line-height: normal;
-    font-size: 12px;
-  }
-}
-
-/*模拟表格*/
-.shadow {
-  border: 1px solid @tableSha;
-  border-radius: 5px;
-  box-shadow: 0 0 10px 1px @tableSha;
-}
-.similar-table {
-  > div {
-    padding: 0;
-    margin: 0;
-  }
-  background: #fff;
-  .shadow;
-  .similar-thead {
-    span {
-      background-color: rgb(230, 239, 245);
-    }
-    span:first-child {
-      border-top-left-radius: 5px;
-    }
-    span:last-child {
-      border-top-right-radius: 5px;
-    }
-    span:not(:first-child) {
-      border-left: 1px dashed @tdBorder;
-    }
-    border-bottom: 2px solid rgb(206, 219, 227);
-  }
-  .similar-th, .similar-td {
-    height: 28px;
-    line-height: 28px;
-  }
-  .similar-tbody {
-    > span:not(:last-child) {
-      border-right: 1px dashed @tdBorder;
-    }
-    > span {
-      padding: 0;
-      > div {
-        padding-left: 15px;
-        cursor: pointer;
-        overflow: hidden;
-        word-break: break-all;
-        white-space: nowrap;
-        text-overflow: ellipsis;
         &:hover {
-          background-color: rgb(255, 245, 231)
+          background-color: @trHover;
         }
       }
-      >div:not(:last-child){
-        border-bottom: 1px dashed @tdBorder;
-      }
-      > div.in:not(.tooltip) {
-        background-color: rgb(255, 236, 210);
-      }
-      > div.special-bc {
+      tr.tr-bc {
         background-color: rgb(246, 248, 250);
-        &:hover {
-          background-color: rgb(255, 245, 231)
+      }
+      tr.in {
+        background-color: @trIn;
+      }
+      tr:last-child {
+        td {
+          border-bottom: none;
+        }
+        td:first-child {
+          border-bottom-left-radius: 5px;
+        }
+        td:last-child {
+          border-bottom-right-radius: 5px;
         }
       }
     }
-    /*左下角和右下角div*/
-    >span:first-child{
-      >div:last-child{
-        border-bottom-left-radius: 5px;
+    table tr:first-child th:first-child {
+      border-top-left-radius: 5px
+    }
+  }
+
+  /*修改表格插件样式*/
+  .el-table {
+    border-radius: 5px;
+    border: 1px solid @tableSha;
+    .el-table__header-wrapper { //表头
+      table {
+        thead {
+          background-color: rgb(230, 239, 245);
+          tr {
+            th {
+              height: 30px;
+              border-bottom: 2px solid rgb(206, 219, 227);
+              border-top: none;
+              background-color: rgb(230, 239, 245);
+              > .cell {
+                padding: 0px 10px;
+                line-height: 20px;
+                background-color: rgb(230, 239, 245);
+              }
+            }
+          }
+        }
       }
-      >div:first-child{
+    }
+    .el-table__body-wrapper {
+      /*overflow: visible;*/
+      font-size: 12px;
+      table {
+        tbody {
+          tr {
+            td {
+              height: 28px;
+              > .cell {
+                padding: 0 10px;
+                line-height: 20px;
+              }
+            }
+            &:hover {
+              background-color: @trHover;
+              td {
+                background-color: @trHover;
+              }
+            }
+          }
+          tr.el-table__row--striped {
+            td {
+              background-color: #f6f8fa;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /*筛选框样式*/
+  .filtrate-content {
+    width: 290px;
+    border: 1px solid @tableSha;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 1px @tableSha;
+    position: absolute;
+    right: 0;
+    top: 40px;
+    padding: 14px 14px 20px 14px;
+    background-color: #fff;
+    z-index: 10;
+    .up {
+      position: absolute;
+      right: 20px;
+      top: -9px;
+    }
+    .title {
+      padding-bottom: 9px;
+      border-bottom: 1px solid @fliterBorder;
+    }
+    .content {
+      padding-top: 6px;
+      .left {
+        float: left;
+        width: 70px;
+      }
+      .right {
+        float: left;
+        width: 185px;
+        input {
+          border: 1px solid @fliterBorder;
+          border-radius: 3px;
+          width: 100%;
+        }
+      }
+      .single {
+        margin: 3px 0;
+        min-height: 28px;
+      }
+    }
+    .search-btn {
+      margin-top: 20px;
+      margin-left: 90px;
+    }
+  }
+
+  /*加载动画*/
+  .spinner {
+    z-index: 10000;
+    position: fixed;
+    top: 50%;
+    left: 45%;
+    width: 150px;
+    text-align: center;
+    div {
+      width: 30px;
+      height: 30px;
+      background-color: #258dc1;
+      border-radius: 100%;
+      display: inline-block;
+      -webkit-animation: bounceDelay 1.4s infinite ease-in-out;
+      animation: bounceDelay 1.4s infinite ease-in-out;
+      -webkit-animation-fill-mode: both;
+      animation-fill-mode: both;
+    }
+    .bounce1 {
+      -webkit-animation-delay: -0.32s;
+      animation-delay: -0.32s;
+    }
+    .bounce2 {
+      -webkit-animation-delay: -0.16s;
+      animation-delay: -0.16s;
+    }
+  }
+  @-webkit-keyframes bounceDelay {
+    0%, 80%, 100% {
+      -webkit-transform: scale(0.0)
+    }
+    40% {
+      -webkit-transform: scale(1.0)
+    }
+  }
+  @keyframes bounceDelay {
+    0%, 80%, 100% {
+      transform: scale(0.0);
+      -webkit-transform: scale(0.0);
+    }
+    40% {
+      transform: scale(1.0);
+      -webkit-transform: scale(1.0);
+    }
+  }
+
+  /*修改element插件的样式*/
+  .modal-body, #addModal {
+    .el-input__inner {
+      height: 25px;
+      line-height: 25px;
+    }
+    .el-cascader__label {
+      line-height: 25px;
+    }
+    .el-input__icon {
+      line-height: 20px;
+    }
+    .el-cascader {
+      line-height: normal;
+      font-size: 12px;
+    }
+  }
+
+  /*模拟表格*/
+  .shadow {
+    border: 1px solid @tableSha;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 1px @tableSha;
+  }
+  .similar-table {
+    > div {
+      padding: 0;
+      margin: 0;
+    }
+    background: #fff;
+    .shadow;
+    .similar-thead {
+      span {
+        background-color: rgb(230, 239, 245);
+      }
+      span:first-child {
         border-top-left-radius: 5px;
       }
-    }
-    >span:last-child{
-      >div:last-child{
-        border-bottom-right-radius: 5px;
-      }
-      >div:first-child{
+      span:last-child {
         border-top-right-radius: 5px;
+      }
+      span:not(:first-child) {
+        border-left: 1px dashed @tdBorder;
+      }
+      border-bottom: 2px solid rgb(206, 219, 227);
+    }
+    .similar-th, .similar-td {
+      height: 28px;
+      line-height: 28px;
+    }
+    .similar-tbody {
+      > span:not(:last-child) {
+        border-right: 1px dashed @tdBorder;
+      }
+      > span {
+        padding: 0;
+        > div {
+          padding-left: 15px;
+          cursor: pointer;
+          overflow: hidden;
+          word-break: break-all;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          &:hover {
+            background-color: rgb(255, 245, 231)
+          }
+        }
+        > div:not(:last-child) {
+          border-bottom: 1px dashed @tdBorder;
+        }
+        > div.in:not(.tooltip) {
+          background-color: rgb(255, 236, 210);
+        }
+        > div.special-bc {
+          background-color: rgb(246, 248, 250);
+          &:hover {
+            background-color: rgb(255, 245, 231)
+          }
+        }
+      }
+      /*左下角和右下角div*/
+      > span:first-child {
+        > div:last-child {
+          border-bottom-left-radius: 5px;
+        }
+        > div:first-child {
+          border-top-left-radius: 5px;
+        }
+      }
+      > span:last-child {
+        > div:last-child {
+          border-bottom-right-radius: 5px;
+        }
+        > div:first-child {
+          border-top-right-radius: 5px;
+        }
       }
     }
   }

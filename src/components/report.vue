@@ -1,5 +1,5 @@
 <template>
-  <div id="report-content">
+  <div id="report-content" class="p-div">
     <loading v-if="loading"></loading>
     <div class="row">
       <div class="col-sm-11 report bc-fff">
@@ -23,6 +23,7 @@
                 <li @click="getWord(1)">模板1</li>
                 <li @click="getWord(2)">模板2</li>
               </ul>
+
             </div>
 
             <div class="logo-content">

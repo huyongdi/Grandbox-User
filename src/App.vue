@@ -121,7 +121,7 @@
       font-family: "Microsoft YaHei","微软雅黑" !important;
       #app {
         min-height: 50px;
-        overflow-x: hidden;
+        /*overflow-x: hidden;*/
         position: relative;
 
         .router-content{
