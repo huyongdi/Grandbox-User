@@ -15,6 +15,7 @@
     <table id="sg-table" class="bc-fff my-table">
       <thead>
       <tr>
+        <th style="width: 40px"></th>
         <th>样本编号</th>
         <th>受检者</th>
 
@@ -23,7 +24,9 @@
         <th>籍贯</th>
         <th>病历</th>
 
-        <th>状态</th>
+        <th>下载文件</th>
+
+        <th>变异信息</th>
         <th>选项</th>
       </tr>
       </thead>
@@ -32,6 +35,7 @@
         <td colspan="11" class="center">暂无数据</td>
       </tr>
       <tr v-for="(list,index) in results" :class="{'tr-bc':index%2}">
+        <td><i class="fa fa-folder-open" title="查看样本详情" @click="showDetail(list)"></i></td>
         <td>{{list.sn}}</td>
         <td><span v-if="list.patient">{{list.patient.name}} ({{list.patient.gender}})</span></td>
         <td><span v-if="list.patient">{{list.patient.age?list.patient.age:'-'}}</span></td>
@@ -39,20 +43,27 @@
         <td><span v-if="list.patient">{{list.patient.nativePlace?list.patient.nativePlace:'-'}}</span></td>
         <td><span v-if="list.patient">{{list.patient.medical_record?list.patient.medical_record:'-'}}</span></td>
 
+        <td v-if="list.data_files.length!=0" class="file-td">
+          <a v-for="file in list.data_files" :href="apiUrl+''+file.downloadUrl">{{file.filename}}</a>
+        </td>
+<!--signature-->
         <td>
-          <div v-if="list.data_files">
-            <div v-for="data in list.data_files">
-              <i v-if='data.status == 0' class="fa fa-hourglass-1 text-success">等待</i>
-                <span v-if="data.status == 1"> <!--避免字跟着一起转-->
-                  <i class="fa fa-spinner fa-pulse text-success"></i>运行中
-                </span>
-              <router-link :to="{path:'/result',query:{id:list._id}}" title="查看结果">
-                <i v-if='data.status == 2' class="fa fa-check text-success po">已完成</i>
-              </router-link>
-              <i v-if='data.status == -1' class="fa fa-bug text-danger">出错</i>
-            </div>
-          </div>
-          <div v-else="">待分析</div>
+          <!--<div v-if="list.data_files">-->
+            <!--<div v-for="data in list.data_files">-->
+              <!--<i v-if='data.status == 0' class="fa fa-hourglass-1 text-success">等待</i>-->
+                <!--<span v-if="data.status == 1"> &lt;!&ndash;避免字跟着一起转&ndash;&gt;-->
+                  <!--<i class="fa fa-spinner fa-pulse text-success"></i>运行中-->
+                <!--</span>-->
+              <!--<router-link :to="{path:'/result',query:{id:list._id}}" title="查看结果">-->
+                <!--<i v-if='data.status == 2' class="fa fa-check text-success po">已完成</i>-->
+              <!--</router-link>-->
+              <!--<i v-if='data.status == -1' class="fa fa-bug text-danger">出错</i>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div v-else="">待分析</div>-->
+          <router-link :to="{path:'/result',query:{id:list._id}}" title="">
+            查看结果
+          </router-link>
         </td>
         <td>
           <img class="edit" src="../../static/img/edit.png" @click="listEdit(list._id)" title="编辑">
@@ -345,6 +356,72 @@
       </div>
     </div>
 
+    <!--查看详情-->
+    <div class="modal fade" tabindex="-1" role="dialog" id="detailModal">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">样本详情</h4>
+          </div>
+          <div class="modal-body detail-modal">
+
+            <div class="one">
+              <span class="title">基本信息</span>
+              <div class="row">
+                <div class="col-xs-3">姓名：<span v-if="detailData.patient">{{detailData.patient.name}}</span></div>
+                <div class="col-xs-3">编号：<span v-if="detailData">{{detailData.sn}}</span></div>
+                <div class="col-xs-3">性别：<span v-if="detailData.patient">{{detailData.patient.gender}}</span></div>
+                <div class="col-xs-3">名族：<span v-if="detailData.patient">{{detailData.patient.national?detailData.patient.national:'-'}}</span></div>
+                <div class="col-xs-3">籍贯：<span v-if="detailData.patient">{{detailData.patient.nativePlace?detailData.patient.nativePlace:'-'}}</span></div>
+                <div class="col-xs-3">年龄：<span v-if="detailData.patient">{{detailData.patient.age?detailData.patient.age:'-'}}</span></div>
+              </div>
+            </div>
+
+            <div class="one">
+              <span class="title">文件信息</span>
+              <div class="row">
+                <div class="col-xs-12" v-for="file in detailData.data_files">
+                  <div class="col-xs-5">文件名：{{file.filename}}</div>
+                  <div class="col-xs-4">上传日期：{{file.created_at}}</div>
+                  <div class="col-xs-3">状态：{{file.status|getStatus}}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="one">
+              <span class="title">检测信息</span>
+              <div class="row info-content">
+                <div class="col-xs-6">
+                  <span class="col-xs-3">已选表型</span>
+                  <ul class="col-xs-9">
+                    <li class="nowrap ellipsis po" title="我是已选表型1111111111111111111111111111111111111111111111111">我是已选表型1111111111111111111111111111111111111111111111111</li>
+                    <li class="nowrap ellipsis po" title="我是已选表型1111111111111111111111111111111111111111111111111">我是已选表型1111111111111111111111111111111111111111111111111</li>
+                    <li class="nowrap ellipsis po" title="我是已选表型1111111111111111111111111111111111111111111111111">我是已选表型1111111111111111111111111111111111111111111111111</li>
+                  </ul>
+                </div>
+                <div class="col-xs-6">
+                  <span class="col-xs-3">已选项目</span>
+                  <ul class="col-xs-9">
+                    <li class="nowrap ellipsis po" title="我是已选项目1111111111111111111111111111111111111111111111111">我是已选表型1111111111111111111111111111111111111111111111111</li>
+                  </ul>
+                </div>
+                <div class="col-xs-6">
+                  <span class="col-xs-3">病历</span>
+                  <div class="col-xs-9">
+                    11111111111111111111111111
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -362,6 +439,7 @@
     },
     data: function () {
       return {
+        detailData:"",
         /*添加样本*/
         hide1: false,
         hide2: true,
@@ -438,7 +516,6 @@
     },
     mounted: function () {
       const _vue = this;
-
       this.getList();
 //      this.getCap();
 //      const _vue = this;
@@ -493,11 +570,40 @@
         }).then(function (resp) {
           let data = resp.data;
           _vue.count = data.meta.total;
-          _vue.results = data.data;
+//          _vue.results = data.data;
           _vue.loading = false;
           _vue.doneHttp = true;
+
+          _vue.getFileUrl(data.data);
         }).catch(function (error) {
           _vue.catchFun(error)
+        })
+      },
+      getFileUrl:function (results) {
+        const _vue = this;
+        let count1 =0;
+        let count2 =0;
+        $.each(results,function (i,data) {
+          $.each(data.data_files,function (key,value) {
+            let postUrl = 'manage/sample/' + data._id+'/data_file/'+value._id;
+            _vue.myAxios({
+              url:postUrl,
+              method:'post'
+            }).then(function (resp) {
+              value.downloadUrl = postUrl+'?signature='+resp.data.signature;
+
+              count2+=1;
+              if(count2 == data.data_files.length){
+                count1+=1;
+                if(count1 == results.length){
+                  _vue.results = results;
+                }
+              }
+
+            }).catch(function (error) {
+              _vue.catchFun(error)
+            })
+          })
         })
       },
       getCurrent: function (data) {
@@ -511,6 +617,12 @@
       refresh: function () {
         this.inputValue = '';
         this.getList()
+      },
+
+      /*样本详情*/
+      showDetail:function (data) {
+        this.detailData = data;
+        $("#detailModal").modal("show")
       },
 
       /*编辑每列*/
@@ -553,14 +665,14 @@
         const _vue = this;
         $.each(this.results, function (i, data) {
           if (data._id === _id) {  //如果直接赋予整个对象，会双向改变，改变列表
-            _vue.editGender = data.gender;
+            _vue.editGender = data.patient.gender;
             _vue.editId = data._id;
-            _vue.editForm.name = data.name;
+            _vue.editForm.name = data.patient.name;
             _vue.editForm.sn = data.sn;
-            _vue.editForm.national = data.national;
-            _vue.editForm.nativePlace = data.nativePlace;
-            _vue.editForm.age = data.age;
-            _vue.editForm.patientCase = data.patientCase;
+            _vue.editForm.national = data.patient.national;
+            _vue.editForm.nativePlace = data.patient.nativePlace;
+            _vue.editForm.age = data.patient.age;
+            _vue.editForm.patientCase = data.patient.patientCase;
           }
         });
 //        this.showPanelModal();
@@ -776,6 +888,24 @@
     updated: function () {
       $('[data-toggle="tooltip"]').tooltip()
     },
+    filters:{
+      getStatus: function (status) {
+        switch (status) {
+          case 0:
+            return '等待';
+            break;
+          case 1:
+            return '运行中';
+            break;
+          case 2:
+            return '已完成';
+            break;
+          case -1:
+            return '出错';
+            break;
+        }
+      }
+    }
   }
 </script>
 
@@ -792,8 +922,41 @@
   }
 
   #my-data {
+    .detail-modal{
+      padding-bottom: 40px;
+      .one{
+        padding: 0 10px;
+        margin-bottom: 15px;
+        >.title{
+          font-size: 16px;
+          display: block;
+          padding: 8px 0;
+          background-color: #f5f5f5;
+          color: #434343;
+          font-weight: 700;
+        }
+        >.row{
+
+        }
+        .info-content{
+          ul{
+            border: 1px solid @border;
+            height: 100px;
+            overflow-y: auto;
+            li{
+              margin: 3px 0;
+            }
+          }
+        }
+      }
+    }
     .refresh {
       margin-right: 20px;
+    }
+    .file-td{
+      >a{
+        margin-right: 5px;
+      }
     }
     /*添加样本弹框样式*/
     #addModal {

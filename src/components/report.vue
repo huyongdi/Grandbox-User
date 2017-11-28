@@ -565,10 +565,13 @@
   export default {
     data: function () {
       return {
+
+        sn: this.$route.query.sn ? this.$route.query.sn : 0,
+
+
         hideT:true,
 
         judgeUrl: '',
-        reportId: this.$route.query.reportId ? this.$route.query.reportId : 0,
 
         patientImg:'',
         fatherImg:'',
@@ -643,9 +646,19 @@
 //      } else {
 //        this.judgment()
 //      }
+
+      this.getReport();
+
     },
     methods: {
-
+      getReport:function () {
+        this.myAxios({
+          url:'sample/'+this.sn+'/report'
+        }).then(function (resp) {
+          let data = resp.data;
+          console.log(data)
+        })
+      },
       /*20170915更新全部重写*/
       changeImg:function (event) {
         const _name = $(event.target).data('name');

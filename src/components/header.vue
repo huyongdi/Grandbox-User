@@ -87,7 +87,7 @@
 
         const _header = $("#pathUl");
         _header.find('>.active').removeClass('active');
-        if(currentPath == 'myData' || currentPath == 'report' || currentPath=='result'){
+        if(currentPath == 'myData' || currentPath == 'report' || currentPath=='result' ||currentPath == 'variationD'){
           $(".li-1").addClass('active')
         }else if(currentPath == 'gene' || currentPath == 'geneD'){
           $(".li-3").addClass('active')

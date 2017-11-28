@@ -4,8 +4,8 @@
 
     <div class="done-list">
       <div class="title">
-        <span class="title-b">任务详情</span>
-        <span class="title-s"><</span>
+        <span class="title-b">任务结果</span>
+        <span class="title-s"><{{sampleSn}}：{{patient.name}}({{patient.gender}})</span>
 
         <div class="bold to-report">基因分析报告 :
           <router-link target="_blank" class="common-a" :to="{path:'/report',query:{sn:sn}}">点击查看</router-link>
@@ -36,18 +36,6 @@
                   <img src="../../static/img/th-1.png" alt="" class="up">
                   <div class="title">搜索选项</div>
                   <div class="content">
-                    <div class="single">
-                      <div class="left" data-name="flag">旗标：</div>
-                      <div class="right" id="flag-div">
-                        <span class="option in default" data-value="r">红</span>
-                        <span class="option" data-value="y">黄</span>
-                        <span class="option" data-value="b">蓝</span>
-                        <span id="flag-all" class="option" data-value="all" @click.stop="" data-flag='allflag'>全部</span>
-
-                        <!--<a class="fa fa-question-circle-o po flag-q common-a" style="color: inherit" :href="manHtml+'help/document?id=1'"-->
-                        <!--target="_blank"></a>-->
-                      </div>
-                    </div>
                     <div class="single">
                       <div class="left" data-name="report">数据库报道：</div>
                       <div class="right">
@@ -121,20 +109,6 @@
                         <span class="option" data-value="0.0001">0.01%</span>
                         <span class="option" data-value="0.001">0.1%</span>
                         <span class="option" data-value="0.01">1%</span>
-                        <!--<span class="option" data-value="0.02">2%</span>-->
-                        <!--<span class="option" data-value="0.05">5%</span>-->
-                        <span class="option in default">不筛选</span>
-                      </div>
-                    </div>
-                    <div class="single">
-                      <div class="left" data-name="grandfreq">本地人群携带率低于：</div>
-                      <div class="right">
-                        <span class="option" data-value="0">0</span>
-                        <span class="option" data-value="0.0001">0.01%</span>
-                        <span class="option" data-value="0.001">0.1%</span>
-                        <span class="option" data-value="0.01">1%</span>
-                        <!--<span class="option" data-value="0.02">2%</span>-->
-                        <!--<span class="option" data-value="0.05">5%</span>-->
                         <span class="option in default">不筛选</span>
                       </div>
                     </div>
@@ -173,25 +147,24 @@
             <table class="table my-table" id="table-1">
               <thead>
               <tr>
-                <th>位点
+                <th>位点</th>
+                <th style="width: 95px">携带病例
                   <i class="fa fa-question-circle-o po flag-th" data-toggle="tooltip" data-placement="top"
-                     data-original-title="红色代表最高级，黄色代表第二级，蓝色代表第三级">
+                     data-original-title="我的所有样本/所有用户的样本">
                   </i>
-                </th>
-                <th>携带病例
-                  <div>(当前/全部样本)</div>
                 </th>
                 <th>基因</th>
                 <th>区域</th>
                 <th>功能</th>
                 <th>疾病</th>
 
-                <th>homHet</th>
+                <th>纯杂合</th>
                 <th>gatkFilter</th>
-                <th>质量</th>
-                <th>深度(%)</th>
+
+                <th>深度</th>
                 <th>变异比例(%)</th>
-                <th>报告状态</th>
+                <th>变异信息</th>
+                <th style="width: 115px">报告状态</th>
               </tr>
               </thead>
               <tbody>
@@ -225,14 +198,28 @@
 
                 <td><span v-if="data.information">{{data.information.hom_het ? data.information.hom_het : '-'}}</span></td>
                 <td><span v-if="data.information">{{data.information.gatk_filter ? data.information.gatk_filter : '-'}}</span></td>
-                <td><span v-if="data.information">{{data.information.quality ? data.information.quality : '-'}}</span></td>
-                <td><span v-if="data.information">{{data.information.depth | getPercent}}</span></td>
+
+                <td><span v-if="data.information">{{data.information.depth}}</span></td>
                 <td><span v-if="data.information">{{data.information.ratio | getPercent}}</span></td>
+
                 <td>
-                   <span v-if="data.edit"
-                         :class="{ active1: data.edit.status=='major',active2: data.edit.status=='minor',active3: data.edit.status=='benign',active4: data.edit.status=='invalid'}">
-                    {{data.edit.status | getStatus}}
-                  </span>
+                  <div v-if="data.snv && data.snv.annotation">
+                    <div v-for="single in data.snv.annotation.changes">{{single.gene}}:{{single.transcript}}:{{single.exon}}:{{single.na_change}}:{{single.aa_change}}</div>
+                  </div>
+                </td>
+
+                <td>
+
+                  <el-select v-model="data.edit.status" placeholder="" @change="changeStatus(data._id,data.edit.status)">
+                    <el-option label="主要" value="主要"></el-option>
+                    <el-option label="次要" value="次要"></el-option>
+                    <el-option label="未报告" value="未报告"></el-option>
+                  </el-select>
+
+                   <!--<span v-if="data.edit"-->
+                         <!--:class="{ active1: data.edit.status=='major',active2: data.edit.status=='minor',active3: data.edit.status=='benign',active4: data.edit.status=='invalid'}">-->
+                    <!--{{data.edit.status | getStatus}}-->
+                  <!--</span>-->
                 </td>
               </tr>
 
@@ -450,7 +437,8 @@
         in1: true,
         in2: '',
         sn: this.$route.query.id ? this.$route.query.id : 0,
-
+        patient:'',
+        sampleSn:'',
         //SNV
         hasCondition: [],
         page1: 1,
@@ -465,16 +453,37 @@
     mounted: function () {
       this.getList1();
       this.showHasCondition();
+      this.bindConClick();
     },
     methods: {
+
+      bindConClick: function () {
+        $('.option').on('click', function (e) {
+          /*报告点主要次要的时候，旗标自动勾选全部*/
+          $(this).parent().find('.in').removeClass('in');
+          $(this).addClass('in')
+        })
+      },
+
       //SNV-变异详情逻辑
       getList1: function () {
         const _vue = this;
+        let conditionStr='';
+//        $('#filtrate-content').find('.option').each(function () {
+//          if ($(this).html() !== '不筛选' && $(this).hasClass('in')) {
+//            conditionStr += '&' + $(this).parent().prev().data('name') + '=' + $(this).data('value')
+//          }
+//        });
+//        if (this.geneTextArea) {
+//          conditionStr += '&genes=' + this.strToArr(this.geneTextArea)
+//        }
         this.myAxios({
-          url: 'manage/sample/' + this.sn + '/record'
+          url: 'manage/sample/' + this.sn + '/record?page='+this.page1+conditionStr
         }).then(function (resp) {
           let data = resp.data;
           _vue.count1 = data.meta.total;
+          _vue.patient = data.meta.patient;
+          _vue.sampleSn = data.meta.sample_sn;
           _vue.lists1 = data.data;
         }).catch(function (error) {
           _vue.catchFun(error)
@@ -533,6 +542,21 @@
         this.getList1()
       },
 
+      changeStatus:function (id,status) {
+        const _vue = this;
+        this.myAxios({
+          url:'manage/sample/' + this.sn + '/record/'+id,
+          method:'patch',
+          data:{
+            status:status,
+            comment:''
+          }
+        }).then(function (resp) {
+          _vue.success('修改状态成功')
+        }).catch(function (error) {
+          _vue.catchFun(error)
+        })
+      },
 
       //修改表型信息和基因信息
       getList1Datafile: function () {
@@ -616,7 +640,9 @@
     updated: function () {
       $('[data-toggle="tooltip"]').tooltip()
     },
-    watch: {},
+    watch: {
+
+    },
     filters: {
       getPercent: function (data) {
         return Math.round(data * 10000) / 100
@@ -652,11 +678,20 @@
   @red: rgb(233, 73, 73);
 
   #result-content {
+    .title {
+      color: rgb(67, 67, 67);
+      font-weight: bold;
+      .title-b {
+        font-weight: bold;
+        font-size: 18px;
+      }
+    }
     .change-panel {
       margin-left: 50px;
     }
     .to-report {
-      margin-top: 10px;
+      display: inline-block;
+      margin-left: 50px;
     }
     .all-content {
       table {

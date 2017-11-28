@@ -1131,6 +1131,7 @@
   @red: rgb(233, 73, 73);
 
   #snvResult {
+
     #table-mt {
       margin-top: 40px;
     }

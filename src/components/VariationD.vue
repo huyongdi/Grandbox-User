@@ -1,5 +1,5 @@
 <template>
-  <div id="vaD-content">
+  <div id="vaD-content" class="p-div">
     <loading v-show="loading"></loading>
     <div class="title">
       <span class="title-b">医学大数据库</span>
@@ -8,26 +8,55 @@
 
     <div class="shadow-top bc-fff">
 
-      <div class="gene-information">
-        <span class="gene-information-title base-color">基本信息</span>
-        <div class="gene-content">
-          <span>变异：{{basicResp.chrom}}:{{basicResp.start}}-{{basicResp.end}}({{basicResp.ref}}/{{basicResp.alt}})</span>
-          <span v-if="basicResp.avsnp" class="rsid">rsid: <a :href='"https://www.ncbi.nlm.nih.gov/projects/SNP/snp_ref.cgi?rs="+basicResp.avsnp'
-                                                             class="common-a" target="_blank">{{basicResp.avsnp}}</a></span>
-          <a class="common-a locus-a po" @click="showLocusModal">本地记录</a>
-        </div>
-      </div>
+      <!--<div class="gene-information">-->
+        <!--<span class="gene-information-title base-color">基本信息</span>-->
+        <!--<div class="gene-content row">-->
+          <!--<span class="col-xs-2">变异：{{basicResp.chrom}}:{{basicResp.start}}-{{basicResp.end}}({{basicResp.ref}}/{{basicResp.alt}})</span>-->
+          <!--<span class="col-xs-2">携带病例：0/0</span>-->
+
+          <!--<span v-if="basicResp.avsnp" class="rsid">rsid: <a :href='"https://www.ncbi.nlm.nih.gov/projects/SNP/snp_ref.cgi?rs="+basicResp.avsnp'-->
+                                                             <!--class="common-a" target="_blank">{{basicResp.avsnp}}</a></span>-->
+        <!--</div>-->
+      <!--</div>-->
 
 
       <div class="title-list">
-        <div @click="changeContent" data-type="0" class="title-single active">人群频率</div>
-        <div @click="changeContent" data-type="1" class="title-single">生信预测/剪切</div>
-        <div @click="changeContent" data-type="2" class="title-single">HGMD/Clinvar</div>
-        <div @click="changeContent" data-type="3" class="title-single">GWAS/线粒体</div>
+        <div @click="changeContent" data-type="0" class="title-single active">基本信息</div>
+        <div @click="changeContent" data-type="1" class="title-single">人群频率</div>
+        <div @click="changeContent" data-type="2" class="title-single">生信预测/剪切</div>
+        <div @click="changeContent" data-type="3" class="title-single">疾病报道</div>
       </div>
 
       <div class="all-content">
-        <div :class="{'hide':!in0}">
+
+        <div :class="{'hide':!in0}" class="basic-div">
+          <div class="row">
+            <span class="col-xs-2">变异：11:119052976-119052976(C/T) </span>
+            <span v-if="basicResp.avsnp" class="rsid col-xs-2">
+              rsid: <a :href='"https://www.ncbi.nlm.nih.gov/projects/SNP/snp_ref.cgi?rs="+basicResp.avsnp' class="common-a" target="_blank">{{basicResp.avsnp}}</a>
+            </span>
+            <span class="col-xs-2">携带病例：0/0</span>
+            <span class="col-xs-2">基因：ABC</span>
+            <span class="col-xs-2">区域：exc</span>
+            <span class="col-xs-2">功能：func</span>
+            <span class="col-xs-2">纯杂合：杂合</span>
+            <span class="col-xs-2">gatkFilter：fff</span>
+            <span class="col-xs-2">深度：60</span>
+            <span class="col-xs-2">变异比例(%)：60</span>
+            <div  class="col-xs-4">
+              <span class="pull-left">变异信息：</span>
+              <ul class="pull-left">
+                <li class="nowarp ellipsis po">11111111111111111111111111111111111111111111111111111</li>
+              </ul>
+            </div>
+            <span class="col-xs-2">报告状态: 主要</span>
+
+            <span class="col-xs-12">该位点。。。。。</span>
+
+          </div>
+        </div>
+
+        <div :class="{'hide':!in1}">
           <div class="gene-information">
             <span class="gene-information-title base-color">人群频率</span>
             <div class="gene-content">
@@ -38,20 +67,11 @@
             </div>
           </div>
         </div>
-        <div :class="{'hide':!in1}">
+        <div :class="{'hide':!in2}">
           <div class="gene-information">
             <span class="gene-information-title base-color">DBnsfp</span>
             <div class="gene-content row">
-              <div class="col-md-6" id="mit-chart"></div>
               <div class="col-md-6">
-                <div class="explain">
-                  <span class="explain-title">关于pred的说明:</span>
-                  <span>对于Polyphen2,&nbsp;&nbsp;B:&nbsp;benign&nbsp;&nbsp;P:&nbsp;possibly damaging&nbsp;&nbsp;D:&nbsp;probably damaging</span>
-                  <span>对于LRT,&nbsp;&nbsp;D:&nbsp;Deleterious&nbsp;&nbsp;N:&nbsp;Neutral&nbsp;&nbsp;U:&nbsp;Unknown</span>
-                  <span>对于MutationTaster,&nbsp;&nbsp;A:&nbsp;disease_causing_automatic&nbsp;&nbsp;D:&nbsp;disease_causing&nbsp;&nbsp;N:polymorphism&nbsp;&nbsp;P&nbsp;:polymorphism_automatic</span>
-                  <span>对于MutationAssessor,&nbsp;&nbsp;H:&nbsp;high&nbsp;&nbsp;M:&nbsp;medium&nbsp;&nbsp;L:&nbsp;low&nbsp;&nbsp;N:&nbsp;neutral.</span>
-                  <span>对于其他各数据库,&nbsp;&nbsp;T:&nbsp;tolerated&nbsp;&nbsp;D:&nbsp;damaging</span>
-                </div>
                 <table class="my-table no-thead">
                   <tbody>
                   <tr>
@@ -118,7 +138,7 @@
             </div>
           </div>
         </div>
-        <div :class="{'hide':!in2}">
+        <div :class="{'hide':!in3}">
           <div class="gene-information">
             <span class="gene-information-title base-color">HGMD（2014-2）</span>
             <div class="gene-content">
@@ -223,143 +243,98 @@
                 </tbody>
               </table>
 
-              <!--<div>CLNDSDB:<span v-if="clinvarData.clndsdbs">{{clinvarData.clndsdbs.join('|')}}</span><span v-else=""> - </span></div>-->
-              <!--<div>CLNDSDBID:<span v-if="clinvarData.clndsdbid">{{clinvarData.clndsdbid.join('|')}}</span><span v-else=""> - </span></div>-->
-            </div>
-          </div>
-        </div>
-        <div :class="{'hide':!in3}">
-          <div class="gene-information">
-            <span class="gene-information-title base-color">GWAS（2015-01-21）</span>
-            <div class="gene-content">
-
-              <table class="my-table no-thead">
-                <tbody>
-                <tr>
-                  <td style="width: 10%">disease</td>
-                  <td>{{gwasData.disease ? gwasData.disease : '-'}}</td>
-                </tr>
-                <tr>
-                  <td>orVal</td>
-                  <td>{{gwasData.orVal ? gwasData.orVal : '-'}}</td>
-                </tr>
-                <tr>
-                  <td>beta</td>
-                  <td>{{gwasData.beta ? gwasData.beta : '-'}}</td>
-                </tr>
-                <tr>
-                  <td>pubmed</td>
-                  <td>
-                  <span v-if="gwasData.pubmed">
-                    <a target="_blank" class="pmid-a" :href="'https://www.ncbi.nlm.nih.gov/pubmed/'+list" v-if="gwasData.pubmed.includes('|')"
-                       v-for="list in gwasData.pubmed.split('|')">{{list}}</a>
-                    <a target="_blank" class="pmid-a" :href="'https://www.ncbi.nlm.nih.gov/pubmed/'+list" v-if="gwasData.pubmed.includes(',')"
-                       v-for="list in gwasData.pubmed.split(',')">{{list}}</a>
-                    <a target="_blank" class="pmid-a" :href="'https://www.ncbi.nlm.nih.gov/pubmed/'+list" v-if="gwasData.pubmed.includes(';')"
-                       v-for="list in gwasData.pubmed.split(';')">{{list}}</a>
-                  </span>
-                    <span v-else=""> - </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>rsid</td>
-                  <td>{{gwasData.rsid ? gwasData.rsid : '-'}}</td>
-                </tr>
-                <tr>
-                  <td>pVal</td>
-                  <td>{{gwasData.pVal ? gwasData.pVal : '-'}}</td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div class="gene-information">
-            <span class="gene-information-title base-color">线粒体</span>
-            <div class="gene-content">
-              <table class="my-table no-thead">
-                <tbody>
-                <tr>
-                  <td>Mitomap</td>
-                  <td>Mitimpact</td>
-                  <td>Mitimpact dbnsfp</td>
-                </tr>
-                <tr>
-                  <td>allele:&nbsp;{{MitomapData.allele}}</td>
-                  <td>mitimpactId:&nbsp;{{MitimpactData.mitimpactId}}</td>
-                  <td>EFIN_SP:&nbsp;&nbsp;
-                    <span v-if="MitimpactData.dbnsfp">
+              <div class="gene-information">
+                <span class="gene-information-title base-color">线粒体</span>
+                <div class="gene-content">
+                  <table class="my-table no-thead">
+                    <tbody>
+                    <tr>
+                      <td>Mitomap</td>
+                      <td>Mitimpact</td>
+                      <td>Mitimpact dbnsfp</td>
+                    </tr>
+                    <tr>
+                      <td>allele:&nbsp;{{MitomapData.allele}}</td>
+                      <td>mitimpactId:&nbsp;{{MitimpactData.mitimpactId}}</td>
+                      <td>EFIN_SP:&nbsp;&nbsp;
+                        <span v-if="MitimpactData.dbnsfp">
                   <span v-if="MitimpactData.dbnsfp.efin_sp">{{MitimpactData.dbnsfp.efin_sp.score}}(score)</span>&nbsp;
                   <span v-if="MitimpactData.dbnsfp.efin_sp">{{MitimpactData.dbnsfp.efin_sp.pred}}(pred)</span>
                 </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>aa_change:&nbsp;{{MitomapData.aaChange}}</td>
-                  <td>ensemblId:&nbsp;<span v-if="MitimpactData.gene">{{MitimpactData.gene.ensembl.gene}}</span>
-                  </td>
-                  <td>EFIN_HD:&nbsp;&nbsp;
-                    <span v-if="MitimpactData.dbnsfp">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>aa_change:&nbsp;{{MitomapData.aaChange}}</td>
+                      <td>ensemblId:&nbsp;<span v-if="MitimpactData.gene">{{MitimpactData.gene.ensembl.gene}}</span>
+                      </td>
+                      <td>EFIN_HD:&nbsp;&nbsp;
+                        <span v-if="MitimpactData.dbnsfp">
                   <span v-if="MitimpactData.dbnsfp.efin_hd">{{MitimpactData.dbnsfp.efin_hd.score}}(score)</span>&nbsp;
                   <span v-if="MitimpactData.dbnsfp.efin_hd">{{MitimpactData.dbnsfp.efin_hd.pred}}(pred)</span>
               </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>homo:&nbsp;{{MitomapData.homo}}</td>
-                  <td>ncbiId:&nbsp;<span v-if="MitimpactData.gene">{{MitimpactData.gene.ncbi.gene}}</span></td>
-                  <td>Polyphen2:&nbsp;&nbsp;
-                    <span v-if="MitimpactData.dbnsfp">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>homo:&nbsp;{{MitomapData.homo}}</td>
+                      <td>ncbiId:&nbsp;<span v-if="MitimpactData.gene">{{MitimpactData.gene.ncbi.gene}}</span></td>
+                      <td>Polyphen2:&nbsp;&nbsp;
+                        <span v-if="MitimpactData.dbnsfp">
                   <span v-if="MitimpactData.dbnsfp.polyphen2">{{MitimpactData.dbnsfp.polyphen2.score}}(score)</span>&nbsp;
                   <span v-if="MitimpactData.dbnsfp.polyphen2">{{MitimpactData.dbnsfp.polyphen2.pred}}(pred)</span>
                 </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>hete:&nbsp;{{MitomapData.hete}}</td>
-                  <td>symbol:&nbsp;<span v-if="MitimpactData.gene">{{MitimpactData.gene.symbol}}</span></td>
-                  <td>SIFT:&nbsp;&nbsp;
-                    <span v-if="MitimpactData.dbnsfp">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>hete:&nbsp;{{MitomapData.hete}}</td>
+                      <td>symbol:&nbsp;<span v-if="MitimpactData.gene">{{MitimpactData.gene.symbol}}</span></td>
+                      <td>SIFT:&nbsp;&nbsp;
+                        <span v-if="MitimpactData.dbnsfp">
                   <span v-if="MitimpactData.dbnsfp.sift">{{MitimpactData.dbnsfp.sift.score}}(score)</span>&nbsp;
                   <span v-if="MitimpactData.dbnsfp.sift">{{MitimpactData.dbnsfp.sift.pred}}(pred)</span>
                 </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>status:&nbsp;{{MitomapData.status}}</td>
-                  <td>aa_change:&nbsp;
-                    <span v-if="MitimpactData.aaChange">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>status:&nbsp;{{MitomapData.status}}</td>
+                      <td>aa_change:&nbsp;
+                        <span v-if="MitimpactData.aaChange">
                   {{MitimpactData.aaChange.change.ref.aa}}-{{MitimpactData.aaChange.change.alt.aa}}
                 </span>
-                  </td>
-                  <td>FATHMM:&nbsp;&nbsp;
-                    <span v-if="MitimpactData.dbnsfp">
+                      </td>
+                      <td>FATHMM:&nbsp;&nbsp;
+                        <span v-if="MitimpactData.dbnsfp">
                   <span v-if="MitimpactData.dbnsfp.fathmm">{{MitimpactData.dbnsfp.fathmm.score}}(score)</span>&nbsp;
                   <span v-if="MitimpactData.dbnsfp.fathmm">{{MitimpactData.dbnsfp.fathmm.pred}}(pred)</span>
                 </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>locus:&nbsp;{{MitomapData.locus}}</td>
-                  <td>disease:&nbsp;{{MitimpactData.disease ? MitimpactData.disease : '-'}}</td>
-                  <td>PROVEAN:&nbsp;&nbsp;
-                    <span v-if="MitimpactData.dbnsfp">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>locus:&nbsp;{{MitomapData.locus}}</td>
+                      <td>disease:&nbsp;{{MitimpactData.disease ? MitimpactData.disease : '-'}}</td>
+                      <td>PROVEAN:&nbsp;&nbsp;
+                        <span v-if="MitimpactData.dbnsfp">
                   <span v-if="MitimpactData.dbnsfp.provean">{{MitimpactData.dbnsfp.provean.score}}(score)</span>&nbsp;
                   <span v-if="MitimpactData.dbnsfp.provean">{{MitimpactData.dbnsfp.provean.pred}}(pred)</span>
                 </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>disease:&nbsp;{{MitomapData.disease}}</td>
-                  <td>status:&nbsp;{{MitimpactData.status ? MitimpactData.status : '-'}}</td>
-                  <td>MutationAssessor:&nbsp;&nbsp;
-                    <span v-if="MitimpactData.dbnsfp">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>disease:&nbsp;{{MitomapData.disease}}</td>
+                      <td>status:&nbsp;{{MitimpactData.status ? MitimpactData.status : '-'}}</td>
+                      <td>MutationAssessor:&nbsp;&nbsp;
+                        <span v-if="MitimpactData.dbnsfp">
                    <span v-if="MitimpactData.dbnsfp.mutationassessor">{{MitimpactData.dbnsfp.mutationassessor.score}}(score)</span>&nbsp;
                   <span v-if="MitimpactData.dbnsfp.mutationassessor">{{MitimpactData.dbnsfp.mutationassessor.pred}}(pred)</span>
                 </span>
-                  </td>
-                </tr>
-                </tbody>
-              </table>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!--<div>CLNDSDB:<span v-if="clinvarData.clndsdbs">{{clinvarData.clndsdbs.join('|')}}</span><span v-else=""> - </span></div>-->
+              <!--<div>CLNDSDBID:<span v-if="clinvarData.clndsdbid">{{clinvarData.clndsdbid.join('|')}}</span><span v-else=""> - </span></div>-->
             </div>
           </div>
         </div>
@@ -433,7 +408,7 @@
     data: function () {
       return {
         in0: true,
-        in1: true,
+        in1: '',
         in2: '',
         in3: '',
 
@@ -452,7 +427,7 @@
         type_1: 0,
         type_2: 0,
         type_3: 0,
-        loading: true,
+        loading: false,
 
         dataBaseArr: [],
         dataBaseData: [],
@@ -466,11 +441,11 @@
     mounted: function () {
       const _vue = this;
       _vue.myAxios({
-        url: 'database/snv/?query=' + this.$route.query.p,
+//        url: 'database/snv/?query=' + this.$route.query.id,
       }).then(function (resp) {
         _vue.loading = false;
         if (resp.data.results.length == 0) {
-          alert('该位点无任何信息')
+          _vue.alert('该位点无任何信息')
           return;
         }
         _vue.basicResp = resp.data.results[0];
@@ -1173,6 +1148,10 @@
       margin: 0;
       border: 1px solid @tableSha;
       padding-left: 20px;
+      min-height: 150px;
+      .basic-div{
+        padding-top: 20px;
+      }
       #mit-chart {
         width: 50%;
         min-width: 300px;

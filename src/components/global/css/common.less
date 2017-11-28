@@ -11,6 +11,9 @@
 @fliterBorder: rgb(212, 212, 212);
 
 html {
+  .xOverflow{
+    overflow-x: hidden;
+  }
   .break-word {
     word-wrap: break-word;
   }
@@ -63,6 +66,10 @@ html {
 
   .nowrap {
     white-space: nowrap;
+  }
+  .ellipsis{
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .red {
@@ -268,46 +275,6 @@ html {
       background-color: @interleave;
     }
   }
-  table.special-table {
-    width: 100%;
-    max-width: 100%;
-    tbody {
-      td {
-        border: 1px solid #cfddd9;
-        font-size: 12px;
-        padding: 9px 15px;
-        .img-a {
-          img {
-            width: 60px;
-          }
-        }
-      }
-      td.t-bc {
-        background-color: #e4ecea;
-      }
-    }
-  }
-  table.no-shadow {
-    border-radius: 0;
-    box-shadow: none;
-  }
-  table.table-top {
-    thead {
-      tr {
-        th {
-          vertical-align: top;
-        }
-      }
-    }
-    tbody {
-      tr {
-        td {
-          vertical-align: top;
-        }
-      }
-    }
-  }
-
   table.my-table {
     margin-top: 15px;
     border: 1px solid @tableSha;
@@ -431,7 +398,62 @@ html {
       border-top-left-radius: 5px
     }
   }
+  table.special-table {
+    width: 100%;
+    max-width: 100%;
+    tbody {
+      td {
+        border: 1px solid #cfddd9;
+        font-size: 12px;
+        padding: 9px 15px;
+        .img-a {
+          img {
+            width: 60px;
+          }
+        }
+      }
+      td.t-bc {
+        background-color: #e4ecea;
+      }
+    }
+  }
+  table.no-shadow {
+    border-radius: 0;
+    box-shadow: none;
+  }
+  table.table-top {
+    thead {
+      tr {
+        th {
+          vertical-align: top;
+        }
+      }
+    }
+    tbody {
+      tr {
+        td {
+          vertical-align: top;
+        }
+      }
+    }
+  }
 
+  table.no-thead{
+    box-shadow: none;
+    border-radius: 0;
+    tbody{
+      tr.tr-bc {
+        background-color: rgb(246, 248, 250);
+      }
+      tr:not(:last-child){
+        td:last-child,td:first-child{
+          border-bottom: 1px dashed @tdBorder;
+          border-bottom-right-radius:0;
+          border-bottom-left-radius:0;
+        }
+      }
+    }
+  }
   /*修改表格插件样式*/
   .el-table {
     border-radius: 5px;
@@ -581,10 +603,11 @@ html {
   }
 
   /*修改element插件的样式*/
-  .modal-body, #addModal {
+  table,.modal-body, #addModal {
     .el-input__inner {
       height: 25px;
       line-height: 25px;
+      padding: 0 5px;
     }
     .el-cascader__label {
       line-height: 25px;

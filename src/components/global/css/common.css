@@ -6,6 +6,9 @@ html {
   /*修改element插件的样式*/
   /*模拟表格*/
 }
+html .xOverflow {
+  overflow-x: hidden;
+}
 html .break-word {
   word-wrap: break-word;
 }
@@ -51,6 +54,10 @@ html .warp {
 }
 html .nowrap {
   white-space: nowrap;
+}
+html .ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 html .red {
   color: red;
@@ -229,31 +236,6 @@ html .bc-fff {
 html table tr.interleave {
   background-color: #f6f8fa;
 }
-html table.special-table {
-  width: 100%;
-  max-width: 100%;
-}
-html table.special-table tbody td {
-  border: 1px solid #cfddd9;
-  font-size: 12px;
-  padding: 9px 15px;
-}
-html table.special-table tbody td .img-a img {
-  width: 60px;
-}
-html table.special-table tbody td.t-bc {
-  background-color: #e4ecea;
-}
-html table.no-shadow {
-  border-radius: 0;
-  box-shadow: none;
-}
-html table.table-top thead tr th {
-  vertical-align: top;
-}
-html table.table-top tbody tr td {
-  vertical-align: top;
-}
 html table.my-table {
   margin-top: 15px;
   border: 1px solid #b9b8b8;
@@ -368,6 +350,44 @@ html table.my-table tbody tr:last-child td:last-child {
 }
 html table.my-table table tr:first-child th:first-child {
   border-top-left-radius: 5px;
+}
+html table.special-table {
+  width: 100%;
+  max-width: 100%;
+}
+html table.special-table tbody td {
+  border: 1px solid #cfddd9;
+  font-size: 12px;
+  padding: 9px 15px;
+}
+html table.special-table tbody td .img-a img {
+  width: 60px;
+}
+html table.special-table tbody td.t-bc {
+  background-color: #e4ecea;
+}
+html table.no-shadow {
+  border-radius: 0;
+  box-shadow: none;
+}
+html table.table-top thead tr th {
+  vertical-align: top;
+}
+html table.table-top tbody tr td {
+  vertical-align: top;
+}
+html table.no-thead {
+  box-shadow: none;
+  border-radius: 0;
+}
+html table.no-thead tbody tr.tr-bc {
+  background-color: #f6f8fa;
+}
+html table.no-thead tbody tr:not(:last-child) td:last-child,
+html table.no-thead tbody tr:not(:last-child) td:first-child {
+  border-bottom: 1px dashed #e1e2e3;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
 }
 html .el-table {
   border-radius: 5px;
@@ -501,19 +521,24 @@ html .spinner .bounce2 {
     -webkit-transform: scale(1);
   }
 }
+html table .el-input__inner,
 html .modal-body .el-input__inner,
 html #addModal .el-input__inner {
   height: 25px;
   line-height: 25px;
+  padding: 0 5px;
 }
+html table .el-cascader__label,
 html .modal-body .el-cascader__label,
 html #addModal .el-cascader__label {
   line-height: 25px;
 }
+html table .el-input__icon,
 html .modal-body .el-input__icon,
 html #addModal .el-input__icon {
   line-height: 20px;
 }
+html table .el-cascader,
 html .modal-body .el-cascader,
 html #addModal .el-cascader {
   line-height: normal;

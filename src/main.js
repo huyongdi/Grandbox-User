@@ -19,6 +19,7 @@ Vue.use(ElementUI);
 Vue.use(Vuex);
 
 let apiUrl = 'http://192.168.2.192:8000/api/';
+Vue.prototype.apiUrl = apiUrl;
 //let apiUrl = 'http://118.26.69.171:8765/api/';
 Vue.prototype.loginAxios = axios.create({
   baseURL: apiUrl,
@@ -57,6 +58,9 @@ Vue.prototype.changePassword = 'https://www.grandbox.site/manage/updatePassword'
 /*自定义全局函数*/
 // 捕获错误
 Vue.prototype.catchFun = function (error) {
+
+  console.log(error.response)
+
   if (error.response) {
     let alertContent = '';
     if (error.response.data.errors) {
@@ -82,7 +86,7 @@ Vue.prototype.catchFun = function (error) {
     if (error.response.status === 401) {
       if (this.$route.name !== 'login') {
 //        localStorage.token = '';
-        this.$router.push({path: '/', query: {'next': this.$route.path}})
+        this.$router.push({path: '/login', query: {'next': this.$route.path}})
       }
     }
   } else {

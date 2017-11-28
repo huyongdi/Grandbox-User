@@ -1,6 +1,6 @@
 <!--suppress ALL -->
 <template>
-  <div id="app">
+  <div id="app" :class="{'xOverflow':inLogin}">
     <nav-header v-if="!inLogin"></nav-header>
 
     <div class="router-content">
