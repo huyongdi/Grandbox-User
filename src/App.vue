@@ -10,7 +10,7 @@
   </div>
 </template>
 <script>
-  import header from './components/header.vue'
+  import header from './components/global/header.vue'
   import Vue from 'vue'
   import axios from 'axios'
 

@@ -67,8 +67,10 @@
             <span class="gene-information-title base-color">人群频率</span>
             <div class="gene-content">
               <div class="row">
-                <div class="frequency-chart col-md-6" id="frequency-chart"></div>
-                <div class="frequency-chart col-md-6" id="frequency-chart-1"></div>
+                <div class="frequency-chart col-xs-3" id="frequency-pie"></div>
+                <div class="frequency-chart col-xs-3" id="frequency-pie-1"></div>
+                <div class="frequency-chart col-xs-6" id="frequency-chart"></div>
+                <div class="frequency-chart col-xs-6" id="frequency-chart-1"></div>
               </div>
             </div>
           </div>
@@ -77,13 +79,22 @@
           <div class="gene-information">
             <span class="gene-information-title base-color">DBnsfp</span>
             <div class="gene-content row">
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <table class="my-table no-thead">
                   <tbody>
                   <tr>
                     <td>数据库</td>
-                    <td v-for="(data,index) in dataBaseArr" v-if="index>=0 &&index<=5">{{data | changeName}}
-                    </td>
+                    <td>M-Cap</td>
+                    <td>SIFT</td>
+                    <td>PolyPhen2</td>
+                    <td>LRT</td>
+                    <td>FATHMM</td>
+                    <td>PROVEAN</td>
+                    <td>MutationTaster</td>
+                    <td>MutationAssessor</td>
+                    <td>MetaSVM</td>
+                    <td>MetaLR</td>
+                    <td>REVEL</td>
                   </tr>
                   <tr>
                     <td>score</td>
@@ -92,23 +103,6 @@
                   <tr>
                     <td>pred</td>
                     <td v-for="(data,index) in dataBaseData" v-if="index>=0 &&index<=5">{{data.pred ? data.pred : ' - '}}</td>
-                  </tr>
-                  </tbody>
-                </table>
-                <table class="my-table no-thead">
-                  <tbody>
-                  <tr>
-                    <td>数据库</td>
-                    <td v-for="(data,index) in dataBaseArr" v-if="index>5">{{data | changeName}}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>score</td>
-                    <td v-for="(data,index) in dataBaseData" v-if="index>5">{{data.score ? data.score : ' - '}}</td>
-                  </tr>
-                  <tr>
-                    <td>pred</td>
-                    <td v-for="(data,index) in dataBaseData" v-if="index>5">{{data.pred ? data.pred : ' - '}}</td>
                   </tr>
                   </tbody>
                 </table>
@@ -248,101 +242,100 @@
                 </tr>
                 </tbody>
               </table>
-
-              <div class="gene-information">
-                <span class="gene-information-title base-color">线粒体</span>
-                <div class="gene-content">
-                  <table class="my-table no-thead">
-                    <tbody>
-                    <tr>
-                      <td>Mitomap</td>
-                      <td>Mitimpact</td>
-                      <td>Mitimpact dbnsfp</td>
-                    </tr>
-                    <tr>
-                      <td>allele:&nbsp;{{MitomapData.allele}}</td>
-                      <td>mitimpactId:&nbsp;{{MitimpactData.mitimpactId}}</td>
-                      <td>EFIN_SP:&nbsp;&nbsp;
-                        <span v-if="MitimpactData.dbnsfp">
-                  <span v-if="MitimpactData.dbnsfp.efin_sp">{{MitimpactData.dbnsfp.efin_sp.score}}(score)</span>&nbsp;
-                  <span v-if="MitimpactData.dbnsfp.efin_sp">{{MitimpactData.dbnsfp.efin_sp.pred}}(pred)</span>
-                </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>aa_change:&nbsp;{{MitomapData.aaChange}}</td>
-                      <td>ensemblId:&nbsp;<span v-if="MitimpactData.gene">{{MitimpactData.gene.ensembl.gene}}</span>
-                      </td>
-                      <td>EFIN_HD:&nbsp;&nbsp;
-                        <span v-if="MitimpactData.dbnsfp">
-                  <span v-if="MitimpactData.dbnsfp.efin_hd">{{MitimpactData.dbnsfp.efin_hd.score}}(score)</span>&nbsp;
-                  <span v-if="MitimpactData.dbnsfp.efin_hd">{{MitimpactData.dbnsfp.efin_hd.pred}}(pred)</span>
-              </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>homo:&nbsp;{{MitomapData.homo}}</td>
-                      <td>ncbiId:&nbsp;<span v-if="MitimpactData.gene">{{MitimpactData.gene.ncbi.gene}}</span></td>
-                      <td>Polyphen2:&nbsp;&nbsp;
-                        <span v-if="MitimpactData.dbnsfp">
-                  <span v-if="MitimpactData.dbnsfp.polyphen2">{{MitimpactData.dbnsfp.polyphen2.score}}(score)</span>&nbsp;
-                  <span v-if="MitimpactData.dbnsfp.polyphen2">{{MitimpactData.dbnsfp.polyphen2.pred}}(pred)</span>
-                </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>hete:&nbsp;{{MitomapData.hete}}</td>
-                      <td>symbol:&nbsp;<span v-if="MitimpactData.gene">{{MitimpactData.gene.symbol}}</span></td>
-                      <td>SIFT:&nbsp;&nbsp;
-                        <span v-if="MitimpactData.dbnsfp">
-                  <span v-if="MitimpactData.dbnsfp.sift">{{MitimpactData.dbnsfp.sift.score}}(score)</span>&nbsp;
-                  <span v-if="MitimpactData.dbnsfp.sift">{{MitimpactData.dbnsfp.sift.pred}}(pred)</span>
-                </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>status:&nbsp;{{MitomapData.status}}</td>
-                      <td>aa_change:&nbsp;
-                        <span v-if="MitimpactData.aaChange">
-                  {{MitimpactData.aaChange.change.ref.aa}}-{{MitimpactData.aaChange.change.alt.aa}}
-                </span>
-                      </td>
-                      <td>FATHMM:&nbsp;&nbsp;
-                        <span v-if="MitimpactData.dbnsfp">
-                  <span v-if="MitimpactData.dbnsfp.fathmm">{{MitimpactData.dbnsfp.fathmm.score}}(score)</span>&nbsp;
-                  <span v-if="MitimpactData.dbnsfp.fathmm">{{MitimpactData.dbnsfp.fathmm.pred}}(pred)</span>
-                </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>locus:&nbsp;{{MitomapData.locus}}</td>
-                      <td>disease:&nbsp;{{MitimpactData.disease ? MitimpactData.disease : '-'}}</td>
-                      <td>PROVEAN:&nbsp;&nbsp;
-                        <span v-if="MitimpactData.dbnsfp">
-                  <span v-if="MitimpactData.dbnsfp.provean">{{MitimpactData.dbnsfp.provean.score}}(score)</span>&nbsp;
-                  <span v-if="MitimpactData.dbnsfp.provean">{{MitimpactData.dbnsfp.provean.pred}}(pred)</span>
-                </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>disease:&nbsp;{{MitomapData.disease}}</td>
-                      <td>status:&nbsp;{{MitimpactData.status ? MitimpactData.status : '-'}}</td>
-                      <td>MutationAssessor:&nbsp;&nbsp;
-                        <span v-if="MitimpactData.dbnsfp">
-                   <span v-if="MitimpactData.dbnsfp.mutationassessor">{{MitimpactData.dbnsfp.mutationassessor.score}}(score)</span>&nbsp;
-                  <span v-if="MitimpactData.dbnsfp.mutationassessor">{{MitimpactData.dbnsfp.mutationassessor.pred}}(pred)</span>
-                </span>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
               <!--<div>CLNDSDB:<span v-if="clinvarData.clndsdbs">{{clinvarData.clndsdbs.join('|')}}</span><span v-else=""> - </span></div>-->
               <!--<div>CLNDSDBID:<span v-if="clinvarData.clndsdbid">{{clinvarData.clndsdbid.join('|')}}</span><span v-else=""> - </span></div>-->
             </div>
           </div>
+          <div class="gene-information">
+            <span class="gene-information-title base-color">线粒体</span>
+            <div class="gene-content">
+              <table class="my-table no-thead">
+                <tbody>
+                <tr>
+                  <td>Mitomap</td>
+                  <td>Mitimpact</td>
+                  <td>Mitimpact dbnsfp</td>
+                </tr>
+                <tr>
+                  <td>allele:&nbsp;{{MitomapData.allele}}</td>
+                  <td>mitimpactId:&nbsp;{{MitimpactData.mitimpactId}}</td>
+                  <td>EFIN_SP:&nbsp;&nbsp;
+                    <span v-if="MitimpactData.dbnsfp">
+                  <span v-if="MitimpactData.dbnsfp.efin_sp">{{MitimpactData.dbnsfp.efin_sp.score}}(score)</span>&nbsp;
+                  <span v-if="MitimpactData.dbnsfp.efin_sp">{{MitimpactData.dbnsfp.efin_sp.pred}}(pred)</span>
+                </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>aa_change:&nbsp;{{MitomapData.aaChange}}</td>
+                  <td>ensemblId:&nbsp;<span v-if="MitimpactData.gene">{{MitimpactData.gene.ensembl.gene}}</span>
+                  </td>
+                  <td>EFIN_HD:&nbsp;&nbsp;
+                    <span v-if="MitimpactData.dbnsfp">
+                  <span v-if="MitimpactData.dbnsfp.efin_hd">{{MitimpactData.dbnsfp.efin_hd.score}}(score)</span>&nbsp;
+                  <span v-if="MitimpactData.dbnsfp.efin_hd">{{MitimpactData.dbnsfp.efin_hd.pred}}(pred)</span>
+              </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>homo:&nbsp;{{MitomapData.homo}}</td>
+                  <td>ncbiId:&nbsp;<span v-if="MitimpactData.gene">{{MitimpactData.gene.ncbi.gene}}</span></td>
+                  <td>Polyphen2:&nbsp;&nbsp;
+                    <span v-if="MitimpactData.dbnsfp">
+                  <span v-if="MitimpactData.dbnsfp.polyphen2">{{MitimpactData.dbnsfp.polyphen2.score}}(score)</span>&nbsp;
+                  <span v-if="MitimpactData.dbnsfp.polyphen2">{{MitimpactData.dbnsfp.polyphen2.pred}}(pred)</span>
+                </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>hete:&nbsp;{{MitomapData.hete}}</td>
+                  <td>symbol:&nbsp;<span v-if="MitimpactData.gene">{{MitimpactData.gene.symbol}}</span></td>
+                  <td>SIFT:&nbsp;&nbsp;
+                    <span v-if="MitimpactData.dbnsfp">
+                  <span v-if="MitimpactData.dbnsfp.sift">{{MitimpactData.dbnsfp.sift.score}}(score)</span>&nbsp;
+                  <span v-if="MitimpactData.dbnsfp.sift">{{MitimpactData.dbnsfp.sift.pred}}(pred)</span>
+                </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>status:&nbsp;{{MitomapData.status}}</td>
+                  <td>aa_change:&nbsp;
+                    <span v-if="MitimpactData.aaChange">
+                  {{MitimpactData.aaChange.change.ref.aa}}-{{MitimpactData.aaChange.change.alt.aa}}
+                </span>
+                  </td>
+                  <td>FATHMM:&nbsp;&nbsp;
+                    <span v-if="MitimpactData.dbnsfp">
+                  <span v-if="MitimpactData.dbnsfp.fathmm">{{MitimpactData.dbnsfp.fathmm.score}}(score)</span>&nbsp;
+                  <span v-if="MitimpactData.dbnsfp.fathmm">{{MitimpactData.dbnsfp.fathmm.pred}}(pred)</span>
+                </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>locus:&nbsp;{{MitomapData.locus}}</td>
+                  <td>disease:&nbsp;{{MitimpactData.disease ? MitimpactData.disease : '-'}}</td>
+                  <td>PROVEAN:&nbsp;&nbsp;
+                    <span v-if="MitimpactData.dbnsfp">
+                  <span v-if="MitimpactData.dbnsfp.provean">{{MitimpactData.dbnsfp.provean.score}}(score)</span>&nbsp;
+                  <span v-if="MitimpactData.dbnsfp.provean">{{MitimpactData.dbnsfp.provean.pred}}(pred)</span>
+                </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>disease:&nbsp;{{MitomapData.disease}}</td>
+                  <td>status:&nbsp;{{MitimpactData.status ? MitimpactData.status : '-'}}</td>
+                  <td>MutationAssessor:&nbsp;&nbsp;
+                    <span v-if="MitimpactData.dbnsfp">
+                   <span v-if="MitimpactData.dbnsfp.mutationassessor">{{MitimpactData.dbnsfp.mutationassessor.score}}(score)</span>&nbsp;
+                  <span v-if="MitimpactData.dbnsfp.mutationassessor">{{MitimpactData.dbnsfp.mutationassessor.pred}}(pred)</span>
+                </span>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -450,7 +443,7 @@
       //请求成功被移出来的部分
       _vue.loading = false;
 
-      _vue.basicResp =  {
+      _vue.basicResp = {
         "id": "5951df11522a8723fd6b7534",
         "chrom": "11",
         "start": 119052976,
@@ -684,145 +677,90 @@
           this.in3 = true
         }
       },
-      showLocusModal: function () {
-        $("#locusM").modal('show');
-        const _vue = this;
-        _vue.$axios.all([this.myAxios.get('report/snv/' + this.fullLocusStr + '/records/'),
-          this.myAxios.get('database/grandrecord/?type=snv&var=' + this.fullLocusStr)])
-          .then(_vue.$axios.spread(function (resp1, resp2) {
-            _vue.loading = false;
-            let data1 = resp1.data;
-            let data2 = resp2.data.results;
-
-            /*处理2个接口，数据格式为一样，然后输出*/
-            $.each(data1, function (i, data) {
-              data.datafileData = data.datafile.code;
-              if (_vue.type) { //1是CNV
-                data.length = data.info.length;
-                data.position = data.info.position;
-                data.genoType = data.info.wes ? data.info.wes.geneType : data.info.wgs.geneType;
-                data.originalReadDepth = data.info.wes ? data.info.wes.originalReadDepth : '-';
-                data.readDepth = data.info.wes ? data.info.wes.readDepth : '-';
-              } else {
-                data.capture = data.datafile.capture;
-                data.isHomo = data.info.genotype;
-                data.depth = data.info.depth;
-                data.quality = data.info.quality;
-                data.ratio = data.info.ratio;
-                data.gatkFilter = data.info.gatkFilter;
-              }
-            });
-
-            if (_vue.type) { //1是CNV
-              _vue.lists1 = data1;
-              _vue.hide0 = true;
-              _vue.hide1 = false;
-              _vue.loading = false
-            } else {
-              _vue.lists0 = data1;
-              _vue.hide0 = false;
-              _vue.hide1 = true;
-              _vue.loading = false
-            }
-            if (data2 && data2.length != 0) { //results是一个数组
-              $.each(data2, function (n, value) {
-                if (value.snv) {
-                  $.each(value.snv, function (k1, k2) {
-                    _vue.lists0.push({
-                      datafileData: k2.datafile.sample,
-                      capture: k2.datafile.capture,
-                      isHomo: k2.info && k2.info.isHom ? '纯合' : '杂合',
-                      depth: k2.info ? k2.info.depth : '',
-                      quality: k2.info ? k2.info.quality : '',
-                      ratio: k2.info ? k2.info.ratio : '',
-                      gatkFilter: k2.info ? k2.info.gatkFilter : '',
-                    })
-                  });
-                }
-                if (value.cnv) {
-                  $.each(value.cnv, function (k1, k2) {
-                    _vue.lists1.push({
-                      datafileData: k2.datafile.sample,
-                      capture: k2.datafile.capture,
-                      genoType: k2.cnvinfo.genoType,
-                      originalReadDepth: k2.cnvinfo.originalReadDepth,
-                      readDepth: k2.cnvinfo.readDepth,
-                      length: value.length
-                    })
-                  });
-                }
-              })
-            }
-
-          }))
-      },
       dbfreq: function () { /*德系犹太人*/
-        let mtdb_data;
-        let exac_data = this.basicResp.freq && this.basicResp.freq.exac ? this.basicResp.freq.exac : {
-          "all": 0, //ExAC所有人群频率
-          "afr": 0, //ExAC非洲人群频率
-          "amr": 0, //ExAC美洲人群频率
-          "eas": 0, //ExAC东亚人群频率
-          "sas": 0, //ExAC南亚人群频率
-          "fin": 0, //ExAC芬兰人群频率
-          "nfe": 0, //ExAC非芬兰欧洲人群频率
-          "oth": 0  //ExAC其他人群频率
-        };
-        let g100_data = this.basicResp.freq && this.basicResp.freq.onekg ? this.basicResp.freq.onekg : {
-          "all": 0, //千人所有人群频率
-          "afr": 0, //千人非洲人群频率
-          "amr": 0, //千人美洲人群频率
-          "eas": 0, //千人东亚人群频率
-          "sas": 0, //千人南亚人群频率
-          "eur": 0  //千人欧洲人群频率
-        };
-        let esp_data = this.basicResp.freq && this.basicResp.freq.esp6500 ? this.basicResp.freq.esp6500 : {
-          "all": 0, //ESP6500si所有人群频率
-          "aa": 0,  //ESP6500si_AA人群频率
-          "ea": 0   //ESP6500si_EE人群频率
-        };
-        let grandFreq = this.basicResp.freq && this.basicResp.freq.grandfreq ? this.basicResp.freq.grandfreq : {
-          sampleNum: 0,
-          freq: 0,
-          count: {
-            gatkpass: {
-              het: 0,
-              hom: 0
-            },
-            total: {
-              het: 0,
-              hom: 0
+        //GNOMAD饼图和柱状图
+        this.dataBaseCharts('frequency-pie', {
+          title: {
+            text: 'gnomAD外显子样本数',
+            x: 'center'
+          },
+          tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+          },
+          legend: {
+            orient: 'vertical',
+            left: 'left',
+            data: ['东亚', '所有', '非洲', '美洲', '阿什肯纳兹犹太人', '芬兰', '非芬兰欧洲', '其他', '南亚']
+          },
+          series: [
+            {
+              name: '访问来源',
+              type: 'pie',
+              radius: '55%',
+              center: ['50%', '60%'],
+              data: [
+                {value: 335, name: '东亚'},
+                {value: 310, name: '所有'},
+                {value: 234, name: '非洲'},
+                {value: 135, name: '美洲'},
+                {value: 1548, name: '阿什肯纳兹犹太人'},
+                {value: 548, name: '芬兰'},
+                {value: 548, name: '非芬兰欧洲'},
+                {value: 548, name: '其他'},
+                {value: 548, name: '南亚'},
+              ],
+              itemStyle: {
+                emphasis: {
+                  shadowBlur: 10,
+                  shadowOffsetX: 0,
+                  shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+              }
             }
-          }
-        };
-//        mtdb_data = this.basicResp.mito && this.basicResp.mito.mtdb ? this.basicResp.mito.mtdb : 0;
-        mtdb_data = this.basicResp.freq && this.basicResp.freq.mtdb ? this.basicResp.freq.mtdb : 0;
-
-        /*gnomad外显子和基因组*/
-        let gnomadExome_data = this.basicResp.freq && this.basicResp.freq.gnomad && this.basicResp.freq.gnomad.exome ?
-          this.basicResp.freq.gnomad.exome : {
-            "all": 0.0, //gnomad外显子所有人群频率
-            "afr": 0.0, //gnomad外显子非洲人群频率
-            "amr": 0.0, //gnomad外显子美州人群频率
-            "asj": 0.0, //gnomad外显子阿什肯纳兹犹太人
-            "eas": 0.0, //gnomad外显子东亚人群频率
-            "fin": 0.0,//gnomad外显子芬兰人群频率
-            "nfe": 0.0,//gnomad外显子非芬兰欧洲人群频率
-            "oth": 0.0,//gnomad外显子其他人群频率
-            "sas": 0.0//gnomad外显子南亚人群频率
-          };
-        let gnomadGenome_data = this.basicResp.freq && this.basicResp.freq.gnomad && this.basicResp.freq.gnomad.genome ?
-          this.basicResp.freq.gnomad.genome : {
-            "all": 0.0, //gnomad外显子所有人群频率
-            "afr": 0.0, //gnomad外显子非洲人群频率
-            "amr": 0.0, //gnomad外显子美州人群频率
-            "asj": 0.0, //gnomad外显子阿什肯纳兹犹太人
-            "eas": 0.0, //gnomad外显子东亚人群频率
-            "fin": 0.0,//gnomad外显子芬兰人群频率
-            "nfe": 0.0,//gnomad外显子非芬兰欧洲人群频率
-            "oth": 0.0,//gnomad外显子其他人群频率
-          };
-
+          ]
+        });
+        this.dataBaseCharts('frequency-pie-1', {
+          title: {
+            text: 'gnomAD基因组样本数',
+            x: 'center'
+          },
+          tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+          },
+          legend: {
+            orient: 'vertical',
+            left: 'left',
+            data: ['东亚', '所有', '非洲', '美洲', '阿什肯纳兹犹太人', '芬兰', '非芬兰欧洲', '其他', '南亚']
+          },
+          series: [
+            {
+              name: '访问来源',
+              type: 'pie',
+              radius: '55%',
+              center: ['50%', '60%'],
+              data: [
+                {value: 335, name: '东亚'},
+                {value: 310, name: '所有'},
+                {value: 234, name: '非洲'},
+                {value: 135, name: '美洲'},
+                {value: 1548, name: '阿什肯纳兹犹太人'},
+                {value: 548, name: '芬兰'},
+                {value: 548, name: '非芬兰欧洲'},
+                {value: 548, name: '其他'},
+                {value: 548, name: '南亚'},
+              ],
+              itemStyle: {
+                emphasis: {
+                  shadowBlur: 10,
+                  shadowOffsetX: 0,
+                  shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+              }
+            }
+          ]
+        });
         this.dataBaseCharts('frequency-chart', {
           tooltip: {
             trigger: 'axis',
@@ -841,8 +779,11 @@
           },
           xAxis: {
             type: 'category',
-            axisLabel: {rotate: -1, 'interval': 0},
-            data: ['东亚','所有','非洲','美洲','阿什肯纳兹犹太人','芬兰','非芬兰欧洲','其他','南亚']
+            axisLabel: {rotate: -20},
+            data: [{
+              value: '东亚',
+              textStyle: {color: 'red'}
+            }, '所有', '非洲', '美洲', '阿什肯纳兹犹太人', '芬兰', '非芬兰欧洲', '其他', '南亚']
           },
           yAxis: {
             type: 'value',
@@ -853,12 +794,12 @@
             {
               name: 'gnomAD外显子',
               type: 'bar',
-              data: [18203, 23489, 29034, 104970, 131744, 630230,104970, 131744, 630230]
+              data: [18203, 23489, 29034, 104970, 131744, 630230, 104970, 131744, 630230]
             },
             {
               name: 'gnomAD基因组',
               type: 'bar',
-              data: [19325, 23438, 31000, 121594, 134141, 681807,104970, 131744, 630230]
+              data: [19325, 23438, 31000, 121594, 134141, 681807, 104970, 131744, 630230]
             }
           ],
 //          barWidth: '30%'
@@ -999,32 +940,23 @@
 //            }
 //          ],
         });
-
+//        EXAC
         this.dataBaseCharts('frequency-chart-1', {
           grid: {
-            bottom: 200
+            bottom: '50'
           },
           tooltip: {
             trigger: 'item'
           },
-          calculable: true,
           xAxis: [
             {
               type: 'category',
-              axisLabel: {rotate: -60, 'interval': 0},
+              axisLabel: {rotate: -20, 'interval': 0},
               data: [
                 {
                   value: 'ExAC东亚',
                   textStyle: {color: 'red'}
                 }, '\nExAC所有', 'ExAC非洲', '\nExAC美洲', 'ExAC南亚', '\nExAC芬兰', 'ExAC非芬兰欧洲', '\nExAC其他',
-                {
-                  value: '千人东亚',
-                  textStyle: {color: 'red'}
-                }, '\n千人所有', '千人非洲', '\n千人美洲', '千人南亚', '\n千人欧洲',
-                'ESP6500si所有', '\nESP6500si_AA', 'ESP6500si_EA', {
-                  value: 'MTDB',
-                  textStyle: {color: 'red'}
-                }
               ]
             }
           ],
@@ -1039,91 +971,7 @@
             {
               name: '人群频率(%)',
               type: 'bar',
-              data: [
-                /*EXAC*/
-                {
-                  tooltip: '样本数：' + 4327 + '<br>人群频率(%)：' + this.filterData(exac_data.eas),
-                  value: this.filterData(exac_data.eas), itemStyle: {normal: {color: '#c23531'}}
-                },
-                {
-                  tooltip: '样本数：' + 60706 + '<br>人群频率(%)：' + this.filterData(exac_data.all),
-                  value: this.filterData(exac_data.all), itemStyle: {normal: {color: '#797b7f'}}
-                },
-                {
-                  tooltip: '样本数：' + 5203 + '<br>人群频率(%)：' + this.filterData(exac_data.afr),
-                  value: this.filterData(exac_data.afr), itemStyle: {normal: {color: '#797b7f'}}
-                },
-                {
-                  tooltip: '样本数：' + 5789 + '<br>人群频率(%)：' + this.filterData(exac_data.amr),
-                  value: this.filterData(exac_data.amr), itemStyle: {normal: {color: '#797b7f'}}
-                },
-                {
-                  tooltip: '样本数：' + 8256 + '<br>人群频率(%)：' + this.filterData(exac_data.sas),
-                  value: this.filterData(exac_data.sas), itemStyle: {normal: {color: '#797b7f'}}
-                },
-                {
-                  tooltip: '样本数：' + 3307 + '<br>人群频率(%)：' + this.filterData(exac_data.fin),
-                  value: this.filterData(exac_data.fin), itemStyle: {normal: {color: '#797b7f'}}
-                },
-                {
-                  tooltip: '样本数：' + 33370 + '<br>人群频率(%)：' + this.filterData(exac_data.nfe),
-                  value: this.filterData(exac_data.nfe), itemStyle: {normal: {color: '#797b7f'}}
-                },
-                {
-                  tooltip: '样本数：' + 454 + '<br>人群频率(%)：' + this.filterData(exac_data.oth),
-                  value: this.filterData(exac_data.oth), itemStyle: {normal: {color: '#797b7f'}}
-                },
-                /*G100*/
-                {
-                  tooltip: '样本数：' + 617 + '<br>人群频率(%)：' + this.filterData(g100_data.eas),
-                  value: this.filterData(g100_data.eas),
-                  itemStyle: {normal: {color: '#c23531'}}
-                },
-                {
-                  tooltip: '样本数：' + 3900 + '<br>人群频率(%)：' + this.filterData(g100_data.all),
-                  value: this.filterData(g100_data.all),
-                  itemStyle: {normal: {color: '#797b7f'}}
-                },
-                {
-                  tooltip: '样本数：' + 1418 + '<br>人群频率(%)：' + this.filterData(g100_data.afr),
-                  value: this.filterData(g100_data.afr),
-                  itemStyle: {normal: {color: '#797b7f'}}
-                },
-                {
-                  tooltip: '样本数：' + 535 + '<br>人群频率(%)：' + this.filterData(g100_data.amr),
-                  value: this.filterData(g100_data.amr),
-                  itemStyle: {normal: {color: '#797b7f'}}
-                },
-                {
-                  tooltip: '样本数：' + 661 + '<br>人群频率(%)：' + this.filterData(g100_data.sas),
-                  value: this.filterData(g100_data.sas),
-                  itemStyle: {normal: {color: '#797b7f'}}
-                },
-                {
-                  tooltip: '样本数：' + 669 + '<br>人群频率(%)：' + this.filterData(g100_data.eur),
-                  value: this.filterData(g100_data.eur),
-                  itemStyle: {normal: {color: '#797b7f'}}
-                },
-
-                {
-                  tooltip: '样本数：' + 6503 + '<br>人群频率(%)：' + this.filterData(esp_data.all),
-                  value: this.filterData(esp_data.all), itemStyle: {normal: {color: '#797b7f'}}
-                },
-                {
-//                  tooltip: '样本数：' + 669 + '<br>人群频率(%)：' + this.filterData(g100_data.eur),
-                  value: this.filterData(esp_data.aa), itemStyle: {normal: {color: '#797b7f'}}
-                },
-                {
-//                  tooltip: '样本数：' + 669 + '<br>人群频率(%)：' + this.filterData(g100_data.eur),
-                  value: this.filterData(esp_data.ea), itemStyle: {normal: {color: '#797b7f'}}
-                },
-                {
-//                  tooltip: '样本数：' + 669 + '<br>人群频率(%)：' + this.filterData(g100_data.eur),
-                  value: this.filterData(mtdb_data), itemStyle: {normal: {color: '#c23531'}}
-                }
-
-
-              ],
+              data: [2,3,4,5,6,7,8],
               markLine: {
                 data: [{
                   name: 'Y 轴值为 1的水平线',
@@ -1136,9 +984,8 @@
               }
             }
           ],
-          barWidth: '20%'
         });
-
+        this.in1=false
       },
       dataBaseCharts: function (eleId, option) {
         const myChart = echarts.init(document.getElementById(eleId));
@@ -1382,7 +1229,7 @@
         > span, > div {
           margin: 3px 0;
         }
-        .describe{
+        .describe {
           margin-bottom: 15px;
         }
       }
@@ -1410,7 +1257,7 @@
         }
         .frequency-chart {
           /*width: 100%;*/
-          height: 500px;
+          height: 400px;
           overflow-x: auto;
           overflow-y: hidden;
         }

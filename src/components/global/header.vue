@@ -2,7 +2,7 @@
 <template>
   <div class="header">
     <div class="pull-left logo po" @click="toMajorPage">
-      <img class="logo-img" src="../../static/img/logo.png" alt="grandbox">
+      <img class="logo-img" src="../../../static/img/logo.png" alt="grandbox">
     </div>
     <ul id="pathUl">
       <li class="li-1">
@@ -14,36 +14,48 @@
       <li class="li-2">
         <router-link to="/disease">
           <span class="img-dataManage li-img"></span>
-          <span>疾病档案库</span>
+          <span>数据库</span>
         </router-link>
       </li>
       <li class="li-3">
-        <router-link to="/gene">
-          <span class="img-dataAnalysis li-img"></span>
-          <span>基因档案库</span>
-        </router-link>
-      </li>
-      <li class="li-4">
         <router-link to="/phenotype">
           <span class="img-taskManage li-img"></span>
-          <span>表型档案库</span>
+          <span>使用工具</span>
         </router-link>
       </li>
+      <!--<li class="li-2">-->
+        <!--<router-link to="/disease">-->
+          <!--<span class="img-dataManage li-img"></span>-->
+          <!--<span>疾病档案库</span>-->
+        <!--</router-link>-->
+      <!--</li>-->
+      <!--<li class="li-3">-->
+        <!--<router-link to="/gene">-->
+          <!--<span class="img-dataAnalysis li-img"></span>-->
+          <!--<span>基因档案库</span>-->
+        <!--</router-link>-->
+      <!--</li>-->
+      <!--<li class="li-4">-->
+        <!--<router-link to="/phenotype">-->
+          <!--<span class="img-taskManage li-img"></span>-->
+          <!--<span>表型档案库</span>-->
+        <!--</router-link>-->
+      <!--</li>-->
     </ul>
 
     <div class="pull-right po" @click="out">
-      <img src="../../static/img/header-2.png"/>
-      <img class="register-img" src="../../static/img/header-8.png"/>
+      <img src="../../../static/img/header-2.png"/>
+      <img class="register-img" src="../../../static/img/header-8.png"/>
       <span class="register-span">注销</span>
     </div>
     <div class="pull-right po" @click="toPage1(0)">
-      <img src="../../static/img/header-2.png"/>
-      <img class="register-img" src="../../static/img/header-12.png"/>
+      <img src="../../../static/img/header-2.png"/>
+      <img class="register-img" src="../../../static/img/header-12.png"/>
       <span class="register-span">反馈</span>
     </div>
     <div class="pull-right po" @click="toPage1(1)">
-      <img src="../../static/img/header-2.png"/>
-      <img class="register-img" src="../../static/img/header-11.png"/>
+      <img src="../../../static/img/header-2.png"/>
+      <img class="register-img" src="../../../static/img/header-11.png"/>
 
 
       <span class="register-span">帮助</span>
@@ -53,8 +65,8 @@
     <div class="pull-right po dropdown">
       <div class="dropdown-toggle name-content" aria-haspopup="true" aria-expanded="true" data-toggle="dropdown"
            id="hideContent">
-        <img src="../../static/img/header-2.png"/>
-        <img class="register-img" src="../../static/img/header-9.png"/>
+        <img src="../../../static/img/header-2.png"/>
+        <img class="register-img" src="../../../static/img/header-9.png"/>
         <span class="register-span">{{uname}}</span>
         <i class="triangle"></i>
       </div>
@@ -125,7 +137,7 @@
     line-height: 40px;
     width: 100%;
     color: #fff;
-    background: url('../../static/img/header-bc.png') no-repeat center;
+    background: url('../../../static/img/header-bc.png') no-repeat center;
     background-size: 100%;
     border-bottom: 1px solid rgb(0, 77, 144);
 
@@ -151,19 +163,19 @@
         background-color: #fff;
         color: rgb(0, 118, 192);
         .img-dataAnalysis {
-          background: url(../../static/img/all-3.png) -34px -59px no-repeat;
+          background: url(../../../static/img/all-3.png) -34px -59px no-repeat;
         }
         .img-taskManage {
           background-size: 28px 19px;
-          background: url(../../static/img/all-3.png) -34px -89px no-repeat;
+          background: url(../../../static/img/all-3.png) -34px -89px no-repeat;
         }
         .img-dataManage {
           background-size: 21px 21px;
-          background: url(../../static/img/all-3.png) -34px -30px no-repeat;
+          background: url(../../../static/img/all-3.png) -34px -30px no-repeat;
         }
         .img-analyze {
           background-size: 22px 21px;
-          background: url(../../static/img/all-3.png) -34px 1px no-repeat;
+          background: url(../../../static/img/all-3.png) -34px 1px no-repeat;
         }
       }
       li {
@@ -208,20 +220,20 @@
         }
         .img-analyze {
           background-size: 21px 20px;
-          background: url(../../static/img/all-3.png) 0 1px no-repeat;
+          background: url(../../../static/img/all-3.png) 0 1px no-repeat;
         }
         .img-dataManage {
           background-size: 21px 21px;
-          background: url(../../static/img/all-3.png) 0 -30px no-repeat;
+          background: url(../../../static/img/all-3.png) 0 -30px no-repeat;
         }
         .img-dataAnalysis {
           background-size: 22px 21px;
-          background: url(../../static/img/all-3.png) 0 -59px no-repeat;
+          background: url(../../../static/img/all-3.png) 0 -59px no-repeat;
 
         }
         .img-taskManage {
           background-size: 28px 19px;
-          background: url(../../static/img/all-3.png) 0 -89px no-repeat;
+          background: url(../../../static/img/all-3.png) 0 -89px no-repeat;
         }
       }
     }

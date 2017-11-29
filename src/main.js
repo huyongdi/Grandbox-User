@@ -32,8 +32,8 @@ Vue.prototype.myAxios = axios.create({
 Vue.prototype.myAxios.interceptors.request.use(function (config) {
   const currentSecond = new Date().getTime() / 1000;
 
-  console.log(currentSecond)
-  console.log(parseFloat(localStorage.time))
+  console.log(currentSecond);
+  console.log(parseFloat(localStorage.time));
 
 
   if (currentSecond > parseFloat(localStorage.time)) {
