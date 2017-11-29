@@ -32,20 +32,24 @@ Vue.prototype.myAxios = axios.create({
 Vue.prototype.myAxios.interceptors.request.use(function (config) {
   const currentSecond = new Date().getTime() / 1000;
 
+  console.log(currentSecond)
+  console.log(parseFloat(localStorage.time))
+
+
   if (currentSecond > parseFloat(localStorage.time)) {
     $.ajax({
       url: apiUrl + 'auth/refresh',
       type: 'get',
       async: false,
       beforeSend: function (xhr) {
-        xhr.setRequestHeader("Authorization",localStorage.token);
+        xhr.setRequestHeader("Authorization", localStorage.token);
       },
       complete: function (resp) {
         localStorage.token = resp.getResponseHeader('Authorization');
       }
     });
     config.headers.Authorization = localStorage.token;
-    let data = JSON.parse(Vue.prototype.Base64.decode(localStorage.token.substring(6,localStorage.token.length-1).split('.')[1]));
+    let data = JSON.parse(Vue.prototype.Base64.decode(localStorage.token.substring(6, localStorage.token.length - 1).split('.')[1]));
     localStorage.time = data.exp;
   }
   return config
@@ -58,21 +62,20 @@ Vue.prototype.changePassword = 'https://www.grandbox.site/manage/updatePassword'
 /*自定义全局函数*/
 // 捕获错误
 Vue.prototype.catchFun = function (error) {
-
-  console.log(error.response)
-
   if (error.response) {
     let alertContent = '';
     if (error.response.data.errors) {
       if (typeof error.response.data.errors === 'string') {
-        alertContent = error.response.data.message+ ' '+ error.response.data.errors
+        alertContent = error.response.data.message + ' ' + error.response.data.errors
       } else {
         const arr = [];
         $.each(error.response.data.errors, function (i, value) {
           arr.push(i + ' : ' + value)
         });
-        alertContent = error.response.data.message+' : '+arr.join(' ; ')
+        alertContent = error.response.data.message + ' : ' + arr.join(' ; ')
       }
+    } else if (error.response.data.error) {
+      alertContent = error.response.data.message
     } else {
       alertContent = error.response.data.message;
     }

@@ -570,7 +570,7 @@
         }).then(function (resp) {
           let data = resp.data;
           _vue.count = data.meta.total;
-//          _vue.results = data.data;
+          _vue.results = data.data;
           _vue.loading = false;
           _vue.doneHttp = true;
 

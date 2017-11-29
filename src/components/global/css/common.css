@@ -6,6 +6,9 @@ html {
   /*修改element插件的样式*/
   /*模拟表格*/
 }
+html .w100 {
+  width: 100%;
+}
 html .xOverflow {
   overflow-x: hidden;
 }
@@ -146,10 +149,6 @@ html textarea {
   border: 1px solid #d4d4d4;
   border-radius: 3px;
   padding: 2px 8px;
-}
-html input:focus,
-html textarea:focus {
-  outline: none;
 }
 html select::-ms-expand {
   display: none;

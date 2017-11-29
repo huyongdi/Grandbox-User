@@ -469,14 +469,14 @@
       getList1: function () {
         const _vue = this;
         let conditionStr='';
-//        $('#filtrate-content').find('.option').each(function () {
-//          if ($(this).html() !== '不筛选' && $(this).hasClass('in')) {
-//            conditionStr += '&' + $(this).parent().prev().data('name') + '=' + $(this).data('value')
-//          }
-//        });
-//        if (this.geneTextArea) {
-//          conditionStr += '&genes=' + this.strToArr(this.geneTextArea)
-//        }
+        $('#filtrate-content').find('.option').each(function () {
+          if ($(this).html() !== '不筛选' && $(this).hasClass('in')) {
+            conditionStr += '&' + $(this).parent().prev().data('name') + '=' + $(this).data('value')
+          }
+        });
+        if (this.geneTextArea) {
+          conditionStr += '&genes=' + this.strToArr(this.geneTextArea)
+        }
         this.myAxios({
           url: 'manage/sample/' + this.sn + '/record?page='+this.page1+conditionStr
         }).then(function (resp) {

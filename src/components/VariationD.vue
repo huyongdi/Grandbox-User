@@ -9,14 +9,14 @@
     <div class="shadow-top bc-fff">
 
       <!--<div class="gene-information">-->
-        <!--<span class="gene-information-title base-color">基本信息</span>-->
-        <!--<div class="gene-content row">-->
-          <!--<span class="col-xs-2">变异：{{basicResp.chrom}}:{{basicResp.start}}-{{basicResp.end}}({{basicResp.ref}}/{{basicResp.alt}})</span>-->
-          <!--<span class="col-xs-2">携带病例：0/0</span>-->
+      <!--<span class="gene-information-title base-color">基本信息</span>-->
+      <!--<div class="gene-content row">-->
+      <!--<span class="col-xs-2">变异：{{basicResp.chrom}}:{{basicResp.start}}-{{basicResp.end}}({{basicResp.ref}}/{{basicResp.alt}})</span>-->
+      <!--<span class="col-xs-2">携带病例：0/0</span>-->
 
-          <!--<span v-if="basicResp.avsnp" class="rsid">rsid: <a :href='"https://www.ncbi.nlm.nih.gov/projects/SNP/snp_ref.cgi?rs="+basicResp.avsnp'-->
-                                                             <!--class="common-a" target="_blank">{{basicResp.avsnp}}</a></span>-->
-        <!--</div>-->
+      <!--<span v-if="basicResp.avsnp" class="rsid">rsid: <a :href='"https://www.ncbi.nlm.nih.gov/projects/SNP/snp_ref.cgi?rs="+basicResp.avsnp'-->
+      <!--class="common-a" target="_blank">{{basicResp.avsnp}}</a></span>-->
+      <!--</div>-->
       <!--</div>-->
 
 
@@ -29,31 +29,37 @@
 
       <div class="all-content">
 
-        <div :class="{'hide':!in0}" class="basic-div">
-          <div class="row">
-            <span class="col-xs-2">变异：11:119052976-119052976(C/T) </span>
-            <span v-if="basicResp.avsnp" class="rsid col-xs-2">
-              rsid: <a :href='"https://www.ncbi.nlm.nih.gov/projects/SNP/snp_ref.cgi?rs="+basicResp.avsnp' class="common-a" target="_blank">{{basicResp.avsnp}}</a>
+        <div :class="{'hide':!in0}" class="basic-div row">
+          <span class="col-xs-2">变异：11:119052976-119052976(C/T) </span>
+          <span v-if="basicResp.avsnp" class="rsid col-xs-2">
+              rsid: <a :href='"https://www.ncbi.nlm.nih.gov/projects/SNP/snp_ref.cgi?rs="+basicResp.avsnp' class="common-a"
+                       target="_blank">{{basicResp.avsnp}}</a>
             </span>
-            <span class="col-xs-2">携带病例：0/0</span>
-            <span class="col-xs-2">基因：ABC</span>
-            <span class="col-xs-2">区域：exc</span>
-            <span class="col-xs-2">功能：func</span>
-            <span class="col-xs-2">纯杂合：杂合</span>
-            <span class="col-xs-2">gatkFilter：fff</span>
-            <span class="col-xs-2">深度：60</span>
-            <span class="col-xs-2">变异比例(%)：60</span>
-            <div  class="col-xs-4">
-              <span class="pull-left">变异信息：</span>
-              <ul class="pull-left">
-                <li class="nowarp ellipsis po">11111111111111111111111111111111111111111111111111111</li>
-              </ul>
-            </div>
-            <span class="col-xs-2">报告状态: 主要</span>
-
-            <span class="col-xs-12">该位点。。。。。</span>
-
+          <span class="col-xs-2">携带病例：0/0</span>
+          <span class="col-xs-2">基因：ABC</span>
+          <span class="col-xs-2">区域：exc</span>
+          <span class="col-xs-2">功能：func</span>
+          <span class="col-xs-2">纯杂合：杂合</span>
+          <span class="col-xs-2">gatkFilter：fff</span>
+          <span class="col-xs-2">深度：60</span>
+          <span class="col-xs-2">变异比例(%)：60</span>
+          <div class="col-xs-4">
+            <span class="pull-left">变异信息：</span>
+            <ul class="pull-left">
+              <li class="nowarp ellipsis po">11111111111111111111111111111111111111111111111111111</li>
+            </ul>
           </div>
+          <span class="col-xs-2">报告状态: 主要</span>
+
+          <span class="col-xs-12 describe">该位点。。。。。</span>
+
+          <span class="col-xs-8">
+              <span class="pull-left">备注</span>
+              <span class="col-xs-8">
+                 <textarea placeholder="请输入内容,enter提交" name="" id="" rows="6" class="w100"></textarea>
+              </span>
+          </span>
+
         </div>
 
         <div :class="{'hide':!in1}">
@@ -408,7 +414,7 @@
     data: function () {
       return {
         in0: true,
-        in1: '',
+        in1: true,
         in2: '',
         in3: '',
 
@@ -440,31 +446,222 @@
     },
     mounted: function () {
       const _vue = this;
-      _vue.myAxios({
+
+      //请求成功被移出来的部分
+      _vue.loading = false;
+
+      _vue.basicResp =  {
+        "id": "5951df11522a8723fd6b7534",
+        "chrom": "11",
+        "start": 119052976,
+        "end": 119052976,
+        "ref": "C",
+        "alt": "T",
+        "avsnp": "rs199476052",
+        "freq": {
+          "mtdb": 0.0,
+          "gnomad": {
+            "exome": {
+              "all": 0.0002,
+              "afr": 6.563e-05,
+              "amr": 0.0,
+              "asj": 0.0,
+              "eas": 0.0025,
+              "fin": 0.0,
+              "nfe": 1.802e-05,
+              "oth": 0.0002,
+              "sas": 0.0
+            },
+            "genome": {
+              "all": 0.0002,
+              "afr": 0.0,
+              "amr": 0.0,
+              "asj": 0.0,
+              "eas": 0.0031,
+              "fin": 0.0,
+              "nfe": 0.0,
+              "oth": 0.0
+            }
+          },
+          "exac": {
+            "all": 0.0002,
+            "afr": 0.0,
+            "amr": 0.0,
+            "eas": 0.0026,
+            "sas": 0.0,
+            "fin": 0.0,
+            "nfe": 0.0,
+            "oth": 0.0
+          },
+          "onekg": {
+            "all": 0.0,
+            "afr": 0.0,
+            "amr": 0.0,
+            "eas": 0.0,
+            "sas": 0.0,
+            "eur": 0.0
+          },
+          "esp6500": {
+            "all": 0.0,
+            "aa": 0.0,
+            "ea": 0.0
+          },
+          "grandfreq": {
+            "freq": 0.005230125523012552,
+            "sampleNum": 956,
+            "count": {
+              "gatkpass": {
+                "het": 5,
+                "hom": 0
+              },
+              "total": {
+                "het": 5,
+                "hom": 0
+              }
+            }
+          }
+        },
+        "dbnsfp": {
+          "mcap": {
+            "score": 0.073,
+            "pred": "D"
+          },
+          "sift": {
+            "score": 0.149,
+            "pred": "T"
+          },
+          "polyphen2": {
+            "score": 1.0,
+            "pred": "D"
+          },
+          "lrt": {
+            "score": 0.017,
+            "pred": "N"
+          },
+          "fathmm": {
+            "score": 0.58,
+            "pred": "T"
+          },
+          "provean": {
+            "score": -1.82,
+            "pred": "N"
+          },
+          "mutationtaster": {
+            "score": 0.997,
+            "pred": "D"
+          },
+          "mutationassessor": {
+            "score": 1.79,
+            "pred": "L"
+          },
+          "metasvm": {
+            "score": -0.846,
+            "pred": "T"
+          },
+          "meatlr": {
+            "score": 0.217,
+            "pred": "T"
+          },
+          "gerp": {
+            "score": 3.58,
+            "pred": null
+          },
+          "revel": {
+            "score": 0.328,
+            "pred": null
+          }
+        },
+        "acmg": {
+          "intervar": "Uncertain significance",
+          "pvs1": 0,
+          "ps": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "pm": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "pp": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "bp": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "bs": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "ba1": 0
+        },
+        "disease": {
+          "clinvar": {
+            "clnacc": [
+              "RCV000089403.1"
+            ],
+            "clinsig": [
+              "not provided"
+            ],
+            "clndbn": [
+              "not_provided"
+            ],
+            "clndsdbs": [
+              {
+                "MedGen": "CN221809"
+              }
+            ]
+          },
+          "hgmd": null,
+          "gwas": null,
+          "deafness": null
+        },
+        "splicing": {
+          "dbscsnv": null,
+          "spidex": {
+            "maxTissue": -0.4482,
+            "zscore": -1.038
+          }
+        },
+        "mito": null
+      };
+
+      _vue.fullLocusStr =
+        _vue.basicResp.chrom + ':' + _vue.basicResp.start + ':' + _vue.basicResp.end + ':' + _vue.basicResp.ref + ':' + _vue.basicResp.alt;
+
+      _vue.dbfreq();//绘制人群频率
+//      _vue.dbnfsp(); //绘制dbnfsp区域
+//      _vue.fillHgmd();//填充hgmd
+//      _vue.fillClinvar(); //填充clinvar
+//      _vue.fillGwas();//填充gwas
+//      _vue.fillMito();//填充线粒体
+//      _vue.fillCut();//填充剪切区域
+
+
+//      _vue.myAxios({
 //        url: 'database/snv/?query=' + this.$route.query.id,
-      }).then(function (resp) {
-        _vue.loading = false;
-        if (resp.data.results.length == 0) {
-          _vue.alert('该位点无任何信息')
-          return;
-        }
-        _vue.basicResp = resp.data.results[0];
-
-        _vue.fullLocusStr =
-          _vue.basicResp.chrom + ':' + _vue.basicResp.start + ':' + _vue.basicResp.end + ':' + _vue.basicResp.ref + ':' + _vue.basicResp.alt;
-
-        _vue.dbfreq();//绘制人群频率
-        _vue.dbnfsp(); //绘制dbnfsp区域
-        _vue.fillHgmd();//填充hgmd
-        _vue.fillClinvar(); //填充clinvar
-        _vue.fillGwas();//填充gwas
-        _vue.fillMito();//填充线粒体
-        _vue.fillCut();//填充剪切区域
-
-
-      }).catch(function (error) {
-        _vue.catchFun(error)
-      })
+//      }).then(function (resp) {
+//
+//      }).catch(function (error) {
+//        _vue.catchFun(error)
+//      })
     },
     methods: {
       //切换导航
@@ -585,16 +782,16 @@
           "ea": 0   //ESP6500si_EE人群频率
         };
         let grandFreq = this.basicResp.freq && this.basicResp.freq.grandfreq ? this.basicResp.freq.grandfreq : {
-          sampleNum:0,
-          freq:0,
-          count:{
-            gatkpass:{
-              het:0,
-              hom:0
+          sampleNum: 0,
+          freq: 0,
+          count: {
+            gatkpass: {
+              het: 0,
+              hom: 0
             },
-            total:{
-              het:0,
-              hom:0
+            total: {
+              het: 0,
+              hom: 0
             }
           }
         };
@@ -627,149 +824,180 @@
           };
 
         this.dataBaseCharts('frequency-chart', {
-          grid: {
-            bottom: 200
-          },
           tooltip: {
-            trigger: 'item'
+            trigger: 'axis',
+            axisPointer: {
+              type: 'shadow'
+            }
           },
-          calculable: true,
-          xAxis: [
-            {
-              type: 'category',
-              axisLabel: {rotate: -60, 'interval': 0},
-              data: [{
-                value: '本地全部',
-                textStyle: {color: 'red', fontSize: '12'}
-              },
-                {
-                  value: '本地高质量',
-                  textStyle: {color: 'red', fontSize: '12'}
-                },
-                {value: 'gnomAD外显子东亚', textStyle: {color: 'red'}}, 'gnomAD外显子所有', 'gnomAD外显子非洲', 'gnomAD外显子美州', 'gnomAD外显子阿什肯纳兹犹太人',
-                'gnomAD外显子芬兰', 'gnomAD外显子非芬兰欧洲', 'gnomAD外显子其他', 'gnomAD外显子南亚',
-                {value: 'gnomAD基因组东亚', textStyle: {color: 'red'}}, 'gnomAD基因组所有', 'gnomAD基因组非洲', 'gnomAD基因组美州', 'gnomAD基因组阿什肯纳兹犹太人',
-                'gnomAD基因组芬兰', 'gnomAD基因组非芬兰欧洲', 'gnomAD基因组其他',
-              ]
-            }
-          ],
-
-          yAxis: [
-            {
-              type: 'value',
-              name: '频率(%)',
-            }
-          ],
+          legend: {
+            data: ['gnomAD外显子', 'gnomAD基因组']
+          },
+          grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '50',
+            containLabel: true
+          },
+          xAxis: {
+            type: 'category',
+            axisLabel: {rotate: -1, 'interval': 0},
+            data: ['东亚','所有','非洲','美洲','阿什肯纳兹犹太人','芬兰','非芬兰欧洲','其他','南亚']
+          },
+          yAxis: {
+            type: 'value',
+            name: '频率(%)',
+            boundaryGap: [0, 0.01]
+          },
           series: [
             {
-              name: '人群频率(%)',
+              name: 'gnomAD外显子',
               type: 'bar',
-              data: [
-                /*本地*/
-                {
-                  tooltip: '样本数：' + grandFreq.sampleNum + '<br>人群频率(%)：' + this.filterData(grandFreq.freq),
-                  value: grandFreq ? this.filterData(grandFreq.freq) : 0,
-                  itemStyle: {normal: {color: '#c23531'}}
-                },
-                {
-                  tooltip: '样本数：' +grandFreq.sampleNum + '<br>人群频率(%)：' + this.filterData((grandFreq.count.gatkpass.het + grandFreq.count.gatkpass.hom) / (grandFreq.sampleNum)),
-                  value: grandFreq ? this.filterData(grandFreq.freq) : 0,
-                  itemStyle: {normal: {color: '#c23531'}}
-                },
-                /*gnomAD*/
-                {
-                  tooltip: '样本数：' + 8624 + '<br>人群频率(%)：' + this.filterData(gnomadExome_data.eas),
-                  value: this.filterData(gnomadExome_data.eas), itemStyle: {normal: {color: '#c23531'}}
-                },
-                {
-                  tooltip: '样本数：' + 123136 + '<br>人群频率(%)：' + this.filterData(gnomadExome_data.all),
-                  value: this.filterData(gnomadExome_data.all), itemStyle: {normal: {color: '#797b7f'}}
-                },
-                {
-                  tooltip: '样本数：' + 7652 + '<br>人群频率(%)：' + this.filterData(gnomadExome_data.afr),
-                  value: this.filterData(gnomadExome_data.afr), itemStyle: {normal: {color: '#797b7f'}}
-                },
-                {
-                  tooltip: '样本数：' + 16791 + '<br>人群频率(%)：' + this.filterData(gnomadExome_data.amr),
-                  value: this.filterData(gnomadExome_data.amr), itemStyle: {normal: {color: '#797b7f'}}
-                },
-                {
-                  tooltip: '样本数：' + 4925 + '<br>人群频率(%)：' + this.filterData(gnomadExome_data.asj),
-                  value: this.filterData(gnomadExome_data.asj), itemStyle: {normal: {color: '#797b7f'}}
-                },
-                {
-                  tooltip: '样本数：' + 11150 + '<br>人群频率(%)：' + this.filterData(gnomadExome_data.fin),
-                  value: this.filterData(gnomadExome_data.fin), itemStyle: {normal: {color: '#797b7f'}}
-                },
-                {
-                  tooltip: '样本数：' + 55860 + '<br>人群频率(%)：' + this.filterData(gnomadExome_data.nfe),
-                  value: this.filterData(gnomadExome_data.nfe), itemStyle: {normal: {color: '#797b7f'}}
-                },
-                {
-                  tooltip: '样本数：' + 2743 + '<br>人群频率(%)：' + this.filterData(gnomadExome_data.oth),
-                  value: this.filterData(gnomadExome_data.oth), itemStyle: {normal: {color: '#797b7f'}}
-                },
-                {
-                  tooltip: '样本数：' + 15391 + '<br>人群频率(%)：' + this.filterData(gnomadExome_data.sas),
-                  value: this.filterData(gnomadExome_data.sas), itemStyle: {normal: {color: '#797b7f'}}
-                },
-
-
-                {
-                  tooltip: '样本数：' + 811 + '<br>人群频率(%)：' + this.filterData(gnomadGenome_data.eas),
-                  value: this.filterData(gnomadGenome_data.eas),
-                  itemStyle: {normal: {color: '#c23531'}}
-                },
-                {
-                  tooltip: '样本数：' + 15496 + '<br>人群频率(%)：' + this.filterData(gnomadGenome_data.all),
-                  value: this.filterData(gnomadGenome_data.all),
-                  itemStyle: {normal: {color: '#797b7f'}}
-                },
-                {
-                  tooltip: '样本数：' + 4368 + '<br>人群频率(%)：' + this.filterData(gnomadGenome_data.afr),
-                  value: this.filterData(gnomadGenome_data.afr),
-                  itemStyle: {normal: {color: '#797b7f'}}
-                },
-                {
-                  tooltip: '样本数：' + 151 + '<br>人群频率(%)：' + this.filterData(gnomadGenome_data.amr),
-                  value: this.filterData(gnomadGenome_data.amr),
-                  itemStyle: {normal: {color: '#797b7f'}}
-                },
-                {
-                  tooltip: '样本数：' + 15391 + '<br>人群频率(%)：' + this.filterData(gnomadGenome_data.asj),
-                  value: this.filterData(gnomadGenome_data.asj),
-                  itemStyle: {normal: {color: '#797b7f'}}
-                },
-                {
-                  tooltip: '样本数：' + 1747 + '<br>人群频率(%)：' + this.filterData(gnomadGenome_data.fin),
-                  value: this.filterData(gnomadGenome_data.fin),
-                  itemStyle: {normal: {color: '#797b7f'}}
-                },
-                {
-                  tooltip: '样本数：' + 7509 + '<br>人群频率(%)：' + this.filterData(gnomadGenome_data.nfe),
-                  value: this.filterData(gnomadGenome_data.nfe),
-                  itemStyle: {normal: {color: '#797b7f'}}
-                },
-                {
-                  tooltip: '样本数：' + 491 + '<br>人群频率(%)：' + this.filterData(gnomadGenome_data.oth),
-                  value: this.filterData(gnomadGenome_data.oth),
-                  itemStyle: {normal: {color: '#797b7f'}}
-                },
-
-              ],
-              markLine: {
-                data: [{
-                  name: 'Y 轴值为 1的水平线',
-                  yAxis: 1
-                }, {
-                  name: 'Y 轴值为 5的水平线',
-                  yAxis: 5
-                }
-                ]
-              }
+              data: [18203, 23489, 29034, 104970, 131744, 630230,104970, 131744, 630230]
+            },
+            {
+              name: 'gnomAD基因组',
+              type: 'bar',
+              data: [19325, 23438, 31000, 121594, 134141, 681807,104970, 131744, 630230]
             }
           ],
-          barWidth: '20%'
+//          barWidth: '30%'
+//          xAxis: [
+//            {
+//              type: 'category',
+//              axisLabel: {rotate: -60, 'interval': 0},
+//              data: [{
+//                value: '本地全部',
+//                textStyle: {color: 'red', fontSize: '12'}
+//              },
+//                {
+//                  value: '本地高质量',
+//                  textStyle: {color: 'red', fontSize: '12'}
+//                },
+//                {value: 'gnomAD外显子东亚', textStyle: {color: 'red'}}, 'gnomAD外显子所有', 'gnomAD外显子非洲', 'gnomAD外显子美州', 'gnomAD外显子阿什肯纳兹犹太人',
+//                'gnomAD外显子芬兰', 'gnomAD外显子非芬兰欧洲', 'gnomAD外显子其他', 'gnomAD外显子南亚',
+//                {value: 'gnomAD基因组东亚', textStyle: {color: 'red'}}, 'gnomAD基因组所有', 'gnomAD基因组非洲', 'gnomAD基因组美州', 'gnomAD基因组阿什肯纳兹犹太人',
+//                'gnomAD基因组芬兰', 'gnomAD基因组非芬兰欧洲', 'gnomAD基因组其他',
+//              ]
+//            }
+//          ],
+//
+//          yAxis: [
+//            {
+//              type: 'value',
+//              name: '频率(%)',
+//            }
+//          ],
+//          series: [
+//            {
+//              name: '人群频率(%)',
+//              type: 'bar',
+//              data: [
+//                /*本地*/
+//                {
+//                  tooltip: '样本数：' + grandFreq.sampleNum + '<br>人群频率(%)：' + this.filterData(grandFreq.freq),
+//                  value: grandFreq ? this.filterData(grandFreq.freq) : 0,
+//                  itemStyle: {normal: {color: '#c23531'}}
+//                },
+//                {
+//                  tooltip: '样本数：' + grandFreq.sampleNum + '<br>人群频率(%)：' +
+//                  this.filterData((grandFreq.count.gatkpass.het + grandFreq.count.gatkpass.hom) / (grandFreq.sampleNum)),
+//                  value: grandFreq ? this.filterData(grandFreq.freq) : 0,
+//                  itemStyle: {normal: {color: '#c23531'}}
+//                },
+//                /*gnomAD*/
+//                {
+//                  tooltip: '样本数：' + 8624 + '<br>人群频率(%)：' + this.filterData(gnomadExome_data.eas),
+//                  value: this.filterData(gnomadExome_data.eas), itemStyle: {normal: {color: '#c23531'}}
+//                },
+//                {
+//                  tooltip: '样本数：' + 123136 + '<br>人群频率(%)：' + this.filterData(gnomadExome_data.all),
+//                  value: this.filterData(gnomadExome_data.all), itemStyle: {normal: {color: '#797b7f'}}
+//                },
+//                {
+//                  tooltip: '样本数：' + 7652 + '<br>人群频率(%)：' + this.filterData(gnomadExome_data.afr),
+//                  value: this.filterData(gnomadExome_data.afr), itemStyle: {normal: {color: '#797b7f'}}
+//                },
+//                {
+//                  tooltip: '样本数：' + 16791 + '<br>人群频率(%)：' + this.filterData(gnomadExome_data.amr),
+//                  value: this.filterData(gnomadExome_data.amr), itemStyle: {normal: {color: '#797b7f'}}
+//                },
+//                {
+//                  tooltip: '样本数：' + 4925 + '<br>人群频率(%)：' + this.filterData(gnomadExome_data.asj),
+//                  value: this.filterData(gnomadExome_data.asj), itemStyle: {normal: {color: '#797b7f'}}
+//                },
+//                {
+//                  tooltip: '样本数：' + 11150 + '<br>人群频率(%)：' + this.filterData(gnomadExome_data.fin),
+//                  value: this.filterData(gnomadExome_data.fin), itemStyle: {normal: {color: '#797b7f'}}
+//                },
+//                {
+//                  tooltip: '样本数：' + 55860 + '<br>人群频率(%)：' + this.filterData(gnomadExome_data.nfe),
+//                  value: this.filterData(gnomadExome_data.nfe), itemStyle: {normal: {color: '#797b7f'}}
+//                },
+//                {
+//                  tooltip: '样本数：' + 2743 + '<br>人群频率(%)：' + this.filterData(gnomadExome_data.oth),
+//                  value: this.filterData(gnomadExome_data.oth), itemStyle: {normal: {color: '#797b7f'}}
+//                },
+//                {
+//                  tooltip: '样本数：' + 15391 + '<br>人群频率(%)：' + this.filterData(gnomadExome_data.sas),
+//                  value: this.filterData(gnomadExome_data.sas), itemStyle: {normal: {color: '#797b7f'}}
+//                },
+//
+//
+//                {
+//                  tooltip: '样本数：' + 811 + '<br>人群频率(%)：' + this.filterData(gnomadGenome_data.eas),
+//                  value: this.filterData(gnomadGenome_data.eas),
+//                  itemStyle: {normal: {color: '#c23531'}}
+//                },
+//                {
+//                  tooltip: '样本数：' + 15496 + '<br>人群频率(%)：' + this.filterData(gnomadGenome_data.all),
+//                  value: this.filterData(gnomadGenome_data.all),
+//                  itemStyle: {normal: {color: '#797b7f'}}
+//                },
+//                {
+//                  tooltip: '样本数：' + 4368 + '<br>人群频率(%)：' + this.filterData(gnomadGenome_data.afr),
+//                  value: this.filterData(gnomadGenome_data.afr),
+//                  itemStyle: {normal: {color: '#797b7f'}}
+//                },
+//                {
+//                  tooltip: '样本数：' + 151 + '<br>人群频率(%)：' + this.filterData(gnomadGenome_data.amr),
+//                  value: this.filterData(gnomadGenome_data.amr),
+//                  itemStyle: {normal: {color: '#797b7f'}}
+//                },
+//                {
+//                  tooltip: '样本数：' + 15391 + '<br>人群频率(%)：' + this.filterData(gnomadGenome_data.asj),
+//                  value: this.filterData(gnomadGenome_data.asj),
+//                  itemStyle: {normal: {color: '#797b7f'}}
+//                },
+//                {
+//                  tooltip: '样本数：' + 1747 + '<br>人群频率(%)：' + this.filterData(gnomadGenome_data.fin),
+//                  value: this.filterData(gnomadGenome_data.fin),
+//                  itemStyle: {normal: {color: '#797b7f'}}
+//                },
+//                {
+//                  tooltip: '样本数：' + 7509 + '<br>人群频率(%)：' + this.filterData(gnomadGenome_data.nfe),
+//                  value: this.filterData(gnomadGenome_data.nfe),
+//                  itemStyle: {normal: {color: '#797b7f'}}
+//                },
+//                {
+//                  tooltip: '样本数：' + 491 + '<br>人群频率(%)：' + this.filterData(gnomadGenome_data.oth),
+//                  value: this.filterData(gnomadGenome_data.oth),
+//                  itemStyle: {normal: {color: '#797b7f'}}
+//                },
+//
+//              ],
+//              markLine: {
+//                data: [{
+//                  name: 'Y 轴值为 1的水平线',
+//                  yAxis: 1
+//                }, {
+//                  name: 'Y 轴值为 5的水平线',
+//                  yAxis: 5
+//                }
+//                ]
+//              }
+//            }
+//          ],
         });
 
         this.dataBaseCharts('frequency-chart-1', {
@@ -1149,8 +1377,14 @@
       border: 1px solid @tableSha;
       padding-left: 20px;
       min-height: 150px;
-      .basic-div{
-        padding-top: 20px;
+      .basic-div {
+        padding: 20px 0;
+        > span, > div {
+          margin: 3px 0;
+        }
+        .describe{
+          margin-bottom: 15px;
+        }
       }
       #mit-chart {
         width: 50%;
