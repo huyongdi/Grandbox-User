@@ -10,6 +10,7 @@ import GeneD from '@/components/geneD'
 import Disease from '@/components/disease'
 import Phenotype from '@/components/phenotype'
 import VariationD from '@/components/VariationD'
+import tool from '@/components/tool'
 
 
 Vue.use(Router);
@@ -65,6 +66,11 @@ export default new Router({
       path: '/variationD',
       name: 'variationD',
       component: VariationD
+    },
+    {
+      path: '/tool',
+      name: 'tool',
+      component: tool
     },
   ]
 })

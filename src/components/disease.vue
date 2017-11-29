@@ -1,8 +1,7 @@
 <template>
-  <div class="">
-
+  <div class="data-content">
     <dataHeader></dataHeader>
-
+    <div class="right-content">123</div>
   </div>
 </template>
 

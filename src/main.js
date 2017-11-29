@@ -32,11 +32,7 @@ Vue.prototype.myAxios = axios.create({
 Vue.prototype.myAxios.interceptors.request.use(function (config) {
   const currentSecond = new Date().getTime() / 1000;
 
-  console.log(currentSecond);
-  console.log(parseFloat(localStorage.time));
-
-
-  if (currentSecond > parseFloat(localStorage.time)) {
+  if (currentSecond+1 > parseFloat(localStorage.time)) {
     $.ajax({
       url: apiUrl + 'auth/refresh',
       type: 'get',
@@ -48,10 +44,10 @@ Vue.prototype.myAxios.interceptors.request.use(function (config) {
         localStorage.token = resp.getResponseHeader('Authorization');
       }
     });
-    config.headers.Authorization = localStorage.token;
     let data = JSON.parse(Vue.prototype.Base64.decode(localStorage.token.substring(6, localStorage.token.length - 1).split('.')[1]));
     localStorage.time = data.exp;
   }
+  config.headers.Authorization = localStorage.token;
   return config
 });
 

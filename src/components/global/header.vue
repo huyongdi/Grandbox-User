@@ -18,7 +18,7 @@
         </router-link>
       </li>
       <li class="li-3">
-        <router-link to="/phenotype">
+        <router-link to="/tool">
           <span class="img-taskManage li-img"></span>
           <span>使用工具</span>
         </router-link>
@@ -101,7 +101,7 @@
         _header.find('>.active').removeClass('active');
         if(currentPath == 'myData' || currentPath == 'report' || currentPath=='result' ||currentPath == 'variationD'){
           $(".li-1").addClass('active')
-        }else if(currentPath == 'gene' || currentPath == 'geneD'){
+        }else if(currentPath == 'tool' || currentPath == 'tool'){
           $(".li-3").addClass('active')
         }else if(currentPath == 'disease'){
           $(".li-2").addClass('active')

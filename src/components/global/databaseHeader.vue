@@ -2,40 +2,31 @@
 <!--各种分析结果页面，疾病那一行-->
 <template>
   <ul class="left-ul">
-    <li class="active" id="li-0">
+    <li class="active" id="li-0" @click="toPage('/disease')">
       <div class="father">
         <span class="img analyze-flow"></span>
-        <span>分析流程</span>
+        <span>疾病档案库</span>
         <i class="triangle"></i>
-        <img src="../../../static/img/under-left-1.png" alt="">
-      </div>
-      <div class="children" @click.stop="">
-        <router-link to="/dataA/foo/sgList" class="block" data-code="grandmgd">单基因遗传病检测</router-link>
-        <router-link to="/dataA/foo/mtList" class="block" data-code="grandmito">线粒体检测</router-link>
       </div>
     </li>
-    <li id="li-1">
+    <li id="li-1" @click="toPage('/gene')">
       <div class="father">
         <span class="img analyze-soft"></span>
-        <span>分析软件</span>
+        <span>基因档案库</span>
         <i class="triangle"></i>
-        <img src="../../../static/img/under-left-1.png" alt="">
+        <!--<img src="../../../static/img/under-left-1.png" alt="">-->
       </div>
-      <div class="children" @click.stop=""  style="display: none">
-        <router-link to="/dataA/foo/cnvList" class="block" data-code="grandwcnv">低深度全基因CNV检测</router-link>
-        <router-link to="/dataA/foo/snvList" class="block" data-code="grandanno">SNV注释</router-link>
-      </div>
+      <!--<div class="children" @click.stop=""  style="display: none">-->
+        <!--<router-link to="/dataA/foo/cnvList" class="block" data-code="grandwcnv">低深度全基因CNV检测</router-link>-->
+        <!--<router-link to="/dataA/foo/snvList" class="block" data-code="grandanno">SNV注释</router-link>-->
+      <!--</div>-->
     </li>
-    <li id="li-2">
+    <li id="li-2" @click="toPage('/phenotype')">
       <div class="father">
         <span class="img analyze-tool"></span>
-        <span>实用工具</span>
+        <span>表型档案库</span>
         <i class="triangle"></i>
-        <img src="../../../static/img/under-left-1.png" alt="">
-      </div>
-      <div class="children" @click.stop=""  style="display: none">
-        <router-link to="/dataA/foo/trioList" class="block" data-code="grandtrio">核心家系分析</router-link>
-        <router-link to="/dataA/foo/genotype" class="block" data-code="grandanno">表型</router-link>
+        <!--<img src="../../../static/img/under-left-1.png" alt="">-->
       </div>
     </li>
   </ul>
@@ -58,14 +49,18 @@
       this.getActive();
     },
     methods: {
+      toPage:function (path) {
+        this.$router.push(path)
+      },
       getActive: function () {  //通过子页面判断左边具体的active
         const currentPath = this.$router.currentRoute.name;
+        $(".left-ul").find('>.active').removeClass('active');
         let _li = '';
-        if(currentPath == 'dataA-sgList'||currentPath=='dataA-mtList'){
+        if(currentPath == 'disease'){
           _li = $("#li-0");
-        }else if(currentPath == 'dataA-cnvList'|| currentPath =='dataA-annoList'){
+        }else if(currentPath == 'gene'){
           _li = $("#li-1");
-        }else if(currentPath == 'dataA-trioList'|| currentPath == 'dataA-genotype'){
+        }else if(currentPath == 'phenotype'){
           _li = $("#li-2")
         }
         if(_li && !_li.hasClass('active')){
@@ -81,84 +76,12 @@
 
   @triangle-color: rgb(0, 118, 192);
   @border: rgb(168, 185, 209);
-  @tableSha: rgb(185, 184, 184);
   @in: rgb(14, 125, 195);
   @inBc: rgb(220, 238, 249);
   @color: rgb(49, 49, 49);
-  @tdBorder: rgb(225, 226, 227);
-  @trHover: rgb(255, 245, 231);
-  @trIn: rgb(255, 236, 210);
-  @interleave: rgb(246, 248, 250);
 
 
 
-  .left-ul {
-    position: absolute;
-    z-index: 20;
-    float: left;
-    width: 250px;
-    /*min-height: calc(~'100vh - 58px');*/
-    /*height: 100%;*/
-    margin: 0;
-    padding: 0;
-    color: @color;
-    li {
-      cursor: pointer;
-    }
-    li.active {
-      background-color: #fff;
-      .father {
-        .triangle {
-          opacity: 1;
-        }
-        border-right: 1px solid @triangle-color;
-        color: @in;
-      }
-    }
-    .father {
-      height: 40px;
-      line-height: 40px;
-      border-bottom: 1px solid #d3d4d4;
-      border-top: 1px solid #fbfbfb;
-      font-weight: bold;
-      .img {
-        float: left;
-        width: 16px;
-        height: 25px;
-        margin: 6px 12px 0 20px;
-      }
-      img {
-        float: right;
-        margin: 16px 20px 0 0;
-      }
-      .triangle {
-        float: right;
-        width: 0;
-        height: 0;
-        margin-top: 4px;
-        border-top: 15px solid transparent;
-        border-right: 18px solid @triangle-color;
-        border-bottom: 15px solid transparent;
-        opacity: 0;
-      }
-    }
-    .children {
-      /*display: none;*/
-      border-top: 1px solid #fbfbfb;
-      border-bottom: 1px solid #d3d4d4;
-      font-size: 13px;
-      a {
-        height: 25px;
-        line-height: 25px;
-        color: inherit;
-        padding-left: 23px;
-      }
-      a.active, a:hover, .router-link-active, .router-link-active:hover {
-        color: @in;
-        background-color: @inBc;
-      }
-    }
-  }
 
       .left-ul {
         .analyze-flow {

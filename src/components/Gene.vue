@@ -1,17 +1,18 @@
 <template>
-  <div class="gene-page p-div">
-    <loading v-if="loading"></loading>
-    <div class="title-below">
-      <div class="search-div">
-        <input type="text" placeholder="搜索基因" v-model="geneValue" class="search-input" @keyup.enter="searchGene">
-        <span class="my-btn">
+  <div class="data-content">
+    <dataHeader></dataHeader>
+    <div class="gene-page right-content">
+      <loading v-if="loading"></loading>
+      <div class="title-below">
+        <div class="search-div">
+          <input type="text" placeholder="搜索基因" v-model="geneValue" class="search-input" @keyup.enter="searchGene">
+          <span class="my-btn">
         <img src="../../static/img/red-con.png" alt="" @click="searchGene">
         </span>
+        </div>
       </div>
-    </div>
-
-    <div id="allGene" class='similar-table'>
-      <div class="row similar-tbody">
+      <div id="allGene" class='similar-table'>
+        <div class="row similar-tbody">
         <span class="col-md-1" v-for="data in allGeneData">
           <div v-for="(list,index) in data">  <!--竖着的每列，总共12个竖着-->
              <div  class="similar-td" v-if="list"><!--:data-original-title-->
@@ -28,15 +29,18 @@
 
 
         </span>
+        </div>
       </div>
-    </div>
 
-    <page :childCount="allGeneCount" :childReset="allGeneReset" @childCurrent="allGeneGetCurrent"></page>
+      <page :childCount="allGeneCount" :childReset="allGeneReset" @childCurrent="allGeneGetCurrent"></page>
+    </div>
   </div>
+
 </template>
 
 <script>
   import page from './global/Page.vue'
+  import dataHeader from './global/databaseHeader.vue'
 
   export default {
     data: function () {
@@ -66,6 +70,7 @@
     },
     components: {
       'page': page,
+      'dataHeader': dataHeader,
     },
     methods: {
 

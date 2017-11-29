@@ -134,10 +134,84 @@
           .top-content{
 
           }
+          .data-content{
+            min-height: calc(~'100vh - 50px');
+            .left-ul {
+              display: inline-block;
+              width: 250px;
+              background-color: #f5f5f5;
+              min-height: calc(~'100vh - 50px');
+              margin: 0;
+              padding: 0;
+              color: @color;
+              li {
+                cursor: pointer;
+              }
+              li.active {
+                background-color: #fff;
+                .father {
+                  .triangle {
+                    opacity: 1;
+                  }
+                  border-right: 1px solid @triangle-color;
+                  color: @in;
+                }
+              }
+              .father {
+                height: 40px;
+                line-height: 40px;
+                border-bottom: 1px solid #d3d4d4;
+                border-top: 1px solid #fbfbfb;
+                font-weight: bold;
+                .img {
+                  float: left;
+                  width: 16px;
+                  height: 25px;
+                  margin: 6px 12px 0 20px;
+                }
+                img {
+                  float: right;
+                  margin: 16px 20px 0 0;
+                }
+                .triangle {
+                  float: right;
+                  width: 0;
+                  height: 0;
+                  margin-top: 4px;
+                  border-top: 15px solid transparent;
+                  border-right: 18px solid @triangle-color;
+                  border-bottom: 15px solid transparent;
+                  opacity: 0;
+                }
+              }
+              .children {
+                /*display: none;*/
+                border-top: 1px solid #fbfbfb;
+                border-bottom: 1px solid #d3d4d4;
+                font-size: 13px;
+                a {
+                  height: 25px;
+                  line-height: 25px;
+                  color: inherit;
+                  padding-left: 23px;
+                }
+                a.active, a:hover, .router-link-active, .router-link-active:hover {
+                  color: @in;
+                  background-color: @inBc;
+                }
+              }
+            }
+            .right-content{
+              display: inline-block;
+              min-height: calc(~'100vh - 50px');
+              min-width: calc(~'100vw - 275px');
+              vertical-align: top;
+              padding: 20px 10px;
+              border-left:1px solid #d3d4d4;
+              margin-left: -4px;
+            }
+          }
         }
-
-
-
       }
     }
   }
