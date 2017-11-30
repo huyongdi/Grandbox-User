@@ -16,13 +16,13 @@
         <span class="col-md-1" v-for="data in allGeneData">
           <div v-for="(list,index) in data">  <!--竖着的每列，总共12个竖着-->
              <div  class="similar-td" v-if="list"><!--:data-original-title-->
-               <div v-if="!list.special" data-toggle="tooltip" data-placement="top" :data-original-title="'名称：'+list.symbol+'<br>别名：'+list.synonyms"
+               <div v-if="!list.special" data-toggle="tooltip" data-placement="top" :data-original-title="'名称：'+list.name.symbol+'<br>别名：'+list.name.synonyms"
                     :class="{'special-bc':index%2!=0,'isLetter':list.special}"
                     @click="toGeneD(list)">
                  <span v-if="list.name">{{list.name.symbol}}</span>
                </div>
                <div class="v-else" :class="{'special-bc':index%2!=0,'isLetter':list.special}"
-                    @click="toGeneD(list)">{{list.name.symbol}}</div>
+                    @click="toGeneD(list)">{{list.symbol}}</div>
              </div>
              <div class="similar-td" v-else="" :class="{'special-bc':index%2!=0}">  </div>
           </div>
@@ -121,6 +121,8 @@
         _vue.allGeneData = [];
         _vue.allGeneData = _vue.outputs(newArr);
 
+        console.log(_vue.respGeneData);
+
       },
       fillAllGene: function () {
         const _vue = this;
@@ -182,7 +184,7 @@
       },
 
       toGeneD: function (list) {
-        this.$router.push({name: 'geneD', query: {id:list.id}})
+        this.$router.push({name: 'geneD', query: {id:list._id}})
       },
 
     },

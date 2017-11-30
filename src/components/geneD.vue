@@ -1,28 +1,31 @@
 <template>
-  <div id="gene-d" class="p-div">
-    <div class="title">
-      【基因】AVP
-    </div>
-
-    <div class="content-one">
-      <div class="header" @click.self="showContent">
-        <span class="fa fa-chevron-down"></span>基本信息
+  <div class="data-content">
+    <loading v-if="loading"></loading>
+    <dataHeader></dataHeader>
+    <div id="gene-d" class="right-content">
+      <div class="title">
+        【基因】{{allData.name?allData.name.symbol:''}}
       </div>
-      <div class="content" style="display: block">
-        <table class="special-table">
-          <tbody>
+
+      <div class="content-one">
+        <div class="header" @click.self="showContent">
+          <span class="fa fa-chevron-down"></span>基本信息
+        </div>
+        <div class="content" style="display: block">
+          <table class="special-table">
+            <tbody>
             <tr>
-              <td class="t-bc">基因大小</td>
-              <td>2169</td>
+              <td class="t-bc">基因ID</td>
+              <td>{{allData.geneid}}</td>
               <td class="t-bc">基因位置</td>
-              <td>2169</td>
+              <td>{{allData.location?allData.location.map_location:''}}</td>
             </tr>
 
             <tr>
               <td class="t-bc">基因全称</td>
-              <td>2169</td>
+              <td>{{allData.name?allData.name.fullname_fna:''}}</td>
               <td class="t-bc">别名</td>
-              <td>2169</td>
+              <td>{{allData.name?allData.name.synonyms.join(' | '):''}}</td>
             </tr>
 
             <tr>
@@ -42,84 +45,101 @@
               <td colspan="3">NM_000490.4(大小:619)--> NP_000481.2(大小:164,蛋白质大小:NA) </td>
             </tr>
 
-          <tr>
-            <td class="t-bc">携带致病突变病例</td>
-            <td>0</td>
-            <td class="t-bc">收录变异</td>
-            <td>0</td>
-          </tr>
+            <tr>
+              <td class="t-bc">携带致病突变病例</td>
+              <td>0</td>
+              <td class="t-bc">收录变异</td>
+              <td>0</td>
+            </tr>
 
-          <tr>
-            <td class="t-bc">简介</td>
-            <td colspan="3">xxxxxxxxxx</td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="content-one">
-      <div class="header" @click.self="showContent">
-        <span class="fa fa-chevron-down"></span>疾病和表型
-      </div>
-      <div class="content disease-phenotype" style="display: block">
-        <div class="left">
-          <div class="title">疾病相关表型 （总病例数： 0 ）</div>
-          <ul>
-            <li>埃利伟氏综合症 （外显病例： 0 ）</li>
-          </ul>
-        </div>
-        <div class="right">
-          <div class="title">基因相关表型 （总病例数： 0 ）</div>
-          <ul>
-            <li>房间隔缺陷 （外显病例： 0 )</li>
-            <li>房间隔缺陷 （外显病例： 0 )</li>
-            <li>房间隔缺陷 （外显病例： 0 )</li>
-            <li>房间隔缺陷 （外显病例： 0 )</li>
-            <li>房间隔缺陷 （外显病例： 0 )</li>
-          </ul>
+            <tr>
+              <td class="t-bc">简介</td>
+              <td colspan="3">xxxxxxxxxx</td>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </div>
+
+      <div class="content-one">
+        <div class="header" @click.self="showContent">
+          <span class="fa fa-chevron-down"></span>疾病和表型
+        </div>
+        <div class="content disease-phenotype" style="display: block">
+          <div class="left">
+            <div class="title">疾病相关表型 （总病例数： 0 ）</div>
+            <ul>
+              <li>埃利伟氏综合症 （外显病例： 0 ）</li>
+            </ul>
+          </div>
+          <div class="right">
+            <div class="title">基因相关表型 （总病例数： 0 ）</div>
+            <ul>
+              <li>房间隔缺陷 （外显病例： 0 )</li>
+              <li>房间隔缺陷 （外显病例： 0 )</li>
+              <li>房间隔缺陷 （外显病例： 0 )</li>
+              <li>房间隔缺陷 （外显病例： 0 )</li>
+              <li>房间隔缺陷 （外显病例： 0 )</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-one">
+        <div class="header" @click.self="showContent">
+          <span class="fa fa-chevron-down"></span>详情
+        </div>
+        <div class="content" style="display: block">
+          该基因编码的蛋白含有亮氨酸拉链和一个跨膜结构域。已发现该基因与埃利伟氏综合症和Weyers颅面骨发育不全有关。
+        </div>
+      </div>
+
+      <div class="content-one">
+        <div class="header" @click.self="showContent">
+          <span class="fa fa-chevron-down"></span>参考资料
+        </div>
+        <div class="content" style="display: block">
+          该基因编码的蛋白含有亮氨酸拉链和一个跨膜结构域。已发现该基因与埃利伟氏综合症和Weyers颅面骨发育不全有关。
+        </div>
+      </div>
     </div>
-
-
-    <div class="content-one">
-      <div class="header" @click.self="showContent">
-        <span class="fa fa-chevron-down"></span>详情
-      </div>
-      <div class="content" style="display: block">
-        该基因编码的蛋白含有亮氨酸拉链和一个跨膜结构域。已发现该基因与埃利伟氏综合症和Weyers颅面骨发育不全有关。
-      </div>
-    </div>
-
-    <div class="content-one">
-      <div class="header" @click.self="showContent">
-        <span class="fa fa-chevron-down"></span>参考资料
-      </div>
-      <div class="content" style="display: block">
-        该基因编码的蛋白含有亮氨酸拉链和一个跨膜结构域。已发现该基因与埃利伟氏综合症和Weyers颅面骨发育不全有关。
-      </div>
-    </div>
-
   </div>
 </template>
 
 <script>
+  import dataHeader from './global/databaseHeader.vue'
+
   export default {
+    components: {
+      'dataHeader': dataHeader,
+    },
     data: function () {
-      return {}
+      return {
+        id:this.$route.query.id,
+        loading:true,
+        allData:'',
+      }
     },
     mounted: function () {
-
+      this.getGene();
     },
     methods: {
-      showContent:function (e) {
+      getGene:function () {
+        const _vue = this;
+        this.myAxios({
+          url:'biomeddb/gene/'+this.id
+        }).then(function (resp) {
+          _vue.loading = false;
+          _vue.allData = resp.data.data
+        })
+      },
+      showContent: function (e) {
         const _header = $(e.target);
         const _span = _header.find('.fa');
         _header.next().slideToggle();
-        if(_span.hasClass("fa-chevron-right")){
+        if (_span.hasClass("fa-chevron-right")) {
           _span.removeClass('fa-chevron-right').addClass("fa-chevron-down")
-        }else{
+        } else {
           _span.removeClass('fa-chevron-down').addClass("fa-chevron-right").addClass('abc')
         }
       }
@@ -161,13 +181,13 @@
         color: #333;
         cursor: pointer;
       }
-      .content{
+      .content {
         padding: 15px 35px 15px;
         font-size: 12px;
       }
-      .disease-phenotype{
+      .disease-phenotype {
         overflow: hidden;
-        .title{
+        .title {
           margin-bottom: 15px;
           padding: 0 10px;
           line-height: 40px;
@@ -178,20 +198,20 @@
           overflow: hidden;
           font-size: 14px;
         }
-        ul{
+        ul {
           margin-left: 12px;
-          li{
+          li {
             height: 33px;
             line-height: 33px;
             border-bottom: 1px dashed #ddd;
           }
         }
-        .left,.right{
-         float: left;
+        .left, .right {
+          float: left;
           width: 48%;
         }
-        .left{
-          margin-right:2%
+        .left {
+          margin-right: 2%
         }
       }
     }

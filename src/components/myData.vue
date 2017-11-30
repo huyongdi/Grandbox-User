@@ -32,7 +32,7 @@
       </thead>
       <tbody>
       <tr v-if="results.length == 0 && doneHttp">
-        <td colspan="11" class="center">暂无数据</td>
+        <td colspan="10" class="center">暂无数据</td>
       </tr>
       <tr v-for="(list,index) in results" :class="{'tr-bc':index%2}">
         <td><i class="fa fa-folder-open" title="查看样本详情" @click="showDetail(list)"></i></td>

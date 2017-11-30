@@ -103,7 +103,7 @@
           $(".li-1").addClass('active')
         }else if(currentPath == 'tool' || currentPath == 'tool'){
           $(".li-3").addClass('active')
-        }else if(currentPath == 'disease'){
+        }else if(currentPath == 'disease' || currentPath == 'gene' || currentPath == 'geneD'){
           $(".li-2").addClass('active')
         }else if(currentPath == 'phenotype'){
           $(".li-4").addClass('active')

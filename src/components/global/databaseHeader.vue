@@ -58,7 +58,7 @@
         let _li = '';
         if(currentPath == 'disease'){
           _li = $("#li-0");
-        }else if(currentPath == 'gene'){
+        }else if(currentPath == 'gene' || currentPath == 'geneD'){
           _li = $("#li-1");
         }else if(currentPath == 'phenotype'){
           _li = $("#li-2")

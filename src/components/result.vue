@@ -171,7 +171,7 @@
 
               <tr v-for="(data,index) in lists1" :class="{'tr-bc':index%2}">
                 <td class="">
-                  <router-link class="po common-a" v-if="data.snv && data.snv.variant" target="_blank" :to="{path:'/variationD',query:{id:sn}}"
+                  <router-link class="po common-a" v-if="data.snv && data.snv.variant" target="_blank" :to="{path:'/variationD',query:{sn:sn,id:data._id}}"
                                title="查看变异详情">
                     {{data.snv.variant.chrom}}:{{data.snv.variant.start}}:{{data.snv.variant.end}}:{{data.snv.variant.ref}}:{{data.snv.variant.alt}}
                   </router-link>
@@ -481,6 +481,7 @@
           url: 'manage/sample/' + this.sn + '/record?page='+this.page1+conditionStr
         }).then(function (resp) {
           let data = resp.data;
+          _vue.doneHttp = true;
           _vue.count1 = data.meta.total;
           _vue.patient = data.meta.patient;
           _vue.sampleSn = data.meta.sample_sn;
@@ -549,7 +550,7 @@
           method:'patch',
           data:{
             status:status,
-            comment:''
+//            comment:''
           }
         }).then(function (resp) {
           _vue.success('修改状态成功')

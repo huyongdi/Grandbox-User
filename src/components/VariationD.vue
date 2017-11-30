@@ -56,7 +56,7 @@
           <span class="col-xs-8">
               <span class="pull-left">备注</span>
               <span class="col-xs-8">
-                 <textarea placeholder="请输入内容,enter提交" name="" id="" rows="6" class="w100"></textarea>
+                 <textarea v-model="comment" placeholder="请输入内容,enter提交" name="" id="" rows="6" class="w100" @keyup.enter.exact="doComment"></textarea>
               </span>
           </span>
 
@@ -406,6 +406,8 @@
   export default {
     data: function () {
       return {
+        sn:this.$route.query.sn,
+        id:this.$route.query.id,
         in0: true,
         in1: true,
         in2: '',
@@ -431,6 +433,7 @@
         dataBaseArr: [],
         dataBaseData: [],
 
+        comment:'',
 
         /*位点弹框*/
         fullLocusStr: '',
@@ -658,6 +661,21 @@
     },
     methods: {
       //切换导航
+      doComment:function () {
+        const _vue = this;
+        this.myAxios({
+          url:'manage/sample/' + this.sn + '/record/'+this.id,
+          method:'patch',
+          data:{
+//            status:status,
+            comment:this.comment
+          }
+        }).then(function (resp) {
+          _vue.success('修改状态成功')
+        }).catch(function (error) {
+          _vue.catchFun(error)
+        })
+      },
       changeContent: function (event) {
         const _current = $(event.target);
         const current = _current.data('type');

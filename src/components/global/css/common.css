@@ -6,6 +6,9 @@ html {
   /*修改element插件的样式*/
   /*模拟表格*/
 }
+html .tooltip .tooltip-inner {
+  text-align: left;
+}
 html .w100 {
   width: 100%;
 }
