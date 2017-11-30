@@ -1,6 +1,7 @@
 <!--suppress HtmlUnknownTag -->
 <template>
   <div class="p-div" id="result-content">
+    <loading v-if="loading"></loading>
 
     <div class="done-list">
       <div class="title">
@@ -434,6 +435,7 @@
     },
     data: function () {
       return {
+        loading:'',
         in1: true,
         in2: '',
         sn: this.$route.query.id ? this.$route.query.id : 0,
@@ -590,9 +592,9 @@
         $('#panelModal').modal('show')
       },
       savePanel: function (data) {
-        let panelArr = []
-        const _vue = this
-        _vue.loading0 = true
+        let panelArr = [];
+        const _vue = this;
+        _vue.loading = true
         $.each(data.panel, function (i, n) {
           panelArr.push({name: n.value, code: n.key})
         })
@@ -608,7 +610,7 @@
         }).then(function () {
           alert('提交成功')
           $('#panelModal').modal('hide')
-          _vue.loading0 = false
+          _vue.loading = false
         }).catch(function (error) {
           _vue.catchFun(error)
         })

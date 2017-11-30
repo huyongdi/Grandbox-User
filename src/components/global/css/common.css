@@ -24,6 +24,9 @@ html .top5 {
 html .mr-left15 {
   margin-left: 15px;
 }
+html .mr-right15 {
+  margin-right: 15px;
+}
 html input::-webkit-input-placeholder {
   color: #b4bccc;
 }

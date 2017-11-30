@@ -105,6 +105,13 @@
   @interleave: rgb(246, 248, 250);
   @fliterBorder: rgb(212, 212, 212);
 
+  .bc {
+    background: #fff;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+    font-weight: bold;
+  }
+
   html {
     min-width: 1430px;
     background: linear-gradient(to bottom, #f0f0f0, #ffffff);
@@ -127,7 +134,8 @@
         .router-content{
           width: 100%;
           min-height: calc(~'100vh - 50px');
-          background: url("../static/img/html-bc.png");
+          background: url("../static/img/html-bc.png") no-repeat center;
+          background-size: 100% 100%;
           .p-div{
             padding: 30px 60px;
           }
@@ -209,6 +217,66 @@
               padding: 20px 10px;
               border-left:1px solid #d3d4d4;
               margin-left: -4px;
+            }
+            .drop-down{
+              > .title {
+                .bc;
+                font-size: 16px;
+                padding: 10px 20px;
+              }
+              > .content-one {
+                .bc;
+                background-color: #fff;
+                margin: 20px 0;
+                padding: 10px 0;
+                .header {
+                  .fa {
+                    color: @in;
+                    margin-right: 15px;
+                    width: 14px;
+                    height: 14px;
+                  }
+                  position: relative;
+                  height: 42px;
+                  line-height: 42px;
+                  padding: 0 15px 0 35px;
+                  color: #333;
+                  cursor: pointer;
+                }
+                .content {
+                  padding: 15px 35px 15px;
+                  font-size: 12px;
+                }
+                .disease-phenotype {
+                  overflow: hidden;
+                  .title {
+                    margin-bottom: 15px;
+                    padding: 0 10px;
+                    line-height: 40px;
+                    height: 40px;
+                    background: #e4ecea;
+                    border-left: 3px solid #27a482;
+                    color: #333;
+                    overflow: hidden;
+                    font-size: 14px;
+                  }
+                  ul {
+                    margin-left: 12px;
+                    li {
+                      height: 33px;
+                      line-height: 33px;
+                      border-bottom: 1px dashed #ddd;
+                    }
+                  }
+                  .left, .right {
+                    float: left;
+                    width: 48%;
+                  }
+                  .left {
+                    margin-right: 2%
+                  }
+                }
+              }
             }
           }
         }

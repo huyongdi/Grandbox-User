@@ -71,15 +71,20 @@
         <i class="triangle"></i>
       </div>
       <ul class="dropdown-menu" aria-labelledby="hideContent">
-        <li><a :href="changePassword" target="_blank">修改密码</a></li>
+        <li><a href="javascript:void(0)" @click="showPModal">修改密码</a></li>
       </ul>
     </div>
+    <changeP></changeP>
   </div>
 </template>
 
 <script>
+  import changeP from './changePassword.vue'
   export default {
     name: 'header',
+    components: {
+      'changeP': changeP,
+    },
     data: function () {
       return {
         uname: localStorage.uname
@@ -101,9 +106,9 @@
         _header.find('>.active').removeClass('active');
         if(currentPath == 'myData' || currentPath == 'report' || currentPath=='result' ||currentPath == 'variationD'){
           $(".li-1").addClass('active')
-        }else if(currentPath == 'tool' || currentPath == 'tool'){
+        }else if(currentPath == 'tool' || currentPath == ''){
           $(".li-3").addClass('active')
-        }else if(currentPath == 'disease' || currentPath == 'gene' || currentPath == 'geneD'){
+        }else if(currentPath == 'disease' || currentPath == 'gene' || currentPath == 'geneD'  || currentPath=='omim' || currentPath=='phenotype'){
           $(".li-2").addClass('active')
         }else if(currentPath == 'phenotype'){
           $(".li-4").addClass('active')
@@ -126,6 +131,11 @@
           this.$router.push({path: '/'})
         }
       },
+
+      //修改密码
+      showPModal:function () {
+        $("#passwordModal").modal("show")
+      }
     }
   }
 </script>
@@ -136,12 +146,13 @@
     height: 50px;
     line-height: 40px;
     width: 100%;
-    color: #fff;
+    /*color: #fff;*/
     background: url('../../../static/img/header-bc.png') no-repeat center;
     background-size: 100%;
     border-bottom: 1px solid rgb(0, 77, 144);
 
     .logo {
+      color: #fff;
       position: relative;
       width: 251px;
       line-height: 49px;
@@ -158,6 +169,7 @@
     }
 
     > ul {
+      color: #fff;
       margin: 0;
       li.active {
         background-color: #fff;
@@ -238,6 +250,7 @@
       }
     }
     .name-content {
+      color: #fff;
       padding-right: 20px;
       .triangle {
         float: right;
@@ -253,13 +266,19 @@
       }
     }
     .dropdown-menu {
+      color: #fff;
       left: 0;
     }
     .register-img {
       margin: 0 5px 2px 20px;
     }
     .register-span {
+      color: #fff;
       margin-right: 20px;
     }
+    #modal-title{
+
+    }
   }
+
 </style>

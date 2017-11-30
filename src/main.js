@@ -10,6 +10,7 @@ import axios from 'axios'
 import '../node_modules/bootstrap/dist/js/bootstrap.min.js'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import '../node_modules/font-awesome/css/font-awesome.min.css'
+import './components/global/globalFun.js'
 
 Vue.prototype.Base64 = require('js-base64').Base64;
 Vue.prototype.$axios = axios;
@@ -53,91 +54,7 @@ Vue.prototype.myAxios.interceptors.request.use(function (config) {
 
 Vue.prototype.helpHtml = 'https://www.grandbox.site/manage/help/announcement';//帮助地址
 Vue.prototype.feedBackHtml = 'https://redmine.grandbox.site';//反馈中心地址
-Vue.prototype.changePassword = 'https://www.grandbox.site/manage/updatePassword';//修改密码地址
 
-/*自定义全局函数*/
-// 捕获错误
-Vue.prototype.catchFun = function (error) {
-  if (error.response) {
-    let alertContent = '';
-    if (error.response.data.errors) {
-      if (typeof error.response.data.errors === 'string') {
-        alertContent = error.response.data.message + ' ' + error.response.data.errors
-      } else {
-        const arr = [];
-        $.each(error.response.data.errors, function (i, value) {
-          arr.push(i + ' : ' + value)
-        });
-        alertContent = error.response.data.message + ' : ' + arr.join(' ; ')
-      }
-    } else if (error.response.data.error) {
-      alertContent = error.response.data.message
-    } else {
-      alertContent = error.response.data.message;
-    }
-
-
-    this.$message({
-//      showClose: true,
-      message: error.response.status + ' : ' + alertContent,
-      type: 'error'
-    });
-    if (error.response.status === 401) {
-      if (this.$route.name !== 'login') {
-//        localStorage.token = '';
-        this.$router.push({path: '/login', query: {'next': this.$route.path}})
-      }
-    }
-  } else {
-
-    this.$message({
-//      showClose: true,
-      message: error.message,
-      type: 'error'
-    });
-  }
-};
-// 字符串转化为数组
-Vue.prototype.strToArr = function (str) {
-  str = $.trim(str).replace(/，/g, ','); //英文逗号替换为中文
-  str = str.replace(/<\/?.+?>/g, ","); //回车替换成逗号
-  str = str.replace(/[\r\n]/g, ",");//回车替换成逗号
-  let arr = str.split(',');
-  let arr1 = [];
-  $.each(arr, function (i, data) {
-    if (data) {
-      arr1.push(data);
-    }
-  });
-  return arr1
-};
-// hide转换(参数为id)
-Vue.prototype.switchHide = function (ID) {
-  const _ele = $("#" + ID);
-  if (_ele.hasClass('hide')) {
-    _ele.removeClass('hide')
-  } else {
-    _ele.addClass('hide')
-  }
-};
-
-//错误提示
-
-Vue.prototype.success = function (message) {
-  this.$message({
-//    showClose: true,
-    message: message,
-    type: 'success'
-  });
-};
-
-Vue.prototype.alert = function (message) {
-  this.$message({
-//    showClose: true,
-    message: message,
-    type: 'error'
-  });
-};
 
 new Vue({
   el: '#app',

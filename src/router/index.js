@@ -11,6 +11,7 @@ import Disease from '@/components/disease'
 import Phenotype from '@/components/phenotype'
 import VariationD from '@/components/VariationD'
 import tool from '@/components/tool'
+import OMIM from '@/components/omim'
 
 
 Vue.use(Router);
@@ -71,6 +72,11 @@ export default new Router({
       path: '/tool',
       name: 'tool',
       component: tool
+    },
+    {
+      path: '/omim',
+      name: 'omim',
+      component: OMIM
     },
   ]
 })

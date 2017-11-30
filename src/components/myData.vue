@@ -38,27 +38,29 @@
         <td><i class="fa fa-folder-open" title="查看样本详情" @click="showDetail(list)"></i></td>
         <td>{{list.sn}}</td>
         <td><span v-if="list.patient">{{list.patient.name}} ({{list.patient.gender}})</span></td>
-        <td><span v-if="list.patient">{{list.patient.age?list.patient.age:'-'}}</span></td>
-        <td><span v-if="list.patient">{{list.patient.national?list.patient.national:'-'}}</span></td>
-        <td><span v-if="list.patient">{{list.patient.nativePlace?list.patient.nativePlace:'-'}}</span></td>
-        <td><span v-if="list.patient">{{list.patient.medical_record?list.patient.medical_record:'-'}}</span></td>
+        <td><span v-if="list.patient">{{list.patient.age ? list.patient.age : '-'}}</span></td>
+        <td><span v-if="list.patient">{{list.patient.national ? list.patient.national : '-'}}</span></td>
+        <td><span v-if="list.patient">{{list.patient.nativePlace ? list.patient.nativePlace : '-'}}</span></td>
+        <td><span v-if="list.patient">{{list.patient.medical_record ? list.patient.medical_record : '-'}}</span></td>
 
-        <td v-if="list.data_files.length!=0" class="file-td">
-          <a v-for="file in list.data_files" :href="apiUrl+''+file.downloadUrl">{{file.filename}}</a>
+        <td class="file-td">
+          <span v-if="list.data_files.length!=0">
+            <a v-for="file in list.data_files" href="javascript:void (0)"  @click="downloadFile(list._id,file._id)">{{file.filename}}</a><!--:href="apiUrl+''+file.downloadUrl"-->
+          </span>
         </td>
-<!--signature-->
+        <!--signature-->
         <td>
           <!--<div v-if="list.data_files">-->
-            <!--<div v-for="data in list.data_files">-->
-              <!--<i v-if='data.status == 0' class="fa fa-hourglass-1 text-success">等待</i>-->
-                <!--<span v-if="data.status == 1"> &lt;!&ndash;避免字跟着一起转&ndash;&gt;-->
-                  <!--<i class="fa fa-spinner fa-pulse text-success"></i>运行中-->
-                <!--</span>-->
-              <!--<router-link :to="{path:'/result',query:{id:list._id}}" title="查看结果">-->
-                <!--<i v-if='data.status == 2' class="fa fa-check text-success po">已完成</i>-->
-              <!--</router-link>-->
-              <!--<i v-if='data.status == -1' class="fa fa-bug text-danger">出错</i>-->
-            <!--</div>-->
+          <!--<div v-for="data in list.data_files">-->
+          <!--<i v-if='data.status == 0' class="fa fa-hourglass-1 text-success">等待</i>-->
+          <!--<span v-if="data.status == 1"> &lt;!&ndash;避免字跟着一起转&ndash;&gt;-->
+          <!--<i class="fa fa-spinner fa-pulse text-success"></i>运行中-->
+          <!--</span>-->
+          <!--<router-link :to="{path:'/result',query:{id:list._id}}" title="查看结果">-->
+          <!--<i v-if='data.status == 2' class="fa fa-check text-success po">已完成</i>-->
+          <!--</router-link>-->
+          <!--<i v-if='data.status == -1' class="fa fa-bug text-danger">出错</i>-->
+          <!--</div>-->
           <!--</div>-->
           <!--<div v-else="">待分析</div>-->
           <router-link :to="{path:'/result',query:{id:list._id}}" title="">
@@ -68,6 +70,7 @@
         <td>
           <img class="edit" src="../../static/img/edit.png" @click="listEdit(list._id)" title="编辑">
           <span class="fa fa-file-excel-o fa-lg" title="上传文件" @click="showUpModal(list._id)"></span>
+          <i @click="deleteSample(list._id)" class="fa fa-trash fa-lg delete" title="删除"></i>
         </td>
       </tr>
       </tbody>
@@ -136,22 +139,22 @@
 
                 <div :class="{'hide':hide2}" class="over-hide">
 
-                    <div class="col-xs-12">
-                      <fuzzyQuery placeholder='请输入表型' :leftData="leftData" :rightData="originalRightData" title="已选表型"
-                                  @sendInput="receiveFuzzy0"></fuzzyQuery>
+                  <div class="col-xs-12">
+                    <fuzzyQuery placeholder='请输入表型' :leftData="leftData" :rightData="originalRightData" title="已选表型"
+                                @sendInput="receiveFuzzy0"></fuzzyQuery>
+                  </div>
+                  <div class="col-xs-12 case-content">
+                    <span class="title bold">病历</span>
+                    <div class="col-xs-6">
+                      <el-input
+                        type="textarea"
+                        :autosize="{ minRows: 5, maxRows: 5}"
+                        placeholder="请输入内容"
+                        v-model="ruleForm.patientCase">
+                      </el-input>
                     </div>
-                    <div class="col-xs-12 case-content">
-                      <span class="title bold">病历</span>
-                      <div class="col-xs-6">
-                        <el-input
-                          type="textarea"
-                          :autosize="{ minRows: 5, maxRows: 5}"
-                          placeholder="请输入内容"
-                          v-model="ruleForm.patientCase">
-                        </el-input>
-                      </div>
 
-                    </div>
+                  </div>
 
                 </div>
 
@@ -249,60 +252,60 @@
 
 
             <el-form id="editDataFormCap" :model="editForm" :rules="rules" ref="editForm" label-width="100px" class="demo-ruleForm">
-                <div class="row">
-                  <div class="col-xs-6">
-                    <el-form-item label="受检者姓名" prop="name">
-                      <el-input v-model="editForm.name"></el-input>
-                    </el-form-item>
-                  </div>
-                  <div class="col-xs-6">
-                    <el-form-item label="编号" prop="sn">
-                      <el-input v-model="editForm.sn"></el-input>
-                    </el-form-item>
-                  </div>
-                  <div class="col-xs-6">
-                    <el-form-item label="性别" prop="gender">
-                      <el-select v-model="editGender" placeholder="请选择性别">
-                        <el-option label="未知" value="未知"></el-option>
-                        <el-option label="男" value="男"></el-option>
-                        <el-option label="女" value="女"></el-option>
-                      </el-select>
-                    </el-form-item>
-                  </div>
-                  <div class="col-xs-6">
-                    <el-form-item label="名族">
-                      <el-input v-model="editForm.national"></el-input>
-                    </el-form-item>
-                  </div>
-                  <div class="col-xs-6">
-                    <el-form-item label="籍贯" prop="nativePlace">
-                      <el-input v-model="editForm.nativePlace"></el-input>
-                    </el-form-item>
-                  </div>
-                  <div class="col-xs-6">
-                    <el-form-item label="年龄">
-                      <el-input v-model="editForm.age"></el-input>
-                    </el-form-item>
-                  </div>
-                  <div class="col-xs-12">
-                    <fuzzyQuery placeholder='请输入表型' :leftData="leftData" :rightData="originalRightData" title="已选表型"
-                                @sendInput="receiveFuzzy0"></fuzzyQuery>
-                  </div>
-                  <div class="col-xs-12 panel-content">
-                    <cascadeQuery :leftData="panelOptions" :rightData="panelRight"></cascadeQuery>
-                  </div>
-                  <div class="col-xs-10 case-content-edit">
-                    <span class="title bold">病历</span>
-                    <div class="">
-                      <el-input
-                        type="textarea"
-                        :autosize="{ minRows: 5, maxRows: 5}"
-                        placeholder="请输入内容"
-                        v-model="editForm.patientCase">
-                      </el-input>
-                    </div>
+              <div class="row">
+                <div class="col-xs-6">
+                  <el-form-item label="受检者姓名" prop="name">
+                    <el-input v-model="editForm.name"></el-input>
+                  </el-form-item>
+                </div>
+                <div class="col-xs-6">
+                  <el-form-item label="编号" prop="sn">
+                    <el-input v-model="editForm.sn"></el-input>
+                  </el-form-item>
+                </div>
+                <div class="col-xs-6">
+                  <el-form-item label="性别" prop="gender">
+                    <el-select v-model="editGender" placeholder="请选择性别">
+                      <el-option label="未知" value="未知"></el-option>
+                      <el-option label="男" value="男"></el-option>
+                      <el-option label="女" value="女"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </div>
+                <div class="col-xs-6">
+                  <el-form-item label="名族">
+                    <el-input v-model="editForm.national"></el-input>
+                  </el-form-item>
+                </div>
+                <div class="col-xs-6">
+                  <el-form-item label="籍贯" prop="nativePlace">
+                    <el-input v-model="editForm.nativePlace"></el-input>
+                  </el-form-item>
+                </div>
+                <div class="col-xs-6">
+                  <el-form-item label="年龄">
+                    <el-input v-model="editForm.age"></el-input>
+                  </el-form-item>
+                </div>
+                <div class="col-xs-12">
+                  <fuzzyQuery placeholder='请输入表型' :leftData="leftData" :rightData="originalRightData" title="已选表型"
+                              @sendInput="receiveFuzzy0"></fuzzyQuery>
+                </div>
+                <div class="col-xs-12 panel-content">
+                  <cascadeQuery :leftData="panelOptions" :rightData="panelRight"></cascadeQuery>
+                </div>
+                <div class="col-xs-10 case-content-edit">
+                  <span class="title bold">病历</span>
+                  <div class="">
+                    <el-input
+                      type="textarea"
+                      :autosize="{ minRows: 5, maxRows: 5}"
+                      placeholder="请输入内容"
+                      v-model="editForm.patientCase">
+                    </el-input>
                   </div>
                 </div>
+              </div>
             </el-form>
 
           </div>
@@ -373,9 +376,11 @@
                 <div class="col-xs-3">姓名：<span v-if="detailData.patient">{{detailData.patient.name}}</span></div>
                 <div class="col-xs-3">编号：<span v-if="detailData">{{detailData.sn}}</span></div>
                 <div class="col-xs-3">性别：<span v-if="detailData.patient">{{detailData.patient.gender}}</span></div>
-                <div class="col-xs-3">名族：<span v-if="detailData.patient">{{detailData.patient.national?detailData.patient.national:'-'}}</span></div>
-                <div class="col-xs-3">籍贯：<span v-if="detailData.patient">{{detailData.patient.nativePlace?detailData.patient.nativePlace:'-'}}</span></div>
-                <div class="col-xs-3">年龄：<span v-if="detailData.patient">{{detailData.patient.age?detailData.patient.age:'-'}}</span></div>
+                <div class="col-xs-3">名族：<span v-if="detailData.patient">{{detailData.patient.national ? detailData.patient.national : '-'}}</span>
+                </div>
+                <div class="col-xs-3">籍贯：<span v-if="detailData.patient">{{detailData.patient.nativePlace ? detailData.patient.nativePlace :
+                  '-'}}</span></div>
+                <div class="col-xs-3">年龄：<span v-if="detailData.patient">{{detailData.patient.age ? detailData.patient.age : '-'}}</span></div>
               </div>
             </div>
 
@@ -385,7 +390,7 @@
                 <div class="col-xs-12" v-for="file in detailData.data_files">
                   <div class="col-xs-5">文件名：{{file.filename}}</div>
                   <div class="col-xs-4">上传日期：{{file.created_at}}</div>
-                  <div class="col-xs-3">状态：{{file.status|getStatus}}</div>
+                  <div class="col-xs-3">状态：{{file.status | getStatus}}</div>
                 </div>
               </div>
             </div>
@@ -396,15 +401,23 @@
                 <div class="col-xs-6">
                   <span class="col-xs-3">已选表型</span>
                   <ul class="col-xs-9">
-                    <li class="nowrap ellipsis po" title="我是已选表型1111111111111111111111111111111111111111111111111">我是已选表型1111111111111111111111111111111111111111111111111</li>
-                    <li class="nowrap ellipsis po" title="我是已选表型1111111111111111111111111111111111111111111111111">我是已选表型1111111111111111111111111111111111111111111111111</li>
-                    <li class="nowrap ellipsis po" title="我是已选表型1111111111111111111111111111111111111111111111111">我是已选表型1111111111111111111111111111111111111111111111111</li>
+                    <li class="nowrap ellipsis po" title="我是已选表型1111111111111111111111111111111111111111111111111">
+                      我是已选表型1111111111111111111111111111111111111111111111111
+                    </li>
+                    <li class="nowrap ellipsis po" title="我是已选表型1111111111111111111111111111111111111111111111111">
+                      我是已选表型1111111111111111111111111111111111111111111111111
+                    </li>
+                    <li class="nowrap ellipsis po" title="我是已选表型1111111111111111111111111111111111111111111111111">
+                      我是已选表型1111111111111111111111111111111111111111111111111
+                    </li>
                   </ul>
                 </div>
                 <div class="col-xs-6">
                   <span class="col-xs-3">已选项目</span>
                   <ul class="col-xs-9">
-                    <li class="nowrap ellipsis po" title="我是已选项目1111111111111111111111111111111111111111111111111">我是已选表型1111111111111111111111111111111111111111111111111</li>
+                    <li class="nowrap ellipsis po" title="我是已选项目1111111111111111111111111111111111111111111111111">
+                      我是已选表型1111111111111111111111111111111111111111111111111
+                    </li>
                   </ul>
                 </div>
                 <div class="col-xs-6">
@@ -439,7 +452,7 @@
     },
     data: function () {
       return {
-        detailData:"",
+        detailData: "",
         /*添加样本*/
         hide1: false,
         hide2: true,
@@ -447,7 +460,7 @@
         hide4: true,
         gender: '未知',
         editGender: '未知',
-        editId:0,
+        editId: 0,
         ruleForm: {
           name: '',
           sn: '',
@@ -466,13 +479,13 @@
         },
         rules: {
           name: [
-            { required: true, message: '请输入姓名', trigger: 'blur' },
+            {required: true, message: '请输入姓名', trigger: 'blur'},
           ],
           sn: [
-            { required: true, message: '请输入编号', trigger: 'blur' },
+            {required: true, message: '请输入编号', trigger: 'blur'},
           ],
-          nativePlace:[
-            { min: 0, max: 32, message: '籍贯长度在32个字符内', trigger: 'blur' }
+          nativePlace: [
+            {min: 0, max: 32, message: '籍贯长度在32个字符内', trigger: 'blur'}
           ]
         },
         leftData: [],
@@ -526,8 +539,8 @@
 //        $("#editModal").on("click", function () {
 //          _vue.showPanel = false;
 //        });
-        _editM.find(".fuzzy-content").find('.name').css("textAlign",'right');
-        _editM.find(".cascade-content").find('.title').css("textAlign",'right')
+        _editM.find(".fuzzy-content").find('.name').css("textAlign", 'right');
+        _editM.find(".cascade-content").find('.title').css("textAlign", 'right')
       });
 //      this.getPanelOp();
     },
@@ -574,31 +587,36 @@
           _vue.loading = false;
           _vue.doneHttp = true;
 
-          _vue.getFileUrl(data.data);
+//          _vue.getFileUrl(data.data);
         }).catch(function (error) {
           _vue.catchFun(error)
         })
       },
-      getFileUrl:function (results) {
-        const _vue = this;
-        let count1 =0;
-        let count2 =0;
-        $.each(results,function (i,data) {
-          $.each(data.data_files,function (key,value) {
-            let postUrl = 'manage/sample/' + data._id+'/data_file/'+value._id;
-            _vue.myAxios({
-              url:postUrl,
-              method:'post'
-            }).then(function (resp) {
-              value.downloadUrl = postUrl+'?signature='+resp.data.signature;
 
-              count2+=1;
-              if(count2 == data.data_files.length){
-                count1+=1;
-                if(count1 == results.length){
-                  _vue.results = results;
-                }
-              }
+      downloadFile:function (lId,fId) {
+        const _vue = this;
+        this.loading = true;
+        const postUrl = 'manage/sample/' + lId + '/data_file/' + fId;
+        _vue.myAxios({
+          url: postUrl,
+          method: 'post'
+        }).then(function (resp) {
+          _vue.loading = false;
+          window.location.href = _vue.apiUrl+postUrl + '?signature=' + resp.data.signature;
+        }).catch(function (error) {
+          _vue.catchFun(error)
+        })
+      },
+      getFileUrl: function (results) {
+        const _vue = this;
+        $.each(results, function (i, data) {
+          $.each(data.data_files, function (key, value) {
+            let postUrl = 'manage/sample/' + data._id + '/data_file/' + value._id;
+            _vue.myAxios({
+              url: postUrl,
+              method: 'post'
+            }).then(function (resp) {
+              value.downloadUrl = postUrl + '?signature=' + resp.data.signature;
 
             }).catch(function (error) {
               _vue.catchFun(error)
@@ -619,8 +637,30 @@
         this.getList()
       },
 
+      /*删除样本*/
+      deleteSample: function (id) {
+        const _vue = this;
+        this.$confirm('此操作将永久删除该样本, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.myAxios({
+            url: 'manage/sample/' + id,
+            method: 'delete'
+          }).then(function () {
+            _vue.success('删除成功!');
+            _vue.getList();
+          }).catch(function (error) {
+            _vue.catchFun(error)
+          })
+        }).catch(() => {
+
+        });
+      },
+
       /*样本详情*/
-      showDetail:function (data) {
+      showDetail: function (data) {
         this.detailData = data;
         $("#detailModal").modal("show")
       },
@@ -747,8 +787,8 @@
           data: {
             name: this.ruleForm.name,
             sn: this.ruleForm.sn,
-            gender:this.gender,
-            medical_record:this.ruleForm.patientCase,
+            gender: this.gender,
+            medical_record: this.ruleForm.patientCase,
             nation: this.ruleForm.national, /*名族*/
             native_place: this.ruleForm.nativePlace, /*籍贯*/
             age: this.ruleForm.age, /**/
@@ -767,7 +807,7 @@
         console.log($(e.target.files[0]))
       },
 
-      socket:function () {
+      socket: function () {
         const socket = new WebSocket('ws://localhost:8080');
 //        socket.onopen = function(event) {
 //
@@ -801,7 +841,7 @@
       },
 
       /*上传EXCEL*/
-      showUpModal:function (_id) {
+      showUpModal: function (_id) {
 
         const _vue = this;
         $.each(this.results, function (i, data) {
@@ -812,7 +852,7 @@
 
         $("#fileModal").modal("show")
       },
-      saveFile:function () {
+      saveFile: function () {
         const _vue = this;
         const fileNameArr = $("#hide-edit").val().split('.');
         const fileName = fileNameArr[fileNameArr.length - 1];
@@ -820,9 +860,9 @@
           this.loading = true;
           let postData = new FormData(document.getElementById('addDataFormCap'));
 //          postData.append("type", JSON.stringify({'a': 123, 'b': 456}));
-          postData.append("append", this.radioEdit==1?1:0);
+          postData.append("append", this.radioEdit == 1 ? 1 : 0);
           this.myAxios({
-            url: 'manage/sample/' + this.editId+'/data_file',
+            url: 'manage/sample/' + this.editId + '/data_file',
             method: 'post',
             data: postData
           }).then(function () {
@@ -888,7 +928,7 @@
     updated: function () {
       $('[data-toggle="tooltip"]').tooltip()
     },
-    filters:{
+    filters: {
       getStatus: function (status) {
         switch (status) {
           case 0:
@@ -922,12 +962,12 @@
   }
 
   #my-data {
-    .detail-modal{
+    .detail-modal {
       padding-bottom: 40px;
-      .one{
+      .one {
         padding: 0 10px;
         margin-bottom: 15px;
-        >.title{
+        > .title {
           font-size: 16px;
           display: block;
           padding: 8px 0;
@@ -935,15 +975,15 @@
           color: #434343;
           font-weight: 700;
         }
-        >.row{
+        > .row {
 
         }
-        .info-content{
-          ul{
+        .info-content {
+          ul {
             border: 1px solid @border;
             height: 100px;
             overflow-y: auto;
-            li{
+            li {
               margin: 3px 0;
             }
           }
@@ -953,8 +993,8 @@
     .refresh {
       margin-right: 20px;
     }
-    .file-td{
-      >a{
+    .file-td {
+      > a {
         margin-right: 5px;
       }
     }
@@ -988,8 +1028,8 @@
           text-align: center;
           margin-top: 20px;
         }
-        .show-info{
-          .title{
+        .show-info {
+          .title {
             margin-bottom: 15px;
           }
         }
@@ -1109,8 +1149,8 @@
     }
 
     /*修改样本信息弹框样式*/
-    #editModal,#fileModal {
-      .modal-body{
+    #editModal, #fileModal {
+      .modal-body {
         padding-bottom: 50px;
         input, select {
           display: inline-block;
@@ -1240,30 +1280,33 @@
           }
         }
 
-        .case-content-edit{
-          >span{
+        .case-content-edit {
+          > span {
             float: left;
             width: 11.5%;
             margin-right: 1.8%;
             text-align: right;
           }
-          >div{
+          > div {
             float: left;
             width: 60%;
           }
         }
         /*修改引入的fuzzyquery样式*/
-        .fuzzy-content{
-          .name{
+        .fuzzy-content {
+          .name {
             text-align: right;
           }
         }
       }
     }
 
-    table{
-      .edit{
+    table {
+      .edit {
         margin-right: 15px;
+      }
+      .delete {
+        margin-left: 15px;
       }
     }
   }
