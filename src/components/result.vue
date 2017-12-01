@@ -597,7 +597,7 @@
         _vue.loading = true
         $.each(data.panel, function (i, n) {
           panelArr.push({name: n.value, code: n.key})
-        })
+        });
         this.myAxios({
           url: 'sample/datafile/' + this.datafile + '/',
           method: 'patch',
@@ -999,7 +999,7 @@
           clear: both;
           margin-top: 20px;
           .condition {
-            margin-right: 30px;
+            /*margin-right: 30px;*/
           }
           .refresh {
             margin-right: 20px;

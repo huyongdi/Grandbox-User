@@ -53,10 +53,10 @@
       toRight: function (list) {
         let flag = true;
         const _vue = this;
+
         $.each(_vue.rightData, function (i, data) {
           if (list.key === data.key) {
             _vue.$message({
-//              showClose: true,
               message: '请勿重复添加',
               type: 'warning'
             });

@@ -902,16 +902,16 @@
         const _vue = this;
         this.loading = true;
         this.myAxios({
-          url: 'knowledge/phenomini/?query=' + data,
+          url: 'biomeddb/hpo/?query=' + data,
           type: 'get'
         }).then(function (resp) {
           _vue.loading = false;
-          const results = resp.data;
+          let results = resp.data.data;
           _vue.leftData = [];
           $.each(results, function (i, data) {
-            data.vHtml = data.hpoId + ' ' + data.titles.chinese + '(' + data.titles.english + ')'
+            data.vHtml = data.hpoid + ' ' + data.name.chinese + '(' + data.name.english + ')';
             _vue.leftData.push({
-              key: data.hpoId,
+              key: data.hpoid,
               value: data.vHtml
             })
           })
