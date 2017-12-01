@@ -72,6 +72,7 @@
       </div>
       <ul class="dropdown-menu" aria-labelledby="hideContent">
         <li><a href="javascript:void(0)" @click="showPModal">修改密码</a></li>
+        <li v-if="isAdmin" :data-abc="isAdmin"> <router-link :to="{path:'/userList'}">用户列表</router-link></li>
       </ul>
     </div>
     <changeP></changeP>
@@ -87,7 +88,8 @@
     },
     data: function () {
       return {
-        uname: localStorage.uname
+        uname: localStorage.uname,
+        isAdmin:localStorage.isAd == 'true'
       }
     },
     mounted: function () {  //兼容刷新的时候

@@ -12,6 +12,7 @@ import Phenotype from '@/components/phenotype'
 import VariationD from '@/components/VariationD'
 import tool from '@/components/tool'
 import OMIM from '@/components/omim'
+import userList from '@/components/userList'
 
 
 Vue.use(Router);
@@ -77,6 +78,11 @@ export default new Router({
       path: '/omim',
       name: 'omim',
       component: OMIM
+    },
+    {
+      path: '/userList',
+      name: 'userList',
+      component: userList
     },
   ]
 })

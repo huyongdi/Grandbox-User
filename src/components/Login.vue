@@ -107,6 +107,7 @@
         }).then(function (resp) {
           localStorage.token = 'Bearer '+resp.data.token;
           let data = JSON.parse(_vue.Base64.decode(resp.data.token.split('.')[1]));
+          localStorage.isAd = data.is_admin;
           localStorage.uname = data.name;
           localStorage.time = data.exp;
           const nextPath = _vue.$route.query.next ? _vue.$route.query.next : '/myData';

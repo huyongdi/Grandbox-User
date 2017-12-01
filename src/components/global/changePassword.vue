@@ -98,6 +98,7 @@
               }
             }).then(function () {
               _vue.success('密码修改成功');
+              $("#passwordModal").modal("hide");
               _vue.$router.push({path: '/login', query: {'next': _vue.$route.path}})
             }).catch(function (error) {
               _vue.catchFun(error)
