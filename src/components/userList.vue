@@ -3,12 +3,12 @@
     <loading v-if="loading"></loading>
     <div class="top-content">
       <!--<span class="my-btn refresh" @click=""><img src="../../static/img/red-refresh.png" alt="">数据刷新</span>-->
-      <span class="my-btn" @click=""><img src="../../static/img/red-submit.png" alt="">添加用户</span>
+      <span class="my-btn" @click="addUser"><img src="../../static/img/red-submit.png" alt="">添加用户</span>
       <!--<div class="search-div pull-right">-->
-        <!--<input placeholder="请输入关键字" class="search-input" v-model="inputValue" @keyup.enter="search">-->
-        <!--<span class="my-btn" @click="search">-->
-            <!--<img src="../../static/img/red-con.png" alt="">-->
-          <!--</span>-->
+      <!--<input placeholder="请输入关键字" class="search-input" v-model="inputValue" @keyup.enter="search">-->
+      <!--<span class="my-btn" @click="search">-->
+      <!--<img src="../../static/img/red-con.png" alt="">-->
+      <!--</span>-->
       <!--</div>-->
     </div>
 
@@ -18,29 +18,113 @@
         <th>姓名</th>
         <th>邮箱</th>
         <th>身份</th>
+        <th>状态</th>
         <th>创建时间</th>
         <th>更新时间</th>
         <th>操作</th>
       </tr>
       </thead>
       <tbody>
-        <tr v-for="list in lists">
-          <td>{{list.name}}</td>
-          <td>{{list.email}}</td>
-          <td>{{list.is_admin?'管理员':'普通用户'}}</td>
-          <td>{{list.created_at}}</td>
-          <td>{{list.updated_at}}</td>
-          <td>
-            <button>删除</button>
-            <button>修改信息</button>
-            <button>重置密码</button>
-            <button>重置密码</button>
-          </td>
-        </tr>
+      <tr v-for="list in lists">
+        <td>{{list.name}}</td>
+        <td>{{list.email}}</td>
+        <td>{{list.is_admin ? '管理员' : '普通用户'}}</td>
+        <td>{{list.status ? '启用' : '禁用'}}</td>
+        <td>{{list.created_at}}</td>
+        <td>{{list.updated_at}}</td>
+        <td>
+          <button @click="deleteUser(list._id)">删除</button>
+          <button @click='editUser(list)'>修改信息</button>
+          <button @click="resetUser(list._id)">重置密码</button>
+        </td>
+      </tr>
       </tbody>
     </table>
     <page :childCount="count" :childReset="reset" @childCurrent="getCurrent"></page>
 
+
+    <!--新增用户-->
+    <div class="modal fade" tabindex="-1" role="dialog" id="addModal">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">新增用户</h4>
+          </div>
+          <div class="modal-body">
+
+            <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
+
+              <div class="modal-btn">
+                <span class="my-btn" @click="submitForm('ruleForm2')"><img src="../../static/img/red-save.png" alt="">提交</span>
+                <span class="my-btn close-btn" data-dismiss="modal"><img src="../../static/img/red-close.png" alt="">关闭</span>
+              </div>
+
+              <el-form-item label="用户名" prop="name">
+                <el-input v-model="ruleForm2.name" auto-complete="off"></el-input>
+              </el-form-item>
+              <el-form-item
+                prop="email"
+                label="邮箱"
+                :rules="[
+                          { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+                          { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }
+                        ]"
+              >
+                <el-input v-model="ruleForm2.email"></el-input>
+              </el-form-item>
+              <el-form-item label="密码" prop="pass">
+                <el-input type="password" v-model="ruleForm2.pass" auto-complete="off"></el-input>
+              </el-form-item>
+
+            </el-form>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--编辑用户-->
+    <div class="modal fade" tabindex="-1" role="dialog" id="editModal">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">编辑用户</h4>
+          </div>
+          <div class="modal-body">
+
+            <el-form :model="ruleForm" status-icon :rules="rules2" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+
+              <div class="modal-btn">
+                <span class="my-btn" @click="submitForm1(ruleForm._id)"><img src="../../static/img/red-save.png" alt="">提交</span>
+                <span class="my-btn close-btn" data-dismiss="modal"><img src="../../static/img/red-close.png" alt="">关闭</span>
+              </div>
+
+              <el-form-item label="用户名" prop="name">
+                <el-input v-model="ruleForm.name" auto-complete="off"></el-input>
+              </el-form-item>
+
+              <el-form-item label="身份">
+                <el-radio v-model="ruleForm.identity" label=false>普通用户</el-radio>
+                <el-radio v-model="ruleForm.identity" label=true>管理员</el-radio>
+              </el-form-item>
+
+              <el-form-item label="状态">
+                <el-radio v-model="ruleForm.status" label=0>禁用</el-radio>
+                <el-radio v-model="ruleForm.status" label=1>启用</el-radio>
+              </el-form-item>
+
+            </el-form>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
 
   </div>
 </template>
@@ -53,23 +137,67 @@
     components: {
       'page': page,
     },
-    data: function () {
+    data() {
+      const checkUname = (rule, value, callback) => {
+        if (value === '') {
+          return callback(new Error('用户名不能为空'));
+        } else {
+          callback();
+        }
+      };
+      const validateemail = (rule, value, callback) => {
+        if (value === '') {
+          return callback(new Error('邮箱不能为空'));
+        } else {
+          callback();
+        }
+      };
+      const validatePass = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入密码'));
+        } else {
+          callback();
+        }
+      };
       return {
-        lists:[],
-        count:1,
-        reset:0,
-        loading:''
-      }
+        ruleForm: {
+          name: '',
+          identity: 1,
+          status: 1,
+          _id: "",
+        },
+        ruleForm2: {
+          name: '',
+          email: '',
+          pass: '',
+        },
+        rules2: {
+          name: [
+            {validator: checkUname, trigger: 'blur', required: true}
+          ],
+          email: [
+            {validator: validateemail, trigger: 'blur'}
+          ],
+          pass: [
+            {validator: validatePass, trigger: 'blur', required: true}
+          ],
 
+        },
+        lists: [],
+        count: 1,
+        page: 1,
+        reset: 0,
+        loading: '',
+      };
     },
     mounted: function () {
       this.getList();
     },
     methods: {
-      getList:function () {
+      getList: function () {
         const _vue = this;
         this.myAxios({
-          url:'manage/user'
+          url: 'manage/user?page=' + this.page
         }).then(function (resp) {
           let data = resp.data;
           _vue.lists = data.data;
@@ -78,9 +206,118 @@
           _vue.catchFun(error)
         })
       },
-      getCurrent:function () {
-
+      getCurrent: function (data) {
+        this.page = data;
+        this.getList()
       },
+      //添加用户
+      submitForm(formName) {
+        const _vue = this;
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            _vue.myAxios({
+              url: 'manage/user',
+              method: 'post',
+              data: {
+                email: _vue.ruleForm2.email,
+                name: _vue.ruleForm2.name,
+                password: _vue.ruleForm2.pass,
+              }
+            }).then(function () {
+              _vue.success('用户添加成功');
+              $("#addModal").modal("hide");
+              _vue.getList()
+            }).catch(function (error) {
+              _vue.catchFun(error)
+            })
+
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+      addUser: function () {
+        this.$refs['ruleForm2'].resetFields();
+        $("#addModal").modal("show");
+      },
+      //删除用户
+      deleteUser: function (id) {
+        const _vue = this;
+        this.$confirm('此操作将删除该用户, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          _vue.myAxios({
+            url: 'manage/user/' + id,
+            method: 'delete',
+          }).then(function () {
+            _vue.success('用户已删除');
+            _vue.getList()
+          }).catch(function (error) {
+            _vue.catchFun(error)
+          })
+        }).catch(() => {
+
+        });
+      },
+      //编辑用户
+      editUser: function (list) {
+        this.ruleForm = {
+          _id: list._id,
+          name: list.name,
+          identity: list.is_admin + '',
+          status: list.status ? list.status + '' : '0'
+        },
+          $("#editModal").modal("show")
+      },
+      submitForm1() {
+        const _vue = this;
+        this.$refs['ruleForm'].validate((valid) => {
+          if (valid) {
+            _vue.myAxios({
+              url: 'manage/user/' + _vue.ruleForm._id,
+              method: 'patch',
+              data: {
+                name: _vue.ruleForm.name,
+                is_admin: _vue.ruleForm.identity == 'true' ? true : false,
+                status: parseInt(_vue.ruleForm.status)
+              }
+            }).then(function () {
+              _vue.success('用户添加成功');
+              $("#addModal").modal("hide");
+              _vue.getList()
+            }).catch(function (error) {
+              _vue.catchFun(error)
+            })
+
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+      //重置密码
+      resetUser: function (id) {
+        const _vue = this;
+        this.$confirm('此操作将删除该用户, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          _vue.myAxios({
+            url: 'manage/user/' + id + '/reset-passwd',
+            method: 'patch'
+          }).then(() => {
+            _vue.success('密码已重置')
+          }).catch((error) => {
+            _vue.catchFun(error)
+          })
+        }).catch(() => {
+
+        });
+      }
     },
     watch: {
       '$route'(to, from) {
