@@ -33,9 +33,13 @@
         <td>{{list.created_at}}</td>
         <td>{{list.updated_at}}</td>
         <td>
-          <button @click="deleteUser(list._id)">删除</button>
-          <button @click='editUser(list)'>修改信息</button>
-          <button @click="resetUser(list._id)">重置密码</button>
+
+          <i @click="deleteUser(list._id)" class="fa fa-trash fa-lg delete" title="删除"></i>
+          <img class="edit" src="../../static/img/edit.png" @click='editUser(list)' title="编辑">
+          <i  @click="resetUser(list._id)" class="fa fa-refresh" title="重置密码"></i>
+
+          <button  @click='editUser(list)'>123</button>
+
         </td>
       </tr>
       </tbody>
@@ -285,8 +289,7 @@
                 status: parseInt(_vue.ruleForm.status)
               }
             }).then(function () {
-              _vue.success('用户添加成功');
-              $("#addModal").modal("hide");
+              _vue.success('用户修改成功');
               _vue.getList()
             }).catch(function (error) {
               _vue.catchFun(error)

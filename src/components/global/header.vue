@@ -20,7 +20,7 @@
       <li class="li-3">
         <router-link to="/tool">
           <span class="img-taskManage li-img"></span>
-          <span>使用工具</span>
+          <span>实用工具</span>
         </router-link>
       </li>
       <!--<li class="li-2">-->
