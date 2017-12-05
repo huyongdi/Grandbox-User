@@ -68,7 +68,7 @@ Vue.prototype.switchHide = function (ID) {
 
 //点击展开下来（GENE OMIM 详情）
 Vue.prototype.showContent =function (e) {
-  const _header = $(e.target);
+  const _header = $(e.target).parent();
   const _span = _header.find('.fa');
   _header.next().slideToggle();
   if (_span.hasClass("fa-chevron-right")) {
@@ -77,6 +77,12 @@ Vue.prototype.showContent =function (e) {
     _span.removeClass('fa-chevron-down').addClass("fa-chevron-right")
   }
 };
+
+Vue.prototype.showNext =function (e) {
+  const _header = $(e.target);
+  _header.next().slideToggle();
+};
+
 
 //错误提示
 Vue.prototype.success = function (message) {

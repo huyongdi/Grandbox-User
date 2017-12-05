@@ -113,6 +113,8 @@
           const nextPath = _vue.$route.query.next ? _vue.$route.query.next : '/myData';
           _vue.$router.push({path: nextPath});
 
+          /*group 1 2 3 管理员 医生 用户*/
+
         }).catch(function (error) {
           _vue.catchFun(error);
         });

@@ -213,6 +213,7 @@
               display: inline-block;
               min-height: calc(~'100vh - 50px');
               min-width: calc(~'100vw - 275px');
+              max-width: calc(~'100vw - 275px');
               vertical-align: top;
               padding: 20px 10px;
               border-left:1px solid #d3d4d4;

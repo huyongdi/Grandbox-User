@@ -6,6 +6,9 @@ html {
   /*修改element插件的样式*/
   /*模拟表格*/
 }
+html a.no-d {
+  text-decoration: none;
+}
 html .tooltip .tooltip-inner {
   text-align: left;
 }
@@ -363,6 +366,9 @@ html table.my-table table tr:first-child th:first-child {
 html table.special-table {
   width: 100%;
   max-width: 100%;
+}
+html table.special-table tbody tr.t-bc {
+  background-color: #e4ecea;
 }
 html table.special-table tbody td {
   border: 1px solid #cfddd9;
