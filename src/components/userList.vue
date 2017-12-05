@@ -38,8 +38,6 @@
           <img class="edit" src="../../static/img/edit.png" @click='editUser(list)' title="编辑">
           <i  @click="resetUser(list._id)" class="fa fa-refresh" title="重置密码"></i>
 
-          <button  @click='editUser(list)'>123</button>
-
         </td>
       </tr>
       </tbody>
@@ -112,9 +110,18 @@
                 <el-input v-model="ruleForm.name" auto-complete="off"></el-input>
               </el-form-item>
 
+              <el-form-item label="设为管理员">
+                <el-switch @change="setGroup"
+                  v-model="ruleForm.isAdmin"
+                  active-color="#13ce66"
+                  inactive-color="#999">
+                </el-switch>
+              </el-form-item>
+
               <el-form-item label="身份">
-                <el-radio v-model="ruleForm.identity" label=false>普通用户</el-radio>
-                <el-radio v-model="ruleForm.identity" label=true>管理员</el-radio>
+                <el-radio v-model="ruleForm.identity" label=guest :disabled="ruleForm.isAdmin">访客</el-radio>
+                <el-radio v-model="ruleForm.identity" label=user :disabled="ruleForm.isAdmin">普通用户</el-radio>
+                <!--<el-radio v-model="ruleForm.identity" label=true>管理员</el-radio>-->
               </el-form-item>
 
               <el-form-item label="状态">
@@ -166,7 +173,8 @@
       return {
         ruleForm: {
           name: '',
-          identity: 1,
+          isAdmin:'',
+          identity: '',
           status: 1,
           _id: "",
         },
@@ -270,8 +278,9 @@
       editUser: function (list) {
         this.ruleForm = {
           _id: list._id,
+          isAdmin:list.is_admin,
+          identity:list.group,
           name: list.name,
-          identity: list.is_admin + '',
           status: list.status ? list.status + '' : '0'
         },
           $("#editModal").modal("show")
@@ -285,11 +294,13 @@
               method: 'patch',
               data: {
                 name: _vue.ruleForm.name,
-                is_admin: _vue.ruleForm.identity == 'true' ? true : false,
+                group: _vue.ruleForm.identity,
+                is_admin: _vue.ruleForm.isAdmin,
                 status: parseInt(_vue.ruleForm.status)
               }
             }).then(function () {
               _vue.success('用户修改成功');
+              $("#editModal").modal("hide");
               _vue.getList()
             }).catch(function (error) {
               _vue.catchFun(error)
@@ -320,12 +331,17 @@
         }).catch(() => {
 
         });
+      },
+      setGroup:function (newD) {
+        if(newD){
+          this.ruleForm.identity = ''
+        }
       }
     },
     watch: {
       '$route'(to, from) {
 
-      }
+      },
     },
     updated: function () {
       $('[data-toggle="tooltip"]').tooltip()
@@ -705,10 +721,7 @@
 
     table {
       .edit {
-        margin-right: 15px;
-      }
-      .delete {
-        margin-left: 15px;
+        margin:0 10px;
       }
     }
   }

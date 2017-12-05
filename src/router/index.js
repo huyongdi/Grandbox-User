@@ -4,7 +4,6 @@ import AllHome from '@/components/AllHome'
 import Login from '@/components/Login'
 import Report from '@/components/Report'
 import Result from '@/components/result'
-import MyData from '@/components/myData'
 import Gene from '@/components/Gene'
 import GeneD from '@/components/geneD'
 import Disease from '@/components/disease'
@@ -13,6 +12,10 @@ import VariationD from '@/components/VariationD'
 import tool from '@/components/tool'
 import OMIM from '@/components/omim'
 import userList from '@/components/userList'
+
+import MyData from '@/components/myData'
+import addSample from '@/components/addSample'
+import sampleD from '@/components/sampleD'
 
 
 Vue.use(Router);
@@ -33,6 +36,16 @@ export default new Router({
       path: '/myData',
       name: 'myData',
       component: MyData
+    },
+    {
+      path: '/addSample',
+      name: 'addSample',
+      component: addSample
+    },
+    {
+      path: '/sampleD',
+      name: 'sampleD',
+      component: sampleD
     },
     {
       path: '/gene',

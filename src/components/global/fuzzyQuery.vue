@@ -3,22 +3,32 @@
   <div class="fuzzy-content row fuzzy-content">
 
     <div class="col-xs-6">
-      <span class="name bold">{{leftName?leftName:'临床表型'}}</span>
-      <div class="content inline" id="panel-1" @click.stop="">
-        <input  v-model="fuzzyInput" :placeholder='placeholder' @keyup.enter="sendInput">
+      <span class="col-xs-2 bold">{{leftName?leftName:'临床表型'}}</span>
+      <div class="content col-xs-10 " id="panel-1" @click.stop="">
+        <input v-model="fuzzyInput" :placeholder='placeholder' @keyup.enter="sendInput">
         <img src="../../../static/img/trio-2.png" alt="" @click.stop="sendInput">
         <ul class="hide-ul">
-          <li v-for="list in leftData" :data-key="list.key"  @click="toRight(list)" :title="list.value">
+          <li v-for="list in leftData" :data-key="list.key" @click="toRight(list)" :title="list.value">
             {{list.value}}
           </li>
           <!--<li v-show="leftData.length == 0">暂无数据</li>-->
         </ul>
       </div>
+      <!--<span class="name bold">{{leftName?leftName:'临床表型'}}</span>-->
+      <!--<div class="content inline" id="panel-1" @click.stop="">-->
+        <!--<input  v-model="fuzzyInput" :placeholder='placeholder' @keyup.enter="sendInput">-->
+        <!--<img src="../../../static/img/trio-2.png" alt="" @click.stop="sendInput">-->
+        <!--<ul class="hide-ul">-->
+          <!--<li v-for="list in leftData" :data-key="list.key"  @click="toRight(list)" :title="list.value">-->
+            <!--{{list.value}}-->
+          <!--</li>-->
+          <!--&lt;!&ndash;<li v-show="leftData.length == 0">暂无数据</li>&ndash;&gt;-->
+        <!--</ul>-->
+      <!--</div>-->
     </div>
 
     <div class="col-xs-6">
-      <span class="name bold">已选表型</span>
-      <div class="content inline lage-w" @click.stop="">
+      <span class="col-xs-2 bold">已选表型</span>
         <div class="has-panel">
           <span class="hasPanel-one" :data-key="list.key" @click="rightRemove(list.key)" v-for="list in rightData" :title="list.value">
             <span class='hasPanel-name'>{{list.value}}</span>
@@ -26,6 +36,15 @@
           </span>
         </div>
       </div>
+      <!--<span class="name bold">已选表型</span>-->
+      <!--<div class="content inline lage-w" @click.stop="">-->
+        <!--<div class="has-panel">-->
+          <!--<span class="hasPanel-one" :data-key="list.key" @click="rightRemove(list.key)" v-for="list in rightData" :title="list.value">-->
+            <!--<span class='hasPanel-name'>{{list.value}}</span>-->
+            <!--<span class="close">&times;</span>-->
+          <!--</span>-->
+        <!--</div>-->
+      <!--</div>-->
     </div>
   </div>
 

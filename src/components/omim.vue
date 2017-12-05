@@ -41,8 +41,6 @@
           <span class="fa fa-chevron-down" @click.self="showContent"></span><span @click.self="showContent">临床表型</span>
         </div>
         <div class="content disease-phenotype" style="display: block">
-
-
           <table class="special-table">
             <tbody id="synopsis_table">
             <tr class="t-bc">
@@ -60,15 +58,15 @@
               </td>
               <td>
                 <div v-if="data.content" v-for="list in data.content">
-                  <div v-if="list.hpo_ids" v-for="listHpo in list.hpo_ids">{{listHpo}}(<span :id="listHpo.replace(':','-')"></span>)</div>
-                  <div v-if="!list.hpo_ids"> - </div>
+                  <!--{{list}}-->
+                  <div v-for="hpo in list.hpos">{{hpo.name &&hpo.name.chinese}}({{hpo.name &&hpo.name.english}})</div>
+                  <!--<div v-if="list.hpo_ids" v-for="listHpo in list.hpo_ids">{{listHpo}}(<span :id="listHpo.replace(':','-')"></span>)</div>-->
+                  <!--<div v-if="!list.hpo_ids"> - </div>-->
                 </div>
               </td>
             </tr>
             </tbody>
           </table>
-
-
         </div>
       </div>
 
@@ -100,17 +98,79 @@
         </div>
       </div>
 
+
+
+
+      <div class="content-one">
+        <div class="header">
+          <span class="fa fa-chevron-down" @click.self="showContent"></span><span @click.self="showContent">疾病和表型</span>
+        </div>
+        <div class="content text-content disease-phenotype" style="display: block">
+          <div class="left">
+            <div class="title">临床表型 </div>
+            <table class="special-table">
+              <tbody id="synopsis_table">
+              <tr class="t-bc">
+                <td style="min-width: 100px">系统分类</td>
+                <td>临床表型</td>
+                <td style="min-width: 200px">中文表型标准术语</td>
+              </tr>
+              <tr v-if="clinicalSynopsisData.length === 0" class="center">
+                <td colspan="3" class="center">暂无数据</td>
+              </tr>
+              <tr v-for="data in clinicalSynopsisData" class="font-12">
+                <td><a class="no-d" data-toggle="tooltip" data-placement="top" :data-original-title="data.name">{{data.name | nameToCn}}</a></td>
+                <td>
+                  <div v-if="data.content" v-for="dataS in data.content">{{dataS.text}}</div>
+                </td>
+                <td>
+                  <div v-if="data.content" v-for="list in data.content">
+                    <!--{{list}}-->
+                    <div v-for="hpo in list.hpos">{{hpo.name &&hpo.name.chinese}}({{hpo.name &&hpo.name.english}})</div>
+                    <!--<div v-if="list.hpo_ids" v-for="listHpo in list.hpo_ids">{{listHpo}}(<span :id="listHpo.replace(':','-')"></span>)</div>-->
+                    <!--<div v-if="!list.hpo_ids"> - </div>-->
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="right">
+            <div class="title">基因信息</div>
+            <table class="special-table">
+              <tbody>
+              <tr>
+                <td class="t-bc">基因ID</td>
+                <td class="t-bc">基因名</td>
+                <td class="t-bc">遗传模式</td>
+                <td class="t-bc">表型</td>
+              </tr>
+              <tr v-for="list in allData.phenotype_maps">
+                <td>{{list.gene.geneid}}</td>
+                <td>{{list.gene.symbol}}</td>
+                <td>
+                  <span v-if="list.phenotype.inheritances" v-for="inh in list.phenotype.inheritances">
+                    <a class="po" data-toggle="tooltip" data-placement="top" :data-original-title="inh.name">{{inh.ab}}</a>
+                  </span>
+                </td>
+                <td>{{list.phenotype.title}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
       <div class="content-one">
         <div class="header">
           <span class="fa fa-chevron-down" @click.self="showContent"></span><span @click.self="showContent">英文资料</span>
         </div>
         <div class="content text-content" style="display: block">
-          <div class="one" v-for="text in allData.text_sections">
-            <a class="title" @click="showNext">{{text.title}}</a>
-            <div class="content-english" style="display: none">
-              <div v-for="list in text.contents" class="text-one" >{{list}}</div>
-            </div>
-          </div>
+          <el-tabs tab-position="left" class="one">
+            <el-tab-pane :label="text.title" v-for="text in allData.text_sections">
+              <div v-for="list in text.contents" class="text-one">{{list}}</div>
+            </el-tab-pane>
+          </el-tabs>
         </div>
       </div>
     </div>
@@ -196,34 +256,6 @@
 //          _vue.showCnName()
         })
       },
-      showCnName:function () {
-        const _vue = this;
-        let count = 0;
-        $.each(_vue.clinicalSynopsisData,function (i,data) {
-          $.each(data.content,function (n,value) {
-            $.each(value.hpo_ids,function (k,k1) {
-              if(k1){
-                count+=1;
-                _vue.loading = true;
-                _vue.myAxios({
-                  url:'biomeddb/hpo/' + k1
-                }).then(function (resp) {
-                  const data = resp.data.data;
-                  let name = '';
-                  if(data.name){
-                    name = data.name.chinese?data.name.chinese:data.name.english;
-                  }
-                  $("#"+k1.replace(':','-')).html(name);
-                  count-=1;
-                  if(count == 0){
-                    _vue.loading = false;
-                  }
-                })
-              }
-            })
-          })
-        });
-      },
       sortSyn: function (clinicalSynopsis) {
         let arr = [];
         let _vue = this;
@@ -304,10 +336,16 @@
         cursor: pointer;
       }
       .content-english{
-        .text-one{
-          margin: 10px 0;
-          font-weight: normal;
-        }
+        /*.text-one{*/
+          /*margin: 10px 0;*/
+          /*font-weight: normal;*/
+          /*font-size: 14px;*/
+        /*}*/
+      }
+      .text-one{
+        margin: 10px 0;
+        font-weight: normal;
+        font-size: 14px;
       }
     }
   }

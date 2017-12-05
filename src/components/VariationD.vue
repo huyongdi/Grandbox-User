@@ -53,12 +53,11 @@
               <td>{{allData.edit && allData.edit.status}}</td>
               <td class="t-bc">变异详情</td>
               <td>
-
-                <div v-if="allData.snv &&　allData.snv.variant && allData.snv.variant.change">
-                  {{allData.snv.variant.change.gene}}:{{allData.snv.variant.change.transcript}}:{{allData.snv.variant.change.exon}}:
-                  {{allData.snv.variant.change.na_change}}:{{allData.snv.variant.change.aa_change}}
+                <div v-if="allData.snv">
+                  <div v-for="single in allData.snv.changes">
+                    {{single.gene}}:{{single.transcript}}:{{single.exon}}:{{single.na_change}}:{{single.aa_change}}
+                  </div>
                 </div>
-
               </td>
             </tr>
             <tr>
@@ -82,9 +81,12 @@
         <div class="header">
           <span class="fa fa-chevron-down" @click.self="showContent"></span> <span @click.self="showContent">综述</span>
         </div>
-        <div class="content disease-phenotype" style="display: block">
+        <div class="content overview-content" style="display: block">
+
+          <div v-if="allData.snv &&allData.snv.variant" class="font-13">
+            {{allData.snv.variant.change.gene}}基因的{{allData.snv.variant.change.na_change}}({{allData.snv.variant.change.aa_change}})变异
+          </div>
           该变异在gnomAD普通人数据库东亚人群中的频率为
-          <!--0（PM2）-->
           {{allData.snv && allData.snv.variant && allData.snv.variant.info && allData.snv.variant.info.freq}}(PM2);
           生物信息学软件SIFT、Polyphen2和MCAP预测该变异分别为
           <span v-if="allData.snv && allData.snv.variant &&allData.snv.variant.info&&allData.snv.variant.info.dbnsfp">
@@ -95,8 +97,14 @@
           <span v-else=""> - 、-和-</span>
           。基于以上证据，我们建议判定该变异为{{allData.snv && allData.snv.variant && allData.snv.variant.info.intervar}}变异。
 
-          <div>
-            omims待填
+          <div class="appendix-content" v-if="allData.snv &&allData.snv.omims">
+            <div class="diseases-content" v-for="(majorD,index) in allData.snv.omims">
+              <div class="diseases-content-title">{{index + 1}}) {{majorD.name}}</div>
+              <div class="diseases-content-remark">
+                疾病概述：{{majorD.inheritance}}，典型的临床症状包括{{majorD.phenotypes}}。
+              </div>
+            </div>
+
           </div>
 
         </div>
@@ -108,7 +116,9 @@
         <div class="header">
           <span class="fa fa-chevron-down" @click.self="showContent"></span><span @click.self="showContent">人群频率</span>
         </div>
-        <div class="content disease-phenotype" style="display: block">
+        <div class="content img-content disease-phenotype" style="display: block">
+
+          <a href="javascript:void(0)" @click="showNext">点击查看样本数</a>
 
           <div class="pie-content row">
             <div class="frequency-chart col-xs-3" id="frequency-pie"></div>
@@ -119,34 +129,31 @@
 
           <div class="frequency-chart" id="frequency-chart"></div>
 
-
         </div>
       </div>
 
       <div class="content-one">
-        <div class="header" >
+        <div class="header">
           <span class="fa fa-chevron-down" @click.self="showContent"></span> <span @click.self="showContent">生信预测/剪切</span>
         </div>
         <div class="content cut-content" style="display: block">
           <div class="one">
-            <div class="title">DBnsfp</div>
-            <table class="special-table">
+            <table class="special-table" v-if="dbnsfp">
               <tbody>
               <tr>
                 <td rowspan="2" class="t-bc">M-Cap</td>
                 <td>score</td>
                 <td>{{dbnsfp.mcap ? dbnsfp.mcap.score : '-'}}</td>
 
-                <td rowspan="2" class="t-bc">SIFT</td>
+                <td rowspan="2" class="t-bc">PolyPhen2_hvar</td>
                 <td>score</td>
-                <td>{{dbnsfp.sift ? dbnsfp.sift.score : '-'}}</td>
+                <td>{{dbnsfp.polyphen2_hvar ? dbnsfp.polyphen2_hvar.score : '-'}}</td>
 
-                <td rowspan="2" class="t-bc">PolyPhen2</td>
-                <td>score</td>
+                <td rowspan="2" class="t-bc">dbscSNV</td>
+                <td>ada_score</td>
                 <td>
-                    <span v-if="dbnsfp.polyphen2_hdiv && dbnsfp.polyphen2_hvar">
-                    {{dbnsfp.polyphen2_hdiv.score > dbnsfp.polyphen2_hvar.score?dbnsfp.polyphen2_hdiv.score:dbnsfp.polyphen2_hvar.score}}
-                  </span>
+                  <span v-if="splicing && splicing.dbscsnv">{{splicing.dbscsnv.ada_score}}</span>
+                  <span v-else=""> - </span>
                 </td>
 
                 <td rowspan="2" class="t-bc">LRT</td>
@@ -156,27 +163,54 @@
                 <td rowspan="2" class="t-bc">FATHMM</td>
                 <td>score</td>
                 <td>{{dbnsfp.fathmm ? dbnsfp.fathmm.score : '-'}}</td>
+
+                <td rowspan="2" class="t-bc">MetaSVM</td>
+                <td>score</td>
+                <td>{{dbnsfp.metasvm ? dbnsfp.metasvm.score : '-'}}</td>
+
+                <td rowspan="2" class="t-bc">GERP++</td>
+                <td>score</td>
+                <td>{{dbnsfp.gerp ? dbnsfp.gerp.score : '-'}}</td>
               </tr>
               <tr>
-
                 <td>pred</td>
                 <td>{{dbnsfp.mcap ? dbnsfp.mcap.pred : '-'}}</td>
+
                 <td>pred</td>
-                <td>{{dbnsfp.sift ? dbnsfp.sift.pred : '-'}}</td>
-                <td>pred</td>
+                <td>{{dbnsfp.polyphen2_hvar ? dbnsfp.polyphen2_hvar.pred : '-'}}</td>
+
+                <td>rf_score</td>
                 <td>
-                  <span v-if="dbnsfp.polyphen2_hdiv && dbnsfp.polyphen2_hvar">
-                    {{dbnsfp.polyphen2_hdiv.score > dbnsfp.polyphen2_hvar.score?dbnsfp.polyphen2_hdiv.pred:dbnsfp.polyphen2_hvar.pred}}
-                  </span>
+                  <span v-if="splicing && splicing.dbscsnv">{{splicing.dbscsnv.rf_score}}</span>
+                  <span v-else=""> - </span>
                 </td>
+
                 <td>pred</td>
                 <td>{{dbnsfp.lrt ? dbnsfp.lrt.pred : '-'}}</td>
+
                 <td>pred</td>
                 <td>{{dbnsfp.fathmm ? dbnsfp.fathmm.pred : '-'}}</td>
 
+                <td>pred</td>
+                <td>{{dbnsfp.metasvm ? dbnsfp.metasvm.pred : '-'}}</td>
+
+                <td>pred</td>
+                <td>{{dbnsfp.gerp ? dbnsfp.gerp.pred : '-'}}</td>
               </tr>
 
               <tr>
+                <td rowspan="2" class="t-bc">SIFT</td>
+                <td>score</td>
+                <td>{{dbnsfp.sift ? dbnsfp.sift.score : '-'}}</td>
+
+                <td rowspan="2" class="t-bc">Polyphen2_hdiv</td>
+                <td>score</td>
+                <td>{{dbnsfp.polyphen2_hdiv ? dbnsfp.polyphen2_hdiv.score : '-'}}</td>
+
+                <td rowspan="2" class="t-bc">CADD</td>
+                <td>score</td>
+                <td>{{dbnsfp.cadd ? dbnsfp.cadd.score : '-'}}</td>
+
                 <td rowspan="2" class="t-bc">PROVEAN</td>
                 <td>score</td>
                 <td>{{dbnsfp.provean ? dbnsfp.provean.score : '-'}}</td>
@@ -189,26 +223,31 @@
                 <td>score</td>
                 <td>{{dbnsfp.mutationassessor ? dbnsfp.mutationassessor.score : '-'}}</td>
 
-                <td rowspan="2" class="t-bc">MetaSVM</td>
-                <td>score</td>
-                <td>{{dbnsfp.metasvm ? dbnsfp.metasvm.score : '-'}}</td>
-
                 <td rowspan="2" class="t-bc">MetaLR</td>
                 <td>score</td>
                 <td>{{dbnsfp.metalr ? dbnsfp.metalr.score : '-'}}</td>
               </tr>
               <tr>
                 <td>pred</td>
+                <td>{{dbnsfp.sift ? dbnsfp.sift.pred : '-'}}</td>
+
+                <td>pred</td>
+                <td>{{dbnsfp.polyphen2_hdiv ? dbnsfp.polyphen2_hdiv.pred : '-'}}</td>
+
+                <td>pred</td>
+                <td>{{dbnsfp.cadd ? dbnsfp.cadd.pred : '-'}}</td>
+
+                <td>pred</td>
                 <td>{{dbnsfp.provean ? dbnsfp.provean.pred : '-'}}</td>
+
                 <td>pred</td>
                 <td>{{dbnsfp.mutationtaster ? dbnsfp.mutationtaster.pred : '-'}}</td>
+
                 <td>pred</td>
                 <td>{{dbnsfp.mutationassessor ? dbnsfp.mutationassessor.pred : '-'}}</td>
-                <td>pred</td>
-                <td>{{dbnsfp.metasvm ? dbnsfp.metasvm.pred : '-'}}</td>
+
                 <td>pred</td>
                 <td>{{dbnsfp.metalr ? dbnsfp.metalr.pred : '-'}}</td>
-
               </tr>
 
               </tbody>
@@ -218,7 +257,7 @@
       </div>
 
       <div class="content-one">
-        <div class="header" >
+        <div class="header">
           <span class="fa fa-chevron-down" @click.self="showContent"></span> <span @click.self="showContent">疾病报道</span>
         </div>
         <div class="content disease-phenotype" style="display: block">
@@ -226,271 +265,271 @@
         </div>
       </div>
 
-      <div class="shadow-top bc-fff">
-        <!--<div :class="{'hide':!in2}">-->
-        <!--<div class="gene-information">-->
-        <!--<span class="gene-information-title base-color">DBnsfp</span>-->
-        <!--<div class="gene-content row">-->
-        <!--<div class="col-md-12">-->
-        <!--<table class="my-table no-thead">-->
-        <!--<tbody>-->
-        <!--<tr>-->
-        <!--<td>数据库</td>-->
-        <!--<td>M-Cap</td>-->
-        <!--<td>SIFT</td>-->
-        <!--<td>PolyPhen2</td>-->
-        <!--<td>LRT</td>-->
-        <!--<td>FATHMM</td>-->
-        <!--<td>PROVEAN</td>-->
-        <!--<td>MutationTaster</td>-->
-        <!--<td>MutationAssessor</td>-->
-        <!--<td>MetaSVM</td>-->
-        <!--<td>MetaLR</td>-->
-        <!--<td>REVEL</td>-->
-        <!--</tr>-->
-        <!--<tr>-->
-        <!--<td>score</td>-->
-        <!--<td v-for="(data,index) in dataBaseData" v-if="index>=0 &&index<=5">{{data.score ? data.score : ' - '}}</td>-->
-        <!--</tr>-->
-        <!--<tr>-->
-        <!--<td>pred</td>-->
-        <!--<td v-for="(data,index) in dataBaseData" v-if="index>=0 &&index<=5">{{data.pred ? data.pred : ' - '}}</td>-->
-        <!--</tr>-->
-        <!--</tbody>-->
-        <!--</table>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div class="gene-information">-->
-        <!--<span class="gene-information-title base-color">剪切区域</span>-->
-        <!--<div class="gene-content">-->
+      <!--<div class="shadow-top bc-fff">-->
+      <!--&lt;!&ndash;<div :class="{'hide':!in2}">&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="gene-information">&ndash;&gt;-->
+      <!--&lt;!&ndash;<span class="gene-information-title base-color">DBnsfp</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="gene-content row">&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="col-md-12">&ndash;&gt;-->
+      <!--&lt;!&ndash;<table class="my-table no-thead">&ndash;&gt;-->
+      <!--&lt;!&ndash;<tbody>&ndash;&gt;-->
+      <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>数据库</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>M-Cap</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>SIFT</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>PolyPhen2</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>LRT</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>FATHMM</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>PROVEAN</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>MutationTaster</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>MutationAssessor</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>MetaSVM</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>MetaLR</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>REVEL</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>score</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td v-for="(data,index) in dataBaseData" v-if="index>=0 &&index<=5">{{data.score ? data.score : ' - '}}</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>pred</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td v-for="(data,index) in dataBaseData" v-if="index>=0 &&index<=5">{{data.pred ? data.pred : ' - '}}</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tbody>&ndash;&gt;-->
+      <!--&lt;!&ndash;</table>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="gene-information">&ndash;&gt;-->
+      <!--&lt;!&ndash;<span class="gene-information-title base-color">剪切区域</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="gene-content">&ndash;&gt;-->
 
-        <!--<table class="my-table no-thead">-->
-        <!--<tbody>-->
-        <!--<tr>-->
-        <!--<td>dbscSNV</td>-->
-        <!--<td>-->
-        <!--<span class="col-md-6">ada_score:<span v-if="dbData">{{dbData.adaScore ? dbData.adaScore : ' - '}}</span><span-->
-        <!--v-else=""> - </span></span>-->
-        <!--<span class="col-md-6">rf_score:<span v-if="dbData">{{dbData.rfScore ? dbData.rfScore : ' - '}}</span><span-->
-        <!--v-else=""> - </span></span>-->
-        <!--</td>-->
-        <!--</tr>-->
-        <!--<tr>-->
-        <!--<td>spidex</td>-->
-        <!--<td>-->
-        <!--<span class="col-md-6">max_tissue: <span v-if="spiData">{{spiData.maxTissue ? spiData.maxTissue : '-'}}</span><span-->
-        <!--v-else=""> - </span></span>-->
-        <!--<span class="col-md-6">zscore: <span v-if="spiData">{{spiData.zscore ? spiData.zscore : '-'}}</span><span-->
-        <!--v-else=""> - </span></span>-->
-        <!--</td>-->
-        <!--</tr>-->
-        <!--</tbody>-->
-        <!--</table>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div :class="{'hide':!in3}">-->
-        <!--<div class="gene-information">-->
-        <!--<span class="gene-information-title base-color">HGMD（2014-2）</span>-->
-        <!--<div class="gene-content">-->
-        <!--<table class="my-table no-thead">-->
-        <!--<tbody>-->
-        <!--<tr>-->
-        <!--<td>基本信息</td>-->
-        <!--<td>疾病信息</td>-->
-        <!--<td>数据库</td>-->
-        <!--</tr>-->
-        <!--<tr>-->
-        <!--<td colspan="3" v-if="!hgmdData" class="center">暂无数据</td>-->
-        <!--</tr>-->
-        <!--<tr v-if="hgmdData">-->
-        <!--<td>hgmdNumber:&nbsp;{{hgmdData.hgmdNumber}}</td>-->
-        <!--<td>disease:&nbsp;{{hgmdData.disease}}</td>-->
-        <!--<td>uniprot:&nbsp;<span v-if="hgmdData.dbid">{{hgmdData.dbid.uniprot}}</span></td>-->
-        <!--</tr>-->
-        <!--<tr v-if="hgmdData">-->
-        <!--<td>hgnc:&nbsp;{{hgmdData.hgnc}}</td>-->
-        <!--<td>citation:&nbsp;{{hgmdData.citation}}</td>-->
-        <!--<td>rsid:&nbsp;<span v-if="hgmdData.dbid">{{hgmdData.dbid.rsid}}</span></td>-->
-        <!--</tr>-->
-        <!--<tr v-if="hgmdData">-->
-        <!--<td>hgvs:&nbsp;{{hgmdData.hgvs}}</td>-->
-        <!--<td>comments:&nbsp;{{hgmdData.comments}}</td>-->
-        <!--<td>ensembl:&nbsp;<span v-if="hgmdData">{{hgmdData.ensembl}}</span></td>-->
-        <!--</tr>-->
-        <!--<tr v-if="hgmdData">-->
-        <!--<td>snv_raw:&nbsp;<span-->
-        <!--v-if="hgmdData.snvRaw">{{hgmdData.snvRaw.chrom}}:{{hgmdData.snvRaw.start}}-{{hgmdData.snvRaw.end}}({{hgmdData.snvRaw.ref}}/{{hgmdData.snvRaw.alt}}){{hgmdData.snvRaw.strand}}</span>-->
-        <!--</td>-->
-        <!--<td>confidence:&nbsp;{{hgmdData.confidence}}</td>-->
-        <!--<td>omim:&nbsp;<span v-if="hgmdData.dbid">{{hgmdData.dbid.omim}}</span></td>-->
-        <!--</tr>-->
-        <!--<tr v-if="hgmdData">-->
-        <!--<td>密码子改变:&nbsp;<span v-if="hgmdData">{{hgmdData.codNum ? hgmdData.codNum : '-'}}</span></td>-->
-        <!--<td>feature:&nbsp;{{hgmdData.feature}}</td>-->
-        <!--<td>pmid:&nbsp;<span v-if="hgmdData.dbid">-->
-        <!--<a class="common-a" v-for="list in hgmdData.dbid.pmid" :href="'https://www.ncbi.nlm.nih.gov/pubmed/'+list"-->
-        <!--target="_blank">{{list}}</a>-->
-        <!--</span></td>-->
-        <!--</tr>-->
-        <!--<tr v-if="hgmdData">-->
-        <!--<td>核苷酸改变:&nbsp;<span v-if="hgmdData.change">{{hgmdData.change.nucleotide}}</span></td>-->
-        <!--<td>mutType:&nbsp;<span v-if="hgmdData.type">{{hgmdData.type.mutation}}</span></td>-->
-        <!--<td>hgmdAcc:&nbsp;<span v-if="hgmdData.dbid">{{hgmdData.dbid.hgmdAcc}}</span></td>-->
-        <!--</tr>-->
-        <!--<tr v-if="hgmdData">-->
-        <!--<td>氨基酸改变:&nbsp;<span v-if="hgmdData.change">{{hgmdData.change.aminoacid}}</span></td>-->
-        <!--<td>varType:&nbsp;<span v-if="hgmdData.type">{{hgmdData.type.mutation}}</span></td>-->
-        <!--<td>entrez:&nbsp;<span v-if="hgmdData.dbid">{{hgmdData.dbid.entrez}}</span></td>-->
-        <!--</tr>-->
-        <!--<tr v-if="hgmdData">-->
-        <!--<td colspan="3">genoSeq:&nbsp;{{hgmdData.genoSeq}}</td>-->
-        <!--</tr>-->
-        <!--</tbody>-->
-        <!--</table>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div class="gene-information">-->
-        <!--<span class="gene-information-title base-color">Clinvar（2017-01-30）</span>-->
-        <!--<div class="gene-content">-->
+      <!--&lt;!&ndash;<table class="my-table no-thead">&ndash;&gt;-->
+      <!--&lt;!&ndash;<tbody>&ndash;&gt;-->
+      <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>dbscSNV</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<span class="col-md-6">ada_score:<span v-if="dbData">{{dbData.adaScore ? dbData.adaScore : ' - '}}</span><span&ndash;&gt;-->
+      <!--&lt;!&ndash;v-else=""> - </span></span>&ndash;&gt;-->
+      <!--&lt;!&ndash;<span class="col-md-6">rf_score:<span v-if="dbData">{{dbData.rfScore ? dbData.rfScore : ' - '}}</span><span&ndash;&gt;-->
+      <!--&lt;!&ndash;v-else=""> - </span></span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>spidex</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<span class="col-md-6">max_tissue: <span v-if="spiData">{{spiData.maxTissue ? spiData.maxTissue : '-'}}</span><span&ndash;&gt;-->
+      <!--&lt;!&ndash;v-else=""> - </span></span>&ndash;&gt;-->
+      <!--&lt;!&ndash;<span class="col-md-6">zscore: <span v-if="spiData">{{spiData.zscore ? spiData.zscore : '-'}}</span><span&ndash;&gt;-->
+      <!--&lt;!&ndash;v-else=""> - </span></span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tbody>&ndash;&gt;-->
+      <!--&lt;!&ndash;</table>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;<div :class="{'hide':!in3}">&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="gene-information">&ndash;&gt;-->
+      <!--&lt;!&ndash;<span class="gene-information-title base-color">HGMD（2014-2）</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="gene-content">&ndash;&gt;-->
+      <!--&lt;!&ndash;<table class="my-table no-thead">&ndash;&gt;-->
+      <!--&lt;!&ndash;<tbody>&ndash;&gt;-->
+      <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>基本信息</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>疾病信息</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>数据库</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td colspan="3" v-if="!hgmdData" class="center">暂无数据</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<tr v-if="hgmdData">&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>hgmdNumber:&nbsp;{{hgmdData.hgmdNumber}}</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>disease:&nbsp;{{hgmdData.disease}}</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>uniprot:&nbsp;<span v-if="hgmdData.dbid">{{hgmdData.dbid.uniprot}}</span></td>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<tr v-if="hgmdData">&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>hgnc:&nbsp;{{hgmdData.hgnc}}</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>citation:&nbsp;{{hgmdData.citation}}</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>rsid:&nbsp;<span v-if="hgmdData.dbid">{{hgmdData.dbid.rsid}}</span></td>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<tr v-if="hgmdData">&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>hgvs:&nbsp;{{hgmdData.hgvs}}</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>comments:&nbsp;{{hgmdData.comments}}</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>ensembl:&nbsp;<span v-if="hgmdData">{{hgmdData.ensembl}}</span></td>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<tr v-if="hgmdData">&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>snv_raw:&nbsp;<span&ndash;&gt;-->
+      <!--&lt;!&ndash;v-if="hgmdData.snvRaw">{{hgmdData.snvRaw.chrom}}:{{hgmdData.snvRaw.start}}-{{hgmdData.snvRaw.end}}({{hgmdData.snvRaw.ref}}/{{hgmdData.snvRaw.alt}}){{hgmdData.snvRaw.strand}}</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>confidence:&nbsp;{{hgmdData.confidence}}</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>omim:&nbsp;<span v-if="hgmdData.dbid">{{hgmdData.dbid.omim}}</span></td>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<tr v-if="hgmdData">&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>密码子改变:&nbsp;<span v-if="hgmdData">{{hgmdData.codNum ? hgmdData.codNum : '-'}}</span></td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>feature:&nbsp;{{hgmdData.feature}}</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>pmid:&nbsp;<span v-if="hgmdData.dbid">&ndash;&gt;-->
+      <!--&lt;!&ndash;<a class="common-a" v-for="list in hgmdData.dbid.pmid" :href="'https://www.ncbi.nlm.nih.gov/pubmed/'+list"&ndash;&gt;-->
+      <!--&lt;!&ndash;target="_blank">{{list}}</a>&ndash;&gt;-->
+      <!--&lt;!&ndash;</span></td>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<tr v-if="hgmdData">&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>核苷酸改变:&nbsp;<span v-if="hgmdData.change">{{hgmdData.change.nucleotide}}</span></td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>mutType:&nbsp;<span v-if="hgmdData.type">{{hgmdData.type.mutation}}</span></td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>hgmdAcc:&nbsp;<span v-if="hgmdData.dbid">{{hgmdData.dbid.hgmdAcc}}</span></td>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<tr v-if="hgmdData">&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>氨基酸改变:&nbsp;<span v-if="hgmdData.change">{{hgmdData.change.aminoacid}}</span></td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>varType:&nbsp;<span v-if="hgmdData.type">{{hgmdData.type.mutation}}</span></td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>entrez:&nbsp;<span v-if="hgmdData.dbid">{{hgmdData.dbid.entrez}}</span></td>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<tr v-if="hgmdData">&ndash;&gt;-->
+      <!--&lt;!&ndash;<td colspan="3">genoSeq:&nbsp;{{hgmdData.genoSeq}}</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tbody>&ndash;&gt;-->
+      <!--&lt;!&ndash;</table>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="gene-information">&ndash;&gt;-->
+      <!--&lt;!&ndash;<span class="gene-information-title base-color">Clinvar（2017-01-30）</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="gene-content">&ndash;&gt;-->
 
-        <!--<table class="no-thead my-table">-->
-        <!--<tbody>-->
-        <!--<tr>-->
-        <!--<td>CLNACC</td>-->
-        <!--<td>-->
-        <!--<span v-if="clinvarData.clnacc">-->
-        <!--<span v-for="list in clinvarData.clnacc">-->
-        <!--<a class="common-a" target="_blank" :href="'https://www.ncbi.nlm.nih.gov/clinvar/'+list">{{list}}</a>&nbsp;&nbsp;&nbsp;-->
-        <!--</span>-->
-        <!--</span>-->
-        <!--<span v-else=""> - </span>-->
-        <!--</td>-->
-        <!--</tr>-->
-        <!--<tr>-->
-        <!--<td>CLINSIG</td>-->
-        <!--<td>-->
-        <!--<span v-if="clinvarData.clinsig">{{clinvarData.clinsig.join('|')}}</span>-->
-        <!--<span v-else=""> - </span>-->
-        <!--</td>-->
-        <!--</tr>-->
-        <!--<tr>-->
-        <!--<td>CLNDBN</td>-->
-        <!--<td>-->
-        <!--<span v-if="clinvarData.clndbn">{{clinvarData.clndbn.join('|')}}</span>-->
-        <!--<span v-else=""> - </span>-->
-        <!--</td>-->
-        <!--</tr>-->
-        <!--<tr>-->
-        <!--<td>CLNDSDBS</td>-->
-        <!--<td>-->
-        <!--<div class="clnd-conten pull-left">-->
-        <!--<div v-if="clinvarData.clndsdbs" v-for="list in clinvarData.clndsdbs">-->
-        <!--<div v-html="objToArr(list)"></div>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</td>-->
-        <!--</tr>-->
-        <!--</tbody>-->
-        <!--</table>-->
-        <!--&lt;!&ndash;<div>CLNDSDB:<span v-if="clinvarData.clndsdbs">{{clinvarData.clndsdbs.join('|')}}</span><span v-else=""> - </span></div>&ndash;&gt;-->
-        <!--&lt;!&ndash;<div>CLNDSDBID:<span v-if="clinvarData.clndsdbid">{{clinvarData.clndsdbid.join('|')}}</span><span v-else=""> - </span></div>&ndash;&gt;-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div class="gene-information">-->
-        <!--<span class="gene-information-title base-color">线粒体</span>-->
-        <!--<div class="gene-content">-->
-        <!--<table class="my-table no-thead">-->
-        <!--<tbody>-->
-        <!--<tr>-->
-        <!--<td>Mitomap</td>-->
-        <!--<td>Mitimpact</td>-->
-        <!--<td>Mitimpact dbnsfp</td>-->
-        <!--</tr>-->
-        <!--<tr>-->
-        <!--<td>allele:&nbsp;{{MitomapData.allele}}</td>-->
-        <!--<td>mitimpactId:&nbsp;{{MitimpactData.mitimpactId}}</td>-->
-        <!--<td>EFIN_SP:&nbsp;&nbsp;-->
-        <!--<span v-if="MitimpactData.dbnsfp">-->
-        <!--<span v-if="MitimpactData.dbnsfp.efin_sp">{{MitimpactData.dbnsfp.efin_sp.score}}(score)</span>&nbsp;-->
-        <!--<span v-if="MitimpactData.dbnsfp.efin_sp">{{MitimpactData.dbnsfp.efin_sp.pred}}(pred)</span>-->
-        <!--</span>-->
-        <!--</td>-->
-        <!--</tr>-->
-        <!--<tr>-->
-        <!--<td>aa_change:&nbsp;{{MitomapData.aaChange}}</td>-->
-        <!--<td>ensemblId:&nbsp;<span v-if="MitimpactData.gene">{{MitimpactData.gene.ensembl.gene}}</span>-->
-        <!--</td>-->
-        <!--<td>EFIN_HD:&nbsp;&nbsp;-->
-        <!--<span v-if="MitimpactData.dbnsfp">-->
-        <!--<span v-if="MitimpactData.dbnsfp.efin_hd">{{MitimpactData.dbnsfp.efin_hd.score}}(score)</span>&nbsp;-->
-        <!--<span v-if="MitimpactData.dbnsfp.efin_hd">{{MitimpactData.dbnsfp.efin_hd.pred}}(pred)</span>-->
-        <!--</span>-->
-        <!--</td>-->
-        <!--</tr>-->
-        <!--<tr>-->
-        <!--<td>homo:&nbsp;{{MitomapData.homo}}</td>-->
-        <!--<td>ncbiId:&nbsp;<span v-if="MitimpactData.gene">{{MitimpactData.gene.ncbi.gene}}</span></td>-->
-        <!--<td>Polyphen2:&nbsp;&nbsp;-->
-        <!--<span v-if="MitimpactData.dbnsfp">-->
-        <!--<span v-if="MitimpactData.dbnsfp.polyphen2">{{MitimpactData.dbnsfp.polyphen2.score}}(score)</span>&nbsp;-->
-        <!--<span v-if="MitimpactData.dbnsfp.polyphen2">{{MitimpactData.dbnsfp.polyphen2.pred}}(pred)</span>-->
-        <!--</span>-->
-        <!--</td>-->
-        <!--</tr>-->
-        <!--<tr>-->
-        <!--<td>hete:&nbsp;{{MitomapData.hete}}</td>-->
-        <!--<td>symbol:&nbsp;<span v-if="MitimpactData.gene">{{MitimpactData.gene.symbol}}</span></td>-->
-        <!--<td>SIFT:&nbsp;&nbsp;-->
-        <!--<span v-if="MitimpactData.dbnsfp">-->
-        <!--<span v-if="MitimpactData.dbnsfp.sift">{{MitimpactData.dbnsfp.sift.score}}(score)</span>&nbsp;-->
-        <!--<span v-if="MitimpactData.dbnsfp.sift">{{MitimpactData.dbnsfp.sift.pred}}(pred)</span>-->
-        <!--</span>-->
-        <!--</td>-->
-        <!--</tr>-->
-        <!--<tr>-->
-        <!--<td>status:&nbsp;{{MitomapData.status}}</td>-->
-        <!--<td>aa_change:&nbsp;-->
-        <!--<span v-if="MitimpactData.aaChange">-->
-        <!--{{MitimpactData.aaChange.change.ref.aa}}-{{MitimpactData.aaChange.change.alt.aa}}-->
-        <!--</span>-->
-        <!--</td>-->
-        <!--<td>FATHMM:&nbsp;&nbsp;-->
-        <!--<span v-if="MitimpactData.dbnsfp">-->
-        <!--<span v-if="MitimpactData.dbnsfp.fathmm">{{MitimpactData.dbnsfp.fathmm.score}}(score)</span>&nbsp;-->
-        <!--<span v-if="MitimpactData.dbnsfp.fathmm">{{MitimpactData.dbnsfp.fathmm.pred}}(pred)</span>-->
-        <!--</span>-->
-        <!--</td>-->
-        <!--</tr>-->
-        <!--<tr>-->
-        <!--<td>locus:&nbsp;{{MitomapData.locus}}</td>-->
-        <!--<td>disease:&nbsp;{{MitimpactData.disease ? MitimpactData.disease : '-'}}</td>-->
-        <!--<td>PROVEAN:&nbsp;&nbsp;-->
-        <!--<span v-if="MitimpactData.dbnsfp">-->
-        <!--<span v-if="MitimpactData.dbnsfp.provean">{{MitimpactData.dbnsfp.provean.score}}(score)</span>&nbsp;-->
-        <!--<span v-if="MitimpactData.dbnsfp.provean">{{MitimpactData.dbnsfp.provean.pred}}(pred)</span>-->
-        <!--</span>-->
-        <!--</td>-->
-        <!--</tr>-->
-        <!--<tr>-->
-        <!--<td>disease:&nbsp;{{MitomapData.disease}}</td>-->
-        <!--<td>status:&nbsp;{{MitimpactData.status ? MitimpactData.status : '-'}}</td>-->
-        <!--<td>MutationAssessor:&nbsp;&nbsp;-->
-        <!--<span v-if="MitimpactData.dbnsfp">-->
-        <!--<span v-if="MitimpactData.dbnsfp.mutationassessor">{{MitimpactData.dbnsfp.mutationassessor.score}}(score)</span>&nbsp;-->
-        <!--<span v-if="MitimpactData.dbnsfp.mutationassessor">{{MitimpactData.dbnsfp.mutationassessor.pred}}(pred)</span>-->
-        <!--</span>-->
-        <!--</td>-->
-        <!--</tr>-->
-        <!--</tbody>-->
-        <!--</table>-->
-        <!--</div>-->
-        <!--</div>-->
+      <!--&lt;!&ndash;<table class="no-thead my-table">&ndash;&gt;-->
+      <!--&lt;!&ndash;<tbody>&ndash;&gt;-->
+      <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>CLNACC</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-if="clinvarData.clnacc">&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-for="list in clinvarData.clnacc">&ndash;&gt;-->
+      <!--&lt;!&ndash;<a class="common-a" target="_blank" :href="'https://www.ncbi.nlm.nih.gov/clinvar/'+list">{{list}}</a>&nbsp;&nbsp;&nbsp;&ndash;&gt;-->
+      <!--&lt;!&ndash;</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-else=""> - </span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>CLINSIG</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-if="clinvarData.clinsig">{{clinvarData.clinsig.join('|')}}</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-else=""> - </span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>CLNDBN</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-if="clinvarData.clndbn">{{clinvarData.clndbn.join('|')}}</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-else=""> - </span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>CLNDSDBS</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="clnd-conten pull-left">&ndash;&gt;-->
+      <!--&lt;!&ndash;<div v-if="clinvarData.clndsdbs" v-for="list in clinvarData.clndsdbs">&ndash;&gt;-->
+      <!--&lt;!&ndash;<div v-html="objToArr(list)"></div>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tbody>&ndash;&gt;-->
+      <!--&lt;!&ndash;</table>&ndash;&gt;-->
+      <!--&lt;!&ndash;&lt;!&ndash;<div>CLNDSDB:<span v-if="clinvarData.clndsdbs">{{clinvarData.clndsdbs.join('|')}}</span><span v-else=""> - </span></div>&ndash;&gt;&ndash;&gt;-->
+      <!--&lt;!&ndash;&lt;!&ndash;<div>CLNDSDBID:<span v-if="clinvarData.clndsdbid">{{clinvarData.clndsdbid.join('|')}}</span><span v-else=""> - </span></div>&ndash;&gt;&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="gene-information">&ndash;&gt;-->
+      <!--&lt;!&ndash;<span class="gene-information-title base-color">线粒体</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="gene-content">&ndash;&gt;-->
+      <!--&lt;!&ndash;<table class="my-table no-thead">&ndash;&gt;-->
+      <!--&lt;!&ndash;<tbody>&ndash;&gt;-->
+      <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>Mitomap</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>Mitimpact</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>Mitimpact dbnsfp</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>allele:&nbsp;{{MitomapData.allele}}</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>mitimpactId:&nbsp;{{MitimpactData.mitimpactId}}</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>EFIN_SP:&nbsp;&nbsp;&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-if="MitimpactData.dbnsfp">&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-if="MitimpactData.dbnsfp.efin_sp">{{MitimpactData.dbnsfp.efin_sp.score}}(score)</span>&nbsp;&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-if="MitimpactData.dbnsfp.efin_sp">{{MitimpactData.dbnsfp.efin_sp.pred}}(pred)</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>aa_change:&nbsp;{{MitomapData.aaChange}}</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>ensemblId:&nbsp;<span v-if="MitimpactData.gene">{{MitimpactData.gene.ensembl.gene}}</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>EFIN_HD:&nbsp;&nbsp;&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-if="MitimpactData.dbnsfp">&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-if="MitimpactData.dbnsfp.efin_hd">{{MitimpactData.dbnsfp.efin_hd.score}}(score)</span>&nbsp;&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-if="MitimpactData.dbnsfp.efin_hd">{{MitimpactData.dbnsfp.efin_hd.pred}}(pred)</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>homo:&nbsp;{{MitomapData.homo}}</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>ncbiId:&nbsp;<span v-if="MitimpactData.gene">{{MitimpactData.gene.ncbi.gene}}</span></td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>Polyphen2:&nbsp;&nbsp;&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-if="MitimpactData.dbnsfp">&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-if="MitimpactData.dbnsfp.polyphen2">{{MitimpactData.dbnsfp.polyphen2.score}}(score)</span>&nbsp;&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-if="MitimpactData.dbnsfp.polyphen2">{{MitimpactData.dbnsfp.polyphen2.pred}}(pred)</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>hete:&nbsp;{{MitomapData.hete}}</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>symbol:&nbsp;<span v-if="MitimpactData.gene">{{MitimpactData.gene.symbol}}</span></td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>SIFT:&nbsp;&nbsp;&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-if="MitimpactData.dbnsfp">&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-if="MitimpactData.dbnsfp.sift">{{MitimpactData.dbnsfp.sift.score}}(score)</span>&nbsp;&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-if="MitimpactData.dbnsfp.sift">{{MitimpactData.dbnsfp.sift.pred}}(pred)</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>status:&nbsp;{{MitomapData.status}}</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>aa_change:&nbsp;&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-if="MitimpactData.aaChange">&ndash;&gt;-->
+      <!--&lt;!&ndash;{{MitimpactData.aaChange.change.ref.aa}}-{{MitimpactData.aaChange.change.alt.aa}}&ndash;&gt;-->
+      <!--&lt;!&ndash;</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>FATHMM:&nbsp;&nbsp;&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-if="MitimpactData.dbnsfp">&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-if="MitimpactData.dbnsfp.fathmm">{{MitimpactData.dbnsfp.fathmm.score}}(score)</span>&nbsp;&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-if="MitimpactData.dbnsfp.fathmm">{{MitimpactData.dbnsfp.fathmm.pred}}(pred)</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>locus:&nbsp;{{MitomapData.locus}}</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>disease:&nbsp;{{MitimpactData.disease ? MitimpactData.disease : '-'}}</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>PROVEAN:&nbsp;&nbsp;&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-if="MitimpactData.dbnsfp">&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-if="MitimpactData.dbnsfp.provean">{{MitimpactData.dbnsfp.provean.score}}(score)</span>&nbsp;&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-if="MitimpactData.dbnsfp.provean">{{MitimpactData.dbnsfp.provean.pred}}(pred)</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>disease:&nbsp;{{MitomapData.disease}}</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>status:&nbsp;{{MitimpactData.status ? MitimpactData.status : '-'}}</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>MutationAssessor:&nbsp;&nbsp;&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-if="MitimpactData.dbnsfp">&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-if="MitimpactData.dbnsfp.mutationassessor">{{MitimpactData.dbnsfp.mutationassessor.score}}(score)</span>&nbsp;&ndash;&gt;-->
+      <!--&lt;!&ndash;<span v-if="MitimpactData.dbnsfp.mutationassessor">{{MitimpactData.dbnsfp.mutationassessor.pred}}(pred)</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;</tbody>&ndash;&gt;-->
+      <!--&lt;!&ndash;</table>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
 
-        <!--</div>-->
-        <!--</div>-->
-      </div>
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--</div>-->
       <div class="modal fade bs-example-modal-lg" aria-labelledby="gridSystemModalLabe5" tabindex="-1" role="dialog" id="locusM">
         <div class="modal-dialog modal-lg" role="document">
           <div class="modal-content ">
@@ -567,6 +606,7 @@
         id: this.$route.query.id,
         allData: '',
         dbnsfp: '',
+        splicing: '',
 
 
         basicResp: '',
@@ -595,221 +635,8 @@
     mounted: function () {
       const _vue = this;
       this.getRecord();
-      //请求成功被移出来的部分
-      _vue.loading = false;
-
-      _vue.basicResp = {
-        "id": "5951df11522a8723fd6b7534",
-        "chrom": "11",
-        "start": 119052976,
-        "end": 119052976,
-        "ref": "C",
-        "alt": "T",
-        "avsnp": "rs199476052",
-        "freq": {
-          "mtdb": 0.0,
-          "gnomad": {
-            "exome": {
-              "all": 0.0002,
-              "afr": 6.563e-05,
-              "amr": 0.0,
-              "asj": 0.0,
-              "eas": 0.0025,
-              "fin": 0.0,
-              "nfe": 1.802e-05,
-              "oth": 0.0002,
-              "sas": 0.0
-            },
-            "genome": {
-              "all": 0.0002,
-              "afr": 0.0,
-              "amr": 0.0,
-              "asj": 0.0,
-              "eas": 0.0031,
-              "fin": 0.0,
-              "nfe": 0.0,
-              "oth": 0.0
-            }
-          },
-          "exac": {
-            "all": 0.0002,
-            "afr": 0.0,
-            "amr": 0.0,
-            "eas": 0.0026,
-            "sas": 0.0,
-            "fin": 0.0,
-            "nfe": 0.0,
-            "oth": 0.0
-          },
-          "onekg": {
-            "all": 0.0,
-            "afr": 0.0,
-            "amr": 0.0,
-            "eas": 0.0,
-            "sas": 0.0,
-            "eur": 0.0
-          },
-          "esp6500": {
-            "all": 0.0,
-            "aa": 0.0,
-            "ea": 0.0
-          },
-          "grandfreq": {
-            "freq": 0.005230125523012552,
-            "sampleNum": 956,
-            "count": {
-              "gatkpass": {
-                "het": 5,
-                "hom": 0
-              },
-              "total": {
-                "het": 5,
-                "hom": 0
-              }
-            }
-          }
-        },
-        "dbnsfp": {
-          "mcap": {
-            "score": 0.073,
-            "pred": "D"
-          },
-          "sift": {
-            "score": 0.149,
-            "pred": "T"
-          },
-          "polyphen2": {
-            "score": 1.0,
-            "pred": "D"
-          },
-          "lrt": {
-            "score": 0.017,
-            "pred": "N"
-          },
-          "fathmm": {
-            "score": 0.58,
-            "pred": "T"
-          },
-          "provean": {
-            "score": -1.82,
-            "pred": "N"
-          },
-          "mutationtaster": {
-            "score": 0.997,
-            "pred": "D"
-          },
-          "mutationassessor": {
-            "score": 1.79,
-            "pred": "L"
-          },
-          "metasvm": {
-            "score": -0.846,
-            "pred": "T"
-          },
-          "meatlr": {
-            "score": 0.217,
-            "pred": "T"
-          },
-          "gerp": {
-            "score": 3.58,
-            "pred": null
-          },
-          "revel": {
-            "score": 0.328,
-            "pred": null
-          }
-        },
-        "acmg": {
-          "intervar": "Uncertain significance",
-          "pvs1": 0,
-          "ps": [
-            0,
-            0,
-            0,
-            0
-          ],
-          "pm": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
-          "pp": [
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
-          "bp": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
-          "bs": [
-            0,
-            0,
-            0,
-            0
-          ],
-          "ba1": 0
-        },
-        "disease": {
-          "clinvar": {
-            "clnacc": [
-              "RCV000089403.1"
-            ],
-            "clinsig": [
-              "not provided"
-            ],
-            "clndbn": [
-              "not_provided"
-            ],
-            "clndsdbs": [
-              {
-                "MedGen": "CN221809"
-              }
-            ]
-          },
-          "hgmd": null,
-          "gwas": null,
-          "deafness": null
-        },
-        "splicing": {
-          "dbscsnv": null,
-          "spidex": {
-            "maxTissue": -0.4482,
-            "zscore": -1.038
-          }
-        },
-        "mito": null
-      };
-
-
-//      _vue.dbnfsp(); //绘制dbnfsp区域
-//      _vue.fillHgmd();//填充hgmd
-//      _vue.fillClinvar(); //填充clinvar
-//      _vue.fillGwas();//填充gwas
-//      _vue.fillMito();//填充线粒体
-//      _vue.fillCut();//填充剪切区域
-
-
-//      _vue.myAxios({
-//        url: 'database/snv/?query=' + this.$route.query.id,
-//      }).then(function (resp) {
-//
-//      }).catch(function (error) {
-//        _vue.catchFun(error)
-//      })
     },
     methods: {
-
       //请求位点所有数据
       getRecord: function () {
         const _vue = this;
@@ -819,7 +646,9 @@
           let data = resp.data.data;
           _vue.allData = data;
           _vue.comment = data.edit.comment;
-          _vue.dbnsfp = data.snv.variant.info.dbnsfp;
+          _vue.dbnsfp = data.snv.variant.info.dbnsfp?data.snv.variant.info.dbnsfp:
+            {cadd:'',fathmm:'',gerp:'',lrt:'',mcap:'',metalr:'',metasvm:'',mutationassessor:'',mutationtaster:'',polyphen2_hdiv:'',polyphen2_hvar:'',provean:'',sift:''};
+          _vue.splicing = data.snv.variant.info.splicing;
           _vue.dbfreq();//绘制人群频率
         }).catch((error) => {
           _vue.catchFun(error)
@@ -1046,6 +875,9 @@
             }
           ]
         });
+
+
+        $(".pie-content").css("display", 'none')
       },
       dataBaseCharts: function (eleId, option) {
         const myChart = echarts.init(document.getElementById(eleId));
@@ -1297,6 +1129,21 @@
           margin: 8px 0;
 
         }
+      }
+      .t-bc{
+        max-width: 100px;
+        word-break: break-all;
+      }
+    }
+    .img-content {
+      > a {
+        display: block;
+        margin-bottom: 10px;
+      }
+    }
+    .overview-content{
+      .font-13{
+        margin-bottom: 5px;
       }
     }
   }

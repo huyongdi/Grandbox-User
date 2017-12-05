@@ -2,24 +2,31 @@
 <!--各种分析结果页面，疾病那一行-->
 <template>
   <ul class="left-ul">
-    <li class="active" id="li-0" @click="toPage('/disease')">
+    <li class="active" id="li-0" @click="toPage('/myData')">
       <div class="father">
         <span class="img analyze-flow"></span>
         <span>我的样本</span>
         <i class="triangle"></i>
       </div>
     </li>
-    <li id="li-1" @click="toPage('/gene')">
+    <li id="li-1" @click="toPage('/addSample')">
       <div class="father">
         <span class="img analyze-soft"></span>
-        <span>基因档案库</span>
+        <span>添加样本</span>
         <i class="triangle"></i>
       </div>
     </li>
     <li id="li-2" @click="toPage('/phenotype')">
       <div class="father">
         <span class="img analyze-tool"></span>
-        <span>表型档案库</span>
+        <span>样本详情</span>
+        <i class="triangle"></i>
+      </div>
+    </li>
+    <li id="li-3" @click="toPage('/phenotype')">
+      <div class="father">
+        <span class="img analyze-tool"></span>
+        <span>结果详情</span>
         <i class="triangle"></i>
       </div>
     </li>
@@ -52,7 +59,7 @@
         let _li = '';
         if(currentPath == 'myData'){
           _li = $("#li-0");
-        }else if(currentPath == 'gene' || currentPath == 'geneD'){
+        }else if(currentPath == 'addSample'){
           _li = $("#li-1");
         }else if(currentPath == 'phenotype'  || currentPath=='omim'){
           _li = $("#li-2")

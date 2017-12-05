@@ -77,6 +77,12 @@ html .red {
 html .font-12 {
   font-size: 12px;
 }
+html .font-13 {
+  font-size: 13px;
+}
+html .font-14 {
+  font-size: 14px;
+}
 html .break-all {
   word-break: break-all;
 }

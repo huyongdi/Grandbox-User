@@ -667,7 +667,10 @@
       /*样本详情*/
       showDetail: function (data) {
         this.detailData = data;
-        $("#detailModal").modal("show")
+        $("#detailModal").modal("show");
+
+//        this.$router.push({path: '/sampleD', query: {'next': data._id}})
+
       },
 
       /*编辑每列*/
