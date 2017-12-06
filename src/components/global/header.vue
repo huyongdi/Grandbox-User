@@ -106,12 +106,12 @@
 
         const _header = $("#pathUl");
         _header.find('>.active').removeClass('active');
-        if(currentPath == 'myData' || currentPath == 'report' || currentPath=='result' ||currentPath == 'variationD' ||currentPath == 'addSample'){
+        if(currentPath == 'myData' || currentPath == 'report' || currentPath=='result' ||currentPath == 'variationD' ||currentPath == 'addSample' ||currentPath=='sampleD'){
           $(".li-1").addClass('active')
-        }else if(currentPath == 'tool' || currentPath == ''){
-          $(".li-3").addClass('active')
         }else if(currentPath == 'disease' || currentPath == 'gene' || currentPath == 'geneD'  || currentPath=='omim' || currentPath=='phenotype'){
           $(".li-2").addClass('active')
+        }else if(currentPath == 'tool' || currentPath == ''){
+          $(".li-3").addClass('active')
         }else if(currentPath == 'phenotype'){
           $(".li-4").addClass('active')
         }

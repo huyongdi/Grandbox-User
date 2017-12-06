@@ -5,7 +5,7 @@
       <loading v-if="loading"></loading>
       <div class="top-content">
         <span class="my-btn refresh" @click="refresh"><img src="../../static/img/red-refresh.png" alt="">数据刷新</span>
-        <span class="my-btn" @click="addSample"><img src="../../static/img/red-submit.png" alt="">添加样本</span>
+        <!--<span class="my-btn" @click="addSample"><img src="../../static/img/red-submit.png" alt="">添加样本</span>-->
         <div class="search-div pull-right">
           <input placeholder="请输入关键字" class="search-input" v-model="inputValue" @keyup.enter="search">
           <span class="my-btn" @click="search">
@@ -78,162 +78,162 @@
       </table>
       <page :childCount="count" :childReset="0" @childCurrent="getCurrent"></page>
 
-      <!--添加样本-->
-      <div class="modal fade" tabindex="-1" role="dialog" id="addModal">
-        <div class="modal-dialog modal-lg" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
-              </button>
-              <h4 class="modal-title">添加样本数据</h4>
-            </div>
-            <div class="modal-body">
-              <ul id="breadcrumb">
-                <li><a href="javascript:void(0)"><span class="fa fa-home"> </span></a></li>
-                <li @click="show(1)"><a :class="{'in':!hide1}" href="javascript:void(0)">1. 基本信息</a></li>
-                <li @click="show(2)"><a :class="{'in':!hide2}" href="javascript:void(0)">2. 表型信息</a></li>
-                <li @click="show(3)"><a :class="{'in':!hide3}" href="javascript:void(0)">3. 检测项目</a></li>
-                <li @click="show(4)"><a :class="{'in':!hide4}" href="javascript:void(0)">4. 预览/提交数据</a></li>
-              </ul>
+      <!--&lt;!&ndash;添加样本&ndash;&gt;-->
+      <!--<div class="modal fade" tabindex="-1" role="dialog" id="addModal">-->
+        <!--<div class="modal-dialog modal-lg" role="document">-->
+          <!--<div class="modal-content">-->
+            <!--<div class="modal-header">-->
+              <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>-->
+              <!--</button>-->
+              <!--<h4 class="modal-title">添加样本数据</h4>-->
+            <!--</div>-->
+            <!--<div class="modal-body">-->
+              <!--<ul id="breadcrumb">-->
+                <!--<li><a href="javascript:void(0)"><span class="fa fa-home"> </span></a></li>-->
+                <!--<li @click="show(1)"><a :class="{'in':!hide1}" href="javascript:void(0)">1. 基本信息</a></li>-->
+                <!--<li @click="show(2)"><a :class="{'in':!hide2}" href="javascript:void(0)">2. 表型信息</a></li>-->
+                <!--<li @click="show(3)"><a :class="{'in':!hide3}" href="javascript:void(0)">3. 检测项目</a></li>-->
+                <!--<li @click="show(4)"><a :class="{'in':!hide4}" href="javascript:void(0)">4. 预览/提交数据</a></li>-->
+              <!--</ul>-->
 
-              <div class="info-content">
-                <el-form id="" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-                  <div :class="{'hide':hide1}">
+              <!--<div class="info-content">-->
+                <!--<el-form id="" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">-->
+                  <!--<div :class="{'hide':hide1}">-->
 
-                    <div class="row">
-                      <div class="col-xs-6">
-                        <el-form-item label="受检者姓名" prop="name">
-                          <el-input v-model="ruleForm.name"></el-input>
-                        </el-form-item>
-                      </div>
-                      <div class="col-xs-6">
-                        <el-form-item label="编号" prop="sn">
-                          <el-input v-model="ruleForm.sn"></el-input>
-                        </el-form-item>
-                      </div>
-                      <div class="col-xs-6">
-                        <el-form-item label="性别" prop="gender">
-                          <el-select v-model="gender" placeholder="请选择性别">
-                            <el-option label="未知" value="未知"></el-option>
-                            <el-option label="男" value="男"></el-option>
-                            <el-option label="女" value="女"></el-option>
-                          </el-select>
-                        </el-form-item>
-                      </div>
-                      <div class="col-xs-6">
-                        <el-form-item label="名族">
-                          <el-input v-model="ruleForm.national"></el-input>
-                        </el-form-item>
-                      </div>
-                      <div class="col-xs-6">
-                        <el-form-item label="籍贯" prop="nativePlace">
-                          <el-input v-model="ruleForm.nativePlace"></el-input>
-                        </el-form-item>
-                      </div>
-                      <div class="col-xs-6">
-                        <el-form-item label="年龄">
-                          <el-input v-model="ruleForm.age"></el-input>
-                        </el-form-item>
-                      </div>
-                    </div>
-                  </div>
+                    <!--<div class="row">-->
+                      <!--<div class="col-xs-6">-->
+                        <!--<el-form-item label="受检者姓名" prop="name">-->
+                          <!--<el-input v-model="ruleForm.name"></el-input>-->
+                        <!--</el-form-item>-->
+                      <!--</div>-->
+                      <!--<div class="col-xs-6">-->
+                        <!--<el-form-item label="编号" prop="sn">-->
+                          <!--<el-input v-model="ruleForm.sn"></el-input>-->
+                        <!--</el-form-item>-->
+                      <!--</div>-->
+                      <!--<div class="col-xs-6">-->
+                        <!--<el-form-item label="性别" prop="gender">-->
+                          <!--<el-select v-model="gender" placeholder="请选择性别">-->
+                            <!--<el-option label="未知" value="未知"></el-option>-->
+                            <!--<el-option label="男" value="男"></el-option>-->
+                            <!--<el-option label="女" value="女"></el-option>-->
+                          <!--</el-select>-->
+                        <!--</el-form-item>-->
+                      <!--</div>-->
+                      <!--<div class="col-xs-6">-->
+                        <!--<el-form-item label="名族">-->
+                          <!--<el-input v-model="ruleForm.national"></el-input>-->
+                        <!--</el-form-item>-->
+                      <!--</div>-->
+                      <!--<div class="col-xs-6">-->
+                        <!--<el-form-item label="籍贯" prop="nativePlace">-->
+                          <!--<el-input v-model="ruleForm.nativePlace"></el-input>-->
+                        <!--</el-form-item>-->
+                      <!--</div>-->
+                      <!--<div class="col-xs-6">-->
+                        <!--<el-form-item label="年龄">-->
+                          <!--<el-input v-model="ruleForm.age"></el-input>-->
+                        <!--</el-form-item>-->
+                      <!--</div>-->
+                    <!--</div>-->
+                  <!--</div>-->
 
-                  <div :class="{'hide':hide2}" class="over-hide">
+                  <!--<div :class="{'hide':hide2}" class="over-hide">-->
 
-                    <div class="col-xs-12">
-                      <fuzzyQuery placeholder='请输入表型' :leftData="leftData" :rightData="originalRightData" title="已选表型"
-                                  @sendInput="receiveFuzzy0"></fuzzyQuery>
-                    </div>
-                    <div class="col-xs-12 case-content">
-                      <span class="title bold">病历</span>
-                      <div class="col-xs-6">
-                        <el-input
-                          type="textarea"
-                          :autosize="{ minRows: 5, maxRows: 5}"
-                          placeholder="请输入内容"
-                          v-model="ruleForm.patientCase">
-                        </el-input>
-                      </div>
+                    <!--<div class="col-xs-12">-->
+                      <!--<fuzzyQuery placeholder='请输入表型' :leftData="leftData" :rightData="originalRightData" title="已选表型"-->
+                                  <!--@sendInput="receiveFuzzy0"></fuzzyQuery>-->
+                    <!--</div>-->
+                    <!--<div class="col-xs-12 case-content">-->
+                      <!--<span class="title bold">病历</span>-->
+                      <!--<div class="col-xs-6">-->
+                        <!--<el-input-->
+                          <!--type="textarea"-->
+                          <!--:autosize="{ minRows: 5, maxRows: 5}"-->
+                          <!--placeholder="请输入内容"-->
+                          <!--v-model="ruleForm.patientCase">-->
+                        <!--</el-input>-->
+                      <!--</div>-->
 
-                    </div>
+                    <!--</div>-->
 
-                  </div>
+                  <!--</div>-->
 
-                  <div :class="{'hide':hide3}" class="over-hide">
-                    <div class="col-xs-12 panel-content">
-                      <cascadeQuery :leftData="panelOptions" :rightData="panelRight"></cascadeQuery>
-                    </div>
-                  </div>
+                  <!--<div :class="{'hide':hide3}" class="over-hide">-->
+                    <!--<div class="col-xs-12 panel-content">-->
+                      <!--<cascadeQuery :leftData="panelOptions" :rightData="panelRight"></cascadeQuery>-->
+                    <!--</div>-->
+                  <!--</div>-->
 
-                  <div :class="{'hide':hide4}" class="show-info">
-                    <div class="title bold">待提交信息：</div>
-                    <div class="row">
-                      <div class="col-xs-3" v-if="ruleForm.name">
-                        <div class="col-xs-5">姓名：</div>
-                        <div class="col-xs-7">{{ruleForm.name}}</div>
-                      </div>
-                      <div class="col-xs-3" v-if="ruleForm.sn">
-                        <div class="col-xs-5">编号：</div>
-                        <div class="col-xs-7">{{ruleForm.sn}}</div>
-                      </div>
-                      <div class="col-xs-3" v-if="gender">
-                        <div class="col-xs-5">性别：</div>
-                        <div class="col-xs-7">{{gender}}</div>
-                      </div>
-                      <div class="col-xs-3" v-if="ruleForm.national">
-                        <div class="col-xs-5">名族：</div>
-                        <div class="col-xs-7">{{ruleForm.national}}</div>
-                      </div>
-                      <div class="col-xs-3" v-if="ruleForm.nativePlace">
-                        <div class="col-xs-5">籍贯：</div>
-                        <div class="col-xs-7 warp">{{ruleForm.nativePlace}}</div>
-                      </div>
-                      <div class="col-xs-4" v-if="ruleForm.age">
-                        <div class="col-xs-5">年龄：</div>
-                        <div class="col-xs-7">{{ruleForm.age}}</div>
-                      </div>
-                      <!--  <div class="col-xs-4" v-if="addInfo.birth">
-                          <div class="col-xs-5">出生日期：</div>
-                          <div class="col-xs-7">{{addInfo.birth}}</div>
-                        </div>-->
-                      <!--<div class="col-xs-4" :class="{'hide':fileHide}">
-                        <div class="col-xs-5">文件名：</div>
-                        <div class="col-xs-7" id="fileName-show"></div>
-                      </div>-->
-                    </div>
+                  <!--<div :class="{'hide':hide4}" class="show-info">-->
+                    <!--<div class="title bold">待提交信息：</div>-->
+                    <!--<div class="row">-->
+                      <!--<div class="col-xs-3" v-if="ruleForm.name">-->
+                        <!--<div class="col-xs-5">姓名：</div>-->
+                        <!--<div class="col-xs-7">{{ruleForm.name}}</div>-->
+                      <!--</div>-->
+                      <!--<div class="col-xs-3" v-if="ruleForm.sn">-->
+                        <!--<div class="col-xs-5">编号：</div>-->
+                        <!--<div class="col-xs-7">{{ruleForm.sn}}</div>-->
+                      <!--</div>-->
+                      <!--<div class="col-xs-3" v-if="gender">-->
+                        <!--<div class="col-xs-5">性别：</div>-->
+                        <!--<div class="col-xs-7">{{gender}}</div>-->
+                      <!--</div>-->
+                      <!--<div class="col-xs-3" v-if="ruleForm.national">-->
+                        <!--<div class="col-xs-5">名族：</div>-->
+                        <!--<div class="col-xs-7">{{ruleForm.national}}</div>-->
+                      <!--</div>-->
+                      <!--<div class="col-xs-3" v-if="ruleForm.nativePlace">-->
+                        <!--<div class="col-xs-5">籍贯：</div>-->
+                        <!--<div class="col-xs-7 warp">{{ruleForm.nativePlace}}</div>-->
+                      <!--</div>-->
+                      <!--<div class="col-xs-4" v-if="ruleForm.age">-->
+                        <!--<div class="col-xs-5">年龄：</div>-->
+                        <!--<div class="col-xs-7">{{ruleForm.age}}</div>-->
+                      <!--</div>-->
+                      <!--&lt;!&ndash;  <div class="col-xs-4" v-if="addInfo.birth">-->
+                          <!--<div class="col-xs-5">出生日期：</div>-->
+                          <!--<div class="col-xs-7">{{addInfo.birth}}</div>-->
+                        <!--</div>&ndash;&gt;-->
+                      <!--&lt;!&ndash;<div class="col-xs-4" :class="{'hide':fileHide}">-->
+                        <!--<div class="col-xs-5">文件名：</div>-->
+                        <!--<div class="col-xs-7" id="fileName-show"></div>-->
+                      <!--</div>&ndash;&gt;-->
+                    <!--</div>-->
 
-                    <div class="more row">
-                      <div class="col-xs-6" v-if="originalRightData.length!=0">
-                        <div class="col-xs-3">已选表型</div>
-                        <div class="col-xs-9">
-                          <span v-for="list in originalRightData" class="show-phenotype po" :title="list.value">{{list.value}}</span>
-                        </div>
-                      </div>
-                      <div class="col-xs-6" v-if="panelRight.length!=0">
-                        <div class="col-xs-3">已选项目</div>
-                        <div class="col-xs-9">
-                          <span v-for="list in panelRight" class="show-phenotype po" :title="list.vueShow">{{list.vueShow}}</span>
-                        </div>
-                      </div>
-                      <div class="col-xs-12 top5" v-if="ruleForm.patientCase">
-                        <div class="col-xs-1">病历</div>
-                        <div class="col-xs-11 break-word">{{ruleForm.patientCase}}</div>
-                      </div>
-                    </div>
+                    <!--<div class="more row">-->
+                      <!--<div class="col-xs-6" v-if="originalRightData.length!=0">-->
+                        <!--<div class="col-xs-3">已选表型</div>-->
+                        <!--<div class="col-xs-9">-->
+                          <!--<span v-for="list in originalRightData" class="show-phenotype po" :title="list.value">{{list.value}}</span>-->
+                        <!--</div>-->
+                      <!--</div>-->
+                      <!--<div class="col-xs-6" v-if="panelRight.length!=0">-->
+                        <!--<div class="col-xs-3">已选项目</div>-->
+                        <!--<div class="col-xs-9">-->
+                          <!--<span v-for="list in panelRight" class="show-phenotype po" :title="list.vueShow">{{list.vueShow}}</span>-->
+                        <!--</div>-->
+                      <!--</div>-->
+                      <!--<div class="col-xs-12 top5" v-if="ruleForm.patientCase">-->
+                        <!--<div class="col-xs-1">病历</div>-->
+                        <!--<div class="col-xs-11 break-word">{{ruleForm.patientCase}}</div>-->
+                      <!--</div>-->
+                    <!--</div>-->
 
-                    <div class="save-content">
-                      <span @click="saveAdd" class="my-btn"><img src="../../static/img/red-save.png" alt="">保存</span>
-                    </div>
+                    <!--<div class="save-content">-->
+                      <!--<span @click="saveAdd" class="my-btn"><img src="../../static/img/red-save.png" alt="">保存</span>-->
+                    <!--</div>-->
 
 
-                  </div>
-                </el-form>
-              </div>
+                  <!--</div>-->
+                <!--</el-form>-->
+              <!--</div>-->
 
-            </div>
-          </div>
-        </div>
-      </div>
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
 
       <!--点击单列的编辑-->
       <div class="modal fade" tabindex="-1" role="dialog" id="editModal">
@@ -360,81 +360,81 @@
         </div>
       </div>
 
-      <!--查看详情-->
-      <div class="modal fade" tabindex="-1" role="dialog" id="detailModal">
-        <div class="modal-dialog modal-lg" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
-              </button>
-              <h4 class="modal-title">样本详情</h4>
-            </div>
-            <div class="modal-body detail-modal">
+      <!--&lt;!&ndash;查看详情&ndash;&gt;-->
+      <!--<div class="modal fade" tabindex="-1" role="dialog" id="detailModal">-->
+        <!--<div class="modal-dialog modal-lg" role="document">-->
+          <!--<div class="modal-content">-->
+            <!--<div class="modal-header">-->
+              <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>-->
+              <!--</button>-->
+              <!--<h4 class="modal-title">样本详情</h4>-->
+            <!--</div>-->
+            <!--<div class="modal-body detail-modal">-->
 
-              <div class="one">
-                <span class="title">基本信息</span>
-                <div class="row">
-                  <div class="col-xs-3">姓名：<span v-if="detailData.patient">{{detailData.patient.name}}</span></div>
-                  <div class="col-xs-3">编号：<span v-if="detailData">{{detailData.sn}}</span></div>
-                  <div class="col-xs-3">性别：<span v-if="detailData.patient">{{detailData.patient.gender}}</span></div>
-                  <div class="col-xs-3">名族：<span v-if="detailData.patient">{{detailData.patient.national ? detailData.patient.national : '-'}}</span>
-                  </div>
-                  <div class="col-xs-3">籍贯：<span v-if="detailData.patient">{{detailData.patient.nativePlace ? detailData.patient.nativePlace :
-                    '-'}}</span></div>
-                  <div class="col-xs-3">年龄：<span v-if="detailData.patient">{{detailData.patient.age ? detailData.patient.age : '-'}}</span></div>
-                </div>
-              </div>
+              <!--<div class="one">-->
+                <!--<span class="title">基本信息</span>-->
+                <!--<div class="row">-->
+                  <!--<div class="col-xs-3">姓名：<span v-if="detailData.patient">{{detailData.patient.name}}</span></div>-->
+                  <!--<div class="col-xs-3">编号：<span v-if="detailData">{{detailData.sn}}</span></div>-->
+                  <!--<div class="col-xs-3">性别：<span v-if="detailData.patient">{{detailData.patient.gender}}</span></div>-->
+                  <!--<div class="col-xs-3">名族：<span v-if="detailData.patient">{{detailData.patient.national ? detailData.patient.national : '-'}}</span>-->
+                  <!--</div>-->
+                  <!--<div class="col-xs-3">籍贯：<span v-if="detailData.patient">{{detailData.patient.nativePlace ? detailData.patient.nativePlace :-->
+                    <!--'-'}}</span></div>-->
+                  <!--<div class="col-xs-3">年龄：<span v-if="detailData.patient">{{detailData.patient.age ? detailData.patient.age : '-'}}</span></div>-->
+                <!--</div>-->
+              <!--</div>-->
 
-              <div class="one">
-                <span class="title">文件信息</span>
-                <div class="row">
-                  <div class="col-xs-12" v-for="file in detailData.data_files">
-                    <div class="col-xs-5">文件名：{{file.filename}}</div>
-                    <div class="col-xs-4">上传日期：{{file.created_at}}</div>
-                    <div class="col-xs-3">状态：{{file.status | getStatus}}</div>
-                  </div>
-                </div>
-              </div>
+              <!--<div class="one">-->
+                <!--<span class="title">文件信息</span>-->
+                <!--<div class="row">-->
+                  <!--<div class="col-xs-12" v-for="file in detailData.data_files">-->
+                    <!--<div class="col-xs-5">文件名：{{file.filename}}</div>-->
+                    <!--<div class="col-xs-4">上传日期：{{file.created_at}}</div>-->
+                    <!--<div class="col-xs-3">状态：{{file.status | getStatus}}</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
 
-              <div class="one">
-                <span class="title">检测信息</span>
-                <div class="row info-content">
-                  <div class="col-xs-6">
-                    <span class="col-xs-3">已选表型</span>
-                    <ul class="col-xs-9">
-                      <li class="nowrap ellipsis po" title="我是已选表型1111111111111111111111111111111111111111111111111">
-                        我是已选表型1111111111111111111111111111111111111111111111111
-                      </li>
-                      <li class="nowrap ellipsis po" title="我是已选表型1111111111111111111111111111111111111111111111111">
-                        我是已选表型1111111111111111111111111111111111111111111111111
-                      </li>
-                      <li class="nowrap ellipsis po" title="我是已选表型1111111111111111111111111111111111111111111111111">
-                        我是已选表型1111111111111111111111111111111111111111111111111
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="col-xs-6">
-                    <span class="col-xs-3">已选项目</span>
-                    <ul class="col-xs-9">
-                      <li class="nowrap ellipsis po" title="我是已选项目1111111111111111111111111111111111111111111111111">
-                        我是已选表型1111111111111111111111111111111111111111111111111
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="col-xs-6">
-                    <span class="col-xs-3">病历</span>
-                    <div class="col-xs-9">
-                      11111111111111111111111111
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <!--<div class="one">-->
+                <!--<span class="title">检测信息</span>-->
+                <!--<div class="row info-content">-->
+                  <!--<div class="col-xs-6">-->
+                    <!--<span class="col-xs-3">已选表型</span>-->
+                    <!--<ul class="col-xs-9">-->
+                      <!--<li class="nowrap ellipsis po" title="我是已选表型1111111111111111111111111111111111111111111111111">-->
+                        <!--我是已选表型1111111111111111111111111111111111111111111111111-->
+                      <!--</li>-->
+                      <!--<li class="nowrap ellipsis po" title="我是已选表型1111111111111111111111111111111111111111111111111">-->
+                        <!--我是已选表型1111111111111111111111111111111111111111111111111-->
+                      <!--</li>-->
+                      <!--<li class="nowrap ellipsis po" title="我是已选表型1111111111111111111111111111111111111111111111111">-->
+                        <!--我是已选表型1111111111111111111111111111111111111111111111111-->
+                      <!--</li>-->
+                    <!--</ul>-->
+                  <!--</div>-->
+                  <!--<div class="col-xs-6">-->
+                    <!--<span class="col-xs-3">已选项目</span>-->
+                    <!--<ul class="col-xs-9">-->
+                      <!--<li class="nowrap ellipsis po" title="我是已选项目1111111111111111111111111111111111111111111111111">-->
+                        <!--我是已选表型1111111111111111111111111111111111111111111111111-->
+                      <!--</li>-->
+                    <!--</ul>-->
+                  <!--</div>-->
+                  <!--<div class="col-xs-6">-->
+                    <!--<span class="col-xs-3">病历</span>-->
+                    <!--<div class="col-xs-9">-->
+                      <!--11111111111111111111111111-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
 
 
-            </div>
-          </div>
-        </div>
-      </div>
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
 
     </div>
   </div>
@@ -667,9 +667,9 @@
       /*样本详情*/
       showDetail: function (data) {
         this.detailData = data;
-        $("#detailModal").modal("show");
+//        $("#detailModal").modal("show");
 
-//        this.$router.push({path: '/sampleD', query: {'next': data._id}})
+        this.$router.push({path: '/sampleD', query: {'id': data._id}})
 
       },
 

@@ -63,7 +63,7 @@
           _li = $("#li-0");
         }else if(currentPath == 'addSample'){
           _li = $("#li-1");
-        }else if(currentPath == 'phenotype'  || currentPath=='omim'){
+        }else if(currentPath == 'sampleD'){
           _li = $("#li-2")
         }
         if(_li && !_li.hasClass('active')){

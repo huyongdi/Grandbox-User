@@ -9,7 +9,7 @@
         <div class="header">
           <span class="fa fa-chevron-down" @click.self="showContent"></span> <span @click.self="showContent">基本信息</span>
         </div>
-        <div class="content disease-phenotype" style="display: block">
+        <div class="content left-right" style="display: block">
           <table class="special-table">
             <tbody>
             <tr>
@@ -116,7 +116,7 @@
         <div class="header">
           <span class="fa fa-chevron-down" @click.self="showContent"></span><span @click.self="showContent">人群频率</span>
         </div>
-        <div class="content img-content disease-phenotype" style="display: block">
+        <div class="content img-content left-right" style="display: block">
 
           <a href="javascript:void(0)" @click="showNext">点击查看样本数</a>
 
@@ -260,7 +260,7 @@
         <div class="header">
           <span class="fa fa-chevron-down" @click.self="showContent"></span> <span @click.self="showContent">疾病报道</span>
         </div>
-        <div class="content disease-phenotype" style="display: block">
+        <div class="content left-right" style="display: block">
 
         </div>
       </div>

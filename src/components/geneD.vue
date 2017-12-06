@@ -103,7 +103,7 @@
         <div class="header">
           <span class="fa fa-chevron-down" @click.self="showContent"></span> <span @click.self="showContent">疾病和表型</span>
         </div>
-        <div class="content disease-phenotype" style="display: block">
+        <div class="content left-right" style="display: block">
           <div class="left">
             <div class="title">疾病相关表型 <!--（总病例数： 0 ）--></div>
             <ul v-for="omim in allData.omims">

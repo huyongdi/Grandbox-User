@@ -49,6 +49,16 @@
                   <el-input v-model="ruleForm.age"></el-input>
                 </el-form-item>
               </div>
+              <div class="col-xs-6 case-content">
+                <el-form-item label="病历">
+                  <el-input
+                    type="textarea"
+                    :autosize="{ minRows: 5, maxRows: 5}"
+                    placeholder="请输入内容"
+                    v-model="ruleForm.patientCase">
+                  </el-input>
+                </el-form-item>
+              </div>
             </div>
           </div>
 
@@ -57,17 +67,6 @@
             <div class="col-xs-12">
               <fuzzyQuery placeholder='请输入表型' :leftData="leftData" :rightData="originalRightData" title="已选表型"
                           @sendInput="receiveFuzzy0"></fuzzyQuery>
-            </div>
-            <div class="col-xs-12 case-content">
-              <span class="col-xs-1 bold">病历</span>
-              <div class="col-xs-5">
-                <el-input
-                  type="textarea"
-                  :autosize="{ minRows: 5, maxRows: 5}"
-                  placeholder="请输入内容"
-                  v-model="ruleForm.patientCase">
-                </el-input>
-              </div>
             </div>
           </div>
 

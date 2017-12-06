@@ -248,7 +248,7 @@
                   padding: 15px 35px 15px;
                   font-size: 12px;
                 }
-                .disease-phenotype {
+                .left-right {
                   overflow: hidden;
                   .title {
                     margin-bottom: 15px;

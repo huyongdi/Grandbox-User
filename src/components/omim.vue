@@ -40,9 +40,9 @@
         <div class="header" >
           <span class="fa fa-chevron-down" @click.self="showContent"></span><span @click.self="showContent">临床表型</span>
         </div>
-        <div class="content disease-phenotype" style="display: block">
+        <div class="content left-right" style="display: block">
           <table class="special-table">
-            <tbody id="synopsis_table">
+            <tbody id="">
             <tr class="t-bc">
               <td style="min-width: 100px">系统分类</td>
               <td>临床表型</td>
@@ -74,7 +74,7 @@
         <div class="header">
           <span class="fa fa-chevron-down" @click.self="showContent"></span><span @click.self="showContent">基因信息</span>
         </div>
-        <div class="content disease-phenotype" style="display: block">
+        <div class="content left-right" style="display: block">
           <table class="special-table">
             <tbody>
             <tr>
@@ -105,7 +105,7 @@
         <div class="header">
           <span class="fa fa-chevron-down" @click.self="showContent"></span><span @click.self="showContent">疾病和表型</span>
         </div>
-        <div class="content text-content disease-phenotype" style="display: block">
+        <div class="content text-content left-right" style="display: block">
           <div class="left">
             <div class="title">临床表型 </div>
             <table class="special-table">
@@ -126,7 +126,7 @@
                 <td>
                   <div v-if="data.content" v-for="list in data.content">
                     <!--{{list}}-->
-                    <div v-for="hpo in list.hpos">{{hpo.name &&hpo.name.chinese}}({{hpo.name &&hpo.name.english}})</div>
+                    <div v-for="hpo in list.hpos">{{hpo.hpoid}}：{{hpo.name &&hpo.name.chinese}}({{hpo.name &&hpo.name.english}})</div>
                     <!--<div v-if="list.hpo_ids" v-for="listHpo in list.hpo_ids">{{listHpo}}(<span :id="listHpo.replace(':','-')"></span>)</div>-->
                     <!--<div v-if="!list.hpo_ids"> - </div>-->
                   </div>
@@ -167,7 +167,7 @@
         </div>
         <div class="content text-content" style="display: block">
           <el-tabs tab-position="left" class="one">
-            <el-tab-pane :label="text.title" v-for="text in allData.text_sections" :key="text">
+            <el-tab-pane :label="text.title" v-for="(text,index) in allData.text_sections" :key="index">
               <div v-for="list in text.contents" class="text-one">{{list}}</div>
             </el-tab-pane>
           </el-tabs>
