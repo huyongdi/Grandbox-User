@@ -2,31 +2,37 @@
 <!--各种分析结果页面，疾病那一行-->
 <template>
   <ul class="left-ul">
-    <li class="active" id="li-0" @click="toPage('/myData')">
-      <div class="father">
+    <li class="active" id="li-0">
+      <div class="father" @click.self="upDown">
         <span class="img analyze-flow"></span>
         <span>我的样本</span>
         <i class="triangle"></i>
       </div>
-    </li>
-    <li id="li-1" @click="toPage('/addSample')">
-      <div class="father">
-        <span class="img analyze-soft"></span>
-        <span>添加样本</span>
-        <i class="triangle"></i>
+      <div class="children" @click.stop="" style="display: block">
+        <router-link to="/myData" class="block no-d">样本列表</router-link>
+        <router-link to="/addSample" class="block no-d">添加样本</router-link>
+        <a class="block no-d">样本详情</a>
+        <a class="block no-d">结果详情</a>
       </div>
     </li>
-    <li id="li-2" @click="toPage('')">
+    <!--<li id="li-1" @click="toPage('/addSample')">-->
+      <!--<div class="father">-->
+        <!--<span class="img analyze-soft"></span>-->
+        <!--<span>添加样本</span>-->
+        <!--<i class="triangle"></i>-->
+      <!--</div>-->
+    <!--</li>-->
+    <!--<li id="li-2" @click="toPage('')">-->
+      <!--<div class="father">-->
+        <!--<span class="img analyze-tool"></span>-->
+        <!--<span>样本详情</span>-->
+        <!--<i class="triangle"></i>-->
+      <!--</div>-->
+    <!--</li>-->
+    <li id="li-1" @click="toPage('')">
       <div class="father">
         <span class="img analyze-tool"></span>
-        <span>样本详情</span>
-        <i class="triangle"></i>
-      </div>
-    </li>
-    <li id="li-3" @click="toPage('')">
-      <div class="father">
-        <span class="img analyze-tool"></span>
-        <span>结果详情</span>
+        <span>统计</span>
         <i class="triangle"></i>
       </div>
     </li>
@@ -57,14 +63,12 @@
       },
       getActive: function () {  //通过子页面判断左边具体的active
         const currentPath = this.$router.currentRoute.name;
-        $(".left-ul").find('>.active').removeClass('active');
+//        $(".left-ul").find('>.active').removeClass('active');
         let _li = '';
-        if(currentPath == 'myData'){
+        if(currentPath == 'myData' || currentPath == 'addSample'){
           _li = $("#li-0");
-        }else if(currentPath == 'addSample'){
+        }else if(currentPath == ''){
           _li = $("#li-1");
-        }else if(currentPath == 'sampleD'){
-          _li = $("#li-2")
         }
         if(_li && !_li.hasClass('active')){
           _li.addClass('active');

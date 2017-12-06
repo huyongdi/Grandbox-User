@@ -13,7 +13,6 @@
       <div class="info-content">
         <el-form id="" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
           <div :class="{'hide':hide1}">
-
             <div class="row">
               <div class="col-xs-6">
                 <el-form-item label="受检者姓名" prop="name">
@@ -49,31 +48,43 @@
                   <el-input v-model="ruleForm.age"></el-input>
                 </el-form-item>
               </div>
-              <div class="col-xs-6 case-content">
-                <el-form-item label="病历">
-                  <el-input
-                    type="textarea"
-                    :autosize="{ minRows: 5, maxRows: 5}"
-                    placeholder="请输入内容"
-                    v-model="ruleForm.patientCase">
-                  </el-input>
-                </el-form-item>
-              </div>
+              <!--<div class="col-xs-6 case-content">-->
+                <!---->
+              <!--</div>-->
             </div>
           </div>
 
           <div :class="{'hide':hide2}" class="over-hide">
-
-            <div class="col-xs-12">
-              <fuzzyQuery placeholder='请输入表型' :leftData="leftData" :rightData="originalRightData" title="已选表型"
-                          @sendInput="receiveFuzzy0"></fuzzyQuery>
+            <div class="col-xs-7">
+              <choosePh></choosePh>
             </div>
+
+            <div class="col-xs-5">
+              <el-form-item label="病历">
+                <el-input
+                  type="textarea"
+                  :autosize="{ minRows: 10, maxRows: 10}"
+                  placeholder="请输入内容"
+                  v-model="ruleForm.patientCase">
+                </el-input>
+              </el-form-item>
+            </div>
+            <!--<div class="col-xs-12">-->
+              <!--<fuzzyQuery placeholder='请输入表型' :leftData="leftData" :rightData="originalRightData" title="已选表型"-->
+                          <!--@sendInput="receiveFuzzy0"></fuzzyQuery>-->
+            <!--</div>-->
           </div>
 
           <div :class="{'hide':hide3}" class="over-hide">
-            <div class="col-xs-12 panel-content">
-              <cascadeQuery :leftData="panelOptions" :rightData="panelRight"></cascadeQuery>
+
+
+            <div class="col-xs-7">
+              <choosePa></choosePa>
             </div>
+
+            <!--<div class="col-xs-12 panel-content">-->
+              <!--<cascadeQuery :leftData="panelOptions" :rightData="panelRight"></cascadeQuery>-->
+            <!--</div>-->
           </div>
 
           <div :class="{'hide':hide4}" class="show-info">
@@ -139,6 +150,9 @@
 
           </div>
         </el-form>
+
+        <span v-if="hide4" @click="toNext()" class="my-btn next-btn"><img src="../../static/img/red-save.png" alt="">下一步</span>
+
       </div>
 
     </div>
@@ -151,16 +165,20 @@
   import fuzzyQuery from './global/fuzzyQuery.vue'
   import cascadeQuery from './global/cascadeQuery.vue'
   import myDataH from './global/myDataHeader.vue'
+  import choosePh from './global/choosePh.vue'
+  import choosePa from './global/choosePa.vue'
 
   export default {
     components: {
       'fuzzyQuery': fuzzyQuery,
       'cascadeQuery': cascadeQuery,
       'myDataH': myDataH,
+      'choosePh': choosePh,
+      'choosePa': choosePa,
     },
     data: function () {
       return {
-        loading:'',
+        loading: '',
         detailData: "",
         /*添加样本*/
         hide1: false,
@@ -263,10 +281,10 @@
         })
       },
 
-      getPanelO:function () {
+      getPanelO: function () {
         const _vue = this;
         this.myAxios({
-          url:'biomeddb/panel'
+          url: 'biomeddb/panel'
         }).then(function (resp) {
           _vue.panelOptions = resp.data.data;
         })
@@ -305,11 +323,24 @@
         } else if (type == 3) {
           this.hide3 = false;
         } else if (type == 4) {
-//          const value = $.trim($("#file-name").val());
-//          if (value) {
-//            this.fileHide = false;
-//            $("#fileName-show").html(value)
-//          }
+          this.hide4 = false;
+        }
+      },
+      toNext:function () {
+        if(!this.hide1){
+          this.hide1 = true;
+          this.hide2 = false;
+          this.hide3 = true;
+          this.hide4 = true;
+        }else if(!this.hide2){
+          this.hide1 = true;
+          this.hide2 = true;
+          this.hide3 = false;
+          this.hide4 = true;
+        }else if(!this.hide3){
+          this.hide1 = true;
+          this.hide2 = true;
+          this.hide3 = true;
           this.hide4 = false;
         }
       },
@@ -391,8 +422,20 @@
   #add-sample {
     .info-content {
       margin-top: 10px;
-      padding: 40px 0;
+      padding: 40px 15px;
       background-color: #fff;
+
+      .next-btn{
+        display: block;
+        width: 95px;
+        margin: 0 auto;
+      }
+      .demo-ruleForm{
+        >div{
+          height: 600px;
+        }
+      }
+
       .star {
         color: red;
         font-weight: 700;

@@ -84,7 +84,7 @@
         /*点击其它地方筛选关闭*/
         $('#app:not(\'.filtrate-content\')').on('click', function () {
           $('.filtrate-content').addClass('hide')
-        })
+        });
       },
     }
   }

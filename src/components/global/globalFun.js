@@ -16,7 +16,7 @@ Vue.prototype.catchFun = function (error) {
         alertContent = error.response.data.message + ' : ' + arr.join(' ; ')
       }
     } else if (error.response.data.error) {
-      alertContent = error.response.data.message?error.response.data.message:error.response.data.error
+      alertContent = error.response.data.message ? error.response.data.message : error.response.data.error
     } else {
       alertContent = error.response.data.message;
     }
@@ -67,7 +67,7 @@ Vue.prototype.switchHide = function (ID) {
 };
 
 //点击展开下来（GENE OMIM 详情）
-Vue.prototype.showContent =function (e) {
+Vue.prototype.showContent = function (e) {
   const _header = $(e.target).parent();
   const _span = _header.find('.fa');
   _header.next().slideToggle();
@@ -78,7 +78,7 @@ Vue.prototype.showContent =function (e) {
   }
 };
 
-Vue.prototype.showNext =function (e) {
+Vue.prototype.showNext = function (e) {
   const _header = $(e.target);
   _header.next().slideToggle();
 };
@@ -99,4 +99,18 @@ Vue.prototype.alert = function (message) {
     message: message,
     type: 'error'
   });
+};
+
+/*左侧导航展开收缩*/
+Vue.prototype.upDown = function (e) {
+  console.log(222222)
+  const _li = $(e.target).parent();
+  const _children = _li.find('.children');
+
+  if (_children.css("display") == 'none') { //先前状态为展开
+    _li.addClass('active')
+  } else {
+    _li.removeClass('active');
+  }
+  _children.slideToggle()
 };
