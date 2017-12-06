@@ -216,50 +216,9 @@
       }
     },
     mounted: function () {
-
+      this.getPanelO();
     },
     methods: {
-      /*修改panel--这里不是用的模块*/
-      searchPanel: function () {
-        const _vue = this;
-        this.showPanel = true;
-        _vue.loading = true;
-        this.myAxios({
-          url: 'product/panel/search/?query=' + _vue.inputPanel
-        }).then(function (resp) {
-          _vue.panelData = resp.data;
-          _vue.loading = false
-        }).catch(function (error) {
-          _vue.catchFun(error)
-        })
-      },
-      showPanelModal: function () {
-        const _vue = this;
-        _vue.loading = true;
-        this.myAxios({
-          url: 'sample/datafile/' + _vue.editModalData.id + '/'
-        }).then(function (resp) {
-          _vue.loading = false;
-          _vue.hasPanel = resp.data.geneinfo ? resp.data.geneinfo.panels : [];
-          _vue.hasGene = resp.data.geneinfo ? resp.data.geneinfo.genes.join(',') : ''
-        }).catch(function (error) {
-          _vue.catchFun(error)
-        })
-      },
-      addPanel: function (list) {
-        this.hasPanel.push(list)
-      },
-      removePanel: function (code) {
-        const _vue = this;
-        const arr = [];
-        $.each(_vue.hasPanel, function (i, data) {
-          if (data.code !== code) {
-            arr.push(data)
-          }
-        });
-        _vue.hasPanel = arr;
-      },
-
       /*添加样本*/
       addSample: function () {
         this.hide1 = false;
@@ -304,10 +263,57 @@
           _vue.catchFun(error)
         })
       },
-      changeFile: function (e) {
-        console.log($(e.target.files[0]))
+
+      getPanelO:function () {
+        const _vue = this;
+        this.myAxios({
+          url:'biomeddb/panel'
+        }).then(function (resp) {
+          _vue.panelOptions = resp.data.data;
+        })
+      },
+      receiveFuzzy0: function (data) {
+        const _vue = this;
+        this.loading = true;
+        this.myAxios({
+          url: 'biomeddb/hpo/?query=' + data,
+          type: 'get'
+        }).then(function (resp) {
+          _vue.loading = false;
+          let results = resp.data.data;
+          _vue.leftData = [];
+          $.each(results, function (i, data) {
+            data.vHtml = data.hpoid + ' ' + data.name.chinese + '(' + data.name.english + ')';
+            _vue.leftData.push({
+              key: data.hpoid,
+              value: data.vHtml
+            })
+          })
+        }).catch(function (error) {
+          _vue.catchFun(error)
+        })
       },
 
+      show: function (type) {
+        this.hide1 = true;
+        this.hide2 = true;
+        this.hide3 = true;
+        this.hide4 = true;
+        if (type == 1) {
+          this.hide1 = false;
+        } else if (type == 2) {
+          this.hide2 = false;
+        } else if (type == 3) {
+          this.hide3 = false;
+        } else if (type == 4) {
+//          const value = $.trim($("#file-name").val());
+//          if (value) {
+//            this.fileHide = false;
+//            $("#fileName-show").html(value)
+//          }
+          this.hide4 = false;
+        }
+      },
       socket: function () {
         const socket = new WebSocket('ws://localhost:8080');
 //        socket.onopen = function(event) {
@@ -339,48 +345,6 @@
           console.log('Message from server', event.data);
         });
 
-      },
-
-      show: function (type) {
-        this.hide1 = true;
-        this.hide2 = true;
-        this.hide3 = true;
-        this.hide4 = true;
-        if (type == 1) {
-          this.hide1 = false;
-        } else if (type == 2) {
-          this.hide2 = false;
-        } else if (type == 3) {
-          this.hide3 = false;
-        } else if (type == 4) {
-//          const value = $.trim($("#file-name").val());
-//          if (value) {
-//            this.fileHide = false;
-//            $("#fileName-show").html(value)
-//          }
-          this.hide4 = false;
-        }
-      },
-      receiveFuzzy0: function (data) {
-        const _vue = this;
-        this.loading = true;
-        this.myAxios({
-          url: 'biomeddb/hpo/?query=' + data,
-          type: 'get'
-        }).then(function (resp) {
-          _vue.loading = false;
-          let results = resp.data.data;
-          _vue.leftData = [];
-          $.each(results, function (i, data) {
-            data.vHtml = data.hpoid + ' ' + data.name.chinese + '(' + data.name.english + ')';
-            _vue.leftData.push({
-              key: data.hpoid,
-              value: data.vHtml
-            })
-          })
-        }).catch(function (error) {
-          _vue.catchFun(error)
-        })
       },
     },
     watch: {

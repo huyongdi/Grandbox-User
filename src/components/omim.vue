@@ -167,7 +167,7 @@
         </div>
         <div class="content text-content" style="display: block">
           <el-tabs tab-position="left" class="one">
-            <el-tab-pane :label="text.title" v-for="text in allData.text_sections">
+            <el-tab-pane :label="text.title" v-for="text in allData.text_sections" :key="text">
               <div v-for="list in text.contents" class="text-one">{{list}}</div>
             </el-tab-pane>
           </el-tabs>

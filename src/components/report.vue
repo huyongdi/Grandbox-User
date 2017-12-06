@@ -114,7 +114,7 @@
                       <td>{{list.nachange ? list.nachange : '-'}}</td>
                       <td>{{list.aachange ? list.aachange : '-'}}</td>
                       <td>{{list.homhet}}</td>
-                      <td>{{list.freq}}</td>
+                      <td>{{list.freq?list.freq:0}}</td>
                       <td>{{list.validation}}</td>
                       <td>
                         <router-link class="common-a" target="_blank" title="点击可修改"
@@ -290,7 +290,7 @@
                       <td>{{list.nachange ? list.nachange : '-'}}</td>
                       <td>{{list.aachange ? list.aachange : '-'}}</td>
                       <td>{{list.homhet}}</td>
-                      <td>{{list.freq}}</td>
+                      <td>{{list.freq?list.freq:0}}</td>
                       <td>
                         <div v-for="a in list.diseases">{{a.inheritance}}</div>
                       </td>

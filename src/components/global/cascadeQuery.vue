@@ -3,22 +3,15 @@
   <div class="fuzzy-content row cascade-content">
     <div class="col-xs-6">
       <span class="title bold">检测项目</span>
-      <el-cascader
-        placeholder="可搜索"
-        :options="leftData"
-        :show-all-levels=false
-        :clearable=true
-        expand-trigger="hover"
-        :props="{value:'id',label:'name',children:'subpanels'}"
-        @change="fillPanel"
-        filterable
-      ></el-cascader>
+      <el-cascader placeholder="级联可搜索" :options="leftData" :show-all-levels=false :clearable=true expand-trigger="hover"
+        :props="{value:'_id',label:'vueShow',children:'children'}" @change="fillPanel" filterable>
+      </el-cascader>
     </div>
 
     <div class="col-xs-6">
       <span class="title bold">已选项目</span>
       <div class="has-panel lage-w inline">
-        <span class="hasPanel-one" :data-key="list.id" @click="rightRemove(list.id)" v-for="list in rightData" :title="list.vueShow">
+        <span class="hasPanel-one" :data-key="list._id" @click="rightRemove(list._id)" v-for="list in rightData" :title="list.vueShow">
           <span class='hasPanel-name'>{{list.vueShow}}</span>
           <span class="close">&times;</span>
         </span>
@@ -34,7 +27,6 @@
     data: function () {
       return {
         subPanelsArr: [],
-//        rightData:[]
       }
     },
     watch: {
@@ -42,7 +34,7 @@
         const _vue = this;
         $.each(newData,function (i,data) {
           data.vueShow = data.name;
-          $.each(data.subpanels,function (k1,k2) {
+          $.each(data.children,function (k1,k2) {
             k2.vueShow = k2.name+'('+k2.code+')';
             _vue.subPanelsArr.push(k2)
           })
@@ -57,7 +49,7 @@
 
         let flag = true;
         $.each(_vue.rightData,function (i,data) {
-          if(data.id == arrId){
+          if(data._id == arrId){
             flag = false;
             _vue.$message({
 //              showClose: true,
@@ -69,11 +61,12 @@
 
         if(flag){
           $.each(subPanelsArr,function (i,data) {
-            if(data.id == arrId){
+            if(data._id == arrId){
               _vue.rightData.push(data)
             }
           })
         }
+
       },
       rightRemove: function (originalKey) {
         const _vue = this;
@@ -104,7 +97,7 @@
     .content {
       width: 50%;
       position: relative;
-      font-size: 12px;
+      /*font-size: 12px;*/
     }
     .lage-w {
       width: 70%;
@@ -123,7 +116,7 @@
         height: 120px;
         overflow-y: auto;
         border: 1px solid #d4d4d4;
-        font-size: 12px;
+        /*font-size: 12px;*/
         .hasPanel-one {
           position: relative;
           display: block;

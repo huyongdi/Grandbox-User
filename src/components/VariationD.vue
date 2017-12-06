@@ -1031,7 +1031,11 @@
     },
     filters: {
       getPercent: function (data) {
-        return Math.round(data * 10000) / 100
+        if(!data){
+          return 0
+        }else{
+          return Math.round(data * 10000) / 100
+        }
       },
       otherData: function (data) {
         if (data == 'T') {

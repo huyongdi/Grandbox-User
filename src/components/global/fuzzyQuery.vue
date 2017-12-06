@@ -1,13 +1,13 @@
 <!--模糊搜索框-->
 <template>
-  <div class="fuzzy-content row fuzzy-content">
+  <div class="fuzzy-content row">
 
     <div class="col-xs-6">
       <span class="col-xs-2 bold">{{leftName?leftName:'临床表型'}}</span>
       <div class="content col-xs-10 " id="panel-1" @click.stop="">
         <input v-model="fuzzyInput" :placeholder='placeholder' @keyup.enter="sendInput">
         <img src="../../../static/img/trio-2.png" alt="" @click.stop="sendInput">
-        <ul class="hide-ul">
+        <ul class="hide-ul hide">
           <li v-for="list in leftData" :data-key="list.key" @click="toRight(list)" :title="list.value">
             {{list.value}}
           </li>
@@ -46,7 +46,7 @@
         <!--</div>-->
       <!--</div>-->
     </div>
-  </div>
+  <!--</div>-->
 
 </template>
 
@@ -59,12 +59,21 @@
         showPanel:''
       }
     },
+    created:function () {
+
+      $("body").not('.fuzzy-content .hide-ul').on("click",function () {
+        const _hide = $(".fuzzy-content").find('.hide-ul');
+        if(!_hide.hasClass('.hide')){
+          _hide.addClass('hide')
+        }
+      })
+    },
     watch:{
       leftData:function (newData) {
         if(newData.length!==0){
-          $(".hide-ul").css("border-bottom",'1px solid rgb(209, 209, 209)')
+          $(".hide-ul").removeClass('hide');
         }else{
-          $(".hide-ul").css("border-bottom",'1px solid #fff')
+          $(".hide-ul").addClass('hide')
         }
       }
     },
@@ -108,7 +117,7 @@
   @bc:rgb(240,244,247);
   .fuzzy-content {
     height: 150px;
-    overflow: hidden;
+    /*overflow: hidden;*/
     .name{
       display: inline-block;
       width: 20%;
@@ -130,8 +139,8 @@
     .col-xs-6{
       .content{
         input {
-          height: 24px;
-          line-height: 24px;
+          height: 28px;
+          line-height: 28px;
           padding-right: 24px;
           width: 100%;
           /*border-bottom: 1px solid #fff;*/
@@ -140,23 +149,29 @@
           position: absolute;
           top: 0;
           right: 0;
-          height: 24px;
+          height: 28px;
           margin-left: -1px;
           cursor: pointer;
         }
+        .border-b-d{
+          border-bottom: 1px solid rgb(209, 209, 209);
+        }
+        .border-b-f{
+          border-bottom: 1px solid #fff;
+        }
+
         .hide-ul {
           padding: 0;
           position: absolute;
-          left: 0;
+          left: 15px;
           width: 100%;
           background-color: #fff;
           z-index: 100;
-          max-height: 100px;
+          max-height: 160px;
           overflow-y: auto;
           border-right: 1px solid rgb(209, 209, 209);
           border-left: 1px solid rgb(209, 209, 209);
-          /*border-bottom: 1px solid rgb(209, 209, 209);*/
-
+          .border-b-d;
           li {
             height: 26px;
             line-height: 26px;
@@ -174,44 +189,45 @@
       }
     }
     .col-xs-6{
+      .has-panel {
+        height: 120px;
+        overflow-y: auto;
+        border: 1px solid #d4d4d4;
+        .hasPanel-one{
+          display: block;
+          height: 25px;
+          line-height: 25px;
+          width: 100%;
+          cursor: pointer;
+          padding: 0 20px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          &:hover{
+            background-color: rgb(220,238,249);
+
+          }
+          .hasPanel-name{
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+            float: left;
+          }
+          .close{
+            margin-top: 5px;
+            position: absolute;
+            right: 25px;
+            font-size: 14px;
+          }
+        }
+      }
       .name{
         float: left;
       }
       .content{
         float: left;
-        .has-panel {
-          height: 120px;
-          overflow-y: auto;
-          border: 1px solid #d4d4d4;
-          .hasPanel-one{
-            display: block;
-            height: 25px;
-            line-height: 25px;
-            width: 100%;
-            cursor: pointer;
-            padding: 0 20px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            &:hover{
-              background-color: rgb(220,238,249);
 
-            }
-            .hasPanel-name{
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              width: 100%;
-              float: left;
-            }
-            .close{
-              margin-top: 5px;
-              position: absolute;
-              right: 10px;
-              font-size: 14px;
-            }
-          }
-        }
       }
     }
   }

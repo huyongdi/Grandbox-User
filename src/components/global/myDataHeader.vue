@@ -16,14 +16,14 @@
         <i class="triangle"></i>
       </div>
     </li>
-    <li id="li-2" @click="toPage('/phenotype')">
+    <li id="li-2" @click="toPage('')">
       <div class="father">
         <span class="img analyze-tool"></span>
         <span>样本详情</span>
         <i class="triangle"></i>
       </div>
     </li>
-    <li id="li-3" @click="toPage('/phenotype')">
+    <li id="li-3" @click="toPage('')">
       <div class="father">
         <span class="img analyze-tool"></span>
         <span>结果详情</span>
@@ -51,7 +51,9 @@
     },
     methods: {
       toPage:function (path) {
-        this.$router.push(path)
+        if(path){
+          this.$router.push(path)
+        }
       },
       getActive: function () {  //通过子页面判断左边具体的active
         const currentPath = this.$router.currentRoute.name;
