@@ -35,13 +35,12 @@
     <div class="col-xs-5 right">
       <div class="header">已选表型</div>
       <div class="main">
-        <ul class="apiData-content">
-          <li v-for="list in rightData">
-            <span aria-checked="mixed" class="el-checkbox__input" @click="choose">
+        <ul class="apiData-content rightData-content">
+          <li v-for="list in rightData" :data-key="list.key">
+            <span aria-checked="mixed" class="el-checkbox__input" @click="chooseR">
               <span class="el-checkbox__inner"></span>
               <input type="checkbox" class="el-checkbox__original" value="0">
             </span>
-
             <span class="span-data po" :data-key="list.key" :title="list.value">{{list.value}}</span>
           </li>
         </ul>
@@ -62,6 +61,8 @@
 
         leftCId: [],
         rightCId: [],
+
+        rightToLeftId:[]
       }
     },
     mounted: function () {
@@ -69,7 +70,23 @@
     },
     methods: {
       toLeft: function () {
+        const _vue = this;
+        $.each(this.rightToLeftId,function (i,data) {
+          //删除右边的LI
 
+          $('.rightData-content').find('li').each(function () {
+            if ($(this).data('key') == data) {
+              $(this).remove()
+            }
+          });
+
+          $.each(_vue.rightData,function (n1,n2) {
+            if(n2.key == data){
+              _vue.leftData.push(n2)
+            }
+          })
+
+        })
       },
       toRight: function () {
         const _vue = this;
@@ -108,6 +125,16 @@
           } else {
             _self.addClass('is-checked')
           }
+        }
+      },
+      chooseR:function (e) {
+        const _self = $(e.target).closest('.el-checkbox__input');
+        const _id = _self.next().data('key');
+        if (_self.hasClass('is-checked')) {
+          _self.removeClass('is-checked')
+        } else {
+          this.rightToLeftId.push(_id)
+          _self.addClass('is-checked')
         }
       },
       getD: function () {

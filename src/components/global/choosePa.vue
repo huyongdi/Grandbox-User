@@ -7,40 +7,40 @@
       <div class="header">选择项目</div>
       <div class="main">
 
-        <el-tree :data="leftData" show-checkbox node-key="_id"  ref="tree" :props="defaultProps" @getCheckedNodes="getCheckedNodes"></el-tree>
+        <el-tree :data="leftData" show-checkbox node-key="_id" ref="tree" :props="defaultProps" @getCheckedNodes="getCheckedNodes"></el-tree>
 
         <ul class="apiData-content leftData-content">
           <!--<li v-for="list in leftData" :data-key="list.key">-->
-            <!--<span aria-checked="mixed" class="el-checkbox__input" @click="choose">-->
-              <!--<span class="el-checkbox__inner"></span>-->
-              <!--<input type="checkbox" class="el-checkbox__original" value="0">-->
-            <!--</span>-->
-            <!--<span class="span-data po" :data-key="list.key" :title="list.value">{{list.value}}</span>-->
+          <!--<span aria-checked="mixed" class="el-checkbox__input" @click="choose">-->
+          <!--<span class="el-checkbox__inner"></span>-->
+          <!--<input type="checkbox" class="el-checkbox__original" value="0">-->
+          <!--</span>-->
+          <!--<span class="span-data po" :data-key="list.key" :title="list.value">{{list.value}}</span>-->
           <!--</li>-->
           <!---->
           <!--<li class="f-li">-->
-            <!--<span aria-checked="mixed" class="el-checkbox__input" @click="chooseP">-->
-              <!--<span class="el-checkbox__inner"></span>-->
-              <!--<input type="checkbox" class="el-checkbox__original" value="0">-->
-            <!--</span>-->
-            <!--<span class="span-data po">1</span>-->
+          <!--<span aria-checked="mixed" class="el-checkbox__input" @click="chooseP">-->
+          <!--<span class="el-checkbox__inner"></span>-->
+          <!--<input type="checkbox" class="el-checkbox__original" value="0">-->
+          <!--</span>-->
+          <!--<span class="span-data po">1</span>-->
 
-            <!--<ul class="children">-->
-              <!--<li>-->
-                  <!--<span aria-checked="mixed" class="el-checkbox__input" @click="chooseC">-->
-                    <!--<span class="el-checkbox__inner"></span>-->
-                    <!--<input type="checkbox" class="el-checkbox__original" value="0">-->
-                  <!--</span>-->
-                <!--<span class="span-data po">1</span>-->
-              <!--</li>-->
-              <!--<li>-->
-                  <!--<span aria-checked="mixed" class="el-checkbox__input" @click="chooseC">-->
-                    <!--<span class="el-checkbox__inner"></span>-->
-                    <!--<input type="checkbox" class="el-checkbox__original" value="0">-->
-                  <!--</span>-->
-                <!--<span class="span-data po">1</span>-->
-              <!--</li>-->
-            <!--</ul>-->
+          <!--<ul class="children">-->
+          <!--<li>-->
+          <!--<span aria-checked="mixed" class="el-checkbox__input" @click="chooseC">-->
+          <!--<span class="el-checkbox__inner"></span>-->
+          <!--<input type="checkbox" class="el-checkbox__original" value="0">-->
+          <!--</span>-->
+          <!--<span class="span-data po">1</span>-->
+          <!--</li>-->
+          <!--<li>-->
+          <!--<span aria-checked="mixed" class="el-checkbox__input" @click="chooseC">-->
+          <!--<span class="el-checkbox__inner"></span>-->
+          <!--<input type="checkbox" class="el-checkbox__original" value="0">-->
+          <!--</span>-->
+          <!--<span class="span-data po">1</span>-->
+          <!--</li>-->
+          <!--</ul>-->
           <!--</li>-->
 
         </ul>
@@ -77,12 +77,12 @@
 
 <script>
   export default {
-    props:['hasHpo','flag'],
+    props: ['hasHpo', 'flag'],
     data: function () {
       return {
         loadingPA: '',
         sInput: '',
-        leftData:  [{
+        leftData: [{
           id: 1,
           name: '暂无数据',
         }],
@@ -102,16 +102,16 @@
     mounted: function () {
 
     },
-    watch:{
-      flag:function (newD) {
-        if(newD){
+    watch: {
+      flag: function (newD) {
+        if (newD) {
           this.getD()
         }
       }
     },
     methods: {
       /*插件开始*/
-      getCheckedNodes:function () {
+      getCheckedNodes: function () {
 
       },
 
@@ -124,9 +124,21 @@
 
         let arr = this.$refs.tree.getCheckedNodes();
         const _vue = this;
-        $.each(arr,function (i,data) {
-          if(data.is_leaf){
-            _vue.rightData.push(data)
+        $.each(arr, function (i, data) {
+          if (data.is_leaf) {
+            let flag = true;
+
+            $.each(_vue.rightData,function (key,value) {
+              if(value._id == data._id){
+                flag = false;
+                _vue.alert('请勿重复添加')
+              }
+            });
+
+            if (flag) {
+              _vue.rightData.push(data)
+            }
+
           }
         });
         this.$refs.tree.setCheckedKeys([]);
@@ -146,17 +158,17 @@
 //        });
       },
 
-      chooseP:function (e) {
+      chooseP: function (e) {
         const _fLi = $(e.target).closest('li');
         const _fInput = _fLi.find('>.el-checkbox__input');
         const _cUl = _fLi.find('>ul.children');
 
-        if(_fInput.hasClass('is-checked')){
+        if (_fInput.hasClass('is-checked')) {
 
         }
 
       },
-      chooseC:function () {
+      chooseC: function () {
 
       },
       choose: function (e) {
@@ -183,15 +195,20 @@
         const _vue = this;
         this.loadingPA = true;
         this.myAxios({
-          url: 'biomeddb/panel/?hpoids=' + this.hasHpo.join(','),
-          type: 'get'
+          url: 'biomeddb/panel/suggest/',
+          method: 'post',
+//          data:this.hasHpo
+          data:{
+            hpos:this.hasHpo
+          }
         }).then(function (resp) {
           _vue.loadingPA = false;
-          let results = resp.data.data;
+          let results = resp.data.panels;
           _vue.leftData = [];
           $.each(results, function (i, data) {
-            $.each(data.children,function (key,value) {
-              value.name = value.name+'('+value.code+")";
+            data.name = data.name+'('+data.count+')'
+            $.each(data.children, function (key, value) {
+              value.name = value.name + '(' + value.count + ")";
             })
           });
           _vue.leftData = results;
@@ -263,6 +280,12 @@
         margin: 15px auto;
       }
     }
+    .el-tree{
+      max-height: 360px;
+      margin: 10px 0;
+      overflow-y: auto;
+    }
+
 
   }
 </style>

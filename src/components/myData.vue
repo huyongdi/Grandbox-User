@@ -577,7 +577,7 @@
       /*获取列表*/
       getList: function () {
         const _vue = this;
-        this.results = [];
+//        this.results = [];
         this.loading = true;
         this.doneHttp = false;
         const axiosUrl = this.inputValue ? 'manage/sample' + '?page=' + this.pageNum + '&query=' + this.inputValue :

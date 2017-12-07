@@ -82,6 +82,10 @@
               <choosePa :hasHpo="hasHpo" :flag ='!hide3'> </choosePa>
             </div>
 
+            <div class="col-xs-5" id="genes-show">
+              表型相关基因
+            </div>
+
             <!--<div class="col-xs-12 panel-content">-->
               <!--<cascadeQuery :leftData="panelOptions" :rightData="panelRight"></cascadeQuery>-->
             <!--</div>-->
@@ -422,6 +426,10 @@
   .el-input__inner {
     height: 24px;
     line-height: 24px;
+  }
+
+  #genes-show{
+
   }
 
   /*添加样本弹框样式*/

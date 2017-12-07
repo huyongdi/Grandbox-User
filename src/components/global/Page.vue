@@ -78,7 +78,7 @@
     },
     computed: {
       allPage: function () {
-        return Math.ceil(this.childCount / 20) ? Math.ceil(this.childCount / 20): 1;
+        return Math.ceil(this.childCount / 15) ? Math.ceil(this.childCount / 15): 1;
       }
     }
   }
