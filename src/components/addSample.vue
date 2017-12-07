@@ -56,7 +56,7 @@
 
           <div :class="{'hide':hide2}" class="over-hide">
             <div class="col-xs-7">
-              <choosePh></choosePh>
+              <choosePh @getHpo="getHpo"></choosePh>
             </div>
 
             <div class="col-xs-5">
@@ -79,7 +79,7 @@
 
 
             <div class="col-xs-7">
-              <choosePa></choosePa>
+              <choosePa :hasHpo="hasHpo"></choosePa>
             </div>
 
             <!--<div class="col-xs-12 panel-content">-->
@@ -230,10 +230,11 @@
         hasGene: '',
         showPanel: false,
 
+        hasHpo:[]
       }
     },
     mounted: function () {
-      this.getPanelO();
+//      this.getPanelO();
     },
     methods: {
       /*添加样本*/
@@ -281,34 +282,38 @@
         })
       },
 
-      getPanelO: function () {
-        const _vue = this;
-        this.myAxios({
-          url: 'biomeddb/panel'
-        }).then(function (resp) {
-          _vue.panelOptions = resp.data.data;
-        })
-      },
-      receiveFuzzy0: function (data) {
-        const _vue = this;
-        this.loading = true;
-        this.myAxios({
-          url: 'biomeddb/hpo/?query=' + data,
-          type: 'get'
-        }).then(function (resp) {
-          _vue.loading = false;
-          let results = resp.data.data;
-          _vue.leftData = [];
-          $.each(results, function (i, data) {
-            data.vHtml = data.hpoid + ' ' + data.name.chinese + '(' + data.name.english + ')';
-            _vue.leftData.push({
-              key: data.hpoid,
-              value: data.vHtml
-            })
-          })
-        }).catch(function (error) {
-          _vue.catchFun(error)
-        })
+//      getPanelO: function () {
+//        const _vue = this;
+//        this.myAxios({
+//          url: 'biomeddb/panel'
+//        }).then(function (resp) {
+//          _vue.panelOptions = resp.data.data;
+//        })
+//      },
+//      receiveFuzzy0: function (data) {
+//        const _vue = this;
+//        this.loading = true;
+//        this.myAxios({
+//          url: 'biomeddb/hpo/?query=' + data,
+//          type: 'get'
+//        }).then(function (resp) {
+//          _vue.loading = false;
+//          let results = resp.data.data;
+//          _vue.leftData = [];
+//          $.each(results, function (i, data) {
+//            data.vHtml = data.hpoid + ' ' + data.name.chinese + '(' + data.name.english + ')';
+//            _vue.leftData.push({
+//              key: data.hpoid,
+//              value: data.vHtml
+//            })
+//          })
+//        }).catch(function (error) {
+//          _vue.catchFun(error)
+//        })
+//      },
+
+      getHpo:function (data) {
+        this.hasHpo = data
       },
 
       show: function (type) {

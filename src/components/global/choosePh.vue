@@ -73,7 +73,6 @@
       },
       toRight: function () {
         const _vue = this;
-
         $.each(this.leftCId, function (n1, n2) {
           $.each(_vue.leftData, function (i, data) {
             if (data.key == n2) {
@@ -88,6 +87,8 @@
             }
           });
         });
+
+        this.$emit('getHpo', this.rightCId) //函数名和父元素的@onEnter一致
       },
       choose: function (e) {
         const _self = $(e.target).closest('.el-checkbox__input');

@@ -49,7 +49,7 @@ Vue.prototype.myAxios.interceptors.request.use(function (config) {
     localStorage.time = data.exp;
   }
   config.headers.Authorization = localStorage.token;
-  return config
+//  return config
 });
 
 Vue.prototype.helpHtml = 'https://www.grandbox.site/manage/help/announcement';//帮助地址
