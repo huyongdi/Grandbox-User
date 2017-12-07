@@ -90,7 +90,7 @@
           if (valid) {
             _vue.myAxios({
               url:'manage/user/change-passwd',
-              method:'post',
+              method:'patch',
               data:{
                 password: _vue.ruleForm2.oldP,
                 new_password:_vue.ruleForm2.pass,

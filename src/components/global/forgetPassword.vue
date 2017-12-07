@@ -36,7 +36,7 @@
             </el-form-item>
             <span class="noImg-btn code-btn" :class="{'dis':dis}" id="time-btn">
               <span v-if="inTime"><span id="time">60</span>秒后重发</span>
-              <span v-else="">重发验证码</span>
+              <span v-else="" @click="submitForm1">重发验证码</span>
             </span>
             <el-form-item label="新密码" prop="pass">
               <el-input type="password" v-model="ruleForm2.pass" auto-complete="off"></el-input>
@@ -62,6 +62,7 @@
   export default {
     data() {
       const checkCode = (rule, value, callback) => {
+        value = $.trim(value);
         if (value === '') {
           return callback(new Error('验证码不能为空'));
         } else {
@@ -137,28 +138,21 @@
         const _vue = this;
         this.$refs['ruleForm1'].validate((valid) => {
           if (valid) {
-
-            _vue.in1 = false;
-            _vue.in2 = true;
-            _vue.in3 = false;
-            _vue.dis = true;
-            _vue.timeFun();
-//
-//            _vue.myAxios({
-//              url: 'manage/user/reset-passwd',
-//              method: 'post',
-//              data: {
-//                email: _vue.ruleForm1.email,
-//              }
-//            }).then(function () {
-//              _vue.in1 = false;
-//              _vue.in2 = true;
-//              _vue.in3 = false;
-//              _vue.dis = true;
-//              _vue.timeFun();
-//            }).catch(function (error) {
-//              _vue.catchFun(error)
-//            })
+            _vue.myAxios({
+              url: 'manage/user/reset-passwd',
+              method: 'post',
+              data: {
+                email: _vue.ruleForm1.email,
+              }
+            }).then(function () {
+              _vue.in1 = false;
+              _vue.in2 = true;
+              _vue.in3 = false;
+              _vue.dis = true;
+              _vue.timeFun();
+            }).catch(function (error) {
+              _vue.catchFun(error)
+            })
           } else {
             console.log('error submit!!');
             return false;
@@ -196,7 +190,7 @@
                 new_password: _vue.ruleForm2.pass,
                 new_password_confirmation: _vue.ruleForm2.checkPass,
                 email:_vue.ruleForm1.email,
-                auth_code:_vue.ruleForm2.code,
+                auth_code:$.trim(_vue.ruleForm2.code),
               }
             }).then(function () {
               _vue.success('密码修改成功');

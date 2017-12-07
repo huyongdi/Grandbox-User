@@ -36,7 +36,7 @@
 
           <i @click="deleteUser(list._id)" class="fa fa-trash fa-lg delete" title="删除"></i>
           <img class="edit" src="../../static/img/edit.png" @click='editUser(list)' title="编辑">
-          <i  @click="resetUser(list._id)" class="fa fa-refresh" title="重置密码"></i>
+          <!--<i  @click="resetUser(list._id)" class="fa fa-refresh" title="重置密码"></i>-->
 
         </td>
       </tr>

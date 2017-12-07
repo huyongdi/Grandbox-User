@@ -160,6 +160,11 @@
         })
       }
     },
+    watch:{
+      rightData:function (newD) {
+        this.$emit('getHpoAll', newD) //函数名和父元素的@onEnter一致
+      }
+    }
   }
 </script>
 

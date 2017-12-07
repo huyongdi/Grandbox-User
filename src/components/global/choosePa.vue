@@ -7,43 +7,8 @@
       <div class="header">选择项目</div>
       <div class="main">
 
-        <el-tree :data="leftData" show-checkbox node-key="_id" ref="tree" :props="defaultProps" @getCheckedNodes="getCheckedNodes"></el-tree>
+        <el-tree :data="leftData" show-checkbox node-key="_id" ref="tree" :props="defaultProps" @node-click="nodeClick"></el-tree>
 
-        <ul class="apiData-content leftData-content">
-          <!--<li v-for="list in leftData" :data-key="list.key">-->
-          <!--<span aria-checked="mixed" class="el-checkbox__input" @click="choose">-->
-          <!--<span class="el-checkbox__inner"></span>-->
-          <!--<input type="checkbox" class="el-checkbox__original" value="0">-->
-          <!--</span>-->
-          <!--<span class="span-data po" :data-key="list.key" :title="list.value">{{list.value}}</span>-->
-          <!--</li>-->
-          <!---->
-          <!--<li class="f-li">-->
-          <!--<span aria-checked="mixed" class="el-checkbox__input" @click="chooseP">-->
-          <!--<span class="el-checkbox__inner"></span>-->
-          <!--<input type="checkbox" class="el-checkbox__original" value="0">-->
-          <!--</span>-->
-          <!--<span class="span-data po">1</span>-->
-
-          <!--<ul class="children">-->
-          <!--<li>-->
-          <!--<span aria-checked="mixed" class="el-checkbox__input" @click="chooseC">-->
-          <!--<span class="el-checkbox__inner"></span>-->
-          <!--<input type="checkbox" class="el-checkbox__original" value="0">-->
-          <!--</span>-->
-          <!--<span class="span-data po">1</span>-->
-          <!--</li>-->
-          <!--<li>-->
-          <!--<span aria-checked="mixed" class="el-checkbox__input" @click="chooseC">-->
-          <!--<span class="el-checkbox__inner"></span>-->
-          <!--<input type="checkbox" class="el-checkbox__original" value="0">-->
-          <!--</span>-->
-          <!--<span class="span-data po">1</span>-->
-          <!--</li>-->
-          <!--</ul>-->
-          <!--</li>-->
-
-        </ul>
       </div>
     </div>
 
@@ -59,9 +24,9 @@
     <div class="col-xs-5 right">
       <div class="header">已选项目</div>
       <div class="main">
-        <ul class="apiData-content">
-          <li v-for="list in rightData">
-            <span aria-checked="mixed" class="el-checkbox__input" @click="choose">
+        <ul class="apiData-content rightData-content">
+          <li v-for="list in rightData" :data-key="list._id">
+            <span aria-checked="mixed" class="el-checkbox__input" @click="chooseR">
               <span class="el-checkbox__inner"></span>
               <input type="checkbox" class="el-checkbox__original" value="0">
             </span>
@@ -91,7 +56,8 @@
         leftCId: [],
         rightCId: [],
 
-        /*TEST*/
+        rightToLeftId: [],
+
         defaultProps: {
           children: 'children',
           label: 'name'
@@ -107,15 +73,27 @@
         if (newD) {
           this.getD()
         }
+      },
+      rightData:function (newD) {
+        this.$emit('getPanelAll', newD) //函数名和父元素的@onEnter一致
       }
     },
     methods: {
-      /*插件开始*/
-      getCheckedNodes: function () {
-
+      nodeClick:function (clickD) {
+       if(clickD.is_leaf){
+         this.$emit('getGenes', clickD.genes); //函数名和父元素的@onEnter一致
+       }
       },
 
       toLeft: function () {
+
+        $.each(this.rightToLeftId,function (i,data) {
+          $('.rightData-content').find('li').each(function () {
+            if ($(this).data('key') == data) {
+              $(this).remove()
+            }
+          });
+        })
 
       },
       toRight: function () {
@@ -128,8 +106,8 @@
           if (data.is_leaf) {
             let flag = true;
 
-            $.each(_vue.rightData,function (key,value) {
-              if(value._id == data._id){
+            $.each(_vue.rightData, function (key, value) {
+              if (value._id == data._id) {
                 flag = false;
                 _vue.alert('请勿重复添加')
               }
@@ -158,38 +136,17 @@
 //        });
       },
 
-      chooseP: function (e) {
-        const _fLi = $(e.target).closest('li');
-        const _fInput = _fLi.find('>.el-checkbox__input');
-        const _cUl = _fLi.find('>ul.children');
-
-        if (_fInput.hasClass('is-checked')) {
-
-        }
-
-      },
-      chooseC: function () {
-
-      },
-      choose: function (e) {
+      chooseR: function (e) {
         const _self = $(e.target).closest('.el-checkbox__input');
         const _id = _self.next().data('key');
-        const _vue = this;
-        let flag = true;
-        $.each(this.rightCId, function (i, data) {
-          if (data == _id) {
-            flag = false;
-            _vue.alert('请勿重新添加')
-          }
-        });
-        if (flag) {
-          this.leftCId.push(_id);
-          if (_self.hasClass('is-checked')) {
-            _self.removeClass('is-checked')
-          } else {
-            _self.addClass('is-checked')
-          }
+
+        this.rightToLeftId.push(_id);
+        if (_self.hasClass('is-checked')) {
+          _self.removeClass('is-checked')
+        } else {
+          _self.addClass('is-checked')
         }
+
       },
       getD: function () {
         const _vue = this;
@@ -198,21 +155,23 @@
           url: 'biomeddb/panel/suggest/',
           method: 'post',
 //          data:this.hasHpo
-          data:{
-            hpos:this.hasHpo
+          data: {
+            hpos: this.hasHpo
           }
         }).then(function (resp) {
           _vue.loadingPA = false;
           let results = resp.data.panels;
+
+          _vue.$emit('getGenes', resp.data.genes); //函数名和父元素的@onEnter一致
+
           _vue.leftData = [];
           $.each(results, function (i, data) {
-            data.name = data.name+'('+data.count+')'
+            data.name = data.name + '(' + data.count + ')'
             $.each(data.children, function (key, value) {
               value.name = value.name + '(' + value.count + ")";
             })
           });
           _vue.leftData = results;
-          console.log(_vue.leftData)
 
         }).catch(function (error) {
           _vue.catchFun(error)
@@ -280,12 +239,11 @@
         margin: 15px auto;
       }
     }
-    .el-tree{
+    .el-tree {
       max-height: 360px;
       margin: 10px 0;
       overflow-y: auto;
     }
-
 
   }
 </style>

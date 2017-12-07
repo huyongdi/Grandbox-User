@@ -49,14 +49,14 @@
                 </el-form-item>
               </div>
               <!--<div class="col-xs-6 case-content">-->
-                <!---->
+              <!---->
               <!--</div>-->
             </div>
           </div>
 
           <div :class="{'hide':hide2}" class="over-hide">
             <div class="col-xs-7">
-              <choosePh @getHpo="getHpo"></choosePh>
+              <choosePh @getHpo="getHpo" @getHpoAll="getHpoAll"></choosePh>
             </div>
 
             <div class="col-xs-5">
@@ -69,26 +69,32 @@
                 </el-input>
               </el-form-item>
             </div>
-            <!--<div class="col-xs-12">-->
-              <!--<fuzzyQuery placeholder='请输入表型' :leftData="leftData" :rightData="originalRightData" title="已选表型"-->
-                          <!--@sendInput="receiveFuzzy0"></fuzzyQuery>-->
-            <!--</div>-->
           </div>
 
           <div :class="{'hide':hide3}" class="over-hide">
 
-
             <div class="col-xs-7">
-              <choosePa :hasHpo="hasHpo" :flag ='!hide3'> </choosePa>
+              <choosePa :hasHpo="hasHpo" :flag='!hide3' @getGenes="getGenes" @getPanelAll="getPanelAll"></choosePa>
             </div>
 
             <div class="col-xs-5" id="genes-show">
-              表型相关基因
+              <div class="title">表型相关基因({{genes.length}})</div>
+              <table class="special-table">
+                <tbody>
+                <tr class="t-bc">
+                  <td>基因ID</td>
+                  <td>基因名</td>
+                  <td>基因别名</td>
+                </tr>
+                <tr v-for="list in genes">
+                  <td>{{list.geneid}}</td>
+                  <td>{{list.name && list.name.symbol}}</td>
+                  <td>{{list.name && list.name.synonyms.join(' | ')}}</td>
+                </tr>
+                </tbody>
+              </table>
             </div>
 
-            <!--<div class="col-xs-12 panel-content">-->
-              <!--<cascadeQuery :leftData="panelOptions" :rightData="panelRight"></cascadeQuery>-->
-            <!--</div>-->
           </div>
 
           <div :class="{'hide':hide4}" class="show-info">
@@ -129,16 +135,16 @@
             </div>
 
             <div class="more row">
-              <div class="col-xs-6" v-if="originalRightData.length!=0">
+              <div class="col-xs-6" v-if="allHpoData.length!=0">
                 <div class="col-xs-3">已选表型</div>
                 <div class="col-xs-9">
-                  <span v-for="list in originalRightData" class="show-phenotype po" :title="list.value">{{list.value}}</span>
+                  <span v-for="list in allHpoData" class="show-phenotype po" :title="list.value">{{list.value}}</span>
                 </div>
               </div>
-              <div class="col-xs-6" v-if="panelRight.length!=0">
+              <div class="col-xs-6" v-if="allPanelData.length!=0">
                 <div class="col-xs-3">已选项目</div>
                 <div class="col-xs-9">
-                  <span v-for="list in panelRight" class="show-phenotype po" :title="list.vueShow">{{list.vueShow}}</span>
+                  <span v-for="list in allPanelData" class="show-phenotype po" :title="list.vueShow">{{list.name}}</span>
                 </div>
               </div>
               <div class="col-xs-12 top5" v-if="ruleForm.patientCase">
@@ -220,12 +226,12 @@
           ]
         },
         leftData: [],
-        originalRightData: [],
-        panelRight: [],
+
         panelOptions: [],
         fileHide: true,
         radioEdit: '1',
 
+        genes: [],
 
         /*搜索panel*/
         panelData: [],
@@ -234,7 +240,9 @@
         hasGene: '',
         showPanel: false,
 
-        hasHpo:[]
+        hasHpo: [],
+        allHpoData:[],
+        allPanelData:[]
       }
     },
     mounted: function () {
@@ -286,39 +294,20 @@
         })
       },
 
-//      getPanelO: function () {
-//        const _vue = this;
-//        this.myAxios({
-//          url: 'biomeddb/panel'
-//        }).then(function (resp) {
-//          _vue.panelOptions = resp.data.data;
-//        })
-//      },
-//      receiveFuzzy0: function (data) {
-//        const _vue = this;
-//        this.loading = true;
-//        this.myAxios({
-//          url: 'biomeddb/hpo/?query=' + data,
-//          type: 'get'
-//        }).then(function (resp) {
-//          _vue.loading = false;
-//          let results = resp.data.data;
-//          _vue.leftData = [];
-//          $.each(results, function (i, data) {
-//            data.vHtml = data.hpoid + ' ' + data.name.chinese + '(' + data.name.english + ')';
-//            _vue.leftData.push({
-//              key: data.hpoid,
-//              value: data.vHtml
-//            })
-//          })
-//        }).catch(function (error) {
-//          _vue.catchFun(error)
-//        })
-//      },
-
-      getHpo:function (data) {
-        console.log(data)
+      getHpo: function (data) {
         this.hasHpo = data
+      },
+      getHpoAll:function (data) {
+        this.allHpoData=data;
+        console.log(data)
+      },
+      getGenes: function (data) {
+        this.genes = data
+      },
+      getPanelAll:function (data) {
+        this.allPanelData = data
+        console.log(data)
+
       },
 
       show: function (type) {
@@ -336,18 +325,18 @@
           this.hide4 = false;
         }
       },
-      toNext:function () {
-        if(!this.hide1){
+      toNext: function () {
+        if (!this.hide1) {
           this.hide1 = true;
           this.hide2 = false;
           this.hide3 = true;
           this.hide4 = true;
-        }else if(!this.hide2){
+        } else if (!this.hide2) {
           this.hide1 = true;
           this.hide2 = true;
           this.hide3 = false;
           this.hide4 = true;
-        }else if(!this.hide3){
+        } else if (!this.hide3) {
           this.hide1 = true;
           this.hide2 = true;
           this.hide3 = true;
@@ -428,8 +417,15 @@
     line-height: 24px;
   }
 
-  #genes-show{
-
+  #genes-show {
+    max-height: 600px;
+    overflow-y: auto;
+    .title {
+      width: 100%;
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
   }
 
   /*添加样本弹框样式*/
@@ -439,13 +435,13 @@
       padding: 40px 15px;
       background-color: #fff;
 
-      .next-btn{
+      .next-btn {
         display: block;
         width: 95px;
         margin: 0 auto;
       }
-      .demo-ruleForm{
-        >div{
+      .demo-ruleForm {
+        > div {
           height: 600px;
         }
       }
@@ -476,6 +472,9 @@
         margin-top: 20px;
       }
       .show-info {
+        >.row{
+          margin: 8px 0;
+        }
         .title {
           margin-bottom: 15px;
         }

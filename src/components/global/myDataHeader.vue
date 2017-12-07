@@ -11,8 +11,10 @@
       <div class="children" @click.stop="" style="display: block">
         <router-link to="/myData" class="block no-d">样本列表</router-link>
         <router-link to="/addSample" class="block no-d">添加样本</router-link>
-        <a class="block no-d">样本详情</a>
-        <a class="block no-d">结果详情</a>
+        <router-link v-if="inDetail" to="/sampleD" class="block no-d">样本详情</router-link>
+        <router-link v-if="inResult" to="/result" class="block no-d">结果详情</router-link>
+        <!--<a class="block no-d" id="sampleD-a">样本详情</a>-->
+        <!--<a class="block no-d">结果详情</a>-->
       </div>
     </li>
     <!--<li id="li-1" @click="toPage('/addSample')">-->
@@ -44,7 +46,8 @@
   export default {
     data: function () {
       return {
-
+        inDetail:'',
+        inResult:'',
       }
     },
     watch: {
@@ -63,10 +66,17 @@
       },
       getActive: function () {  //通过子页面判断左边具体的active
         const currentPath = this.$router.currentRoute.name;
+        this.inDetail = '';
+        this.inResult = '';
 //        $(".left-ul").find('>.active').removeClass('active');
         let _li = '';
-        if(currentPath == 'myData' || currentPath == 'addSample'){
+        if(currentPath == 'myData' || currentPath == 'addSample' || currentPath =='sampleD'){
           _li = $("#li-0");
+          if(currentPath == 'sampleD'){
+            this.inDetail = true
+          }else if(currentPath == 'result'){
+            this.inResult = true;
+          }
         }else if(currentPath == ''){
           _li = $("#li-1");
         }
