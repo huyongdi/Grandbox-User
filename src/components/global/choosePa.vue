@@ -1,20 +1,13 @@
 <template>
   <div class="transfer row">
-    <loading v-if="loadingT"></loading>
+    <loading v-if="loadingPA"></loading>
 
 
     <div class="col-xs-5 left">
       <div class="header">选择项目</div>
       <div class="main">
 
-        <el-tree
-          :data="data2"
-          show-checkbox
-          node-key="id"
-          :default-expanded-keys="[2, 3]"
-          :default-checked-keys="[5]"
-          :props="defaultProps">
-        </el-tree>
+        <el-tree :data="leftData" show-checkbox node-key="_id"  ref="tree" :props="defaultProps" @getCheckedNodes="getCheckedNodes"></el-tree>
 
         <ul class="apiData-content leftData-content">
           <!--<li v-for="list in leftData" :data-key="list.key">-->
@@ -73,7 +66,7 @@
               <input type="checkbox" class="el-checkbox__original" value="0">
             </span>
 
-            <span class="span-data po" :data-key="list.key" :title="list.value">{{list.value}}</span>
+            <span class="span-data po" :data-key="list._id" :title="list.name">{{list.name}}</span>
           </li>
         </ul>
       </div>
@@ -84,58 +77,24 @@
 
 <script>
   export default {
-    props:['hasHpo'],
+    props:['hasHpo','flag'],
     data: function () {
       return {
         loadingPA: '',
         sInput: '',
-        leftData: [],
+        leftData:  [{
+          id: 1,
+          name: '暂无数据',
+        }],
         rightData: [],
 
         leftCId: [],
         rightCId: [],
 
-
         /*TEST*/
-
-        data2: [{
-          id: 1,
-          label: '一级 1',
-          children: [{
-            id: 4,
-            label: '二级 1-1',
-            children: [{
-              id: 9,
-              label: '三级 1-1-1'
-            }, {
-              id: 10,
-              label: '三级 1-1-2'
-            }]
-          }]
-        }, {
-          id: 2,
-          label: '一级 2',
-          children: [{
-            id: 5,
-            label: '二级 2-1'
-          }, {
-            id: 6,
-            label: '二级 2-2'
-          }]
-        }, {
-          id: 3,
-          label: '一级 3',
-          children: [{
-            id: 7,
-            label: '二级 3-1'
-          }, {
-            id: 8,
-            label: '二级 3-2'
-          }]
-        }],
         defaultProps: {
           children: 'children',
-          label: 'label'
+          label: 'name'
         }
 
       }
@@ -143,32 +102,48 @@
     mounted: function () {
 
     },
+    watch:{
+      flag:function (newD) {
+        if(newD){
+          this.getD()
+        }
+      }
+    },
     methods: {
-
       /*插件开始*/
+      getCheckedNodes:function () {
 
-
-
+      },
 
       toLeft: function () {
 
       },
       toRight: function () {
+//        console.log(this.$refs.tree.getCheckedNodes());
+//        console.log(this.$refs.tree.getCheckedKeys());
+
+        let arr = this.$refs.tree.getCheckedNodes();
         const _vue = this;
-        $.each(this.leftCId, function (n1, n2) {
-          $.each(_vue.leftData, function (i, data) {
-            if (data.key == n2) {
-              _vue.rightData.push(data);  //右边的增数据
-              _vue.rightCId.push(n2);
-              //删除左边的LI
-              $('.leftData-content').find('li').each(function () {
-                if ($(this).data('key') == n2) {
-                  $(this).remove()
-                }
-              })
-            }
-          });
+        $.each(arr,function (i,data) {
+          if(data.is_leaf){
+            _vue.rightData.push(data)
+          }
         });
+        this.$refs.tree.setCheckedKeys([]);
+//        $.each(this.leftCId, function (n1, n2) {
+//          $.each(_vue.leftData, function (i, data) {
+//            if (data.key == n2) {
+//              _vue.rightData.push(data);  //右边的增数据
+//              _vue.rightCId.push(n2);
+//              //删除左边的LI
+//              $('.leftData-content').find('li').each(function () {
+//                if ($(this).data('key') == n2) {
+//                  $(this).remove()
+//                }
+//              })
+//            }
+//          });
+//        });
       },
 
       chooseP:function (e) {
@@ -215,12 +190,12 @@
           let results = resp.data.data;
           _vue.leftData = [];
           $.each(results, function (i, data) {
-            data.vHtml = data.hpoid + ' ' + data.name.chinese + '(' + data.name.english + ')';
-            _vue.leftData.push({
-              key: data.hpoid,
-              value: data.vHtml
+            $.each(data.children,function (key,value) {
+              value.name = value.name+'('+value.code+")";
             })
           });
+          _vue.leftData = results;
+          console.log(_vue.leftData)
 
         }).catch(function (error) {
           _vue.catchFun(error)

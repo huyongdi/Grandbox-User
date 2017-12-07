@@ -79,7 +79,7 @@
 
 
             <div class="col-xs-7">
-              <choosePa :hasHpo="hasHpo"></choosePa>
+              <choosePa :hasHpo="hasHpo" :flag ='!hide3'> </choosePa>
             </div>
 
             <!--<div class="col-xs-12 panel-content">-->
@@ -313,6 +313,7 @@
 //      },
 
       getHpo:function (data) {
+        console.log(data)
         this.hasHpo = data
       },
 

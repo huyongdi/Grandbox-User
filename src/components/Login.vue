@@ -45,6 +45,9 @@
               </label>
               <!--<img @click="login" class="my-btn login-img po" src="../../static/img/login-2.png" alt="">-->
               <span class="my-btn" @click="login"><img src="../../static/img/red-login.png" alt="">登录</span>
+
+              <a href="javascript:void(0)" class="forget-p" @click="showPM">忘记密码</a>
+
             </div>
 
             <div class="alert">
@@ -69,13 +72,20 @@
         </div>
       </div>
     </div>
+
+    <forgetP></forgetP>
+
   </div>
 </template>
 
 <script>
   import Vue from 'vue'
+  import forgetP from './global/forgetPassword.vue'
 
   export default {
+    components: {
+      'forgetP': forgetP,
+    },
     data: function () {
       return {
         inputName: '',
@@ -125,6 +135,9 @@
       },
       toMajorPage: function () {
         this.$router.push({path: '/'})
+      },
+      showPM:function () {
+        $("#forgetModal").modal("show")
       }
     }
   }
@@ -169,6 +182,11 @@
       height: calc(~'100vh - 52px');
       float: left;
       margin-top: -1px;
+      .forget-p{
+        font-size: 12px;
+        vertical-align: bottom;
+        margin-left: 20px;
+      }
       .content-left {
         width: 250px;
         height: 100%;
