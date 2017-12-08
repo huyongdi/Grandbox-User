@@ -3,7 +3,7 @@
     <loading v-if="loadingPA"></loading>
 
 
-    <div class="col-xs-5 left">
+    <div class="col-xs-5 t-left">
       <div class="header">选择项目</div>
       <div class="main">
 
@@ -21,7 +21,7 @@
       </button>
     </div>
 
-    <div class="col-xs-5 right">
+    <div class="col-xs-5 t-right">
       <div class="header">已选项目</div>
       <div class="main">
         <ul class="apiData-content rightData-content">
@@ -184,12 +184,13 @@
 
 <style scoped lang="less">
   .transfer {
-    .left, .right {
+    .t-left, .t-right {
       border: 1px solid #e6ebf5;
       border-radius: 4px;
       background: #fff;
       padding: 0;
-      min-height: 400px;
+      height: 600px;
+      /*min-height: 400px;*/
       .header {
         height: 40px;
         line-height: 40px;
@@ -240,7 +241,7 @@
       }
     }
     .el-tree {
-      max-height: 360px;
+      max-height: 500px;
       margin: 10px 0;
       overflow-y: auto;
     }

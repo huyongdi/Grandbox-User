@@ -3,7 +3,7 @@
     <loading v-if="loadingT"></loading>
 
 
-    <div class="col-xs-5 left">
+    <div class="col-xs-5 t-left">
       <div class="header">选择表型</div>
       <div class="main">
         <div class="search-content">
@@ -32,7 +32,7 @@
       </button>
     </div>
 
-    <div class="col-xs-5 right">
+    <div class="col-xs-5 t-right">
       <div class="header">已选表型</div>
       <div class="main">
         <ul class="apiData-content rightData-content">
@@ -52,12 +52,12 @@
 
 <script>
   export default {
+    props:['rightData'],
     data: function () {
       return {
         loadingT: '',
         sInput: '',
         leftData: [],
-        rightData: [],
 
         leftCId: [],
         rightCId: [],
@@ -171,7 +171,7 @@
 
 <style scoped lang="less">
   .transfer {
-    .left, .right {
+    .t-left, .t-right {
       border: 1px solid #e6ebf5;
       border-radius: 4px;
       background: #fff;

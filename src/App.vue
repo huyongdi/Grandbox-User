@@ -146,7 +146,7 @@
             min-height: calc(~'100vh - 50px');
             .left-ul {
               display: inline-block;
-              width: 250px;
+              width: 251px;
               background-color: #f5f5f5;
               min-height: calc(~'100vh - 50px');
               margin: 0;
@@ -250,28 +250,28 @@
                 }
                 .left-right {
                   overflow: hidden;
-                  .title {
-                    margin-bottom: 15px;
-                    padding: 0 10px;
-                    line-height: 40px;
-                    height: 40px;
-                    background: #e4ecea;
-                    border-left: 3px solid #27a482;
-                    color: #333;
-                    overflow: hidden;
-                    font-size: 14px;
-                  }
-                  ul {
-                    margin-left: 12px;
-                    li {
-                      height: 33px;
-                      line-height: 33px;
-                      border-bottom: 1px dashed #ddd;
-                    }
-                  }
                   .left, .right {
                     float: left;
                     width: 48%;
+                    .title {
+                      margin-bottom: 15px;
+                      padding: 0 10px;
+                      line-height: 40px;
+                      height: 40px;
+                      background: #e4ecea;
+                      border-left: 3px solid #27a482;
+                      color: #333;
+                      overflow: hidden;
+                      font-size: 14px;
+                    }
+                    ul {
+                      margin-left: 12px;
+                      li {
+                        height: 33px;
+                        line-height: 33px;
+                        border-bottom: 1px dashed #ddd;
+                      }
+                    }
                   }
                   .left {
                     margin-right: 2%

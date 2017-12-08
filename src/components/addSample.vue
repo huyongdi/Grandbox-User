@@ -56,7 +56,7 @@
 
           <div :class="{'hide':hide2}" class="over-hide">
             <div class="col-xs-7">
-              <choosePh @getHpo="getHpo" @getHpoAll="getHpoAll"></choosePh>
+              <choosePh @getHpo="getHpo" @getHpoAll="getHpoAll" :rightData="phRightData"></choosePh>
             </div>
 
             <div class="col-xs-5">
@@ -71,7 +71,7 @@
             </div>
           </div>
 
-          <div :class="{'hide':hide3}" class="over-hide">
+          <div :class="{'hide':hide3}" class="">
 
             <div class="col-xs-7">
               <choosePa :hasHpo="hasHpo" :flag='!hide3' @getGenes="getGenes" @getPanelAll="getPanelAll"></choosePa>
@@ -188,6 +188,7 @@
     },
     data: function () {
       return {
+        phRightData:[],
         loading: '',
         detailData: "",
         /*添加样本*/
@@ -419,12 +420,15 @@
 
   #genes-show {
     max-height: 600px;
-    overflow-y: auto;
     .title {
-      width: 100%;
+      position: absolute;
       text-align: center;
       font-weight: bold;
-      margin-bottom: 10px;
+      left: 40%;
+      top: -25px;
+    }
+    table{
+      overflow-y: auto;
     }
   }
 
@@ -438,7 +442,7 @@
       .next-btn {
         display: block;
         width: 95px;
-        margin: 0 auto;
+        margin: 10px auto;
       }
       .demo-ruleForm {
         > div {

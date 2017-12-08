@@ -25,7 +25,7 @@
           <th>籍贯</th>
           <th>病历</th>
 
-          <th>下载文件</th>
+          <!--<th>下载文件</th>-->
 
           <th>变异信息</th>
           <th>选项</th>
@@ -44,12 +44,12 @@
           <td><span v-if="list.patient">{{list.patient.nativePlace ? list.patient.nativePlace : '-'}}</span></td>
           <td><span v-if="list.patient">{{list.patient.medical_record ? list.patient.medical_record : '-'}}</span></td>
 
-          <td class="file-td">
-          <span v-if="list.data_files.length!=0">
-            <a v-for="file in list.data_files" href="javascript:void (0)"  @click="downloadFile(list._id,file._id)">{{file.filename}}</a><!--:href="apiUrl+''+file.downloadUrl"-->
-          </span>
-          </td>
-          <!--signature-->
+          <!--<td class="file-td">-->
+          <!--<span v-if="list.data_files.length!=0">-->
+            <!--&lt;!&ndash;<a v-for="file in list.data_files" href="javascript:void (0)"  @click="downloadFile(list._id,file._id)">{{file.filename}}</a>&lt;!&ndash;:href="apiUrl+''+file.downloadUrl"&ndash;&gt;&ndash;&gt;-->
+            <!--<span>{{file.filename}}</span>-->
+          <!--</span>-->
+          <!--</td>-->
           <td>
             <!--<div v-if="list.data_files">-->
             <!--<div v-for="data in list.data_files">-->

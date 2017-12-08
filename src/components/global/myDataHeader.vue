@@ -70,7 +70,7 @@
         this.inResult = '';
 //        $(".left-ul").find('>.active').removeClass('active');
         let _li = '';
-        if(currentPath == 'myData' || currentPath == 'addSample' || currentPath =='sampleD'){
+        if(currentPath == 'myData' || currentPath == 'addSample' || currentPath =='sampleD' ||currentPath =='result'){
           _li = $("#li-0");
           if(currentPath == 'sampleD'){
             this.inDetail = true

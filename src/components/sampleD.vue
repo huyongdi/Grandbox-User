@@ -5,89 +5,119 @@
       <span class="my-btn up-file" @click="upFile"><img src="../../static/img/red-submit.png" alt="">上传文件</span>
 
       <span class="my-btn edit" @click="toEdit"><img src="../../static/img/red-submit.png" alt="">编辑样本</span>
+      <span class="my-btn edit" v-if="inEdit" @click="toEdit"><img src="../../static/img/red-submit.png" alt="">保存编辑</span>
+      <span class="my-btn edit" v-if="inEdit" @click="cancelEdit"><img src="../../static/img/red-submit.png" alt="">取消编辑</span>
 
 
       <loading v-if="loading"></loading>
 
-      <el-form id="" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+      <el-form id="" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm drop-down">
 
-      <div class="content-one">
-        <div class="header">
-          <span class="fa fa-chevron-down" @click.self="showContent"></span><span @click.self="showContent">基本信息</span>
-        </div>
-        <div class="content mice-content" style="display: block">
-          <table class="special-table">
-            <tbody>
+        <div class="content-one">
+          <div class="header">
+            <span class="fa fa-chevron-down" @click.self="showContent"></span><span @click.self="showContent">基本信息</span>
+          </div>
+          <div class="content mice-content" style="display: block">
+            <table class="special-table">
+              <tbody>
               <tr>
                 <td class="t-bc">姓名</td>
                 <td>
-                  <span v-if="inEdit">111</span>
+                  <el-input v-if="inEdit" v-model="ruleForm.name"></el-input>
                   <span v-else="">{{detailData.patient && detailData.patient.name}}</span>
                 </td>
                 <td class="t-bc">编号</td>
-                <td>{{detailData.sn}}</td>
+                <td>
+                  <el-input v-if="inEdit" v-model="ruleForm.sn"></el-input>
+                  <span v-else="">{{detailData.sn}}</span>
+                </td>
               </tr>
               <tr>
                 <td class="t-bc">性别</td>
-                <td>{{detailData.patient && detailData.patient.gender}}</td>
+                <td>
+                  <el-select v-if="inEdit" v-model="gender" placeholder="请选择性别">
+                    <el-option label="未知" value="未知"></el-option>
+                    <el-option label="男" value="男"></el-option>
+                    <el-option label="女" value="女"></el-option>
+                  </el-select>
+                  <span v-else="">{{detailData.patient && detailData.patient.gender}}</span>
+                </td>
                 <td class="t-bc">民族</td>
-                <td>{{detailData.patient && detailData.patient.national}}</td>
+                <td>
+                  <el-input v-if="inEdit" v-model="ruleForm.national"></el-input>
+                  <span v-else="">{{detailData.patient && detailData.patient.national}}</span>
+                </td>
               </tr>
               <tr>
                 <td class="t-bc">籍贯</td>
-                <td>{{detailData.patient && detailData.patient.nativePlace}}</td>
+                <td>
+                  <el-input v-if="inEdit" v-model="ruleForm.nativePlace"></el-input>
+                  <span v-else="">{{detailData.patient && detailData.patient.nativePlace}}</span>
+                </td>
                 <td class="t-bc">年龄</td>
-                <td>{{detailData.patient && detailData.patient.age}}</td>
+                <td>
+                  <el-input v-if="inEdit" v-model="ruleForm.age"></el-input>
+                  <span v-else="">{{detailData.patient && detailData.patient.age}}</span>
+                </td>
               </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="content-one">
-        <div class="header">
-          <span class="fa fa-chevron-down" @click.self="showContent"></span><span @click.self="showContent">文件信息</span>
-        </div>
-        <div class="content mice-content" style="display: block">
-          <table class="special-table">
-            <tbody>
-            <tr v-for="file in detailData.data_files">
-              <td class="t-bc">文件名</td>
-              <td>{{file.filename}}</td>
-              <td class="t-bc">状态</td>
-              <td>
-                {{file.status | getStatus}}
-                <i v-if="file.status == -1" class="fa fa-question-circle-o po flag-th" data-toggle="tooltip" data-placement="top"
-                   :data-original-title="file.error">
-                </i>
-              </td>
-              <td class="t-bc">上传日期</td>
-              <td>{{file.created_at}}</td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="content-one">
-        <div class="header">
-          <span class="fa fa-chevron-down" @click.self="showContent"></span><span @click.self="showContent">检测信息</span>
-        </div>
-        <div class="content mice-content left-right" style="display: block">
-          <div class="left">
-            <div class="title">已选表型</div>
-            <ul>
-              <li>1</li>
-              <li>1</li>
-              <li>1</li>
-              <li>1</li>
-            </ul>
-          </div>
-          <div class="right">
-            <div class="title">已选项目</div>
+              </tbody>
+            </table>
           </div>
         </div>
-      </div>
+
+        <div class="content-one">
+          <div class="header">
+            <span class="fa fa-chevron-down" @click.self="showContent"></span><span @click.self="showContent">文件信息</span>
+          </div>
+          <div class="content mice-content" style="display: block">
+            <table class="special-table">
+              <tbody>
+              <tr v-for="file in detailData.data_files">
+                <td class="t-bc">文件名</td>
+                <td><a href="javascript:void (0)" @click="downloadFile(detailData._id,file._id)">{{file.filename}}</a></td>
+                <td class="t-bc">状态</td>
+                <td>
+                  {{file.status | getStatus}}
+                  <i v-if="file.status == -1" class="fa fa-question-circle-o po flag-th" data-toggle="tooltip" data-placement="top"
+                     :data-original-title="file.error">
+                  </i>
+                  <a v-if="file.status == -1" href="javascript:void(0)" @click="fileRetry">重新运行</a>
+                </td>
+                <td class="t-bc">上传日期</td>
+                <td>{{file.created_at}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="content-one">
+          <div class="header">
+            <span class="fa fa-chevron-down" @click.self="showContent"></span><span @click.self="showContent">检测信息</span>
+          </div>
+          <div class="content mice-content left-right" style="display: block">
+            <div class="inPa-ph row" v-if="inEdit">
+              <div class="col-xs-6">
+                <choosePh @getHpo="getHpo" :rightData="phRightData"></choosePh>
+              </div>
+              <div class="col-xs-6">
+                <choosePa :hasHpo="hasHpo" :flag='getPFlag' @getGenes="getGenes"></choosePa>
+              </div>
+            </div>
+            <div class="left" v-if="!inEdit">
+              <div class="title">已选表型</div>
+              <ul>
+                <li>1</li>
+                <li>1</li>
+                <li>1</li>
+                <li>1</li>
+              </ul>
+            </div>
+            <div class="right" v-if="!inEdit">
+              <div class="title">已选项目</div>
+            </div>
+          </div>
+        </div>
       </el-form>
 
     </div>
@@ -149,21 +179,25 @@
   import fuzzyQuery from './global/fuzzyQuery.vue'
   import cascadeQuery from './global/cascadeQuery.vue'
   import myDataH from './global/myDataHeader.vue'
+  import choosePh from './global/choosePh.vue'
+  import choosePa from './global/choosePa.vue'
 
   export default {
     components: {
       'fuzzyQuery': fuzzyQuery,
       'cascadeQuery': cascadeQuery,
       'myDataH': myDataH,
+      'choosePa': choosePa,
+      'choosePh': choosePh,
     },
     data: function () {
       return {
         id: this.$route.query.id,
         loading: '',
         detailData: "",
-        radioEdit: "",
-        inEdit:'',
-
+        radioEdit: '1',
+        inEdit: '',
+        gender:'',
         ruleForm: {
           name: '',
           sn: '',
@@ -183,6 +217,11 @@
             {min: 0, max: 32, message: '籍贯长度在32个字符内', trigger: 'blur'}
           ]
         },
+
+        phRightData:[],
+        hasHpo:[],
+        genes:[],
+        getPFlag:'',
       }
     },
     mounted: function () {
@@ -201,12 +240,44 @@
       },
 
       //编辑文件
-      toEdit:function () {
+      toEdit: function () {
         this.inEdit = true;
+        this.resetForm();
+      },
+      cancelEdit:function () {
+        this.inEdit = false;
+        this.resetForm();
+      },
+      resetForm:function () {
+        this.ruleForm={
+          name:this.detailData.patient.name,
+          sn:this.detailData.sn,
+          national:this.detailData.patient.national,
+          nativePlace:this.detailData.patient.nativePlace,
+          age:this.detailData.patient.age,
+        };
+        this.gender=this.detailData.patient.gender
       },
 
+      getHpo: function (data) {
+        this.hasHpo = data
+      },
+      getGenes: function (data) {
+        this.genes = data
+      },
+      //重跑任务
+      fileRetry:function () {
+        const _vue = this;
+        this.myAxios({
+          url: 'manage/sample/' + this.id+'/retry'
+        }).then((resp) => {
+          _vue.success('任务正在重新运行')
+        }).catch((error) => {
+          _vue.catchFun(error)
+        })
+      },
       //上传文件
-      upFile:function () {
+      upFile: function () {
         $("#fileModal").modal("show")
       },
       saveFile: function () {
@@ -219,14 +290,14 @@
 //          postData.append("type", JSON.stringify({'a': 123, 'b': 456}));
           postData.append("append", this.radioEdit == 1 ? 1 : 0);
           this.myAxios({
-            url: 'manage/sample/' + detailData.editId + '/data_file',
+            url: 'manage/sample/' + this.detailData._id + '/data_file',
             method: 'post',
             data: postData
           }).then(function () {
             _vue.success('上传成功');
             $('#fileModal').modal('hide');
             _vue.loading = false;
-            _vue.getList()
+            _vue.getDetail()
           }).catch(function (error) {
             _vue.catchFun(error)
           })
@@ -234,7 +305,21 @@
           this.alert('文件请上传excel格式')
         }
       },
-
+      //下载文件
+      downloadFile:function (lId,fId) {
+        const _vue = this;
+        this.loading = true;
+        const postUrl = 'manage/sample/' + lId + '/data_file/' + fId;
+        _vue.myAxios({
+          url: postUrl,
+          method: 'post'
+        }).then(function (resp) {
+          _vue.loading = false;
+          window.location.href = _vue.apiUrl+postUrl + '?signature=' + resp.data.signature;
+        }).catch(function (error) {
+          _vue.catchFun(error)
+        })
+      },
       socket: function () {
         const socket = new WebSocket('ws://localhost:8080');
 //        socket.onopen = function(event) {
@@ -309,9 +394,12 @@
     line-height: 24px;
   }
 
-  #sample-detail{
-    .up-file{
-      margin-right: 20px;
+  #sample-detail {
+    .up-file {
+      margin-right: 10px;
+    }
+    .edit {
+      margin: 0 10px;
     }
   }
 
