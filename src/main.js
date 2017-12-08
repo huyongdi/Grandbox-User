@@ -19,17 +19,25 @@ Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.use(Vuex);
 
+
+
 let apiUrl = 'http://192.168.2.192:8000/api/';
 Vue.prototype.apiUrl = apiUrl;
 //let apiUrl = 'http://118.26.69.171:8765/api/';
 Vue.prototype.loginAxios = axios.create({
   baseURL: apiUrl,
 });
+/*取消請求*/
+const CancelToken = axios.CancelToken;
+const source = CancelToken.source();
 Vue.prototype.myAxios = axios.create({
   baseURL: apiUrl,
+  cancelToken: source.token,
   headers: {'Authorization': localStorage.token},
 });
 
+
+/*請求攔截器*/
 Vue.prototype.myAxios.interceptors.request.use(function (config) {
   const currentSecond = new Date().getTime() / 1000;
 

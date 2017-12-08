@@ -5,19 +5,19 @@
       <img class="logo-img" src="../../../static/img/logo.png" alt="grandbox">
     </div>
     <ul id="pathUl">
-      <li class="li-1">
-        <router-link to="/myData">
+      <li class="li-1" @click="cancelAxios">
+        <router-link to="/myData" v-if="group!='3'">
           <span class="img-analyze li-img"></span>
           <span>我的数据</span>
         </router-link>
       </li>
-      <li class="li-2">
+      <li class="li-2" @click="cancelAxios">
         <router-link to="/disease">
           <span class="img-dataManage li-img"></span>
           <span>数据库</span>
         </router-link>
       </li>
-      <li class="li-3">
+      <li class="li-3" @click="cancelAxios">
         <router-link to="/tool">
           <span class="img-taskManage li-img"></span>
           <span>实用工具</span>
@@ -81,6 +81,11 @@
 
 <script>
   import changeP from './changePassword.vue'
+  import axios from 'axios'
+
+  const CancelToken = axios.CancelToken;
+  const source = CancelToken.source();
+
   export default {
     name: 'header',
     components: {
@@ -88,6 +93,7 @@
     },
     data: function () {
       return {
+        group:localStorage.grandGroup,
         uname: localStorage.uname,
         isAdmin:localStorage.isAd == 'true'
       }
@@ -101,6 +107,10 @@
       }
     },
     methods: {
+      cancelAxios:function () {
+        source.cancel();
+      },
+
       getActive: function () {  //通过子页面判断左边具体的active
         const currentPath = this.$router.currentRoute.name;
 

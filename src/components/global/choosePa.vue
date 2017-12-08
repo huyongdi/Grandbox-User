@@ -61,7 +61,9 @@
         defaultProps: {
           children: 'children',
           label: 'name'
-        }
+        },
+
+        changeHasHpo:''
 
       }
     },
@@ -69,9 +71,14 @@
 
     },
     watch: {
+      hasHpo:function () {
+        this.changeHasHpo = true;
+      },
       flag: function (newD) {
-        if (newD) {
-          this.getD()
+        console.log(this.changeHasHpo)
+        if (newD && this.changeHasHpo) {
+          this.getD();
+          this.changeHasHpo = false;
         }
       },
       rightData:function (newD) {
@@ -80,9 +87,9 @@
     },
     methods: {
       nodeClick:function (clickD) {
-       if(clickD.is_leaf){
+//       if(clickD.is_leaf){
          this.$emit('getGenes', clickD.genes); //函数名和父元素的@onEnter一致
-       }
+//       }
       },
 
       toLeft: function () {
@@ -166,9 +173,9 @@
 
           _vue.leftData = [];
           $.each(results, function (i, data) {
-            data.name = data.name + '(' + data.count + ')'
+            data.name = data.name + '(' + data.genes.length + ')'
             $.each(data.children, function (key, value) {
-              value.name = value.name + '(' + value.count + ")";
+              value.name = value.name + '(' + value.genes.length + ")";
             })
           });
           _vue.leftData = results;

@@ -3,6 +3,9 @@ import Vue from 'vue'
 /*自定义全局函数*/
 // 捕获错误
 Vue.prototype.catchFun = function (error) {
+  if(error.__proto__.__CANCEL__){
+    return
+  }
   if (error.response) {
     let alertContent = '';
     if (error.response.data.errors) {
@@ -103,7 +106,6 @@ Vue.prototype.alert = function (message) {
 
 /*左侧导航展开收缩*/
 Vue.prototype.upDown = function (e) {
-  console.log(222222)
   const _li = $(e.target).parent();
   const _children = _li.find('.children');
 

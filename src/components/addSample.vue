@@ -73,12 +73,18 @@
 
           <div :class="{'hide':hide3}" class="">
 
+            <div class="col-xs-7 top-title">
+              根据表型信息（{{hasHpo.length}}个），共检索出{{genes.length}}个相关基因，分布如下，请选择合适的检查项目。
+            </div>
+            <div class="col-xs-5 top-title">
+              表型相关基因({{genes.length}})
+            </div>
+
             <div class="col-xs-7">
               <choosePa :hasHpo="hasHpo" :flag='!hide3' @getGenes="getGenes" @getPanelAll="getPanelAll"></choosePa>
             </div>
 
             <div class="col-xs-5" id="genes-show">
-              <div class="title">表型相关基因({{genes.length}})</div>
               <table class="special-table">
                 <tbody>
                 <tr class="t-bc">
@@ -380,7 +386,7 @@
     watch: {
       '$route'(to, from) {
 
-      }
+      },
     },
     updated: function () {
       $('[data-toggle="tooltip"]').tooltip()
@@ -418,18 +424,23 @@
     line-height: 24px;
   }
 
+  .top-title{
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
   #genes-show {
     max-height: 600px;
-    .title {
-      position: absolute;
-      text-align: center;
-      font-weight: bold;
-      left: 40%;
-      top: -25px;
-    }
-    table{
-      overflow-y: auto;
-    }
+    overflow-y: auto;
+
+    /*.title {*/
+      /*position: absolute;*/
+      /*text-align: center;*/
+      /*font-weight: bold;*/
+      /*left: 40%;*/
+      /*top: -25px;*/
+    /*}*/
   }
 
   /*添加样本弹框样式*/
@@ -442,7 +453,7 @@
       .next-btn {
         display: block;
         width: 95px;
-        margin: 10px auto;
+        margin: 40px auto 30px;
       }
       .demo-ruleForm {
         > div {
