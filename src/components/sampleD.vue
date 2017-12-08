@@ -45,14 +45,14 @@
                 <td class="t-bc">民族</td>
                 <td>
                   <el-input v-if="inEdit" v-model="ruleForm.national"></el-input>
-                  <span v-else="">{{detailData.patient && detailData.patient.national}}</span>
+                  <span v-else="">{{detailData.patient && detailData.patient.nation}}</span>
                 </td>
               </tr>
               <tr>
                 <td class="t-bc">籍贯</td>
                 <td>
                   <el-input v-if="inEdit" v-model="ruleForm.nativePlace"></el-input>
-                  <span v-else="">{{detailData.patient && detailData.patient.nativePlace}}</span>
+                  <span v-else="">{{detailData.patient && detailData.patient.native_place}}</span>
                 </td>
                 <td class="t-bc">年龄</td>
                 <td>
@@ -101,20 +101,20 @@
                 <choosePh @getHpo="getHpo" :rightData="phRightData"></choosePh>
               </div>
               <div class="col-xs-6">
-                <choosePa :hasHpo="hasHpo" :flag='getPFlag' @getGenes="getGenes"></choosePa>
+                <choosePa :hasHpo="hasHpo" :flag='getPFlag' @getGenes="getGenes" :rightData="paRightData"></choosePa>
               </div>
             </div>
             <div class="left" v-if="!inEdit">
               <div class="title">已选表型</div>
               <ul>
-                <li>1</li>
-                <li>1</li>
-                <li>1</li>
-                <li>1</li>
+                <li v-for="list in detailData.hpos">{{list.hpoid}}：{{list.name && list.name.chinese}}({{list.name && list.name.english}})</li>
               </ul>
             </div>
             <div class="right" v-if="!inEdit">
               <div class="title">已选项目</div>
+              <ul>
+                <li v-for="list in detailData.panels">{{list.name}}({{list.code}})</li>
+              </ul>
             </div>
           </div>
         </div>
@@ -197,7 +197,7 @@
         detailData: "",
         radioEdit: '1',
         inEdit: '',
-        gender:'',
+        gender: '',
         ruleForm: {
           name: '',
           sn: '',
@@ -218,14 +218,17 @@
           ]
         },
 
-        phRightData:[],
-        hasHpo:[],
-        genes:[],
-        getPFlag:'',
+        phRightData: [],
+        paRightData: [],
+        hasHpo: [],
+        genes: [],
+        getPFlag: '',
       }
     },
     mounted: function () {
       this.getDetail();
+
+      this.getAllPanel(); //获取编辑里面 检测项目的所有列表
     },
     methods: {
       getDetail: function () {
@@ -244,19 +247,45 @@
         this.inEdit = true;
         this.resetForm();
       },
-      cancelEdit:function () {
+      cancelEdit: function () {
         this.inEdit = false;
         this.resetForm();
       },
-      resetForm:function () {
-        this.ruleForm={
-          name:this.detailData.patient.name,
-          sn:this.detailData.sn,
-          national:this.detailData.patient.national,
-          nativePlace:this.detailData.patient.nativePlace,
-          age:this.detailData.patient.age,
+      resetForm: function () {
+        const _vue = this;
+        this.ruleForm = {
+          name: this.detailData.patient.name,
+          sn: this.detailData.sn,
+          national: this.detailData.patient.nation,
+          nativePlace: this.detailData.patient.native_place,
+          age: this.detailData.patient.age,
         };
-        this.gender=this.detailData.patient.gender
+        this.gender = this.detailData.patient.gender;
+
+        _vue.phRightData = [];
+        _vue.paRightData = [];
+        $.each(this.detailData.hpos, function (i, data) {
+          data.vHtml = data.hpoid + ' ' + data.name.chinese + '(' + data.name.english + ')';
+          _vue.phRightData.push({
+            key: data.hpoid,
+            value: data.vHtml,
+            _id:data._id
+          })
+        });
+
+        _vue.paRightData = this.detailData.panels
+
+      },
+
+      getAllPanel:function () {
+        const _vue = this;
+        this.myAxios({
+          url: 'biomeddb/panel/',
+        }).then((resp)=>{
+//          _vue.paRightData = resp.data.data
+        }).catch((error)=>{
+          _vue.catchFun(error)
+        })
       },
 
       getHpo: function (data) {
@@ -266,10 +295,10 @@
         this.genes = data
       },
       //重跑任务
-      fileRetry:function () {
+      fileRetry: function () {
         const _vue = this;
         this.myAxios({
-          url: 'manage/sample/' + this.id+'/retry'
+          url: 'manage/sample/' + this.id + '/retry'
         }).then((resp) => {
           _vue.success('任务正在重新运行')
         }).catch((error) => {
@@ -306,7 +335,7 @@
         }
       },
       //下载文件
-      downloadFile:function (lId,fId) {
+      downloadFile: function (lId, fId) {
         const _vue = this;
         this.loading = true;
         const postUrl = 'manage/sample/' + lId + '/data_file/' + fId;
@@ -315,7 +344,7 @@
           method: 'post'
         }).then(function (resp) {
           _vue.loading = false;
-          window.location.href = _vue.apiUrl+postUrl + '?signature=' + resp.data.signature;
+          window.location.href = _vue.apiUrl + postUrl + '?signature=' + resp.data.signature;
         }).catch(function (error) {
           _vue.catchFun(error)
         })

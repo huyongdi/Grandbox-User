@@ -42,7 +42,7 @@
 
 <script>
   export default {
-    props: ['hasHpo', 'flag'],
+    props: ['hasHpo', 'flag','rightData'],
     data: function () {
       return {
         loadingPA: '',
@@ -51,7 +51,7 @@
           id: 1,
           name: '暂无数据',
         }],
-        rightData: [],
+//        rightData: [],
 
         leftCId: [],
         rightCId: [],
@@ -75,10 +75,11 @@
         this.changeHasHpo = true;
       },
       flag: function (newD) {
-        console.log(this.changeHasHpo)
-        if (newD && this.changeHasHpo) {
+        if (newD && (this.changeHasHpo)) {
           this.getD();
           this.changeHasHpo = false;
+        }else if(this.hasHpo.length == 0){
+          this.getD();
         }
       },
       rightData:function (newD) {

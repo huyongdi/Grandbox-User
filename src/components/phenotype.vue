@@ -17,6 +17,9 @@
           </ul>
         </div>
 
+        <div class="content">
+
+        </div>
         <div class="table-content col-xs-8 col-xs-offset-2">
           <table class="special-table">
             <tbody>
@@ -53,7 +56,7 @@
               <td>564</td>
             </tr>
             <tr>
-              <td>  耳部异常</td>
+              <td> 耳部异常</td>
               <td>280</td>
             </tr>
             <tr>
@@ -61,8 +64,68 @@
               <td>193</td>
             </tr>
             <tr>
-              <td>  神经系统异常</td>
+              <td> 神经系统异常</td>
               <td>1572</td>
+            </tr>
+            <tr>
+              <td> 眼部异常</td>
+              <td>841</td>
+            </tr>
+            <tr>
+              <td> 生长异常</td>
+              <td>75</td>
+            </tr>
+            <tr>
+              <td> 消化系统异常</td>
+              <td>504</td>
+            </tr>
+            <tr>
+              <td> 泌尿生殖系统异常</td>
+              <td>752</td>
+            </tr>
+            <tr>
+              <td> 死亡/衰老</td>
+              <td>9</td>
+            </tr>
+            <tr>
+              <td> 心血管系统异常</td>
+              <td>814</td>
+            </tr>
+            <tr>
+              <td> 头部和颈部的异常</td>
+              <td>1219</td>
+            </tr>
+            <tr>
+              <td> 声音异常</td>
+              <td>15</td>
+            </tr>
+            <tr>
+              <td> 呼吸系统异常</td>
+              <td>319</td>
+            </tr>
+            <tr>
+              <td> 内分泌系统异常</td>
+              <td>337</td>
+            </tr>
+            <tr>
+              <td> 免疫系统异常</td>
+              <td>515</td>
+            </tr>
+            <tr>
+              <td> 体壁的异常</td>
+              <td>754</td>
+            </tr>
+            <tr>
+              <td> 代谢紊乱/稳态失衡</td>
+              <td>804</td>
+            </tr>
+            <tr>
+              <td> 乳房异常</td>
+              <td>28</td>
+            </tr>
+            <tr>
+              <td> 临床调节因素</td>
+              <td>54</td>
             </tr>
             </tbody>
           </table>
@@ -72,26 +135,26 @@
       </div>
 
       <!--<table id="ph-table" class="bc-fff my-table">-->
-        <!--<thead>-->
-        <!--<tr>-->
+      <!--<thead>-->
+      <!--<tr>-->
 
-          <!--<th>HPO号</th>-->
-          <!--<th>中文名称</th>-->
+      <!--<th>HPO号</th>-->
+      <!--<th>中文名称</th>-->
 
-          <!--<th>英文名称</th>-->
-          <!--<th>中文定义</th>-->
-          <!--<th>英文定义</th>-->
-        <!--</tr>-->
-        <!--</thead>-->
-        <!--<tbody>-->
-        <!--<tr>-->
-          <!--<td>{{hpoObj.hpoid}}</td>-->
-          <!--<td>{{hpoObj.name?hpoObj.name.chinese:""}}</td>-->
-          <!--<td>{{hpoObj.name?hpoObj.name.english:""}}</td>-->
-          <!--<td>{{hpoObj.definition?hpoObj.definition.chinese:""}}</td>-->
-          <!--<td>{{hpoObj.definition?hpoObj.definition.english:""}}</td>-->
-        <!--</tr>-->
-        <!--</tbody>-->
+      <!--<th>英文名称</th>-->
+      <!--<th>中文定义</th>-->
+      <!--<th>英文定义</th>-->
+      <!--</tr>-->
+      <!--</thead>-->
+      <!--<tbody>-->
+      <!--<tr>-->
+      <!--<td>{{hpoObj.hpoid}}</td>-->
+      <!--<td>{{hpoObj.name?hpoObj.name.chinese:""}}</td>-->
+      <!--<td>{{hpoObj.name?hpoObj.name.english:""}}</td>-->
+      <!--<td>{{hpoObj.definition?hpoObj.definition.chinese:""}}</td>-->
+      <!--<td>{{hpoObj.definition?hpoObj.definition.english:""}}</td>-->
+      <!--</tr>-->
+      <!--</tbody>-->
       <!--</table>-->
 
 
@@ -106,15 +169,15 @@
   export default {
     data: function () {
       return {
-        phValue:'',
-        count:1,
-        reset:0,
-        results:[],
-        doneHttp:'',
-        page:1,
-        hpoQueryList:[],
-        loading :'',
-        hpoObj:{}
+        phValue: '',
+        count: 1,
+        reset: 0,
+        results: [],
+        doneHttp: '',
+        page: 1,
+        hpoQueryList: [],
+        loading: '',
+        hpoObj: {}
       }
     },
     mounted: function () {
@@ -132,8 +195,8 @@
           url: 'biomeddb/hpo/?query=' + this.phValue
         }).then(function (resp) {
           let results = resp.data.data;
-          $.each(results,function (i,data) {
-            data.show = data.hpoid+'-'+data.name.chinese+'('+data.name.english+')'
+          $.each(results, function (i, data) {
+            data.show = data.hpoid + '-' + data.name.chinese + '(' + data.name.english + ')'
           });
 
           _vue.hpoQueryList = results;
@@ -143,12 +206,12 @@
         })
       },
 
-      getList:function (event) {
+      getList: function (event) {
         this.hpoValue = $(event.target).data("hpoid");
         this.getFun()
       },
 
-      getFun:function () {
+      getFun: function () {
         this.loading = true;
         $("#search-ul").addClass('hide');
 //        const id = $(event.target).data("id");
@@ -178,20 +241,17 @@
 //      },
 
     },
-    filter: {
-
-
-    }
+    filter: {}
   }
 </script>
 
 <style scoped lang="less">
-  .title-below{
+  .title-below {
     text-align: center;
     margin: 20px 0;
-    .search-div{
+    .search-div {
       position: relative;
-      >input{
+      > input {
         width: 300px;
       }
       ul {
@@ -219,7 +279,9 @@
       }
     }
   }
-
+  .table-content{
+    background-color: #fff;
+  }
 
 
 </style>

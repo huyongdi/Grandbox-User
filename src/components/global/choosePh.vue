@@ -52,7 +52,7 @@
 
 <script>
   export default {
-    props:['rightData'],
+    props: ['rightData'],
     data: function () {
       return {
         loadingT: '',
@@ -62,7 +62,7 @@
         leftCId: [],
         rightCId: [],
 
-        rightToLeftId:[]
+        rightToLeftId: []
       }
     },
     mounted: function () {
@@ -71,7 +71,7 @@
     methods: {
       toLeft: function () {
         const _vue = this;
-        $.each(this.rightToLeftId,function (i,data) {
+        $.each(this.rightToLeftId, function (i, data) {
           //删除右边的LI
 
           $('.rightData-content').find('li').each(function () {
@@ -80,8 +80,8 @@
             }
           });
 
-          $.each(_vue.rightData,function (n1,n2) {
-            if(n2.key == data){
+          $.each(_vue.rightData, function (n1, n2) {
+            if (n2.key == data) {
               _vue.leftData.push(n2)
             }
           })
@@ -93,14 +93,24 @@
         $.each(this.leftCId, function (n1, n2) {
           $.each(_vue.leftData, function (i, data) {
             if (data.key == n2) {
-              _vue.rightData.push(data);  //右边的增数据
-              _vue.rightCId.push(n2);
-              //删除左边的LI
-              $('.leftData-content').find('li').each(function () {
-                if ($(this).data('key') == n2) {
-                  $(this).remove()
-                }
-              })
+
+              let flag = true;
+              $.each(_vue.rightData, function () {  //判断原先是否有这个值
+
+              });
+
+              if (flag) {
+                _vue.rightData.push(data);  //右边的增数据
+                _vue.rightCId.push(n2);
+                //删除左边的LI
+                $('.leftData-content').find('li').each(function () {
+                  if ($(this).data('key') == n2) {
+                    $(this).remove()
+                  }
+                })
+              }
+
+
             }
           });
         });
@@ -110,10 +120,10 @@
       choose: function (e) {
         const _self = $(e.target).closest('.el-checkbox__input');
         const _id = _self.next().data('key');
-        const _vue  = this;
+        const _vue = this;
         let flag = true;
         $.each(this.rightCId, function (i, data) {
-          if(data == _id){
+          if (data == _id) {
             flag = false;
             _vue.alert('请勿重新添加')
           }
@@ -127,7 +137,7 @@
           }
         }
       },
-      chooseR:function (e) {
+      chooseR: function (e) {
         const _self = $(e.target).closest('.el-checkbox__input');
         const _id = _self.next().data('key');
         if (_self.hasClass('is-checked')) {
@@ -151,7 +161,8 @@
             data.vHtml = data.hpoid + ' ' + data.name.chinese + '(' + data.name.english + ')';
             _vue.leftData.push({
               key: data.hpoid,
-              value: data.vHtml
+              value: data.vHtml,
+              _id: data._id
             })
           });
 
@@ -160,8 +171,8 @@
         })
       }
     },
-    watch:{
-      rightData:function (newD) {
+    watch: {
+      rightData: function (newD) {
         this.$emit('getHpoAll', newD) //函数名和父元素的@onEnter一致
       }
     }

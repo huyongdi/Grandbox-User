@@ -25,7 +25,7 @@
                 </a>
               </td>
               <td class="t-bc">其他标题</td>
-              <td>{{allData.title ? allData.title.preferred : ''}}({{allData.includeds ? allData.includeds.chinese : ''}})</td>
+              <td>{{allData.title ? allData.title.preferred : ''}} <span v-if="allData.includeds && allData.includeds.chinese">({{allData.includeds.chinese}})</span></td>
             </tr>
             <tr>
               <td class="t-bc">别名</td>
@@ -36,74 +36,74 @@
         </div>
       </div>
 
-      <div class="content-one">
-        <div class="header" >
-          <span class="fa fa-chevron-down" @click.self="showContent"></span><span @click.self="showContent">临床表型</span>
-        </div>
-        <div class="content left-right" style="display: block">
-          <table class="special-table">
-            <tbody id="">
-            <tr class="t-bc">
-              <td style="min-width: 100px">系统分类</td>
-              <td>临床表型</td>
-              <td style="min-width: 200px">中文表型标准术语</td>
-            </tr>
-            <tr v-if="clinicalSynopsisData.length === 0" class="center">
-              <td colspan="3" class="center">暂无数据</td>
-            </tr>
-            <tr v-for="data in clinicalSynopsisData" class="font-12">
-              <td><a class="no-d" data-toggle="tooltip" data-placement="top" :data-original-title="data.name">{{data.name | nameToCn}}</a></td>
-              <td>
-                <div v-if="data.content" v-for="dataS in data.content">{{dataS.text}}</div>
-              </td>
-              <td>
-                <div v-if="data.content" v-for="list in data.content">
-                  <!--{{list}}-->
-                  <div v-for="hpo in list.hpos">{{hpo.name &&hpo.name.chinese}}({{hpo.name &&hpo.name.english}})</div>
-                  <!--<div v-if="list.hpo_ids" v-for="listHpo in list.hpo_ids">{{listHpo}}(<span :id="listHpo.replace(':','-')"></span>)</div>-->
-                  <!--<div v-if="!list.hpo_ids"> - </div>-->
-                </div>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <!--<div class="content-one">-->
+        <!--<div class="header" >-->
+          <!--<span class="fa fa-chevron-down" @click.self="showContent"></span><span @click.self="showContent">临床表型</span>-->
+        <!--</div>-->
+        <!--<div class="content left-right" style="display: block">-->
+          <!--<table class="special-table">-->
+            <!--<tbody id="">-->
+            <!--<tr class="t-bc">-->
+              <!--<td style="min-width: 100px">系统分类</td>-->
+              <!--<td>临床表型</td>-->
+              <!--<td style="min-width: 200px">中文表型标准术语</td>-->
+            <!--</tr>-->
+            <!--<tr v-if="clinicalSynopsisData.length === 0" class="center">-->
+              <!--<td colspan="3" class="center">暂无数据</td>-->
+            <!--</tr>-->
+            <!--<tr v-for="data in clinicalSynopsisData" class="font-12">-->
+              <!--<td><a class="no-d" data-toggle="tooltip" data-placement="top" :data-original-title="data.name">{{data.name | nameToCn}}</a></td>-->
+              <!--<td>-->
+                <!--<div v-if="data.content" v-for="dataS in data.content">{{dataS.text}}</div>-->
+              <!--</td>-->
+              <!--<td>-->
+                <!--<div v-if="data.content" v-for="list in data.content">-->
+                  <!--&lt;!&ndash;{{list}}&ndash;&gt;-->
+                  <!--<div v-for="hpo in list.hpos">{{hpo.name &&hpo.name.chinese}}({{hpo.name &&hpo.name.english}})</div>-->
+                  <!--&lt;!&ndash;<div v-if="list.hpo_ids" v-for="listHpo in list.hpo_ids">{{listHpo}}(<span :id="listHpo.replace(':','-')"></span>)</div>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<div v-if="!list.hpo_ids"> - </div>&ndash;&gt;-->
+                <!--</div>-->
+              <!--</td>-->
+            <!--</tr>-->
+            <!--</tbody>-->
+          <!--</table>-->
+        <!--</div>-->
+      <!--</div>-->
+
+      <!--<div class="content-one">-->
+        <!--<div class="header">-->
+          <!--<span class="fa fa-chevron-down" @click.self="showContent"></span><span @click.self="showContent">基因信息</span>-->
+        <!--</div>-->
+        <!--<div class="content left-right" style="display: block">-->
+          <!--<table class="special-table">-->
+            <!--<tbody>-->
+            <!--<tr>-->
+              <!--<td class="t-bc">基因ID</td>-->
+              <!--<td class="t-bc">基因名</td>-->
+              <!--<td class="t-bc">遗传模式</td>-->
+              <!--<td class="t-bc">表型</td>-->
+            <!--</tr>-->
+            <!--<tr v-for="list in allData.phenotype_maps">-->
+              <!--<td>{{list.gene.geneid}}</td>-->
+              <!--<td>{{list.gene.symbol}}</td>-->
+              <!--<td>-->
+                  <!--<span v-if="list.phenotype.inheritances" v-for="inh in list.phenotype.inheritances">-->
+                    <!--<a class="po" data-toggle="tooltip" data-placement="top" :data-original-title="inh.name">{{inh.ab}}</a>-->
+                  <!--</span>-->
+              <!--</td>-->
+              <!--<td>{{list.phenotype.title}}</td>-->
+            <!--</tr>-->
+            <!--</tbody>-->
+          <!--</table>-->
+        <!--</div>-->
+      <!--</div>-->
+
+
+
 
       <div class="content-one">
         <div class="header">
-          <span class="fa fa-chevron-down" @click.self="showContent"></span><span @click.self="showContent">基因信息</span>
-        </div>
-        <div class="content left-right" style="display: block">
-          <table class="special-table">
-            <tbody>
-            <tr>
-              <td class="t-bc">基因ID</td>
-              <td class="t-bc">基因名</td>
-              <td class="t-bc">遗传模式</td>
-              <td class="t-bc">表型</td>
-            </tr>
-            <tr v-for="list in allData.phenotype_maps">
-              <td>{{list.gene.geneid}}</td>
-              <td>{{list.gene.symbol}}</td>
-              <td>
-                  <span v-if="list.phenotype.inheritances" v-for="inh in list.phenotype.inheritances">
-                    <a class="po" data-toggle="tooltip" data-placement="top" :data-original-title="inh.name">{{inh.ab}}</a>
-                  </span>
-              </td>
-              <td>{{list.phenotype.title}}</td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-
-
-
-      <div class="content-one">
-        <div class="header">
-          <span class="fa fa-chevron-down" @click.self="showContent"></span><span @click.self="showContent">疾病和表型</span>
+          <span class="fa fa-chevron-down" @click.self="showContent"></span><span @click.self="showContent">疾病和基因</span>
         </div>
         <div class="content text-content left-right" style="display: block">
           <div class="left">
@@ -127,6 +127,7 @@
                   <div v-if="data.content" v-for="list in data.content">
                     <!--{{list}}-->
                     <div v-for="hpo in list.hpos">{{hpo.hpoid}}：{{hpo.name &&hpo.name.chinese}}({{hpo.name &&hpo.name.english}})</div>
+
                     <!--<div v-if="list.hpo_ids" v-for="listHpo in list.hpo_ids">{{listHpo}}(<span :id="listHpo.replace(':','-')"></span>)</div>-->
                     <!--<div v-if="!list.hpo_ids"> - </div>-->
                   </div>
@@ -146,11 +147,14 @@
                 <td class="t-bc">表型</td>
               </tr>
               <tr v-for="list in allData.phenotype_maps">
-                <td>{{list.gene.geneid}}</td>
+                <td><router-link :to="{path:'geneD',query:{id:list.gene.geneid}}" target="_blank">{{list.gene.geneid}}</router-link></td>
                 <td>{{list.gene.symbol}}</td>
                 <td>
                   <span v-if="list.phenotype.inheritances" v-for="inh in list.phenotype.inheritances">
-                    <a class="po" data-toggle="tooltip" data-placement="top" :data-original-title="inh.name">{{inh.ab}}</a>
+
+                    {{inh.chinese?inh.chinese:inh.name}}
+
+                    <!--<a class="po" data-toggle="tooltip" data-placement="top" :data-original-title="inh.name">{{inh.name}}</a>-->
                   </span>
                 </td>
                 <td>{{list.phenotype.title}}</td>

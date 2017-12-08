@@ -134,7 +134,6 @@
         .router-content{
           width: 100%;
           min-height: calc(~'100vh - 50px');
-          background: url("../static/img/html-bc.png") no-repeat center;
           background-size: 100% 100%;
           .p-div{
             padding: 30px 60px;
@@ -142,6 +141,7 @@
           .top-content{
 
           }
+
           .data-content{
             min-height: calc(~'100vh - 50px');
             .left-ul {
@@ -152,6 +152,7 @@
               margin: 0;
               padding: 0;
               color: @color;
+
               li {
                 cursor: pointer;
               }
@@ -218,6 +219,7 @@
               padding: 20px 10px;
               border-left:1px solid #d3d4d4;
               margin-left: -4px;
+              background: url("../static/img/html-bc.png") no-repeat center;
             }
             .drop-down{
               > .title {

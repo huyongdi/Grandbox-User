@@ -26,7 +26,7 @@
               <td>{{allData.tag ? allData.tag.transcript : ''}}</td>
               <td class="t-bc">印记基因</td>
               <td class="color-out">
-                <span>{{allData.tag &&allData.tag.isImprinted}}</span>
+                <span>{{allData.tag &&allData.tag.isImprinted?allData.tag.isImprinted:'-'}}</span>
                 <!--<span v-if="allData.tag" :class="{'color-in':allData.tag.isImprinted}">是</span> /-->
                 <!--<span v-if="allData.tag" :class="{'color-in':!allData.tag.isImprinted}">否</span>-->
               </td>
@@ -108,7 +108,7 @@
             <div class="title">疾病相关表型 <!--（总病例数： 0 ）--></div>
             <ul v-for="omim in allData.omims">
               <li>
-                <router-link target="_blank" :to="{path:'/omim',query:{id:omim._id}}">{{omim.title.chinese}}({{omim.mimnumber}})</router-link>
+                <router-link target="_blank" :to="{path:'/omim',query:{id:omim._id}}">{{omim.title.chinese?omim.title.chinese:omim.title.preferred}}({{omim.mimnumber}})</router-link>
               </li>
             </ul>
           </div>

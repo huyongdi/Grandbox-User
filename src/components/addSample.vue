@@ -63,7 +63,7 @@
               <el-form-item label="病历">
                 <el-input
                   type="textarea"
-                  :autosize="{ minRows: 10, maxRows: 10}"
+                  :rows="10"
                   placeholder="请输入内容"
                   v-model="ruleForm.patientCase">
                 </el-input>
@@ -81,7 +81,7 @@
             </div>
 
             <div class="col-xs-7">
-              <choosePa :hasHpo="hasHpo" :flag='!hide3' @getGenes="getGenes" @getPanelAll="getPanelAll"></choosePa>
+              <choosePa :hasHpo="hasHpo" :flag='!hide3' @getGenes="getGenes" @getPanelAll="getPanelAll" :rightData="paRightData"></choosePa>
             </div>
 
             <div class="col-xs-5" id="genes-show">
@@ -93,7 +93,7 @@
                   <td>基因别名</td>
                 </tr>
                 <tr v-for="list in genes">
-                  <td>{{list.geneid}}</td>
+                  <td><router-link :to="{path:'geneD',query:{id:list.geneid}}" target="_blank">{{list.geneid}}</router-link></td>
                   <td>{{list.name && list.name.symbol}}</td>
                   <td>{{list.name && list.name.synonyms.join(' | ')}}</td>
                 </tr>
@@ -195,6 +195,7 @@
     data: function () {
       return {
         phRightData:[],
+        paRightData:[],
         loading: '',
         detailData: "",
         /*添加样本*/
@@ -249,7 +250,10 @@
 
         hasHpo: [],
         allHpoData:[],
-        allPanelData:[]
+        allPanelData:[],
+
+        postHpo:[],
+        postPanel:[],
       }
     },
     mounted: function () {
@@ -288,14 +292,16 @@
             medical_record: this.ruleForm.patientCase,
             nation: this.ruleForm.national, /*名族*/
             native_place: this.ruleForm.nativePlace, /*籍贯*/
-            age: this.ruleForm.age, /**/
+            age: this.ruleForm.age,
+            hpos : this.postHpo,
+            panels : this.postPanel,
+
 //            sn: this.addInfo.birth, /*表型 检测项目*/
           }
         }).then(function () {
           _vue.success('添加成功');
-          $("#addModal").modal("hide");
-          _vue.getList();
-          _vue.socket();
+
+//          _vue.socket();
         }).catch(function (error) {
           _vue.catchFun(error)
         })
@@ -306,15 +312,21 @@
       },
       getHpoAll:function (data) {
         this.allHpoData=data;
-        console.log(data)
+
+        const _vue = this;
+        $.each(data,function (key,value) {
+          _vue.postHpo.push(value._id)
+        })
       },
       getGenes: function (data) {
         this.genes = data
       },
       getPanelAll:function (data) {
         this.allPanelData = data
-        console.log(data)
-
+        const _vue = this;
+        $.each(data,function (key,value) {
+          _vue.postPanel.push(value._id)
+        })
       },
 
       show: function (type) {
