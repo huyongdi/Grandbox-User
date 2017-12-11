@@ -95,7 +95,12 @@
                   <td>基因名</td>
                   <td>基因别名</td>
                 </tr>
-                <tr v-for="list in genes">
+                <tr v-if="genes.now" v-for="list in genes.now">
+                  <td><router-link :to="{path:'geneD',query:{id:list.geneid}}" target="_blank">{{list.geneid}}</router-link></td>
+                  <td>{{list.name && list.name.symbol}}</td>
+                  <td>{{list.name && list.name.synonyms.join(' | ')}}</td>
+                </tr>
+                <tr v-if="!genes.now" v-for="list in genes">
                   <td><router-link :to="{path:'geneD',query:{id:list.geneid}}" target="_blank">{{list.geneid}}</router-link></td>
                   <td>{{list.name && list.name.symbol}}</td>
                   <td>{{list.name && list.name.synonyms.join(' | ')}}</td>

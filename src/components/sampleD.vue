@@ -90,6 +90,8 @@
                   </i>
                   <a v-if="file.status == -1" href="javascript:void(0)" @click="fileRetry">重新运行</a>
                 </td>
+                <td class="t-bc">文件类型</td>
+                <td>{{file.append?'覆盖':'追加'}}</td>
                 <td class="t-bc">上传日期</td>
                 <td>{{file.created_at}}</td>
               </tr>

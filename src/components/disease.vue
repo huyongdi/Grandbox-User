@@ -1,7 +1,20 @@
 <template>
   <div class="data-content">
     <dataHeader></dataHeader>
-    <div class="right-content">123</div>
+    <div class="right-content">
+      <div class="search-div">
+        <input type="text" placeholder="搜索疾病" v-model="phValue" class="search-input" @keyup.enter="">
+        <span class="my-btn">
+            <img src="../../static/img/red-con.png" alt="" @click="">
+          </span>
+
+        <!--<ul id="search-ul" class="hide">-->
+          <!--<li v-for="hpo in hpoQueryList" :data-hpoId="hpo.hpoid" :data-id="hpo._id" :title="hpo.show" @click="toDetail(hpo.hpoid)">-->
+            <!--{{hpo.show}}-->
+          <!--</li>-->
+        <!--</ul>-->
+      </div>
+    </div>
   </div>
 </template>
 
@@ -16,7 +29,7 @@
     },
     data: function () {
       return {
-
+        phValue:''
       }
     },
     mounted: function () {
