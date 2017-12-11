@@ -219,7 +219,9 @@
               padding: 20px 10px;
               border-left:1px solid #d3d4d4;
               margin-left: -4px;
-              background: url("../static/img/html-bc.png") no-repeat center;
+              background: url("../static/img/html-bc.png") repeat center;
+              background-size:100% 100%;
+              background-position: 0 0;
             }
             .drop-down{
               > .title {

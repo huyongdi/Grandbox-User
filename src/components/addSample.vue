@@ -77,7 +77,10 @@
               根据表型信息（{{hasHpo.length}}个），共检索出{{genes.length}}个相关基因，分布如下，请选择合适的检查项目。
             </div>
             <div class="col-xs-5 top-title">
-              表型相关基因({{genes.length}})
+
+              <span v-if="genes.total">全部基因({{genes.total && genes.total.length}}),表型相关基因({{genes.now && genes.now.length}})</span>
+              <span v-else="">表型相关基因({{genes.length}})</span>
+
             </div>
 
             <div class="col-xs-7">
@@ -200,7 +203,8 @@
           id: 1,
           name: '暂无数据',
         }],
-        loading: '',
+
+          loading: '',
         detailData: "",
         /*添加样本*/
         hide1: false,

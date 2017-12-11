@@ -60,7 +60,7 @@
           _li = $("#li-0");
         }else if(currentPath == 'gene' || currentPath == 'geneD'){
           _li = $("#li-1");
-        }else if(currentPath == 'phenotype'  || currentPath=='omim'){
+        }else if(currentPath == 'phenotype'  || currentPath=='omim' || currentPath=='phenotypeD'){
           _li = $("#li-2")
         }
         if(_li && !_li.hasClass('active')){

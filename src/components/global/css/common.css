@@ -393,6 +393,13 @@ html table.special-table {
   width: 100%;
   max-width: 100%;
 }
+html table.special-table thead tr.t-bc {
+  background-color: #e4ecea;
+}
+html table.special-table thead tr.t-bc th {
+  border: 1px solid #cfddd9;
+  padding: 9px 15px;
+}
 html table.special-table tbody tr.t-bc {
   background-color: #e4ecea;
 }

@@ -179,10 +179,12 @@
           _vue.$emit('getGenes', resp.data.genes); //函数名和父元素的@onEnter一致
 
           _vue.leftData = [];
+
+
           $.each(results, function (i, data) {
-            data.name = data.name + '(' + data.genes.length + ')'
+            data.name = data.name + '(' + data.genes.now.length + '/'+data.genes.total.length+')';
             $.each(data.children, function (key, value) {
-              value.name = value.name + '(' + value.genes.length + ")";
+              value.name = value.name + '(' + value.genes.now.length + '/'+value.genes.total.length+')';
             })
           });
           _vue.leftData = results;

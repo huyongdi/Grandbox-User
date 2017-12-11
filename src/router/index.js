@@ -7,7 +7,6 @@ import Result from '@/components/result'
 import Gene from '@/components/Gene'
 import GeneD from '@/components/geneD'
 import Disease from '@/components/disease'
-import Phenotype from '@/components/phenotype'
 import VariationD from '@/components/VariationD'
 import tool from '@/components/tool'
 import OMIM from '@/components/omim'
@@ -16,6 +15,9 @@ import userList from '@/components/userList'
 import MyData from '@/components/myData'
 import addSample from '@/components/addSample'
 import sampleD from '@/components/sampleD'
+
+import Phenotype from '@/components/phenotype'
+import PhenotypeD from '@/components/PhenotypeD'
 
 
 Vue.use(Router);
@@ -76,6 +78,11 @@ export default new Router({
       path: '/phenotype',
       name: 'phenotype',
       component: Phenotype
+    },
+    {
+      path: '/phenotypeD',
+      name: 'phenotypeD',
+      component: PhenotypeD
     },
     {
       path: '/variationD',
