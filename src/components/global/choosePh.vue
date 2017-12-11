@@ -52,7 +52,7 @@
 
 <script>
   export default {
-    props: ['rightData'],
+    props: ['rightData','parentRightCId'],
     data: function () {
       return {
         loadingT: '',
@@ -60,7 +60,7 @@
         leftData: [],
 
         leftCId: [],
-        rightCId: [],
+        rightCId: this.parentRightCId?this.parentRightCId:[],
 
         rightToLeftId: []
       }
@@ -95,11 +95,14 @@
             if (data.key == n2) {
 
               let flag = true;
-              $.each(_vue.rightData, function () {  //判断原先是否有这个值
 
+              $.each(_vue.rightCId,function (n3,n4) {
+                if(n4 == n2){
+                  flag = false
+                }
               });
 
-              if (flag) {
+              if(flag){
                 _vue.rightData.push(data);  //右边的增数据
                 _vue.rightCId.push(n2);
                 //删除左边的LI
@@ -109,11 +112,10 @@
                   }
                 })
               }
-
-
             }
           });
         });
+
 
         this.$emit('getHpo', this.rightCId) //函数名和父元素的@onEnter一致
       },
@@ -122,6 +124,7 @@
         const _id = _self.next().data('key');
         const _vue = this;
         let flag = true;
+
         $.each(this.rightCId, function (i, data) {
           if (data == _id) {
             flag = false;
@@ -143,7 +146,7 @@
         if (_self.hasClass('is-checked')) {
           _self.removeClass('is-checked')
         } else {
-          this.rightToLeftId.push(_id)
+          this.rightToLeftId.push(_id);
           _self.addClass('is-checked')
         }
       },
@@ -173,6 +176,15 @@
     },
     watch: {
       rightData: function (newD) {
+
+        let arr = [];
+        $.each(newD, function (i, data) {
+          arr.push(data.key)
+        });
+
+
+        this.$emit('getHpo', arr) //函数名和父元素的@onEnter一致
+
         this.$emit('getHpoAll', newD) //函数名和父元素的@onEnter一致
       }
     }

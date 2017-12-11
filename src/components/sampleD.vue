@@ -5,7 +5,7 @@
       <span class="my-btn up-file" @click="upFile"><img src="../../static/img/red-submit.png" alt="">上传文件</span>
 
       <span class="my-btn edit" @click="toEdit"><img src="../../static/img/red-submit.png" alt="">编辑样本</span>
-      <span class="my-btn edit" v-if="inEdit" @click="toEdit"><img src="../../static/img/red-submit.png" alt="">保存编辑</span>
+      <span class="my-btn edit" v-if="inEdit" @click="saveEdit"><img src="../../static/img/red-submit.png" alt="">保存编辑</span>
       <span class="my-btn edit" v-if="inEdit" @click="cancelEdit"><img src="../../static/img/red-submit.png" alt="">取消编辑</span>
 
 
@@ -60,6 +60,13 @@
                   <span v-else="">{{detailData.patient && detailData.patient.age}}</span>
                 </td>
               </tr>
+              <tr>
+                <td class="t-bc">病历</td>
+                <td colspan="3">
+                  <el-input v-if="inEdit" v-model="ruleForm.medical_record"></el-input>
+                  <span v-else="">{{detailData.patient && detailData.patient.medical_record}}</span>
+                </td>
+              </tr>
               </tbody>
             </table>
           </div>
@@ -98,10 +105,11 @@
           <div class="content mice-content left-right" style="display: block">
             <div class="inPa-ph row" v-if="inEdit">
               <div class="col-xs-6">
-                <choosePh @getHpo="getHpo" :rightData="phRightData"></choosePh>
+                <choosePh @getHpo="getHpo" :rightData="phRightData" :parentRightCId="parentRightCId"></choosePh>
               </div>
               <div class="col-xs-6">
-                <choosePa :hasHpo="hasHpo" :flag='getPFlag' @getGenes="getGenes" :rightData="paRightData"></choosePa>
+                <choosePa :hasHpo="hasHpo" :inEdit="paFlag" @getGenes="getGenes" @getPanelAll="getPanelAll" :rightData="paRightData"
+                          :parentLeftData="paLeftData"></choosePa>
               </div>
             </div>
             <div class="left" v-if="!inEdit">
@@ -205,6 +213,7 @@
           nativePlace: '',
           age: '',
           patientCase: '',
+          medical_record: '',
         },
         rules: {
           name: [
@@ -218,11 +227,18 @@
           ]
         },
 
+
+        paFlag: true,
+        parentRightCId: [],
         phRightData: [],
         paRightData: [],
+        paLeftData: [{
+          id: 1,
+          name: '暂无数据',
+        }],
         hasHpo: [],
         genes: [],
-        getPFlag: '',
+        postPanel: []
       }
     },
     mounted: function () {
@@ -259,37 +275,124 @@
           national: this.detailData.patient.nation,
           nativePlace: this.detailData.patient.native_place,
           age: this.detailData.patient.age,
+          medical_record: this.detailData.patient.medical_record,
         };
         this.gender = this.detailData.patient.gender;
 
         _vue.phRightData = [];
         _vue.paRightData = [];
+        _vue.parentRightCId = [];
         $.each(this.detailData.hpos, function (i, data) {
           data.vHtml = data.hpoid + ' ' + data.name.chinese + '(' + data.name.english + ')';
           _vue.phRightData.push({
             key: data.hpoid,
             value: data.vHtml,
-            _id:data._id
-          })
+            _id: data._id
+          });
+          _vue.parentRightCId.push(data.hpoid);
+          _vue.hasHpo.push(data._id)
+        });
+
+
+        _vue.getCurrentPanel();
+
+        _vue.postPanel=[];
+        $.each(this.detailData.panels,function (i,data) {
+          _vue.postPanel.push(data._id)
         });
 
         _vue.paRightData = this.detailData.panels
 
       },
 
-      getAllPanel:function () {
+      saveEdit: function () {
+        const _vue = this;
+
+        this.myAxios({
+          url: 'manage/sample/' + this.detailData._id,
+          method: 'patch',
+          data: {
+            sn: this.ruleForm.name,
+
+            name: this.ruleForm.name,
+            nation: this.ruleForm.national,
+            native_place: this.ruleForm.nativePlace,
+            age: this.ruleForm.age,
+            gender: this.gender,
+            medical_record: this.gender,
+
+            hpos: this.hasHpo,
+            panels: this.postPanel,
+          }
+        }).then(function () {
+          _vue.success('编辑成功');
+          _vue.inEdit = false;
+          _vue.getDetail()
+        }).catch(function (error) {
+          _vue.catchFun(error)
+        })
+      },
+
+      getPanelAll: function (data) {
+        this.allPanelData = data;
+        const _vue = this;
+        $.each(data, function (key, value) {
+          _vue.postPanel.push(value._id)
+        })
+      },
+
+      getCurrentPanel: function (arr) {
+        const _vue = this;
+        this.loadingPA = true;
+        this.myAxios({
+          url: 'biomeddb/panel/suggest/',
+          method: 'post',
+          data: {
+            hpos: _vue.parentRightCId
+          }
+        }).then(function (resp) {
+          _vue.loadingPA = false;
+          let results = resp.data.panels;
+
+          _vue.$emit('getGenes', resp.data.genes); //函数名和父元素的@onEnter一致
+
+          _vue.leftData = [];
+          $.each(results, function (i, data) {
+            data.name = data.name + '(' + data.genes.length + ')';
+            $.each(data.children, function (key, value) {
+              value.name = value.name + '(' + value.genes.length + ")";
+            })
+          });
+          _vue.leftData = results;
+
+        }).catch(function (error) {
+          _vue.catchFun(error)
+        })
+      },
+
+      getAllPanel: function () {
         const _vue = this;
         this.myAxios({
           url: 'biomeddb/panel/',
-        }).then((resp)=>{
-//          _vue.paRightData = resp.data.data
-        }).catch((error)=>{
+        }).then((resp) => {
+          let results = resp.data.data;
+
+//          $.each(results, function (i, data) {
+//            data.name = data.name + '(' + data.genes.length + ')'
+//            $.each(data.children, function (key, value) {
+//              value.name = value.name + '(' + value.genes.length + ")";
+//            })
+//          });
+
+          _vue.paLeftData = results
+
+        }).catch((error) => {
           _vue.catchFun(error)
         })
       },
 
       getHpo: function (data) {
-        this.hasHpo = data
+        this.hasHpo = data;
       },
       getGenes: function (data) {
         this.genes = data
@@ -298,7 +401,8 @@
       fileRetry: function () {
         const _vue = this;
         this.myAxios({
-          url: 'manage/sample/' + this.id + '/retry'
+          url: 'manage/sample/' + this.id + '/retry',
+          method: 'post'
         }).then((resp) => {
           _vue.success('任务正在重新运行')
         }).catch((error) => {

@@ -81,7 +81,7 @@
             </div>
 
             <div class="col-xs-7">
-              <choosePa :hasHpo="hasHpo" :flag='!hide3' @getGenes="getGenes" @getPanelAll="getPanelAll" :rightData="paRightData"></choosePa>
+              <choosePa :hasHpo="hasHpo" :flag='!hide3' @getGenes="getGenes" @getPanelAll="getPanelAll" :rightData="paRightData" :leftData="paLeftData"></choosePa>
             </div>
 
             <div class="col-xs-5" id="genes-show">
@@ -196,6 +196,10 @@
       return {
         phRightData:[],
         paRightData:[],
+        paLeftData:[{
+          id: 1,
+          name: '暂无数据',
+        }],
         loading: '',
         detailData: "",
         /*添加样本*/

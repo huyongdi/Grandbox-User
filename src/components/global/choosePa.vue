@@ -42,16 +42,15 @@
 
 <script>
   export default {
-    props: ['hasHpo', 'flag','rightData'],
+    props: ['hasHpo', 'flag','rightData','parentLeftData','inEdit'],
     data: function () {
       return {
         loadingPA: '',
         sInput: '',
-        leftData: [{
+        leftData:this.parentLeftData?this.parentLeftData: [{
           id: 1,
           name: '暂无数据',
         }],
-//        rightData: [],
 
         leftCId: [],
         rightCId: [],
@@ -71,8 +70,13 @@
 
     },
     watch: {
-      hasHpo:function () {
+      hasHpo:function (newD) {
         this.changeHasHpo = true;
+
+        if(this.inEdit){ //兼容編輯頁面
+          this.getD();
+        }
+
       },
       flag: function (newD) {
         if (newD && (this.changeHasHpo)) {
@@ -107,6 +111,8 @@
       toRight: function () {
 //        console.log(this.$refs.tree.getCheckedNodes());
 //        console.log(this.$refs.tree.getCheckedKeys());
+
+
 
         let arr = this.$refs.tree.getCheckedNodes();
         const _vue = this;
