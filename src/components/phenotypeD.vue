@@ -93,7 +93,7 @@
             <table class="special-table">
               <thead>
               <tr class="t-bc">
-                <th class="class-id">ID</th>
+                <th class="class-geneId">ID</th>
                 <th id="" class="right-td">别名
                   <div class="bc-ff" v-if="allData.genes && allData.genes.length>8"></div>
                 </th>
@@ -104,7 +104,7 @@
               <table class="special-table">
                 <tbody>
                 <tr v-for="gene in allData.genes">
-                  <td class="class-id"><router-link target="_blank" :to="{path:'/geneD',query:{id:gene.geneid}}">{{gene.name.symbol}}({{gene.geneid}})</router-link></td>
+                  <td class="class-geneId"><router-link target="_blank" :to="{path:'/geneD',query:{id:gene.geneid}}">{{gene.name.symbol}}({{gene.geneid}})</router-link></td>
                   <td>{{gene.name.synonyms.join(' |　')}}</td>
                 </tr>
                 </tbody>
@@ -182,7 +182,10 @@
     }
   }
   .class-id{
-    width: 100px;
+    width: 120px;
+  }
+  .class-geneId{
+    width: 180px;
   }
   .class-gene{
     width: 300px;
