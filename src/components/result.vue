@@ -169,6 +169,14 @@
                   <th>功能</th>
                   <th>疾病</th>
 
+                  <th>
+                    CLINVAR
+                    <i class="fa fa-question-circle-o po flag-th" data-toggle="tooltip" data-placement="top"
+                       data-original-title="O代表other,B代表Benign,LB代表Likely benign,P代表Pathogenic,LP代表Likely Pathogenic，NP代表not provided">
+                    </i>
+                  </th>
+                  <th>HGMD</th>
+
                   <th>纯杂合</th>
                   <th>gatkFilter</th>
 
@@ -192,10 +200,12 @@
                     <span v-if="data.record_count">{{data.record_count.private}} / {{data.record_count.public}}</span>
                   </td>
                   <td class="warp">
-                    <div v-if="data.snv && data.snv.annotation" v-for="geneSingle in data.snv.annotation.gene.symbols">
-                      <router-link class="po common-a" target="_blank" :to="{path:'/geneD',query:{id:geneSingle}}">
-                        {{geneSingle}}
-                      </router-link>
+                    <div v-if="data.snv && data.snv.annotation">
+                      <div  v-for="geneSingle in data.snv.annotation.gene.symbols">
+                        <router-link class="po common-a" target="_blank" :to="{path:'/geneD',query:{id:geneSingle}}">
+                          {{geneSingle}}
+                        </router-link>
+                      </div>
                     </div>
                   </td>
                   <td class="warp">
@@ -207,6 +217,21 @@
                   <!--<diseaseTd style="max-width: 250px" class="warp" :diseases="data.diseases" @sendOmimId="getOmimId"></diseaseTd>-->
                   <td></td>
 
+                  <td>
+                    <div v-if="data.snv && data.snv.annotation">
+                      <div v-for="clinvarSingle in data.snv.annotation.dbinfo.clinvars">
+                          <span class="po bold" data-toggle="tooltip" data-placement="top"
+                            :data-original-title='clinvarSingle.significance'>
+                            [{{clinvarSingle.significance | clinvarFilterFirst}}]
+                          </span>
+                            <!--这里是一个长度-->
+                            ({{clinvarSingle.significance | clinvarFilterLast}})
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    {{data.snv && data.snv.annotation && data.snv.annotation.dbinfo && data.snv.annotation.dbinfo.hgmd}}
+                  </td>
 
                   <td><span v-if="data.information">{{data.information.hom_het ? data.information.hom_het : '-'}}</span></td>
                   <td><span v-if="data.information">{{data.information.gatk_filter ? data.information.gatk_filter : '-'}}</span></td>
@@ -400,10 +425,12 @@
                     </router-link>
                   </td>
                   <td class="warp">
-                    <div v-if="data.snv && data.snv.annotation" v-for="geneSingle in data.snv.annotation.gene.symbols">
-                      <router-link class="po common-a" target="_blank" :to="{path:'/geneD',query:{id:geneSingle}}">
-                        {{geneSingle}}
-                      </router-link>
+                    <div v-if="data.snv && data.snv.annotation" >
+                      <div v-for="geneSingle in data.snv.annotation.gene.symbols">
+                        <router-link class="po common-a" target="_blank" :to="{path:'/geneD',query:{id:geneSingle}}">
+                          {{geneSingle}}
+                        </router-link>
+                      </div>
                     </div>
                   </td>
                   <td class="warp">
@@ -416,17 +443,18 @@
                   <!--<diseaseTd style="max-width: 250px" class="warp" :diseases="data.diseases" @sendOmimId="getOmimId"></diseaseTd>-->
                   <td>-</td>
 
-                  <td>-
-                    <!--<div v-if="data.anno">-->
-                    <!--<div v-for="clinvarSingle in data.anno.dbinfo.clinvar">-->
-                    <!--<span class="po bold" data-toggle="tooltip" data-placement="top"-->
-                    <!--:data-original-title='clinvarSingle.substring(0,clinvarSingle.indexOf(":"))'>-->
-                    <!--[{{clinvarSingle | clinvarFilterFirst}}]-->
-                    <!--</span>-->
-                    <!--({{clinvarSingle | clinvarFilterLast}})-->
-                    <!--</div>-->
-                    <!--</div>-->
+                  <td>
+                    <div v-if="data.snv && data.snv.annotation">
+                      <div v-for="clinvarSingle in data.snv.annotation.dbinfo.clinvars">
+                          <span class="po bold" data-toggle="tooltip" data-placement="top"
+                                :data-original-title='clinvarSingle.significance'>
+                            [{{clinvarSingle.significance | clinvarFilterFirst}}]
+                          </span>
+                        ({{clinvarSingle.significance | clinvarFilterLast}})
+                      </div>
+                    </div>
                   </td>
+
                   <td>-
                     <!--{{data.anno.dbinfo.mitimpact ? data.anno.dbinfo.mitimpact : '-'}}-->
                   </td>
@@ -493,11 +521,13 @@
 <script>
   import page from './global/Page.vue'
   import myDataH from './global/myDataHeader.vue'
+  import diseaseTd from './global/DiseaseTd.vue'
 
   export default {
     components: {
       page: page,
-      myDataH: myDataH
+      myDataH: myDataH,
+      diseaseTd: diseaseTd,
     },
     data: function () {
       return {
@@ -929,7 +959,27 @@
             return '出错';
             break;
         }
-      }
+      },
+      clinvarFilterFirst: function (data) {
+        if (data == 'other') {
+          data = 'O'
+        } else if (data == 'Benign') {
+          data = 'B'
+        } else if (data == 'Likely benign') {
+          data = 'LB'
+        } else if (data == 'Pathogenic') {
+          data = 'P'
+        } else if (data == 'Likely Pathogenic') {
+          data = 'LP'
+        } else if (data == 'not provided') {
+          data = 'NP'
+        }
+        return data
+      },
+      clinvarFilterLast: function (data) {
+        const index = data.indexOf(':')
+        return data.substring(index + 1, data.length)
+      },
     }
 
   }
