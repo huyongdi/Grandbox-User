@@ -7,7 +7,7 @@
         <div class="search-div">
           <input type="text" placeholder="搜索HPO" v-model="phValue" class="search-input" @keyup.enter="searchHpo">
           <span class="my-btn">
-            <img src="../../static/img/red-con.png" alt="" @click="">
+            <img src="../../static/img/red-con.png" alt="" @click="searchHpo">
           </span>
 
           <ul id="search-ul" class="hide">

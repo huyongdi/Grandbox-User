@@ -69,8 +69,8 @@
             </router-link>
           </td>
           <td>
-            <img class="edit" src="../../static/img/edit.png" @click="listEdit(list._id)" title="编辑">
-            <span class="fa fa-file-excel-o fa-lg" title="上传文件" @click="showUpModal(list._id)"></span>
+            <!--<img class="edit" src="../../static/img/edit.png" @click="listEdit(list._id)" title="编辑">-->
+            <!--<span class="fa fa-file-excel-o fa-lg" title="上传文件" @click="showUpModal(list._id)"></span>-->
             <i @click="deleteSample(list._id)" class="fa fa-trash fa-lg delete" title="删除"></i>
           </td>
         </tr>
@@ -235,130 +235,130 @@
         <!--</div>-->
       <!--</div>-->
 
-      <!--点击单列的编辑-->
-      <div class="modal fade" tabindex="-1" role="dialog" id="editModal">
-        <div class="modal-dialog modal-lg" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
-              </button>
-              <h4 class="modal-title">修改样本数据</h4>
-            </div>
-            <div class="modal-body">
+      <!--&lt;!&ndash;点击单列的编辑&ndash;&gt;-->
+      <!--<div class="modal fade" tabindex="-1" role="dialog" id="editModal">-->
+        <!--<div class="modal-dialog modal-lg" role="document">-->
+          <!--<div class="modal-content">-->
+            <!--<div class="modal-header">-->
+              <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>-->
+              <!--</button>-->
+              <!--<h4 class="modal-title">修改样本数据</h4>-->
+            <!--</div>-->
+            <!--<div class="modal-body">-->
 
-              <div class="modal-btn">
-                <span class="my-btn" @click="saveEdit"><img src="../../static/img/red-save.png" alt="">保存</span>
-                <span class="my-btn close-btn" data-dismiss="modal"><img src="../../static/img/red-close.png" alt="">关闭</span>
-              </div>
+              <!--<div class="modal-btn">-->
+                <!--<span class="my-btn" @click="saveEdit"><img src="../../static/img/red-save.png" alt="">保存</span>-->
+                <!--<span class="my-btn close-btn" data-dismiss="modal"><img src="../../static/img/red-close.png" alt="">关闭</span>-->
+              <!--</div>-->
 
 
-              <el-form id="editDataFormCap" :model="editForm" :rules="rules" ref="editForm" label-width="100px" class="demo-ruleForm">
-                <div class="row">
-                  <div class="col-xs-6">
-                    <el-form-item label="受检者姓名" prop="name">
-                      <el-input v-model="editForm.name"></el-input>
-                    </el-form-item>
-                  </div>
-                  <div class="col-xs-6">
-                    <el-form-item label="编号" prop="sn">
-                      <el-input v-model="editForm.sn"></el-input>
-                    </el-form-item>
-                  </div>
-                  <div class="col-xs-6">
-                    <el-form-item label="性别" prop="gender">
-                      <el-select v-model="editGender" placeholder="请选择性别">
-                        <el-option label="未知" value="未知"></el-option>
-                        <el-option label="男" value="男"></el-option>
-                        <el-option label="女" value="女"></el-option>
-                      </el-select>
-                    </el-form-item>
-                  </div>
-                  <div class="col-xs-6">
-                    <el-form-item label="名族">
-                      <el-input v-model="editForm.national"></el-input>
-                    </el-form-item>
-                  </div>
-                  <div class="col-xs-6">
-                    <el-form-item label="籍贯" prop="nativePlace">
-                      <el-input v-model="editForm.nativePlace"></el-input>
-                    </el-form-item>
-                  </div>
-                  <div class="col-xs-6">
-                    <el-form-item label="年龄">
-                      <el-input v-model="editForm.age"></el-input>
-                    </el-form-item>
-                  </div>
-                  <div class="col-xs-12">
-                    <fuzzyQuery placeholder='请输入表型' :leftData="leftData" :rightData="originalRightData" title="已选表型"
-                                @sendInput="receiveFuzzy0"></fuzzyQuery>
-                  </div>
-                  <div class="col-xs-12 panel-content">
-                    <cascadeQuery :leftData="panelOptions" :rightData="panelRight"></cascadeQuery>
-                  </div>
-                  <div class="col-xs-10 case-content-edit">
-                    <span class="title bold">病历</span>
-                    <div class="">
-                      <el-input
-                        type="textarea"
-                        :autosize="{ minRows: 5, maxRows: 5}"
-                        placeholder="请输入内容"
-                        v-model="editForm.patientCase">
-                      </el-input>
-                    </div>
-                  </div>
-                </div>
-              </el-form>
+              <!--<el-form id="editDataFormCap" :model="editForm" :rules="rules" ref="editForm" label-width="100px" class="demo-ruleForm">-->
+                <!--<div class="row">-->
+                  <!--<div class="col-xs-6">-->
+                    <!--<el-form-item label="受检者姓名" prop="name">-->
+                      <!--<el-input v-model="editForm.name"></el-input>-->
+                    <!--</el-form-item>-->
+                  <!--</div>-->
+                  <!--<div class="col-xs-6">-->
+                    <!--<el-form-item label="编号" prop="sn">-->
+                      <!--<el-input v-model="editForm.sn"></el-input>-->
+                    <!--</el-form-item>-->
+                  <!--</div>-->
+                  <!--<div class="col-xs-6">-->
+                    <!--<el-form-item label="性别" prop="gender">-->
+                      <!--<el-select v-model="editGender" placeholder="请选择性别">-->
+                        <!--<el-option label="未知" value="未知"></el-option>-->
+                        <!--<el-option label="男" value="男"></el-option>-->
+                        <!--<el-option label="女" value="女"></el-option>-->
+                      <!--</el-select>-->
+                    <!--</el-form-item>-->
+                  <!--</div>-->
+                  <!--<div class="col-xs-6">-->
+                    <!--<el-form-item label="名族">-->
+                      <!--<el-input v-model="editForm.national"></el-input>-->
+                    <!--</el-form-item>-->
+                  <!--</div>-->
+                  <!--<div class="col-xs-6">-->
+                    <!--<el-form-item label="籍贯" prop="nativePlace">-->
+                      <!--<el-input v-model="editForm.nativePlace"></el-input>-->
+                    <!--</el-form-item>-->
+                  <!--</div>-->
+                  <!--<div class="col-xs-6">-->
+                    <!--<el-form-item label="年龄">-->
+                      <!--<el-input v-model="editForm.age"></el-input>-->
+                    <!--</el-form-item>-->
+                  <!--</div>-->
+                  <!--<div class="col-xs-12">-->
+                    <!--<fuzzyQuery placeholder='请输入表型' :leftData="leftData" :rightData="originalRightData" title="已选表型"-->
+                                <!--@sendInput="receiveFuzzy0"></fuzzyQuery>-->
+                  <!--</div>-->
+                  <!--<div class="col-xs-12 panel-content">-->
+                    <!--<cascadeQuery :leftData="panelOptions" :rightData="panelRight"></cascadeQuery>-->
+                  <!--</div>-->
+                  <!--<div class="col-xs-10 case-content-edit">-->
+                    <!--<span class="title bold">病历</span>-->
+                    <!--<div class="">-->
+                      <!--<el-input-->
+                        <!--type="textarea"-->
+                        <!--:autosize="{ minRows: 5, maxRows: 5}"-->
+                        <!--placeholder="请输入内容"-->
+                        <!--v-model="editForm.patientCase">-->
+                      <!--</el-input>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</el-form>-->
 
-            </div>
-          </div>
-        </div>
-      </div>
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
 
-      <!--上传文件-->
-      <div class="modal fade" tabindex="-1" role="dialog" id="fileModal">
-        <div class="modal-dialog modal-lg" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
-              </button>
-              <h4 class="modal-title">上传excel文件</h4>
-            </div>
-            <div class="modal-body">
+      <!--&lt;!&ndash;上传文件&ndash;&gt;-->
+      <!--<div class="modal fade" tabindex="-1" role="dialog" id="fileModal">-->
+        <!--<div class="modal-dialog modal-lg" role="document">-->
+          <!--<div class="modal-content">-->
+            <!--<div class="modal-header">-->
+              <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>-->
+              <!--</button>-->
+              <!--<h4 class="modal-title">上传excel文件</h4>-->
+            <!--</div>-->
+            <!--<div class="modal-body">-->
 
-              <div class="modal-btn">
-                <span class="my-btn" @click="saveFile"><img src="../../static/img/red-save.png" alt="">保存</span>
-                <span class="my-btn close-btn" data-dismiss="modal"><img src="../../static/img/red-close.png" alt="">关闭</span>
-              </div>
-              <form action="" id="addDataFormCap">
-                <div class="one">
-                  <div class="one-content">
-                    <div class="row">
+              <!--<div class="modal-btn">-->
+                <!--<span class="my-btn" @click="saveFile"><img src="../../static/img/red-save.png" alt="">保存</span>-->
+                <!--<span class="my-btn close-btn" data-dismiss="modal"><img src="../../static/img/red-close.png" alt="">关闭</span>-->
+              <!--</div>-->
+              <!--<form action="" id="addDataFormCap">-->
+                <!--<div class="one">-->
+                  <!--<div class="one-content">-->
+                    <!--<div class="row">-->
 
-                      <div class="col-sm-6">
-                        <span class="name">选择类型：</span>
-                        <template>
-                          <el-radio v-model="radioEdit" label="1">追加</el-radio>
-                          <el-radio v-model="radioEdit" label="2">覆盖</el-radio>
-                        </template>
-                      </div>
+                      <!--<div class="col-sm-6">-->
+                        <!--<span class="name">选择类型：</span>-->
+                        <!--<template>-->
+                          <!--<el-radio v-model="radioEdit" label="1">追加</el-radio>-->
+                          <!--<el-radio v-model="radioEdit" label="2">覆盖</el-radio>-->
+                        <!--</template>-->
+                      <!--</div>-->
 
-                      <div class="col-sm-6">
-                        <span class="name">选择文件：</span>
-                        <div class="upload-content content" id="upload-edit">
-                          <input type="text" class="show-name" id="file-name-edit" @click.stop="">
-                          <span class="text">选择</span>
-                          <input type='file' name="data_file" class="hide-input" id="hide-edit" @change="changeFile">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </form>
+                      <!--<div class="col-sm-6">-->
+                        <!--<span class="name">选择文件：</span>-->
+                        <!--<div class="upload-content content" id="upload-edit">-->
+                          <!--<input type="text" class="show-name" id="file-name-edit" @click.stop="">-->
+                          <!--<span class="text">选择</span>-->
+                          <!--<input type='file' name="data_file" class="hide-input" id="hide-edit" @change="changeFile">-->
+                        <!--</div>-->
+                      <!--</div>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</form>-->
 
-            </div>
-          </div>
-        </div>
-      </div>
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
 
       <!--&lt;!&ndash;查看详情&ndash;&gt;-->
       <!--<div class="modal fade" tabindex="-1" role="dialog" id="detailModal">-->

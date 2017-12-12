@@ -311,9 +311,9 @@
 
 //            sn: this.addInfo.birth, /*表型 检测项目*/
           }
-        }).then(function () {
+        }).then(function (resp) {
           _vue.success('添加成功');
-
+          _vue.$router.push({path: '/sampleD', query: {'id': resp.data.data._id}})
 //          _vue.socket();
         }).catch(function (error) {
           _vue.catchFun(error)

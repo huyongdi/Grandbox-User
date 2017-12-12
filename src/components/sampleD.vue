@@ -4,7 +4,7 @@
     <div id="sample-detail" class="right-content drop-down">
       <span class="my-btn up-file" @click="upFile"><img src="../../static/img/red-submit.png" alt="">上传文件</span>
 
-      <span class="my-btn edit" @click="toEdit"><img src="../../static/img/red-submit.png" alt="">编辑样本</span>
+      <span class="my-btn edit" v-if="!inEdit" @click="toEdit"><img src="../../static/img/red-submit.png" alt="">编辑样本</span>
       <span class="my-btn edit" v-if="inEdit" @click="saveEdit"><img src="../../static/img/red-submit.png" alt="">保存编辑</span>
       <span class="my-btn edit" v-if="inEdit" @click="cancelEdit"><img src="../../static/img/red-submit.png" alt="">取消编辑</span>
 
@@ -86,14 +86,15 @@
                 <td>
                   {{file.status | getStatus}}
                   <i v-if="file.status == -1" class="fa fa-question-circle-o po flag-th" data-toggle="tooltip" data-placement="top"
-                     :data-original-title="file.error">
+                     :data-original-title="file.error_msg">
                   </i>
                   <a v-if="file.status == -1" href="javascript:void(0)" @click="fileRetry">重新运行</a>
                 </td>
                 <td class="t-bc">文件类型</td>
-                <td>{{file.append?'覆盖':'追加'}}</td>
+                <td>{{file.append ? '覆盖' : '追加'}}</td>
                 <td class="t-bc">上传日期</td>
                 <td>{{file.created_at}}</td>
+                <td class=""><i @click="deleteFile(file._id)" class="fa fa-trash fa-lg delete po" title="删除"></i></td>
               </tr>
               </tbody>
             </table>
@@ -155,10 +156,12 @@
 
                     <div class="col-sm-6">
                       <span class="name">选择类型：</span>
-                      <template>
-                        <el-radio v-model="radioEdit" label="1">追加</el-radio>
-                        <el-radio v-model="radioEdit" label="2">覆盖</el-radio>
-                      </template>
+                      <el-radio v-model="radioEdit" label="1">追加</el-radio>
+                      <el-radio v-model="radioEdit" label="2">覆盖</el-radio>
+
+                      <i class="fa fa-question-circle-o po flag-th" data-toggle="tooltip" data-placement="top"
+                         data-original-title="覆盖会删除文件历史记录和变异位点">
+                      </i>
                     </div>
 
                     <div class="col-sm-6">
@@ -251,9 +254,12 @@
     methods: {
       getDetail: function () {
         const _vue = this;
+        this.loading = true;
         this.myAxios({
           url: 'manage/sample/' + this.id
         }).then((resp) => {
+          _vue.loading = false;
+
           _vue.detailData = resp.data.data;
         }).catch((error) => {
           _vue.catchFun(error)
@@ -298,8 +304,8 @@
 
         _vue.getCurrentPanel();
 
-        _vue.postPanel=[];
-        $.each(this.detailData.panels,function (i,data) {
+        _vue.postPanel = [];
+        $.each(this.detailData.panels, function (i, data) {
           _vue.postPanel.push(data._id)
         });
 
@@ -406,14 +412,55 @@
           url: 'manage/sample/' + this.id + '/retry',
           method: 'post'
         }).then((resp) => {
-          _vue.success('任务正在重新运行')
+          _vue.success('任务正在重新运行');
+          _vue.getDetail()
+        }).catch((error) => {
+          _vue.catchFun(error)
+        })
+      },
+      deleteFile: function (id) {
+        const _vue = this;
+
+        this.$confirm('此操作将永久删除该样本, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          _vue.myAxios({
+            url: 'manage/sample/' + _vue.detailData._id + '/data_file/' + id,
+            method: 'delete',
+          }).then(function () {
+            _vue.success('删除成功');
+            _vue.getDetail()
+          }).catch(function (error) {
+            _vue.catchFun(error)
+          })
+        }).catch(() => {
+
+        });
+
+
+        this.myAxios({}).then(() => {
+
         }).catch((error) => {
           _vue.catchFun(error)
         })
       },
       //上传文件
       upFile: function () {
-        $("#fileModal").modal("show")
+        let flag = true;
+
+        $.each(this.detailData.data_files, function (i, data) {
+          if (data.status == 1) {
+            flag = false
+          }
+        });
+
+        if (flag) {
+          $("#fileModal").modal("show")
+        } else {
+          this.alert('请等待文件处理完成或删除错误文件')
+        }
       },
       saveFile: function () {
         const _vue = this;
@@ -437,7 +484,7 @@
             _vue.catchFun(error)
           })
         } else {
-          this.alert('文件请上传excel格式')
+          this.alert('文件请上传excel或vcf格式')
         }
       },
       //下载文件

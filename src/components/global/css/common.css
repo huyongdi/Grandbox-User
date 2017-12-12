@@ -143,9 +143,11 @@ html .rea {
 }
 html .search-div {
   display: inline-block;
+  position: relative;
+  z-index: 100;
 }
 html .search-div .search-input {
-  width: 240px;
+  width: 350px;
   float: left;
   height: 28px;
 }
@@ -158,6 +160,30 @@ html .search-div .my-btn {
 }
 html .search-div .my-btn img {
   margin-left: 3px;
+}
+html .search-div ul {
+  position: absolute;
+  padding: 0;
+  width: 344px;
+  border: 1px solid #d4d4d4;
+  border-top: none;
+  top: 28px;
+  background-color: #fff;
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+html .search-div ul li {
+  text-align: left;
+  cursor: pointer;
+  padding-left: 8px;
+  height: 30px;
+  line-height: 30px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+html .search-div ul li:hover {
+  background-color: #fff5e7;
 }
 html input,
 html textarea {
@@ -277,7 +303,6 @@ html table tr.interleave {
 html table.my-table {
   margin-top: 15px;
   border: 1px solid #b9b8b8;
-  border-radius: 5px;
   box-shadow: 0 0 10px 1px #b9b8b8;
   width: 100%;
   max-width: 100%;
@@ -295,12 +320,6 @@ html table.my-table thead tr th {
   border-bottom: 2px solid #cedbe3;
   border-top: none;
   vertical-align: middle;
-}
-html table.my-table thead tr th:first-child {
-  border-top-left-radius: 5px;
-}
-html table.my-table thead tr th:last-child {
-  border-top-right-radius: 5px;
 }
 html table.my-table thead tr th:not(:first-child) {
   border-left: 1px dashed #e1e2e3;
@@ -379,15 +398,6 @@ html table.my-table tbody tr.in {
 }
 html table.my-table tbody tr:last-child td {
   border-bottom: none;
-}
-html table.my-table tbody tr:last-child td:first-child {
-  border-bottom-left-radius: 5px;
-}
-html table.my-table tbody tr:last-child td:last-child {
-  border-bottom-right-radius: 5px;
-}
-html table.my-table table tr:first-child th:first-child {
-  border-top-left-radius: 5px;
 }
 html table.special-table {
   width: 100%;

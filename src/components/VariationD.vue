@@ -640,9 +640,11 @@
       //请求位点所有数据
       getRecord: function () {
         const _vue = this;
+        this.loading = true;
         this.myAxios({
           url: 'manage/sample/' + this.sn + '/record/' + this.id,
         }).then((resp) => {
+          _vue.loading = false;
           let data = resp.data.data;
           _vue.allData = data;
           _vue.comment = data.edit.comment;
@@ -656,10 +658,10 @@
       },
       dbfreq: function () {
         let all_freq = this.allData.snv.variant.info.all_freq;
-        let gADe = all_freq.gnomad.exome;
-        let gADg = all_freq.gnomad.genome;
-        let exac = all_freq.exac;
-        let onekg = all_freq.onekg;
+        let gADe = all_freq && all_freq.gnomad.exome;
+        let gADg = all_freq && all_freq.gnomad.genome;
+        let exac = all_freq &&all_freq.exac;
+        let onekg = all_freq　&& all_freq.onekg;
 
         this.dataBaseCharts('frequency-chart', {
           tooltip: {

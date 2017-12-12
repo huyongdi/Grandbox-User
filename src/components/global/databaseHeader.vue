@@ -56,11 +56,11 @@
         const currentPath = this.$router.currentRoute.name;
         $(".left-ul").find('>.active').removeClass('active');
         let _li = '';
-        if(currentPath == 'disease'){
+        if(currentPath == 'disease'|| currentPath=='omim'){
           _li = $("#li-0");
         }else if(currentPath == 'gene' || currentPath == 'geneD'){
           _li = $("#li-1");
-        }else if(currentPath == 'phenotype'  || currentPath=='omim' || currentPath=='phenotypeD'){
+        }else if(currentPath == 'phenotype'   || currentPath=='phenotypeD'){
           _li = $("#li-2")
         }
         if(_li && !_li.hasClass('active')){
