@@ -519,6 +519,10 @@
             </div>
 
             <div class="content-3" :class="{hide:!in3}">
+
+              <span class="my-btn up-file" @click="upFile"><img src="../../static/img/red-submit.png" alt="">上传文件</span>
+
+
               <table class="special-table">
                 <tbody>
                 <tr class="t-bc">
@@ -526,6 +530,7 @@
                   <td>状态</td>
                   <td>文件类型</td>
                   <td>上传日期</td>
+                  <td>操作</td>
                 </tr>
                 <tr v-for="file in files">
                   <td><a href="javascript:void (0)" @click="downloadFile(sn,file._id)">{{file.filename}}</a></td>
@@ -538,6 +543,7 @@
                   </td>
                   <td>{{file.append ? '追加' : '覆盖'}}</td>
                   <td>{{file.created_at}}</td>
+                  <td><i @click="deleteFile(file._id)" class="fa fa-trash fa-lg delete po" title="删除"></i></td>
                 </tr>
                 </tbody>
               </table>
@@ -548,6 +554,55 @@
     </div>
 
     <hpoModal :omimId="omimId"></hpoModal>
+
+    <!--上传文件-->
+    <div class="modal fade" tabindex="-1" role="dialog" id="fileModal">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">上传excel文件</h4>
+          </div>
+          <div class="modal-body">
+
+            <div class="modal-btn">
+              <span class="my-btn" @click="saveFile"><img src="../../static/img/red-save.png" alt="">保存</span>
+              <span class="my-btn close-btn" data-dismiss="modal"><img src="../../static/img/red-close.png" alt="">关闭</span>
+            </div>
+            <form action="" id="addDataFormCap">
+              <div class="one">
+                <div class="one-content">
+                  <div class="row">
+
+                    <div class="col-sm-6">
+                      <span class="name">选择类型：</span>
+                      <el-radio v-model="radioEdit" label="1">追加</el-radio>
+                      <el-radio v-model="radioEdit" label="2">覆盖</el-radio>
+
+                      <i class="fa fa-question-circle-o po flag-th" data-toggle="tooltip" data-placement="top"
+                         data-original-title="覆盖会删除文件历史记录和变异位点">
+                      </i>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <span class="name">选择文件：</span>
+                      <div class="upload-content content" id="upload-edit">
+                        <input type="text" class="show-name" id="file-name-edit" @click.stop="">
+                        <span class="text">选择</span>
+                        <input type='file' name="data_file" class="hide-input" id="hide-edit">
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
 
   </div>
 
@@ -600,6 +655,7 @@
 
         //文件情况
         files: [],
+        radioEdit:'1'
       }
     },
     mounted: function () {
@@ -788,7 +844,6 @@
           _vue.catchFun(error)
         })
       },
-
       resetFilterAndRe2: function () {
         this.resetFilter2();
         this.filter2();
@@ -853,6 +908,25 @@
           _vue.catchFun(error)
         })
       },
+      deleteFile: function (id) {
+        const _vue = this;
+        this.$confirm('此操作将永久删除该样本, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          _vue.myAxios({
+            url: 'manage/sample/' + _vue.sn + '/data_file/' + id,
+            method: 'delete',
+          }).then(function () {
+            _vue.success('删除成功');
+            _vue.getFile()
+          }).catch(function (error) {
+            _vue.catchFun(error)
+          })
+        }).catch(() => {
+        });
+      },
       downloadFile: function (lId, fId) {
         const _vue = this;
         this.loading = true;
@@ -877,6 +951,46 @@
         }).catch((error) => {
           _vue.catchFun(error)
         })
+      },
+      upFile: function () {
+        let flag = true;
+
+        $.each(this.files, function (i, data) {
+          if (data.status == 1) {
+            flag = false
+          }
+        });
+
+        if (flag) {
+          $("#fileModal").modal("show")
+        } else {
+          this.alert('请等待文件处理完成或删除错误文件')
+        }
+      },
+      saveFile: function () {
+        const _vue = this;
+        const fileNameArr = $("#hide-edit").val().split('.');
+        const fileName = fileNameArr[fileNameArr.length - 1];
+        if (fileName == 'xls' || fileName == 'xlsx' || fileName == 'vcf') {
+          this.loading = true;
+          let postData = new FormData(document.getElementById('addDataFormCap'));
+//          postData.append("type", JSON.stringify({'a': 123, 'b': 456}));
+          postData.append("append", this.radioEdit == 1 ? 1 : 0);
+          this.myAxios({
+            url: 'manage/sample/' + this.sn + '/data_file',
+            method: 'post',
+            data: postData
+          }).then(function () {
+            _vue.success('上传成功');
+            $('#fileModal').modal('hide');
+            _vue.loading = false;
+            _vue.getFile()
+          }).catch(function (error) {
+            _vue.catchFun(error)
+          })
+        } else {
+          this.alert('文件请上传excel或vcf格式')
+        }
       },
       //修改表型信息和基因信息
       getList1Datafile: function () {
@@ -1163,6 +1277,11 @@
         box-shadow: none;
         border-radius: 0;
         margin-top: 60px;
+      }
+      .content-3{
+        table{
+          margin-top: 20px;
+        }
       }
       margin: 15px 0 0 0;
       .flag-q {
@@ -1479,5 +1598,76 @@
     }
   }
 
+  #fileModal {
+    .modal-body {
+      padding-bottom: 50px;
+      input, select {
+        display: inline-block;
+        height: 25px;
+        line-height: 25px;
+      }
+      .one {
+        .title {
+          margin-bottom: 5px;
+        }
+        .one-content {
+          .row {
+            margin-top: 5px;
+            .hide-input {
+              display: none;
+            }
+            .text {
+              height: 25px;
+              line-height: 25px;
+            }
+            .name {
+              display: inline-block;
+              width: 28%;
+            }
+            .content {
+              width: 60%;
+              font-size: 12px;
+              position: relative;
+              img {
+                position: absolute;
+                top: 0;
+                right: 0;
+                height: 24px;
+                margin-left: -1px;
+                cursor: pointer;
+              }
+              .hide-ul {
+                padding: 0;
+                position: absolute;
+                left: 0;
+                width: 100%;
+                background-color: #fff;
+                z-index: 10;
+                max-height: 100px;
+                overflow-y: auto;
+                border-right: 1px solid rgb(209, 209, 209);
+                border-left: 1px solid rgb(209, 209, 209);
+                border-bottom: 1px solid rgb(209, 209, 209);
+                li {
+                  height: 26px;
+                  line-height: 26px;
+                  font-size: 12px;
+                  white-space: nowrap;
+                  text-overflow: ellipsis;
+                  overflow: hidden;
+                  padding-left: 10px;
+                  cursor: pointer;
+                  &:hover {
+                    background-color: rgb(220, 238, 249);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+    }
+  }
 
 </style>

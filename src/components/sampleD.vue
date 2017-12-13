@@ -439,12 +439,6 @@
 
         });
 
-
-        this.myAxios({}).then(() => {
-
-        }).catch((error) => {
-          _vue.catchFun(error)
-        })
       },
       //上传文件
       upFile: function () {
