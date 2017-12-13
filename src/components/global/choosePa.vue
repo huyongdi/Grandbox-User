@@ -99,21 +99,32 @@
 
       toLeft: function () {
 
-        $.each(this.rightToLeftId,function (i,data) {
-          $('.rightData-content').find('li').each(function () {
-            if ($(this).data('key') == data) {
-              $(this).remove()
+        const _vue = this;
+
+        $.each(this.rightToLeftId, function (i, data) {
+          let spliceIndex = 0;
+          $.each(_vue.rightDate, function (n1, n2) {
+            if (n2._id == data) {
+              spliceIndex = n1;
             }
           });
+          _vue.rightData.splice(spliceIndex, 1)
+        });
+
+        $('.rightData-content').find("li").each(function () {
+          $(this).find('.el-checkbox__input').removeClass('is-checked')
         })
+
+//        $.each(this.rightToLeftId,function (i,data) {
+//          $('.rightData-content').find('li').each(function () {
+//            if ($(this).data('key') == data) {
+//              $(this).remove()
+//            }
+//          });
+//        });
 
       },
       toRight: function () {
-//        console.log(this.$refs.tree.getCheckedNodes());
-//        console.log(this.$refs.tree.getCheckedKeys());
-
-
-
         let arr = this.$refs.tree.getCheckedNodes();
         const _vue = this;
         $.each(arr, function (i, data) {
@@ -134,20 +145,6 @@
           }
         });
         this.$refs.tree.setCheckedKeys([]);
-//        $.each(this.leftCId, function (n1, n2) {
-//          $.each(_vue.leftData, function (i, data) {
-//            if (data.key == n2) {
-//              _vue.rightData.push(data);  //右边的增数据
-//              _vue.rightCId.push(n2);
-//              //删除左边的LI
-//              $('.leftData-content').find('li').each(function () {
-//                if ($(this).data('key') == n2) {
-//                  $(this).remove()
-//                }
-//              })
-//            }
-//          });
-//        });
       },
 
       chooseR: function (e) {

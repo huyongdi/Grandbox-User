@@ -313,8 +313,9 @@
           }
         }).then(function (resp) {
           _vue.success('添加成功');
-          _vue.$router.push({path: '/sampleD', query: {'id': resp.data.data._id}})
-//          _vue.socket();
+//          _vue.$router.push({path: '/sampleD', query: {'id': resp.data.data._id}})
+          _vue.$router.push({path: '/myData'})
+
         }).catch(function (error) {
           _vue.catchFun(error)
         })

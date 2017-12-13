@@ -225,12 +225,12 @@
                             [{{clinvarSingle.significance | clinvarFilterFirst}}]
                           </span>
                             <!--这里是一个长度-->
-                            ({{clinvarSingle.significance | clinvarFilterLast}})
+                            ({{clinvarSingle.databases.length}})
                       </div>
                     </div>
                   </td>
                   <td>
-                    {{data.snv && data.snv.annotation && data.snv.annotation.dbinfo && data.snv.annotation.dbinfo.hgmd}}
+                    {{data.snv && data.snv.annotation && data.snv.annotation.dbinfo && data.snv.annotation.dbinfo.hgmd && data.snv.annotation.dbinfo.hgmd.variant_type}}
                   </td>
 
                   <td><span v-if="data.information">{{data.information.hom_het ? data.information.hom_het : '-'}}</span></td>
@@ -450,7 +450,7 @@
                                 :data-original-title='clinvarSingle.significance'>
                             [{{clinvarSingle.significance | clinvarFilterFirst}}]
                           </span>
-                        ({{clinvarSingle.significance | clinvarFilterLast}})
+                        ({{clinvarSingle.databases.length}})
                       </div>
                     </div>
                   </td>
