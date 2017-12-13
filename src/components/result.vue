@@ -159,7 +159,7 @@
                 <thead :class="{'bcR':queryBar1==1,'bcY':queryBar1==2,'bcB':queryBar1==3,'bcD':queryBar1==4}">
                 <tr>
                   <th>位点</th>
-                  <th style="width: 95px">携带病例
+                  <th style="width: 63px">携带病例
                     <i class="fa fa-question-circle-o po flag-th" data-toggle="tooltip" data-placement="top"
                        data-original-title="我的所有样本/所有用户的样本">
                     </i>
@@ -169,7 +169,7 @@
                   <th>功能</th>
                   <th>疾病</th>
 
-                  <th>
+                  <th style="width: 65px" class="warp">
                     CLINVAR
                     <i class="fa fa-question-circle-o po flag-th" data-toggle="tooltip" data-placement="top"
                        data-original-title="O代表other,B代表Benign,LB代表Likely benign,P代表Pathogenic,LP代表Likely Pathogenic，NP代表not provided">
@@ -177,17 +177,16 @@
                   </th>
                   <th>HGMD</th>
 
-                  <th>纯杂合</th>
+                  <th style="width: 49px">纯杂合</th>
                   <th>gatkFilter</th>
 
                   <th>深度</th>
-                  <th>变异比例(%)</th>
-                  <th>变异信息</th>
+                  <th style="width: 65px">变异比例(%)</th>
+                  <th style="width: 100px">变异信息</th>
                   <th style="width: 115px">报告状态</th>
                 </tr>
                 </thead>
                 <tbody>
-
                 <tr v-for="(data,index) in lists1" :class="{'tr-bc':index%2}">
                   <td class="">
                     <router-link class="po common-a" v-if="data.snv && data.snv.variant" target="_blank"
@@ -215,22 +214,39 @@
                     <span v-if="data.snv &&data.snv.annotation">{{data.snv.annotation.funcs.join(',')}}</span><span v-else="">-</span>
                   </td>
                   <!--<diseaseTd style="max-width: 250px" class="warp" :diseases="data.diseases" @sendOmimId="getOmimId"></diseaseTd>-->
-                  <td></td>
+
+                  <td>
+                    <div v-for="dis in data.disease">
+                      <!--[AD]-->
+                      <span v-if="dis.inheritances.length == 0" class="bold">[无]</span>
+                      <span v-for="inheritance in dis.inheritances">
+                        <span class="po bold" data-toggle="tooltip" data-placement="top" :data-original-title='inheritance.name+"("+inheritance.chinese+")"'>
+                        [{{inheritance.ab}}]
+                      </span>
+                      <!--Pfeiffer综合征有中文名--><!---->
+                      <a class="po common-a"  data-toggle="tooltip" data-placement="top" :data-original-title='dis.title.preferred' @click="showHPO(dis._id)">
+                        {{dis.title.chinese?dis.title.chinese:dis.title.preferred}}
+                      </a>
+                      (<router-link :to="{path:'/omim',query:{id:dis.mimnumber}}" target="_blank">{{dis.mimnumber}}</router-link>)
+
+                    </span>
+                    </div>
+
+                  </td>
 
                   <td>
                     <div v-if="data.snv && data.snv.annotation">
-                      <div v-for="clinvarSingle in data.snv.annotation.dbinfo.clinvars">
+                      <div v-for="clinvarSingle in clinvarsToArr(data.snv.annotation.dbinfo.clinvars)">
                           <span class="po bold" data-toggle="tooltip" data-placement="top"
-                            :data-original-title='clinvarSingle.significance'>
-                            [{{clinvarSingle.significance | clinvarFilterFirst}}]
+                                :data-original-title='clinvarSingle[0]'>
+                            [{{clinvarSingle[0] | clinvarFilterFirst}}]
                           </span>
-                            <!--这里是一个长度-->
-                            ({{clinvarSingle.databases.length}})
+                        ({{clinvarSingle[1]}})
                       </div>
                     </div>
                   </td>
                   <td>
-                    {{data.snv && data.snv.annotation && data.snv.annotation.dbinfo && data.snv.annotation.dbinfo.hgmd && data.snv.annotation.dbinfo.hgmd.variant_type}}
+                    {{data.snv && data.snv.annotation && data.snv.annotation.dbinfo && data.snv.annotation.dbinfo.hgmd && data.snv.annotation.dbinfo.hgmd}}
                   </td>
 
                   <td><span v-if="data.information">{{data.information.hom_het ? data.information.hom_het : '-'}}</span></td>
@@ -440,17 +456,33 @@
                     <span v-if="data.snv &&data.snv.annotation">{{data.snv.annotation.funcs.join(',')}}</span><span v-else="">-</span>
                   </td>
 
-                  <!--<diseaseTd style="max-width: 250px" class="warp" :diseases="data.diseases" @sendOmimId="getOmimId"></diseaseTd>-->
-                  <td>-</td>
+                  <td>
+                    <div v-for="dis in data.disease">
+                      <!--[AD]-->
+                      <span v-if="dis.inheritances.length == 0" class="bold">[无]</span>
+                      <span v-for="inheritance in dis.inheritances">
+                        <span class="po bold" data-toggle="tooltip" data-placement="top" ><!--:data-original-title='inheritance.title.preferred+"("+inheritance.title.chinese+")"'-->
+                        [{{inheritance}}]
+                      </span>
+                        <!--Pfeiffer综合征有中文名--><!---->
+                      <a class="po common-a"  data-toggle="tooltip" data-placement="top" :data-original-title='dis.title.preferred' @click="showHPO(dis._id)">
+                        {{dis.title.chinese?dis.title.chinese:dis.title.preferred}}
+                      </a>
+                      (<router-link :to="{path:'/omim',query:{id:dis.mimnumber}}" target="_blank">{{dis.mimnumber}}</router-link>)
+
+                    </span>
+                    </div>
+
+                  </td>
 
                   <td>
                     <div v-if="data.snv && data.snv.annotation">
-                      <div v-for="clinvarSingle in data.snv.annotation.dbinfo.clinvars">
+                      <div v-for="clinvarSingle in clinvarsToArr(data.snv.annotation.dbinfo.clinvars)">
                           <span class="po bold" data-toggle="tooltip" data-placement="top"
-                                :data-original-title='clinvarSingle.significance'>
-                            [{{clinvarSingle.significance | clinvarFilterFirst}}]
+                                :data-original-title='clinvarSingle[0]'>
+                            [{{clinvarSingle[0] | clinvarFilterFirst}}]
                           </span>
-                        ({{clinvarSingle.databases.length}})
+                        ({{clinvarSingle[1]}})
                       </div>
                     </div>
                   </td>
@@ -514,6 +546,9 @@
         </div>
       </div>
     </div>
+
+    <hpoModal :omimId="omimId"></hpoModal>
+
   </div>
 
 </template>
@@ -521,13 +556,13 @@
 <script>
   import page from './global/Page.vue'
   import myDataH from './global/myDataHeader.vue'
-  import diseaseTd from './global/DiseaseTd.vue'
+  import hpoModal from './global/HpoModal.vue'
 
   export default {
     components: {
       page: page,
       myDataH: myDataH,
-      diseaseTd: diseaseTd,
+      hpoModal: hpoModal,
     },
     data: function () {
       return {
@@ -548,6 +583,7 @@
         queryBar1: 4,
         doneHttp: false,
         geneTextArea: '',
+        disease1:[],
         //mito
         hasCondition2: [],
         page2: 1,
@@ -558,6 +594,9 @@
         geneTextArea2: '',
         queryFlag2: '',
         queryBar2: 4,
+        disease2:[],
+
+        omimId:0,
 
         //文件情况
         files: [],
@@ -647,6 +686,7 @@
           _vue.patient = data.meta.patient;
           _vue.sampleSn = data.meta.sample_sn;
           _vue.lists1 = data.data;
+
         }).catch(function (error) {
           _vue.catchFun(error)
         })
@@ -916,6 +956,19 @@
           this.in4 = true
         }
       },
+
+      clinvarsToArr:function (obj) {
+        let arr = [];
+        $.each(obj,function (i,data) {
+          arr.push([i,data])
+        });
+        return arr
+      },
+
+      showHPO:function (id) {
+        this.omimId = id;
+        $("#hop_modal").modal("show")
+      }
     },
     updated: function () {
       $('[data-toggle="tooltip"]').tooltip()
@@ -975,10 +1028,6 @@
           data = 'NP'
         }
         return data
-      },
-      clinvarFilterLast: function (data) {
-        const index = data.indexOf(':')
-        return data.substring(index + 1, data.length)
       },
     }
 

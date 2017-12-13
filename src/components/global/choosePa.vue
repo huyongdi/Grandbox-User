@@ -115,14 +115,6 @@
           $(this).find('.el-checkbox__input').removeClass('is-checked')
         })
 
-//        $.each(this.rightToLeftId,function (i,data) {
-//          $('.rightData-content').find('li').each(function () {
-//            if ($(this).data('key') == data) {
-//              $(this).remove()
-//            }
-//          });
-//        });
-
       },
       toRight: function () {
         let arr = this.$refs.tree.getCheckedNodes();
