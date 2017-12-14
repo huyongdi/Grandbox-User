@@ -20,8 +20,6 @@ Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.use(Vuex);
 
-
-
 let apiUrl = 'http://192.168.2.192:8000/api/';
 Vue.prototype.apiUrl = apiUrl;
 //let apiUrl = 'http://118.26.69.171:8765/api/';

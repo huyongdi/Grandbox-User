@@ -32,7 +32,7 @@
       </button>
     </div>
 
-    <div class="col-xs-5 t-right">
+    <div class="col-xs-5 t-right" id="choose-ph">
       <div class="header">已选表型</div>
       <div class="main">
         <ul class="apiData-content rightData-content">
@@ -73,19 +73,17 @@
         const _vue = this;
         $.each(this.rightToLeftId, function (i, data) {
           //删除右边的LI
-
-          $('.rightData-content').find('li').each(function () {
-            if ($(this).data('key') == data) {
-              $(this).remove()
-            }
-          });
-
+          let spliceIndex=0;
           $.each(_vue.rightData, function (n1, n2) {
             if (n2.key == data) {
+              spliceIndex = n1;
               _vue.leftData.push(n2)
             }
-          })
-
+          });
+          _vue.rightData.splice(spliceIndex,1)
+        });
+        $('#choose-ph').find('.rightData-content').find("li").each(function () {
+          $(this).find('.el-checkbox__input').removeClass('is-checked')
         })
       },
       toRight: function () {

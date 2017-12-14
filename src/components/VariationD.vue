@@ -5,6 +5,11 @@
     <div id="vaD-content" class="right-content drop-down">
       <loading v-show="loading"></loading>
 
+      <div class="title">
+        <!--【基因】{{allData.name ? allData.name.symbol : ''}} <span class="font-12">({{allData.name ? allData.name.fullname_fna : ''}})</span>-->
+        【变异】<span class="font-12" v-if="allData.snv&&allData.snv.variant">{{allData.snv.variant.position}}-{{allData.snv.variant.end}}({{allData.snv.variant.ref}}/{{allData.snv.variant.alt}})</span>
+      </div>
+
       <div class="content-one">
         <div class="header">
           <span class="fa fa-chevron-down" @click.self="showContent"></span> <span @click.self="showContent">基本信息</span>

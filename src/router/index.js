@@ -19,11 +19,17 @@ import sampleD from '@/components/sampleD'
 import Phenotype from '@/components/phenotype'
 import PhenotypeD from '@/components/PhenotypeD'
 
+import p404 from '@/components/404'
 
 Vue.use(Router);
 
 export default new Router({
   routes: [
+    {
+      path: '/p404',
+      name: 'p404',
+      component: p404
+    },
     {
       path: '/',
       name: 'aHome',

@@ -36,11 +36,12 @@
     },
     created: function () {
       this.baseBind();
+
     },
     mounted: function () {
       this.baseBind();
       const name = this.$router.currentRoute.name;
-      if(name === 'aHome' || name === 'login'){
+      if(name === 'aHome' || name === 'login' || name==='p404'){
         this.inLogin = true
       }else{
         this.inLogin = false;
@@ -121,13 +122,15 @@
     padding: 0;
     body {
       background-color: #f5f5f5;
-      min-height: 100%;
+      /*min-height: 100%;*/
+      min-height: 100vh;
       width: 100%;
       margin: 0;
       padding: 0;
       font-family: "Microsoft YaHei","微软雅黑" !important;
       #app {
-        min-height: 50px;
+        /*min-height: 50px;*/
+        min-height: 100vh;
         /*overflow-x: hidden;*/
         position: relative;
 

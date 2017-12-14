@@ -296,17 +296,17 @@
       nameToCn: function (name) {
         const Obj = {
           'inheritances': '遗传',
-          'muscleSoftTissue': '肌肉软组织损伤',
-          'voice': '听力',
-          'metabolicFeatures': '代谢特征',
-          'endocrineFeatures': '内分泌特征',
+          'muscle_soft_tissues': '肌肉软组织损伤',
+          'voices': '听力',
+          'metabolic_features': '代谢特征',
+          'endocrine_features': '内分泌特征',
           'hematology': '血液学',
           'immunologys': '免疫学',
           'neoplasia': '瘤形成',
-          'laboratoryAbnormalities': '实验室异常',
+          'laboratory_abnormalities': '实验室异常',
           'miscellaneous': '杂项',
           'molecular_basis': '分子基础',
-          'oldFormat': '旧格式',
+          'old_formats': '旧格式',
           'growth': '生长',
           'head_and_neck': '头和颈部',
           'cardiovascular': '心血管',
@@ -316,14 +316,15 @@
           'genitourinary': '泌尿生殖器',
           'skeletal': '骨骼',
           'skin_nails_hair': '皮肤指甲头发',
-          'neurologic':'神经系统'
-        }
-        let cnName = ''
+          'neurologic':'神经系统',
+          'prenatal_manifestations':'产前表现',
+        };
+        let cnName = '';
         $.each(Obj, function (n, data) {
           if (n === name) {
             cnName = data
           }
-        })
+        });
         return cnName
       },
     },

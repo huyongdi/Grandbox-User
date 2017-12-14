@@ -179,6 +179,8 @@
 
       </div>
 
+
+
     </div>
   </div>
 
@@ -191,6 +193,7 @@
   import myDataH from './global/myDataHeader.vue'
   import choosePh from './global/choosePh.vue'
   import choosePa from './global/choosePa.vue'
+
 
   export default {
     components: {
@@ -271,6 +274,9 @@
     },
     mounted: function () {
 //      this.getPanelO();
+
+
+
     },
     methods: {
       /*添加样本*/
@@ -313,8 +319,8 @@
           }
         }).then(function (resp) {
           _vue.success('添加成功');
-//          _vue.$router.push({path: '/sampleD', query: {'id': resp.data.data._id}})
-          _vue.$router.push({path: '/myData'})
+          _vue.$router.push({path: '/sampleD', query: {'id': resp.data.data._id}})
+//          _vue.$router.push({path: '/myData'})
 
         }).catch(function (error) {
           _vue.catchFun(error)

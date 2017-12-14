@@ -8,6 +8,7 @@
       <span class="my-btn edit" v-if="inEdit" @click="saveEdit"><img src="../../static/img/red-submit.png" alt="">保存编辑</span>
       <span class="my-btn edit" v-if="inEdit" @click="cancelEdit"><img src="../../static/img/red-submit.png" alt="">取消编辑</span>
 
+      <router-link :to="{path:'/result',query:{id:id}}">查看结果</router-link>
 
       <loading v-if="loading"></loading>
 
@@ -108,7 +109,7 @@
           <div class="content mice-content left-right" style="display: block">
             <div class="inPa-ph row" v-if="inEdit">
               <div class="col-xs-6">
-                <choosePh @getHpo="getHpo" :rightData="phRightData" :parentRightCId="parentRightCId"></choosePh>
+                <choosePh @getHpo="getHpo" @getHpoAll="getHpoAll" :rightData="phRightData" :parentRightCId="parentRightCId"></choosePh>
               </div>
               <div class="col-xs-6">
                 <choosePa :hasHpo="hasHpo" :inEdit="paFlag" @getGenes="getGenes" @getPanelAll="getPanelAll" :rightData="paRightData"
@@ -170,9 +171,19 @@
                         <input type="text" class="show-name" id="file-name-edit" @click.stop="">
                         <span class="text">选择</span>
                         <input type='file' name="data_file" class="hide-input" id="hide-edit">
-
                       </div>
                     </div>
+
+                    <div class="col-sm-6">
+                      <span class="name">完成发送邮件：</span>
+                      <el-radio v-model="doEmail" label="1">否</el-radio>
+                      <el-radio v-model="doEmail" label="2">是</el-radio>
+
+                      <i class="fa fa-question-circle-o po flag-th" data-toggle="tooltip" data-placement="top"
+                         data-original-title="大文件建议勾选发送">
+                      </i>
+                    </div>
+
                   </div>
                 </div>
               </div>
@@ -232,7 +243,7 @@
           ]
         },
 
-
+        doEmail:'1',
         paFlag: true,
         parentRightCId: [],
         phRightData: [],
@@ -327,7 +338,7 @@
             native_place: this.ruleForm.nativePlace,
             age: this.ruleForm.age,
             gender: this.gender,
-            medical_record: this.gender,
+            medical_record: this.ruleForm.medical_record,
 
             hpos: this.hasHpo,
             panels: this.postPanel,
@@ -335,7 +346,8 @@
         }).then(function () {
           _vue.success('编辑成功');
           _vue.inEdit = false;
-          _vue.getDetail()
+          _vue.getDetail();
+
         }).catch(function (error) {
           _vue.catchFun(error)
         })
@@ -344,6 +356,7 @@
       getPanelAll: function (data) {
         this.allPanelData = data;
         const _vue = this;
+        _vue.postPanel = [];
         $.each(data, function (key, value) {
           _vue.postPanel.push(value._id)
         })
@@ -399,8 +412,16 @@
         })
       },
 
+      getHpoAll: function (data) {
+        const _vue = this;
+        this.hasHpo = [];
+        $.each(data, function (key, value) {
+          _vue.hasHpo.push(value._id)
+        })
+      },
+
       getHpo: function (data) {
-        this.hasHpo = data;
+//        this.hasHpo = data;
       },
       getGenes: function (data) {
         this.genes = data
@@ -473,7 +494,10 @@
             _vue.success('上传成功');
             $('#fileModal').modal('hide');
             _vue.loading = false;
-            _vue.getDetail()
+            _vue.getDetail();
+
+            _vue.watchS(_vue.id)
+
           }).catch(function (error) {
             _vue.catchFun(error)
           })

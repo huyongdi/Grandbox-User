@@ -13,6 +13,10 @@
             <router-link target="_blank" class="common-a" :to="{path:'/report',query:{sn:sn}}">点击查看</router-link>
           </div>
 
+          <div class="bold to-report">样本详情 :
+            <router-link target="_blank" class="common-a" :to="{path:'/sampleD',query:{id:sn}}">点击查看</router-link>
+          </div>
+
         </div>
         <div class="all-content">
           <div class="title-list">
@@ -178,11 +182,12 @@
                   <th>HGMD</th>
 
                   <th style="width: 49px">纯杂合</th>
-                  <th>gatkFilter</th>
+                  <!--<th>gatkFilter</th>-->
 
-                  <th>深度</th>
+                  <!--<th>深度</th>-->
+                  <th>人群频率(%)</th>
                   <th style="width: 65px">变异比例(%)</th>
-                  <th style="width: 100px">变异信息</th>
+                  <!--<th style="width: 100px">变异信息</th>-->
                   <th style="width: 115px">报告状态</th>
                 </tr>
                 </thead>
@@ -218,18 +223,19 @@
                   <td>
                     <div v-for="dis in data.disease">
                       <!--[AD]-->
-                      <span v-if="dis.inheritances.length == 0" class="bold">[无]</span>
+                      <span v-if="dis.inheritances && dis.inheritances.length == 0" class="bold">[无]</span>
                       <span v-for="inheritance in dis.inheritances">
                         <span class="po bold" data-toggle="tooltip" data-placement="top" :data-original-title='inheritance.name+"("+inheritance.chinese+")"'>
                         [{{inheritance.ab}}]
+                        </span>
                       </span>
+
                       <!--Pfeiffer综合征有中文名--><!---->
-                      <a class="po common-a"  data-toggle="tooltip" data-placement="top" :data-original-title='dis.title.preferred' @click="showHPO(dis._id)">
+                      <a v-if="dis.title" class="po common-a"  data-toggle="tooltip" data-placement="top" :data-original-title='dis.title.preferred' @click="showHPO(dis._id)">
                         {{dis.title.chinese?dis.title.chinese:dis.title.preferred}}
                       </a>
                       (<router-link :to="{path:'/omim',query:{id:dis.mimnumber}}" target="_blank">{{dis.mimnumber}}</router-link>)
 
-                    </span>
                     </div>
 
                   </td>
@@ -250,18 +256,19 @@
                   </td>
 
                   <td><span v-if="data.information">{{data.information.hom_het ? data.information.hom_het : '-'}}</span></td>
-                  <td><span v-if="data.information">{{data.information.gatk_filter ? data.information.gatk_filter : '-'}}</span></td>
+                  <!--<td><span v-if="data.information">{{data.information.gatk_filter ? data.information.gatk_filter : '-'}}</span></td>-->
 
-                  <td><span v-if="data.information">{{data.information.depth}}</span></td>
+                  <!--<td><span v-if="data.information">{{data.information.depth}}</span></td>-->
+                  <td><span v-if="data.snv">{{data.snv.freq | getPercent}}</span></td>
                   <td><span v-if="data.information">{{data.information.ratio | getPercent}}</span></td>
 
-                  <td>
-                    <div v-if="data.snv && data.snv.annotation">
-                      <div v-for="single in data.snv.annotation.changes">
-                        {{single.gene}}:{{single.transcript}}:{{single.exon}}:{{single.na_change}}:{{single.aa_change}}
-                      </div>
-                    </div>
-                  </td>
+                  <!--<td>-->
+                    <!--<div v-if="data.snv && data.snv.annotation">-->
+                      <!--<div v-for="single in data.snv.annotation.changes">-->
+                        <!--{{single.gene}}:{{single.transcript}}:{{single.exon}}:{{single.na_change}}:{{single.aa_change}}-->
+                      <!--</div>-->
+                    <!--</div>-->
+                  <!--</td>-->
 
                   <td>
 
@@ -336,7 +343,7 @@
                         </div>
                       </div>
                       <div class="single">
-                        <div class="left" data-name="mitipact">MITIPACT：</div>
+                        <div class="left" data-name="mitimpact">MITIMPACT：</div>
                         <div class="right">
                           <span class="option" data-value="true" data-mt="true">已报道</span>
                           <span class="option" data-value="false" data-mt="true">未报道</span>
@@ -371,16 +378,7 @@
                           <span class="option in default" data-mt="true">不筛选</span>
                         </div>
                       </div>
-                      <div class="single">
-                        <div class="left" data-name="grandfreq">本地人群携带率低于：</div>
-                        <div class="right">
-                          <span class="option" data-value="0" data-mt="true">0</span>
-                          <span class="option" data-value="0.0001" data-mt="true">0.01%</span>
-                          <span class="option" data-value="0.001" data-mt="true">0.1%</span>
-                          <span class="option" data-value="0.01" data-mt="true">1%</span>
-                          <span class="option in default" data-mt="true">不筛选</span>
-                        </div>
-                      </div>
+
 
                       <div class="single">
                         <div class="left" data-name="status">报告：</div>
@@ -455,7 +453,6 @@
                   <td>
                     <span v-if="data.snv &&data.snv.annotation">{{data.snv.annotation.funcs.join(',')}}</span><span v-else="">-</span>
                   </td>
-
                   <td>
                     <div v-for="dis in data.disease">
                       <!--[AD]-->
@@ -469,12 +466,9 @@
                         {{dis.title.chinese?dis.title.chinese:dis.title.preferred}}
                       </a>
                       (<router-link :to="{path:'/omim',query:{id:dis.mimnumber}}" target="_blank">{{dis.mimnumber}}</router-link>)
-
                     </span>
                     </div>
-
                   </td>
-
                   <td>
                     <div v-if="data.snv && data.snv.annotation">
                       <div v-for="clinvarSingle in clinvarsToArr(data.snv.annotation.dbinfo.clinvars)">
@@ -486,16 +480,9 @@
                       </div>
                     </div>
                   </td>
-
-                  <td>-
-                    <!--{{data.anno.dbinfo.mitimpact ? data.anno.dbinfo.mitimpact : '-'}}-->
-                  </td>
-                  <td>-
-                    <!--{{data.anno.dbinfo.mitomap ? data.anno.dbinfo.mitomap : '-'}}-->
-                  </td>
-                  <td>
-                    -
-                  </td>
+                  <td>{{data.snv &&data.snv.mt_info ? data.snv.mt_info.mitimpact : '-'}}</td>
+                  <td>{{data.snv &&data.snv.mt_info ? data.snv.mt_info.mitomap : '-'}}</td>
+                  <td><span v-if="data.snv">{{data.snv.freq | getPercent}}</span></td>
                   <td><span v-if="data.information">{{data.information.ratio | getPercent}}</span></td>
                   <td>
                     <el-select v-model="data.edit.status" placeholder="" @change="changeStatus(data._id,data.edit.status)">
@@ -594,6 +581,17 @@
 
                       </div>
                     </div>
+
+                    <div class="col-sm-6">
+                      <span class="name">完成发送邮件：</span>
+                      <el-radio v-model="doEmail" label="1">否</el-radio>
+                      <el-radio v-model="doEmail" label="2">是</el-radio>
+
+                      <i class="fa fa-question-circle-o po flag-th" data-toggle="tooltip" data-placement="top"
+                         data-original-title="大文件建议勾选发送">
+                      </i>
+                    </div>
+
                   </div>
                 </div>
               </div>
@@ -655,7 +653,8 @@
 
         //文件情况
         files: [],
-        radioEdit:'1'
+        radioEdit:'1',
+        doEmail:'1'
       }
     },
     mounted: function () {
@@ -724,6 +723,7 @@
         const _vue = this;
         let conditionStr = '';
         this.loading = true;
+        _vue.doneHttp = false;
         $('#filtrate-content').find('.option').each(function () {
           if ($(this).html() !== '不筛选' && $(this).hasClass('in')) {
             conditionStr += '&' + $(this).parent().prev().data('name') + '=' + $(this).data('value')
@@ -742,7 +742,7 @@
           _vue.patient = data.meta.patient;
           _vue.sampleSn = data.meta.sample_sn;
           _vue.lists1 = data.data;
-
+          _vue.doneHttp = true;
         }).catch(function (error) {
           _vue.catchFun(error)
         })
@@ -785,7 +785,7 @@
         });
         _vue.hasRed = _vue.hasCondition.join(',').includes('旗标：红');
         if (this.geneTextArea) {
-          _vue.hasCondition.push('基因个数：' + this.strToArr(this.geneTextArea).length - 1)
+          _vue.hasCondition.push('基因个数：' + (this.strToArr(this.geneTextArea).length - 1).toString())
         }
       },
       filtrateShowEditFun: function () {
@@ -829,11 +829,13 @@
 //        if (this.geneTextArea2) {
 //          conditionStr += '&genes=' + this.strToArr(this.geneTextArea2)
 //        }
+        _vue.doneHttp2 = false;
+
         this.myAxios({
           url: 'manage/sample/' + this.sn + '/record?mt=true&page=' + this.page1 + conditionStr + this.queryFlag2
         }).then(function (resp) {
           _vue.loading = false;
-
+          _vue.doneHttp2 = true;
           let data = resp.data;
           _vue.doneHttp2 = true;
           _vue.count2 = data.meta.total;
@@ -1136,7 +1138,7 @@
           data = 'LB'
         } else if (data == 'Pathogenic') {
           data = 'P'
-        } else if (data == 'Likely Pathogenic') {
+        } else if (data == 'Likely pathogenic') {
           data = 'LP'
         } else if (data == 'not provided') {
           data = 'NP'

@@ -1,9 +1,12 @@
 import Vue from 'vue'
+import './../../../node_modules/socket.io-client/dist/socket.io.slim'
+//import './socket.io'
+import Echo from "laravel-echo"
 
 /*自定义全局函数*/
 // 捕获错误
 Vue.prototype.catchFun = function (error) {
-  if(error.__proto__.__CANCEL__){
+  if (error.__proto__.__CANCEL__) {
     return
   }
   if (error.response) {
@@ -24,7 +27,6 @@ Vue.prototype.catchFun = function (error) {
       alertContent = error.response.data.message;
     }
 
-
     this.$message({
 //      showClose: true,
       message: error.response.status + ' : ' + alertContent,
@@ -35,6 +37,8 @@ Vue.prototype.catchFun = function (error) {
 //        localStorage.token = '';
         this.$router.push({path: '/login', query: {'next': this.$route.path}})
       }
+    } else if (error.response.status === 404) {
+      this.$router.push({path: '/p404'})
     }
   } else {
 
@@ -116,3 +120,38 @@ Vue.prototype.upDown = function (e) {
   }
   _children.slideToggle()
 };
+
+//监听样本的完成情况
+$.getScript("http://192.168.2.192:6001/socket.io/socket.io.js", function () {
+  let EchoS = new Echo({
+    broadcaster: 'socket.io',
+    host: 'http://192.168.2.192:6001',
+    auth: {
+      headers: {
+        Authorization: localStorage.token
+      }
+    }
+  });
+
+  Vue.prototype.watchS = function (sampleId) {
+    console.log(sampleId)
+    console.log('App.Models.Manage.Sample.' + sampleId)
+    EchoS.private(('App.Models.Manage.Sample.' + sampleId))
+      .notification((e) => {
+      console.log(e);
+        if (e.status == 2) {
+          Vue.prototype.$notify({
+            title: '成功',
+            message: '样本' + e.sn + '已完成',
+            type: 'success'
+          });
+          EchoS.leave('App.Models.Manage.Sample.' + sampleId);
+        } else if (e.status == -1) {
+          Vue.prototype.$notify.error({
+            title: '错误',
+            message: '样本' + e.sn + '出错',
+          });
+        }
+      });
+  };
+});
