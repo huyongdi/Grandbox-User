@@ -22,10 +22,10 @@
           <a href="javascript:void (0)" @click="changeValue('脑积水')">脑积水</a>
           <a href="javascript:void (0)" @click="changeValue('HP:0000246')">HP:0000246</a>
 
-          <div class="words">
-            本搜索引擎是由中文人类表型标准用语联盟 （CHPO）授权建立并使用 CHPO wiki 网站数据搭建。
-            旨在检索表型术语及其对于疾病的注释。
-          </div>
+          <!--<div class="words">-->
+            <!--本搜索引擎是由中文人类表型标准用语联盟 （CHPO）授权建立并使用 CHPO wiki 网站数据搭建。-->
+            <!--旨在检索表型术语及其对于疾病的注释。-->
+          <!--</div>-->
 
           <div class="words">
             <a v-if="!showWord" href="javascript:void(0)" @click="showWords">点击可查看</a>
@@ -36,7 +36,7 @@
 
         <div class="table-content col-xs-8 col-xs-offset-2">
 
-          <table class="my-table">
+          <table class="my-table" v-if="hpoQueryList.length!=0">
             <thead>
             <tr>
               <th>HPO号</th>
@@ -53,7 +53,7 @@
               <!--<td>{{tableObj.title.alternatives.join(' | ')}}</td>-->
             </tr>
             <tr v-if="hpoQueryList.length == 0">
-              <td colspan="3" class="center">暂无数据</td>
+              <td colspan="2" class="center">暂无数据</td>
             </tr>
             </tbody>
           </table>

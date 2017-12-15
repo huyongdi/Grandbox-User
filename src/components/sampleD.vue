@@ -484,8 +484,10 @@
         if (fileName == 'xls' || fileName == 'xlsx' || fileName == 'vcf') {
           this.loading = true;
           let postData = new FormData(document.getElementById('addDataFormCap'));
-//          postData.append("type", JSON.stringify({'a': 123, 'b': 456}));
+//          postData.append("type", JSON.stringify({'a': 123, 'b': 456}));            notify_method: this.doEmail=='2'?'email':'',
+
           postData.append("append", this.radioEdit == 1 ? 1 : 0);
+          postData.append("notify_method", this.doEmail=='2'?'email':'');
           this.myAxios({
             url: 'manage/sample/' + this.detailData._id + '/data_file',
             method: 'post',
@@ -496,7 +498,7 @@
             _vue.loading = false;
             _vue.getDetail();
 
-            _vue.watchS(_vue.id)
+            _vue.watchS()
 
           }).catch(function (error) {
             _vue.catchFun(error)

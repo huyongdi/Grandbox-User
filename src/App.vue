@@ -13,6 +13,7 @@
   import header from './components/global/header.vue'
   import Vue from 'vue'
   import axios from 'axios'
+  import './components/global/globalFun'
 
   Vue.component('loading', {
     template: '<div class="spinner">' +
@@ -31,19 +32,20 @@
       return {
         inLogin: '',
         inGene: '',
-        ele11:''
+        ele11: ''
       }
     },
     created: function () {
       this.baseBind();
-
+      this.getReads();//查看socket消息情况
     },
     mounted: function () {
+
       this.baseBind();
       const name = this.$router.currentRoute.name;
-      if(name === 'aHome' || name === 'login' || name==='p404'){
+      if (name === 'aHome' || name === 'login' || name === 'p404') {
         this.inLogin = true
-      }else{
+      } else {
         this.inLogin = false;
       }
     },
@@ -51,18 +53,56 @@
       this.baseBind();
     },
     watch: {
-      '$route' (to, from) { //路由变化的时候判断需不需要加载头部
+      '$route'(to, from) { //路由变化的时候判断需不需要加载头部
         if (from.name === 'login') {  //重新登录之后token不刷新
           this.myAxios.defaults.headers = {'Authorization': localStorage.token}
         }
-        if(to.name === 'aHome' || to.name === 'login'){
+        if (to.name === 'aHome' || to.name === 'login') {
           this.inLogin = true
-        }else{
+        } else {
           this.inLogin = false;
         }
       }
     },
     methods: {
+      getReads: function () {
+        const _vue = this;
+        this.myAxios({
+          url: 'manage/notification?unread=true'
+        }).then((resp) => {
+          let notification = resp.data;
+
+          async function task() {
+            for (let val of notification) {
+              // await 是要等待响应的
+              let result = await _vue.showNotication(`${val.data.sn}样本已完成，<a href="#/result?id=${val.data._id}" target="_blank">点击查看结果</a>`, val._id);
+              if (!result) {
+                break;
+              }
+            }
+          }
+          task();
+
+        }).catch((error) => {
+          _vue.catchFun(error)
+        })
+
+      },
+      showNotication: function (message, readId) {
+        console.log(11111)
+        Vue.prototype.$notify({
+          customClass: 'abc123',
+          title: '成功',
+          dangerouslyUseHTMLString: true,
+          message: message,
+          type: 'success',
+          duration: 60000, /*60s*/
+          onClose: function () {
+            Vue.prototype.ReadS(readId)
+          }
+        });
+        return true
+      },
       baseBind: function () {
         /*点击tr加背景色*/
         $('table tbody').off('click').on('click', 'tr', function () {
@@ -94,6 +134,7 @@
 
 <style lang="less">
   @import "./components/global/css/common.css";
+
   @triangle-color: rgb(0, 118, 192);
   @border: rgb(168, 185, 209);
   @tableSha: rgb(185, 184, 184);
@@ -127,25 +168,25 @@
       width: 100%;
       margin: 0;
       padding: 0;
-      font-family: "Microsoft YaHei","微软雅黑" !important;
+      font-family: "Microsoft YaHei", "微软雅黑" !important;
       #app {
         /*min-height: 50px;*/
         min-height: 100vh;
         /*overflow-x: hidden;*/
         position: relative;
 
-        .router-content{
+        .router-content {
           width: 100%;
           min-height: calc(~'100vh - 50px');
           background-size: 100% 100%;
-          .p-div{
+          .p-div {
             padding: 30px 60px;
           }
-          .top-content{
+          .top-content {
 
           }
 
-          .data-content{
+          .data-content {
             min-height: calc(~'100vh - 50px');
             .left-ul {
               display: inline-block;
@@ -213,20 +254,20 @@
                 }
               }
             }
-            .right-content{
+            .right-content {
               display: inline-block;
               min-height: calc(~'100vh - 50px');
               min-width: calc(~'100vw - 275px');
               max-width: calc(~'100vw - 275px');
               vertical-align: top;
               padding: 20px 10px;
-              border-left:1px solid #d3d4d4;
+              border-left: 1px solid #d3d4d4;
               margin-left: -4px;
               background: url("../static/img/html-bc.png") repeat center;
-              background-size:100% 100%;
+              background-size: 100% 100%;
               background-position: 0 0;
             }
-            .drop-down{
+            .drop-down {
               > .title {
                 .bc;
                 font-size: 16px;

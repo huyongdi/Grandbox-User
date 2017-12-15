@@ -21,37 +21,35 @@
       <div class="default-content">
         <i class="glyphicon glyphicon-search"></i>
         <a href="javascript:void (0)" @click="changeValue('parkinsonism')">parkinsonism</a>
+
+        <!--<div class="font-12">-->
+          <!--本搜索引擎是由中文人类表型标准用语联盟 （CHPO）授权建立并使用 CHPO wiki 网站数据搭建。 旨在检索表型术语及其对于疾病的注释。-->
+        <!--</div>-->
+
       </div>
 
-      <table class="my-table">
-        <thead>
-        <tr>
-          <th>OMIM号</th>
-          <th>名称</th>
-          <th>别名</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="tableObj in omimQueryList">
-          <td>
-            <router-link :to="{path:'/omim',query:{id:tableObj.mimnumber}}" target="_blank" title="查看详情">{{tableObj.mimnumber}}</router-link>
-          </td>
-          <td>{{tableObj.title.chinese ? tableObj.title.chinese : tableObj.title.preferred}}</td>
-          <td>{{tableObj.title.alternatives.join(' | ')}}</td>
-          <!--<td>-->
-          <!--<span v-if="list.phenotype.inheritances" v-for="inh in list.phenotype.inheritances">-->
+      <div class="col-xs-8 col-xs-offset-2">
+        <table class="my-table" v-if="omimQueryList.length!=0">
+          <thead>
+          <tr>
+            <th>OMIM号</th>
+            <th>名称</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="tableObj in omimQueryList">
+            <td>{{tableObj.prefix}}
+              <router-link :to="{path:'/omim',query:{id:tableObj.mimnumber}}" target="_blank" title="查看详情">{{tableObj.mimnumber}}</router-link>
+            </td>
+            <td>{{tableObj.title.chinese ? tableObj.title.chinese : tableObj.title.preferred}}</td>
+          </tr>
+          <tr v-if="omimQueryList.length == 0">
+            <td colspan="3" class="center">暂无数据</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
 
-          <!--{{inh.chinese?inh.chinese:inh.name}}-->
-
-          <!--&lt;!&ndash;<a class="po" data-toggle="tooltip" data-placement="top" :data-original-title="inh.name">{{inh.name}}</a>&ndash;&gt;-->
-          <!--</span>-->
-          <!--</td>-->
-        </tr>
-        <tr v-if="omimQueryList.length == 0">
-          <td colspan="3" class="center">暂无数据</td>
-        </tr>
-        </tbody>
-      </table>
 
     </div>
   </div>

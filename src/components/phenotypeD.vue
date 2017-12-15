@@ -19,13 +19,13 @@
               <td class="t-bc">ID</td>
               <td>{{allData.hpoid}}</td>
               <td class="t-bc">外部编号</td>
-              <td><a target="_blank" v-if="allData.hpoid" :href="'http://www.ontobee.org/ontology/HP?iri=http://purl.obolibrary.org/obo/'+allData.hpoid.replace(':','_')">
-                <img src="../../static/img/ontoBee.gif" alt="" class="ontobee-img"></a>
+              <td>
+                <a target="_blank" v-if="allData.hpoid" :href="'http://compbio.charite.de/hpoweb/showterm?id=HP:0000118'+allData.hpoid">HPO官网</a>
               </td>
             </tr>
             <tr>
               <td class="t-bc">定义</td>
-              <td colspan="3"><span v-if="allData.definition">{{allData.definition.english}}</span></td>
+              <td colspan="3"><span v-if="allData.definition">{{allData.definition.chinese?allData.definition.chinese:allData.definition.english}}</span></td>
             </tr>
             </tbody>
           </table>

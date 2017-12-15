@@ -133,26 +133,53 @@ $.getScript("http://192.168.2.192:6001/socket.io/socket.io.js", function () {
       }
     }
   });
-
-  Vue.prototype.watchS = function (sampleId) {
-    EchoS.private(('App.Models.Manage.Sample.' + sampleId))
+  Vue.prototype.watchS = function () {
+    console.log('App.Models.Manage.User.' + localStorage.getItem('grandId'))
+    EchoS.private(('App.Models.Manage.User.' + localStorage.getItem('grandId')))
       .notification((e) => {
-      console.log(e);
-        if (e.status == 2) {
-          Vue.prototype.$notify({
-            title: '成功',
-            dangerouslyUseHTMLString: true,
-            message: `<a href="#/result?id=${sampleId}" target="_blank">123</a>`,
-            type: 'success',
-            duration:10000,
-          });
-          EchoS.leave('App.Models.Manage.Sample.' + sampleId);
-        } else if (e.status == -1) {
+        console.log(e);
+        if (e.data_file.status == 2) {
+          Vue.prototype.showSuccessNotify(`${e.sn}样本已完成，<a href="#/result?id=${e._id}" target="_blank">点击查看结果</a>`,e.id);
+          EchoS.leave(`App.Models.Manage.Sample.' + ${e._id}`);
+        } else if (e.data_file.status == -1) {
           Vue.prototype.$notify.error({
             title: '错误',
-            message: '样本' + e.sn + '出错',
+            message: '样本' + sampleId + '出错',
+          });
+        } else if (e.data_file.status == 1) {
+          Vue.prototype.$notify({
+            title: '消息',
+            dangerouslyUseHTMLString: true,
+            message: `${e.sn}样本已开始运行`,
+            type: 'success',
+            duration: 10000, /*10s*/
           });
         }
       });
   };
+
+  Vue.prototype.showSuccessNotify = function (message,readId) {
+    Vue.prototype.$notify({
+      title: '成功',
+      dangerouslyUseHTMLString: true,
+      message: message,
+      type: 'success',
+      duration: 60000, /*60s*/
+      onClose: function () {
+//        Vue.prototype.ReadS(readId)
+      }
+    });
+  };
+
+  Vue.prototype.ReadS = function (id) {
+    Vue.prototype.myAxios({
+      url: 'manage/notification/' + id,
+      method: 'patch',
+    }).then(() => {
+    }).catch((error) => {
+      Vue.prototype.catchFun(error)
+    })
+
+  }
+
 });
