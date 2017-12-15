@@ -9,10 +9,10 @@
         <i class="triangle"></i>
       </div>
       <div class="children" @click.stop="" style="display: block">
-        <router-link to="/myData" class="block no-d">样本列表</router-link>
-        <router-link to="/addSample" class="block no-d">添加样本</router-link>
-        <router-link v-if="inDetail" to="/sampleD" class="block no-d">样本详情</router-link>
-        <router-link v-if="inResult" to="/result" class="block no-d">结果详情</router-link>
+        <router-link to="/myData" class="block no-d" target="_blank">样本列表</router-link>
+        <router-link to="/addSample" class="block no-d" target="_blank">添加样本</router-link>
+        <router-link v-if="inDetail" to="/sampleD" class="block no-d" target="_blank">样本详情</router-link>
+        <router-link v-if="inResult" to="/result" class="block no-d" target="_blank">结果详情</router-link>
         <!--<a class="block no-d" id="sampleD-a">样本详情</a>-->
         <!--<a class="block no-d">结果详情</a>-->
       </div>

@@ -8,7 +8,7 @@
       <span class="my-btn edit" v-if="inEdit" @click="saveEdit"><img src="../../static/img/red-submit.png" alt="">保存编辑</span>
       <span class="my-btn edit" v-if="inEdit" @click="cancelEdit"><img src="../../static/img/red-submit.png" alt="">取消编辑</span>
 
-      <router-link :to="{path:'/result',query:{id:id}}">查看结果</router-link>
+      <router-link :to="{path:'/result',query:{id:id}}" target="_blank">查看结果</router-link>
 
       <loading v-if="loading"></loading>
 

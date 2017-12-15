@@ -141,6 +141,23 @@ html ul li {
 html .rea {
   position: relative;
 }
+html .search-div.big-search .search-input {
+  width: 550px;
+  height: 35px;
+  line-height: 35px;
+}
+html .search-div.big-search .my-btn {
+  width: 50px;
+  height: 35px;
+}
+html .search-div.big-search .my-btn img {
+  margin-left: 3px;
+  margin-top: 3px;
+}
+html .search-div.big-search ul {
+  top: 35px;
+  max-height: 250px;
+}
 html .search-div {
   display: inline-block;
   position: relative;
@@ -174,6 +191,7 @@ html .search-div ul {
   overflow-x: hidden;
 }
 html .search-div ul li {
+  overflow: hidden;
   text-align: left;
   cursor: pointer;
   padding-left: 8px;

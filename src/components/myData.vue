@@ -64,7 +64,7 @@
             <!--</div>-->
             <!--</div>-->
             <!--<div v-else="">待分析</div>-->
-            <router-link :to="{path:'/result',query:{id:list._id}}" title="">
+            <router-link :to="{path:'/result',query:{id:list._id}}" title="" target="_blank">
               查看结果
             </router-link>
           </td>

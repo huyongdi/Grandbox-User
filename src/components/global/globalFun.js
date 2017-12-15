@@ -3,6 +3,7 @@ import './../../../node_modules/socket.io-client/dist/socket.io.slim'
 //import './socket.io'
 import Echo from "laravel-echo"
 
+
 /*自定义全局函数*/
 // 捕获错误
 Vue.prototype.catchFun = function (error) {
@@ -134,16 +135,16 @@ $.getScript("http://192.168.2.192:6001/socket.io/socket.io.js", function () {
   });
 
   Vue.prototype.watchS = function (sampleId) {
-    console.log(sampleId)
-    console.log('App.Models.Manage.Sample.' + sampleId)
     EchoS.private(('App.Models.Manage.Sample.' + sampleId))
       .notification((e) => {
       console.log(e);
         if (e.status == 2) {
           Vue.prototype.$notify({
             title: '成功',
-            message: '样本' + e.sn + '已完成',
-            type: 'success'
+            dangerouslyUseHTMLString: true,
+            message: `<a href="#/result?id=${sampleId}" target="_blank">123</a>`,
+            type: 'success',
+            duration:10000,
           });
           EchoS.leave('App.Models.Manage.Sample.' + sampleId);
         } else if (e.status == -1) {

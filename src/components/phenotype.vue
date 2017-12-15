@@ -4,20 +4,39 @@
     <dataHeader></dataHeader>
     <div class="right-content">
       <div class="title-below">
-        <div class="search-div">
+        <div class="search-div big-search">
           <input type="text" placeholder="搜索HPO" v-model="phValue" class="search-input" @keyup.enter="searchHpo">
           <span class="my-btn">
             <img src="../../static/img/red-con.png" alt="" @click="searchHpo">
           </span>
 
           <ul id="search-ul" class="hide">
-            <li v-for="hpo in hpoQueryList" :data-hpoId="hpo.hpoid" :data-id="hpo._id" :title="hpo.show" @click="toDetail(hpo.hpoid)">
-              {{hpo.show}}
+            <li v-for="hpo in hpoQueryList" >
+              <router-link  target='_blank' :to="{path:'phenotypeD',query:{id:hpo._id}}" :title="hpo.show">{{hpo.show}}</router-link>
             </li>
           </ul>
         </div>
 
-        <div class="table-content col-xs-8 col-xs-offset-2">
+        <div class="default-content">
+          <i class="glyphicon glyphicon-search"></i>
+          <a href="javascript:void (0)" @click="changeValue('脑积水')">脑积水</a>
+          <a href="javascript:void (0)" @click="changeValue('HP:0000246')">HP:0000246</a>
+
+          <div class="words">
+            本搜索引擎是由中文人类表型标准用语联盟 （CHPO）授权建立并使用 CHPO wiki 网站数据搭建。
+            旨在检索表型术语及其对于疾病的注释。
+          </div>
+
+          <div class="words">
+            <a v-if="!showWord" href="javascript:void(0)" @click="showWords">点击可查看</a>
+            <a v-if="showWord" href="javascript:void(0)" @click="showWords">点击可收起</a>
+            所有收录词汇分类
+          </div>
+        </div>
+
+
+
+        <div v-if="showWord" class="table-content col-xs-8 col-xs-offset-2">
           <table class="special-table">
             <thead>
             <tr class="t-bc">
@@ -165,7 +184,8 @@
         page: 1,
         hpoQueryList: [],
         loading: '',
-        hpoObj: {}
+        hpoObj: {},
+        showWord:false
       }
     },
     mounted: function () {
@@ -181,6 +201,16 @@
       'dataHeader': dataHeader,
     },
     methods: {
+
+      showWords:function () {
+        this.showWord = !this.showWord;
+      },
+
+      changeValue:function (data) {
+        this.phValue = data;
+        this.searchHpo()
+      },
+
       searchHpo: function () {
         const _vue = this;
         _vue.loading = true;
@@ -200,7 +230,7 @@
       },
 
       toDetail:function (id) {
-        this.$router.push({path: '/phenotypeD',query:{id:id}})
+        this.$router.push({path: '/phenotypeD',query:{id:id},target:'_black'})
       }
 //
 //      getList: function (event) {
@@ -243,40 +273,54 @@
 </script>
 
 <style scoped lang="less">
+
+  .default-content{
+    width: 594px;
+    margin:  0 auto;
+    text-align: left;
+    >a{
+      margin: 0 10px;
+    }
+    .words{
+      font-size: 12px;
+      margin: 5px 0;
+    }
+  }
+
   .title-below {
     text-align: center;
     margin: 20px 0;
-    .search-div {
-      z-index: 100;
-      position: relative;
-      > input {
-        width: 350px;
-      }
-      ul {
-        position: absolute;
-        padding: 0;
-        width: 344px;
-        border: 1px solid #d4d4d4;
-        border-top: none;
-        top: 28px;
-        background-color: #fff;
-        max-height: 200px;
-        overflow-y: auto;
-        overflow-x: hidden;
-        li {
-          text-align: left;
-          cursor: pointer;
-          padding-left: 8px;
-          height: 30px;
-          line-height: 30px;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          &:hover {
-            background-color: rgb(255, 245, 231)
-          }
-        }
-      }
-    }
+    /*.search-div {*/
+      /*z-index: 100;*/
+      /*position: relative;*/
+      /*> input {*/
+        /*width: 350px;*/
+      /*}*/
+      /*ul {*/
+        /*position: absolute;*/
+        /*padding: 0;*/
+        /*width: 344px;*/
+        /*border: 1px solid #d4d4d4;*/
+        /*border-top: none;*/
+        /*top: 28px;*/
+        /*background-color: #fff;*/
+        /*max-height: 200px;*/
+        /*overflow-y: auto;*/
+        /*overflow-x: hidden;*/
+        /*li {*/
+          /*text-align: left;*/
+          /*cursor: pointer;*/
+          /*padding-left: 8px;*/
+          /*height: 30px;*/
+          /*line-height: 30px;*/
+          /*white-space: nowrap;*/
+          /*text-overflow: ellipsis;*/
+          /*&:hover {*/
+            /*background-color: rgb(255, 245, 231)*/
+          /*}*/
+        /*}*/
+      /*}*/
+    /*}*/
   }
 
   .table-content {
