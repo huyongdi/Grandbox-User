@@ -10,11 +10,11 @@
             <img src="../../static/img/red-con.png" alt="" @click="searchHpo">
           </span>
 
-          <ul id="search-ul" class="hide">
-            <li v-for="hpo in hpoQueryList" >
-              <router-link  target='_blank' :to="{path:'phenotypeD',query:{id:hpo._id}}" :title="hpo.show">{{hpo.show}}</router-link>
-            </li>
-          </ul>
+          <!--<ul id="search-ul" class="hide">-->
+            <!--<li v-for="hpo in hpoQueryList" >-->
+              <!--<router-link  target='_blank' :to="{path:'phenotypeD',query:{id:hpo._id}}" :title="hpo.show">{{hpo.show}}</router-link>-->
+            <!--</li>-->
+          <!--</ul>-->
         </div>
 
         <div class="default-content">
@@ -34,10 +34,31 @@
           </div>
         </div>
 
+        <div class="table-content col-xs-8 col-xs-offset-2">
 
+          <table class="my-table">
+            <thead>
+            <tr>
+              <th>HPO号</th>
+              <th>名称</th>
+              <!--<th>别名</th>-->
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="tableObj in hpoQueryList">
+              <td>
+                <router-link :to="{path:'/phenotypeD',query:{id:tableObj.hpoid}}" target="_blank" title="查看详情">{{tableObj.hpoid}}</router-link>
+              </td>
+              <td>{{tableObj.name.chinese ? tableObj.name.chinese : tableObj.title.english}}</td>
+              <!--<td>{{tableObj.title.alternatives.join(' | ')}}</td>-->
+            </tr>
+            <tr v-if="hpoQueryList.length == 0">
+              <td colspan="3" class="center">暂无数据</td>
+            </tr>
+            </tbody>
+          </table>
 
-        <div v-if="showWord" class="table-content col-xs-8 col-xs-offset-2">
-          <table class="special-table">
+          <table  v-if="showWord" class="my-table">
             <thead>
             <tr class="t-bc">
               <th>所属术语</th>
@@ -47,7 +68,7 @@
             </thead>
             <tbody>
             <tr>
-              <td rowspan="23">表型异常</td>
+              <td class="right-border" rowspan="23">表型异常</td>
               <td> 结缔组织异常</td>
               <td>193</td>
             </tr>
@@ -218,14 +239,13 @@
           url: 'biomeddb/hpo/?query=' + this.phValue
         }).then(function (resp) {
           let results = resp.data.data;
-          $.each(results, function (i, data) {
-            data.show = data.hpoid + '-' + data.name.chinese + '(' + data.name.english + ')'
-          });
+//          $.each(results, function (i, data) {
+//            data.show = data.hpoid + '-' + data.name.chinese + '(' + data.name.english + ')'
+//          });
 
           _vue.hpoQueryList = results;
           _vue.loading = false;
-          console.log(_vue.hpoQueryList);
-          $("#search-ul").removeClass('hide')
+//          $("#search-ul").removeClass('hide')
         })
       },
 
