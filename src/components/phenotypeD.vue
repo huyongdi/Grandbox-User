@@ -20,7 +20,7 @@
               <td>{{allData.hpoid}}</td>
               <td class="t-bc">外部编号</td>
               <td>
-                <a target="_blank" v-if="allData.hpoid" :href="'http://compbio.charite.de/hpoweb/showterm?id=HP:0000118'+allData.hpoid">HPO官网</a>
+                <a target="_blank" v-if="allData.hpoid" :href="'http://compbio.charite.de/hpoweb/showterm?id=HP:0000118'+allData.hpoid">{{allData.hpoid}}</a>
               </td>
             </tr>
             <tr>
