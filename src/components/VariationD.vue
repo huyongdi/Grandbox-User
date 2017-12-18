@@ -39,8 +39,8 @@
                 <div v-if="allData.snv">
                   <span v-if="allData.snv.genes.length == 0"> - </span>
                   <span v-for="geneSingle in allData.snv.genes">
-                    <router-link class="po common-a" target="_blank" :to="{path:'/geneD',query:{id:geneSingle}}">
-                      {{geneSingle}}
+                    <router-link class="po common-a" target="_blank" :to="{path:'/geneD',query:{id:geneSingle[0].symbol}}">
+                      {{geneSingle[0].symbol}}
                     </router-link>
                   </span>
                 </div>
@@ -104,19 +104,28 @@
           </span>
             <span v-else=""> - 、-和-</span>
             。基于以上证据，我们建议判定该变异为{{allData.snv && allData.snv.variant && allData.snv.variant.info.intervar}}变异。
-
-            <div class="appendix-content" v-if="allData.snv &&allData.snv.omims">
-              <div class="diseases-content" v-for="(majorD,index) in allData.snv.omims">
-                <div class="diseases-content-title">{{index + 1}}) {{majorD.name}}</div>
-                <div class="diseases-content-remark">
-                  疾病概述：{{majorD.inheritance}}，典型的临床症状包括{{majorD.phenotypes}}。
-                </div>
-              </div>
-            </div>
           </div>
 
-          <div class="one">
+          <div class="one" v-if="allData.snv">
             2.该变异所在基因
+            <span v-for="gene in allData.snv.genes"> <!--每个基因里面是一个数组，包含多个omim-->
+              {{gene[0].symbol}}是
+              <span v-for="omim in gene">{{omim.inheritances.join(',')}}的
+              {{omim.omims.name}}(OMIM:{{omim.omims.prefix}}{{omim.omims.mimbumber}}；{{omim.omims.preferred}})</span>。
+            </span>
+          </div>
+
+          <div class="one" v-if="allData.snv">
+            3.疾病简介
+            <div class="omim-one" v-for="(omim,index) in allData.snv.omims">
+              {{index+1}} ) {{omim.name}}
+              <div class="omim-content">
+                {{omim.inheritances.join(',')}},
+                <span v-for="(phenotype,index) in omim.phenotypes">
+                  {{phenotype.name.chinese?phenotype.name.chinese:phenotype.name.english}}<span v-if="index !=omim.phenotypes.length-1">，</span>
+                </span>。
+              </div>
+            </div>
           </div>
 
         </div>
@@ -1176,6 +1185,11 @@
       }
       .one{
         margin: 5px 0;
+        .omim-one{
+          .omim-content{
+            padding-left: 19px;
+          }
+        }
       }
     }
   }

@@ -21,7 +21,7 @@
       </button>
     </div>
 
-    <div class="col-xs-5 t-right">
+    <div class="col-xs-5 t-right" id="choose-pa">
       <div class="header">已选项目</div>
       <div class="main">
         <ul class="apiData-content rightData-content">
@@ -42,12 +42,12 @@
 
 <script>
   export default {
-    props: ['hasHpo', 'flag','rightData','parentLeftData','inEdit'],
+    props: ['hasHpo', 'flag', 'rightData', 'parentLeftData', 'inEdit'],
     data: function () {
       return {
         loadingPA: '',
         sInput: '',
-        leftData:this.parentLeftData?this.parentLeftData: [{
+        leftData: this.parentLeftData ? this.parentLeftData : [{
           id: 1,
           name: '暂无数据',
         }],
@@ -62,49 +62,44 @@
           label: 'name'
         },
 
-        changeHasHpo:''
-
+        changeHasHpo: ''
       }
     },
     mounted: function () {
 
     },
     watch: {
-      hasHpo:function (newD) {
+      hasHpo: function (newD) {
         this.changeHasHpo = true;
-
-        if(this.inEdit){ //兼容編輯頁面
+        if (this.inEdit) { //兼容編輯頁面
           this.getD();
         }
-
       },
       flag: function (newD) {
         if (newD && (this.changeHasHpo)) {
           this.getD();
           this.changeHasHpo = false;
-        }else if(this.hasHpo.length == 0){
+        } else if (this.hasHpo.length == 0) {
           this.getD();
         }
       },
-      rightData:function (newD) {
+      rightData: function (newD) {
         this.$emit('getPanelAll', newD) //函数名和父元素的@onEnter一致
       }
     },
     methods: {
-      nodeClick:function (clickD) {
+      nodeClick: function (clickD) {
 //       if(clickD.is_leaf){
-         this.$emit('getGenes', clickD.genes); //函数名和父元素的@onEnter一致
+        this.$emit('getGenes', clickD.genes); //函数名和父元素的@onEnter一致
 //       }
       },
 
       toLeft: function () {
         const _vue = this;
 
-        console.log(this.rightToLeftId);
-
         $.each(this.rightToLeftId, function (i, data) {
           let spliceIndex = 0;
-          $.each(_vue.rightDate, function (n1, n2) {
+          $.each(_vue.rightData, function (n1, n2) {
             if (n2._id == data) {
               spliceIndex = n1;
             }
@@ -141,15 +136,35 @@
       },
 
       chooseR: function (e) {
-        const _self = $(e.target).closest('.el-checkbox__input');
-        const _id = _self.next().data('key');
+//        const _self = $(e.target).closest('.el-checkbox__input');
+//        const _id = _self.next().data('key');
+//
+//        this.rightToLeftId.push(_id);
+//        if (_self.hasClass('is-checked')) {
+//          _self.removeClass('is-checked')
+//        } else {
+//          _self.addClass('is-checked')
+//        }
 
-        this.rightToLeftId.push(_id);
+
+        const _vue = this;
+        //勾选
+        const _self = $(e.target).closest('.el-checkbox__input');
         if (_self.hasClass('is-checked')) {
           _self.removeClass('is-checked')
         } else {
           _self.addClass('is-checked')
         }
+
+        //计算哪些被勾选
+        const _right = $("#choose-pa").find('.rightData-content');
+        this.rightToLeftId = [];
+        _right.find('.el-checkbox__input').each(function () {
+          if ($(this).hasClass('is-checked')) {
+            _vue.rightToLeftId.push($(this).next().data('key'))
+          }
+        });
+
 
       },
       getD: function () {
@@ -165,16 +180,14 @@
         }).then(function (resp) {
           _vue.loadingPA = false;
           let results = resp.data.panels;
-
           _vue.$emit('getGenes', resp.data.genes); //函数名和父元素的@onEnter一致
 
           _vue.leftData = [];
 
-
           $.each(results, function (i, data) {
-            data.name = data.name + '(' + data.genes.now.length + '/'+data.genes.total.length+')';
+            data.name = data.name + '(' + data.genes.now.length + '/' + data.genes.total.length + ')';
             $.each(data.children, function (key, value) {
-              value.name = value.name + '(' + value.genes.now.length + '/'+value.genes.total.length+')';
+              value.name = value.name + '(' + value.genes.now.length + '/' + value.genes.total.length + ')';
             })
           });
           _vue.leftData = results;

@@ -10,7 +10,7 @@
           <input v-model="sInput" type="text" placeholder="请输入表型" @keyup.enter="getD">
           <i class="el-icon-search" @click="getD"></i>
         </div>
-        <ul class="apiData-content leftData-content">
+        <ul class="apiData-content leftData-content" id="ph-left">
           <li v-for="list in leftData" :data-key="list.key">
             <span aria-checked="mixed" class="el-checkbox__input" @click="choose">
               <span class="el-checkbox__inner"></span>
@@ -72,16 +72,13 @@
       toLeft: function () {
         const _vue = this;
 
-        console.log(this.rightToLeftId);
-        console.log(_vue.rightData);
-
         $.each(this.rightToLeftId, function (i, data) {
           //删除右边的LI
           let spliceIndex=0;
           $.each(_vue.rightData, function (n1, n2) {
             if (n2.key == data) {
               spliceIndex = n1;
-              _vue.leftData.push(n2)
+//              _vue.leftData.push(n2)
             }
           });
           _vue.rightData.splice(spliceIndex,1)
@@ -119,14 +116,14 @@
         });
 
 
-        this.$emit('getHpo', this.rightCId) //函数名和父元素的@onEnter一致
+//        this.$emit('getHpo', this.rightCId) //函数名和父元素的@onEnter一致
       },
       choose: function (e) {
         const _self = $(e.target).closest('.el-checkbox__input');
         const _id = _self.next().data('key');
         const _vue = this;
         let flag = true;
-
+        //是否应该勾选
         $.each(this.rightCId, function (i, data) {
           if (data == _id) {
             flag = false;
@@ -134,23 +131,40 @@
           }
         });
         if (flag) {
-          this.leftCId.push(_id);
           if (_self.hasClass('is-checked')) {
             _self.removeClass('is-checked')
           } else {
             _self.addClass('is-checked')
           }
         }
+
+        //勾选之后，计算哪些被勾选了
+        _vue.leftCId = [];
+        $("#ph-left").find('.el-checkbox__input').each(function () {
+          if($(this).hasClass('is-checked')){
+            _vue.leftCId.push($(this).next().data('key'));
+          }
+        });
       },
       chooseR: function (e) {
+        const _vue = this;
+        //勾选
         const _self = $(e.target).closest('.el-checkbox__input');
-        const _id = _self.next().data('key');
         if (_self.hasClass('is-checked')) {
           _self.removeClass('is-checked')
         } else {
-          this.rightToLeftId.push(_id);
           _self.addClass('is-checked')
         }
+
+        //计算哪些被勾选
+        const _right = $("#choose-ph").find('.rightData-content');
+        this.rightToLeftId = [];
+        _right.find('.el-checkbox__input').each(function () {
+          if($(this).hasClass('is-checked')){
+            _vue.rightToLeftId.push($(this).next().data('key'))
+          }
+        });
+
       },
       getD: function () {
         const _vue = this;
@@ -183,7 +197,6 @@
         $.each(newD, function (i, data) {
           arr.push(data.key)
         });
-
 
         this.$emit('getHpo', arr) //函数名和父元素的@onEnter一致
 

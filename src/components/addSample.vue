@@ -332,8 +332,8 @@
       },
       getHpoAll:function (data) {
         this.allHpoData=data;
-
         const _vue = this;
+        this.postHpo = [];
         $.each(data,function (key,value) {
           _vue.postHpo.push(value._id)
         })
@@ -344,6 +344,7 @@
       getPanelAll:function (data) {
         this.allPanelData = data
         const _vue = this;
+        _vue.postPanel = [];
         $.each(data,function (key,value) {
           _vue.postPanel.push(value._id)
         })

@@ -223,8 +223,8 @@
                   <td>
                     <div v-for="dis in data.disease">
                       <!--[AD]-->
-                      <span v-if="dis.inheritances && dis.inheritances.length == 0" class="bold">[无]</span>
-                      <span v-for="inheritance in dis.inheritances">
+                      <span v-if="dis.$inheritances && dis.$inheritances.length == 0" class="bold">[无]</span>
+                      <span v-for="inheritance in dis.$inheritances">
                         <span class="po bold" data-toggle="tooltip" data-placement="top" :data-original-title='inheritance.name+"("+inheritance.chinese+")"'>
                         [{{inheritance.ab}}]
                         </span>
