@@ -152,7 +152,7 @@ $.getScript("http://192.168.2.192:6001/socket.io/socket.io.js", function () {
             dangerouslyUseHTMLString: true,
             message: `${e.sn}样本已开始运行`,
             type: 'success',
-            duration: 10000, /*10s*/
+            duration: 0, /*10s*/
           });
         }
       });
@@ -164,9 +164,12 @@ $.getScript("http://192.168.2.192:6001/socket.io/socket.io.js", function () {
       dangerouslyUseHTMLString: true,
       message: message,
       type: 'success',
-      duration: 60000, /*60s*/
+      duration: 0, /*60s*/
       onClose: function () {
-//        Vue.prototype.ReadS(readId)
+        Vue.prototype.ReadS(readId)
+      },
+      onClick:function () {
+        Vue.prototype.ReadS(readId)
       }
     });
   };

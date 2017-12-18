@@ -98,8 +98,9 @@
       },
 
       toLeft: function () {
-
         const _vue = this;
+
+        console.log(this.rightToLeftId);
 
         $.each(this.rightToLeftId, function (i, data) {
           let spliceIndex = 0;

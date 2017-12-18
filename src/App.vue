@@ -72,16 +72,12 @@
         }).then((resp) => {
           let notification = resp.data;
 
-          async function task() {
+          const doMessage = async ()=> {
             for (let val of notification) {
-              // await 是要等待响应的
-              let result = await _vue.showNotication(`${val.data.sn}样本已完成，<a href="#/result?id=${val.data._id}" target="_blank">点击查看结果</a>`, val._id);
-              if (!result) {
-                break;
-              }
+              await _vue.showNotication(`${val.data.sn}样本已完成，<a href="#/result?id=${val.data._id}" target="_blank">点击查看结果</a>`, val._id);
             }
           }
-          task();
+          doMessage();
 
         }).catch((error) => {
           _vue.catchFun(error)
@@ -89,15 +85,17 @@
 
       },
       showNotication: function (message, readId) {
-        console.log(11111)
         Vue.prototype.$notify({
           customClass: 'abc123',
           title: '成功',
           dangerouslyUseHTMLString: true,
           message: message,
           type: 'success',
-          duration: 60000, /*60s*/
+          duration: 0, /*60s*/
           onClose: function () {
+            Vue.prototype.ReadS(readId)
+          },
+          onClick:function () {
             Vue.prototype.ReadS(readId)
           }
         });
@@ -126,6 +124,7 @@
         $('#app:not(\'.filtrate-content\')').on('click', function () {
           $('.filtrate-content').addClass('hide')
         });
+
       },
     }
   }

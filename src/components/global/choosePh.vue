@@ -71,6 +71,10 @@
     methods: {
       toLeft: function () {
         const _vue = this;
+
+        console.log(this.rightToLeftId);
+        console.log(_vue.rightData);
+
         $.each(this.rightToLeftId, function (i, data) {
           //删除右边的LI
           let spliceIndex=0;

@@ -7,7 +7,8 @@
 
       <div class="title">
         <!--【基因】{{allData.name ? allData.name.symbol : ''}} <span class="font-12">({{allData.name ? allData.name.fullname_fna : ''}})</span>-->
-        【变异】<span class="font-12" v-if="allData.snv&&allData.snv.variant">{{allData.snv.variant.position}}-{{allData.snv.variant.end}}({{allData.snv.variant.ref}}/{{allData.snv.variant.alt}})</span>
+        【变异】<span class="font-12"
+                  v-if="allData.snv&&allData.snv.variant">{{allData.snv.variant.position}}-{{allData.snv.variant.end}}({{allData.snv.variant.ref}}/{{allData.snv.variant.alt}})</span>
       </div>
 
       <div class="content-one">
@@ -87,36 +88,39 @@
           <span class="fa fa-chevron-down" @click.self="showContent"></span> <span @click.self="showContent">综述</span>
         </div>
         <div class="content overview-content" style="display: block">
-
           <div v-if="allData.snv &&allData.snv.variant" class="font-13">
-            {{allData.snv.variant.change.gene}}基因的{{allData.snv.variant.change.na_change}}({{allData.snv.variant.change.aa_change}})变异
+            {{allData.snv.variant.change.gene}}基因在{{allData.snv.variant.position}}的{{allData.snv.variant.change.na_change}}({{allData.snv.variant.change.aa_change ?
+            allData.snv.variant.change.aa_change : '-'}})变异
           </div>
-          该变异在gnomAD普通人数据库东亚人群中的频率为
-          {{allData.snv && allData.snv.variant && allData.snv.variant.info && allData.snv.variant.info.freq}}(PM2);
-          生物信息学软件SIFT、Polyphen2和MCAP预测该变异分别为
-          <span v-if="allData.snv && allData.snv.variant &&allData.snv.variant.info&&allData.snv.variant.info.dbnsfp">
+
+          <div class="one">
+            1.该变异在gnomAD普通人数据库东亚人群中的频率为
+            {{allData.snv && allData.snv.variant && allData.snv.variant.info && allData.snv.variant.info.freq}}(PM2);
+            生物信息学软件SIFT、Polyphen2和MCAP预测该变异分别为
+            <span v-if="allData.snv && allData.snv.variant &&allData.snv.variant.info&&allData.snv.variant.info.dbnsfp">
             {{allData.snv.variant.info.dbnsfp.sift.pred | otherData}}、{{allData.snv.variant.info.dbnsfp.mcap.pred | otherData}}和
             <span v-if="allData.snv.variant.info.dbnsfp.polyphen2_hdiv.score>allData.snv.variant.info.dbnsfp.polyphen2_hvar.score">allData.snv.variant.info.dbnsfp.polyphen2_hdiv.pred | phData</span>
             <span v-else="">{{allData.snv.variant.info.dbnsfp.polyphen2_hvar.pred | phData}}</span>
           </span>
-          <span v-else=""> - 、-和-</span>
-          。基于以上证据，我们建议判定该变异为{{allData.snv && allData.snv.variant && allData.snv.variant.info.intervar}}变异。
+            <span v-else=""> - 、-和-</span>
+            。基于以上证据，我们建议判定该变异为{{allData.snv && allData.snv.variant && allData.snv.variant.info.intervar}}变异。
 
-          <div class="appendix-content" v-if="allData.snv &&allData.snv.omims">
-            <div class="diseases-content" v-for="(majorD,index) in allData.snv.omims">
-              <div class="diseases-content-title">{{index + 1}}) {{majorD.name}}</div>
-              <div class="diseases-content-remark">
-                疾病概述：{{majorD.inheritance}}，典型的临床症状包括{{majorD.phenotypes}}。
+            <div class="appendix-content" v-if="allData.snv &&allData.snv.omims">
+              <div class="diseases-content" v-for="(majorD,index) in allData.snv.omims">
+                <div class="diseases-content-title">{{index + 1}}) {{majorD.name}}</div>
+                <div class="diseases-content-remark">
+                  疾病概述：{{majorD.inheritance}}，典型的临床症状包括{{majorD.phenotypes}}。
+                </div>
               </div>
             </div>
+          </div>
 
+          <div class="one">
+            2.该变异所在基因
           </div>
 
         </div>
-
-
       </div>
-
       <div class="content-one">
         <div class="header">
           <span class="fa fa-chevron-down" @click.self="showContent"></span><span @click.self="showContent">人群频率</span>
@@ -653,8 +657,22 @@
           let data = resp.data.data;
           _vue.allData = data;
           _vue.comment = data.edit.comment;
-          _vue.dbnsfp = data.snv.variant.info.dbnsfp?data.snv.variant.info.dbnsfp:
-            {cadd:'',fathmm:'',gerp:'',lrt:'',mcap:'',metalr:'',metasvm:'',mutationassessor:'',mutationtaster:'',polyphen2_hdiv:'',polyphen2_hvar:'',provean:'',sift:''};
+          _vue.dbnsfp = data.snv.variant.info.dbnsfp ? data.snv.variant.info.dbnsfp :
+            {
+              cadd: '',
+              fathmm: '',
+              gerp: '',
+              lrt: '',
+              mcap: '',
+              metalr: '',
+              metasvm: '',
+              mutationassessor: '',
+              mutationtaster: '',
+              polyphen2_hdiv: '',
+              polyphen2_hvar: '',
+              provean: '',
+              sift: ''
+            };
           _vue.splicing = data.snv.variant.info.splicing;
           _vue.dbfreq();//绘制人群频率
         }).catch((error) => {
@@ -665,8 +683,8 @@
         let all_freq = this.allData.snv.variant.info.all_freq;
         let gADe = all_freq && all_freq.gnomad.exome;
         let gADg = all_freq && all_freq.gnomad.genome;
-        let exac = all_freq &&all_freq.exac;
-        let onekg = all_freq　&& all_freq.onekg;
+        let exac = all_freq && all_freq.exac;
+        let onekg = all_freq && all_freq.onekg;
 
         this.dataBaseCharts('frequency-chart', {
           tooltip: {
@@ -1038,9 +1056,9 @@
     },
     filters: {
       getPercent: function (data) {
-        if(!data){
+        if (!data) {
           return 0
-        }else{
+        } else {
           return Math.round(data * 10000) / 100
         }
       },
@@ -1141,7 +1159,7 @@
 
         }
       }
-      .t-bc{
+      .t-bc {
         max-width: 100px;
         word-break: break-all;
       }
@@ -1152,9 +1170,12 @@
         margin-bottom: 10px;
       }
     }
-    .overview-content{
-      .font-13{
+    .overview-content {
+      .font-13 {
         margin-bottom: 5px;
+      }
+      .one{
+        margin: 5px 0;
       }
     }
   }

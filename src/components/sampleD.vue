@@ -472,6 +472,11 @@
         });
 
         if (flag) {
+          this.radioEdit = '1';
+          this.doEmail = '1';
+
+          $("#file-name-edit").val('');
+          $("#hide-edit").val('');
           $("#fileModal").modal("show")
         } else {
           this.alert('请等待文件处理完成或删除错误文件')
@@ -484,7 +489,6 @@
         if (fileName == 'xls' || fileName == 'xlsx' || fileName == 'vcf') {
           this.loading = true;
           let postData = new FormData(document.getElementById('addDataFormCap'));
-//          postData.append("type", JSON.stringify({'a': 123, 'b': 456}));            notify_method: this.doEmail=='2'?'email':'',
 
           postData.append("append", this.radioEdit == 1 ? 1 : 0);
           postData.append("notify_method", this.doEmail=='2'?'email':'');
@@ -521,38 +525,6 @@
         }).catch(function (error) {
           _vue.catchFun(error)
         })
-      },
-      socket: function () {
-        const socket = new WebSocket('ws://localhost:8080');
-//        socket.onopen = function(event) {
-//
-//          // 发送一个初始化消息
-//          socket.send('I am the client');
-//
-//          // 监听消息
-//          socket.onmessage = function(event) {
-//            console.log('Client received a message',event);
-//          };
-//
-//          // 监听Socket的关闭
-//          socket.onclose = function(event) {
-//            console.log('Client notified socket has closed',event);
-//          };
-//
-//          // 关闭Socket....
-//          //socket.close()
-//        };
-
-// Connection opened
-        socket.addEventListener('open', function (event) {
-          socket.send('Hello Server!');
-        });
-
-// Listen for messages
-        socket.addEventListener('message', function (event) {
-          console.log('Message from server', event.data);
-        });
-
       },
     },
     watch: {
