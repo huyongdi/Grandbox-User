@@ -6,6 +6,52 @@ html {
   /*修改element插件的样式*/
   /*模拟表格*/
 }
+html .my-radio {
+  display: inline-block;
+  border: 1px solid #666;
+  border-radius: 100%;
+  width: 14px;
+  height: 14px;
+  background-color: #fff;
+  cursor: pointer;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+html .my-radio:after {
+  width: 4px;
+  height: 4px;
+  border-radius: 100%;
+  background-color: #fff;
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%) scale(0);
+  transform: translate(-50%, -50%) scale(0);
+  -webkit-transition: -webkit-transform 0.15s cubic-bezier(0.71, -0.46, 0.88, 0.6);
+  transition: -webkit-transform 0.15s cubic-bezier(0.71, -0.46, 0.88, 0.6);
+  transition: transform 0.15s cubic-bezier(0.71, -0.46, 0.88, 0.6);
+  transition: transform 0.15s cubic-bezier(0.71, -0.46, 0.88, 0.6), -webkit-transform 0.15s cubic-bezier(0.71, -0.46, 0.88, 0.6);
+}
+html .my-radio:hover {
+  border: 1px solid #409EFF;
+}
+html .my-radio.is-checked {
+  border-color: #409EFF;
+  background: #409EFF;
+  position: relative;
+}
+html .my-radio.is-checked:after {
+  width: 4px;
+  height: 4px;
+  border-radius: 100%;
+  background-color: #fff;
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(1);
+}
 html a.no-d {
   text-decoration: none;
 }

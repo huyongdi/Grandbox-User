@@ -56,7 +56,7 @@
 
           <div :class="{'hide':hide2}" class="over-hide">
             <div class="col-xs-7">
-              <choosePh @getHpo="getHpo" @getHpoAll="getHpoAll" :rightData="phRightData"></choosePh>
+              <choosePh @getHpo="getHpo" @getHpoAll="getHpoAll" :rightData="phRightData" phId="addSample"></choosePh>
             </div>
 
             <div class="col-xs-5">

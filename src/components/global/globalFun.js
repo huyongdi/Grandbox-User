@@ -134,12 +134,11 @@ $.getScript("http://192.168.2.192:6001/socket.io/socket.io.js", function () {
     }
   });
   Vue.prototype.watchS = function () {
-    console.log('App.Models.Manage.User.' + localStorage.getItem('grandId'))
     EchoS.private(('App.Models.Manage.User.' + localStorage.getItem('grandId')))
       .notification((e) => {
         console.log(e);
         if (e.data_file.status == 2) {
-          Vue.prototype.showSuccessNotify(`${e.sn}样本已完成，<a href="#/result?id=${e._id}" target="_blank">点击查看结果</a>`,e.id);
+          Vue.prototype.showSuccessNotify(`${e.sn}样本已完成，<a href="#/result?id=${e._id}" target="_blank">点击查看结果</a>`,e._id);
           EchoS.leave(`App.Models.Manage.Sample.' + ${e._id}`);
         } else if (e.data_file.status == -1) {
           Vue.prototype.$notify.error({
@@ -182,7 +181,6 @@ $.getScript("http://192.168.2.192:6001/socket.io/socket.io.js", function () {
     }).catch((error) => {
       Vue.prototype.catchFun(error)
     })
-
   }
 
 });

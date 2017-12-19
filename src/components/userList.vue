@@ -28,7 +28,11 @@
       <tr v-for="list in lists">
         <td>{{list.name}}</td>
         <td>{{list.email}}</td>
-        <td>{{list.is_admin ? '管理员' : '普通用户'}}</td>
+        <td>
+          <span v-if="list.is_admin">管理员</span>
+          <span v-else="">{{list.group|getGroup}}</span>
+
+        </td>
         <td>{{list.status ? '启用' : '禁用'}}</td>
         <td>{{list.created_at}}</td>
         <td>{{list.updated_at}}</td>
@@ -119,8 +123,8 @@
               </el-form-item>
 
               <el-form-item label="身份">
-                <el-radio v-model="ruleForm.identity" label=guest :disabled="ruleForm.isAdmin">访客</el-radio>
-                <el-radio v-model="ruleForm.identity" label=user :disabled="ruleForm.isAdmin">普通用户</el-radio>
+                <el-radio v-model="ruleForm.identity" label=guest >访客</el-radio>
+                <el-radio v-model="ruleForm.identity" label=user >普通用户</el-radio><!--:disabled="ruleForm.isAdmin"-->
                 <!--<el-radio v-model="ruleForm.identity" label=true>管理员</el-radio>-->
               </el-form-item>
 
@@ -294,7 +298,7 @@
               method: 'patch',
               data: {
                 name: _vue.ruleForm.name,
-                group: _vue.ruleForm.identity,
+                group: _vue.ruleForm.identity?_vue.ruleForm.identity:'user',
                 is_admin: _vue.ruleForm.isAdmin,
                 status: parseInt(_vue.ruleForm.status)
               }
@@ -334,7 +338,7 @@
       },
       setGroup:function (newD) {
         if(newD){
-          this.ruleForm.identity = ''
+//          this.ruleForm.identity = ''
         }
       }
     },
@@ -347,6 +351,19 @@
       $('[data-toggle="tooltip"]').tooltip()
     },
     filters: {
+      getGroup:function (status) {
+        switch (status) {
+          case 'user':
+            return '普通用户';
+            break;
+          case 'guest':
+            return '游客';
+            break;
+          case -1:
+            return '未知';
+            break;
+        }
+      },
       getStatus: function (status) {
         switch (status) {
           case 0:

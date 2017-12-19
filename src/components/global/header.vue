@@ -18,7 +18,7 @@
         </router-link>
       </li>
       <li class="li-3" @click="cancelAxios">
-        <router-link to="/tool">
+        <router-link to="/phSearch">
           <span class="img-taskManage li-img"></span>
           <span>实用工具</span>
         </router-link>
@@ -120,7 +120,7 @@
           $(".li-1").addClass('active')
         }else if( currentPath == 'gene' || currentPath == 'geneD'  || currentPath=='omim' || currentPath=='phenotype' ||currentPath == 'disease'){
           $(".li-2").addClass('active')
-        }else if(currentPath == 'tool'){
+        }else if(currentPath == 'phSearch'){
           $(".li-3").addClass('active')
         }else if(currentPath == 'phenotype'){
           $(".li-4").addClass('active')

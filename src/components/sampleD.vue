@@ -92,7 +92,7 @@
                   <a v-if="file.status == -1" href="javascript:void(0)" @click="fileRetry">重新运行</a>
                 </td>
                 <td class="t-bc">文件类型</td>
-                <td>{{file.append ? '覆盖' : '追加'}}</td>
+                <td>{{file.append ? '追加' : '覆盖'}}</td>
                 <td class="t-bc">上传日期</td>
                 <td>{{file.created_at}}</td>
                 <td class=""><i @click="deleteFile(file._id)" class="fa fa-trash fa-lg delete po" title="删除"></i></td>
@@ -109,7 +109,7 @@
           <div class="content mice-content left-right" style="display: block">
             <div class="inPa-ph row" v-if="inEdit">
               <div class="col-xs-6">
-                <choosePh @getHpo="getHpo" @getHpoAll="getHpoAll" :rightData="phRightData" :parentRightCId="parentRightCId"></choosePh>
+                <choosePh @getHpo="getHpo" @getHpoAll="getHpoAll" :rightData="phRightData" :parentRightCId="parentRightCId" phId="sampleD"></choosePh>
               </div>
               <div class="col-xs-6">
                 <choosePa :hasHpo="hasHpo" :inEdit="paFlag" @getGenes="getGenes" @getPanelAll="getPanelAll" :rightData="paRightData"

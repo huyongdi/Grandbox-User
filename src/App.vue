@@ -9,6 +9,7 @@
       <div v-if="group =='guest' && inData" class="no-data">您没有访问本数据的权限</div>
     </div>
 
+
   </div>
 </template>
 <script>
@@ -24,6 +25,7 @@
     '<div class="bounce3"></div> ' +
     '</div>'
   })
+
 
   export default {
     name: 'app',
@@ -72,9 +74,7 @@
             this.inData = false
           }
         }
-        this.group=localStorage.grandGroup;
-        console.log(this.inData)
-        console.log(this.group)
+        this.group = localStorage.grandGroup;
         this.getReads();//查看socket消息情况
       },
       getReads: function () {
@@ -90,7 +90,6 @@
               }
             }
             doMessage();
-
           }).catch((error) => {
             _vue.catchFun(error)
           })
@@ -138,6 +137,14 @@
           $('.filtrate-content').addClass('hide')
         });
 
+        /*单选按钮*/
+        $("#app").off('click').on("click", '.my-radio', function () {
+          if ($(this).hasClass('is-checked')) {
+            $(this).removeClass('is-checked')
+          } else {
+            $(this).addClass('is-checked')
+          }
+        })
       },
     }
   }

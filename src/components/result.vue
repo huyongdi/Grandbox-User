@@ -223,10 +223,10 @@
                   <td>
                     <div v-for="dis in data.disease">
                       <!--[AD]-->
-                      <span v-if="dis.$inheritances && dis.$inheritances.length == 0" class="bold">[无]</span>
-                      <span v-for="inheritance in dis.$inheritances">
+                      <span v-if="dis.inheritances && dis.inheritances.length == 0" class="bold">[无]</span>
+                      <span v-for="inheritance in dis.inheritances">
                         <span class="po bold" data-toggle="tooltip" data-placement="top" :data-original-title='inheritance.name+"("+inheritance.chinese+")"'>
-                        [{{inheritance}}]
+                        [{{inheritance.ab}}]
                         </span>
                       </span>
 
@@ -456,10 +456,10 @@
                   <td>
                     <div v-for="dis in data.disease">
                       <!--[AD]-->
-                      <span v-if="dis.$inheritances && dis.$inheritances.length == 0" class="bold">[无]</span>
-                      <span v-for="inheritance in dis.$inheritances">
+                      <span v-if="dis.inheritances && dis.inheritances.length == 0" class="bold">[无]</span>
+                      <span v-for="inheritance in dis.inheritances">
                         <span class="po bold" data-toggle="tooltip" data-placement="top" :data-original-title='inheritance.name+"("+inheritance.chinese+")"'>
-                        [{{inheritance}}]
+                        [{{inheritance.ab}}]
                         </span>
                       </span>
 
@@ -468,7 +468,6 @@
                         {{dis.title.chinese?dis.title.chinese:dis.title.preferred}}
                       </a>
                       (<router-link :to="{path:'/omim',query:{id:dis.mimnumber}}" target="_blank">{{dis.mimnumber}}</router-link>)
-
                     </div>
                   </td>
                   <td>

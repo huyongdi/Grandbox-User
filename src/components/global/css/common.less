@@ -11,6 +11,55 @@
 @fliterBorder: rgb(212, 212, 212);
 
 html {
+
+  .my-radio {
+    display: inline-block;
+    border: 1px solid #666;
+    border-radius: 100%;
+    width: 14px;
+    height: 14px;
+    background-color: #fff;
+    cursor: pointer;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    &:after {
+      width: 4px;
+      height: 4px;
+      border-radius: 100%;
+      background-color: #fff;
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      -webkit-transform: translate(-50%, -50%) scale(0);
+      transform: translate(-50%, -50%) scale(0);
+      -webkit-transition: -webkit-transform .15s cubic-bezier(.71, -.46, .88, .6);
+      transition: -webkit-transform .15s cubic-bezier(.71, -.46, .88, .6);
+      transition: transform .15s cubic-bezier(.71, -.46, .88, .6);
+      transition: transform .15s cubic-bezier(.71, -.46, .88, .6), -webkit-transform .15s cubic-bezier(.71, -.46, .88, .6);
+    }
+    &:hover{
+      border:1px solid #409EFF;
+    }
+  }
+
+  .my-radio.is-checked {
+    border-color: #409EFF;
+    background: #409EFF;
+    position: relative;
+    &:after {
+      width: 4px;
+      height: 4px;
+      border-radius: 100%;
+      background-color: #fff;
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%,-50%) scale(1);
+    }
+  }
+
   a.no-d {
     text-decoration: none;
   }
@@ -168,13 +217,13 @@ html {
     position: relative;
   }
 
-  .search-div.big-search{
-    .search-input{
+  .search-div.big-search {
+    .search-input {
       width: 550px;
       height: 35px;
       line-height: 35px;
     }
-    .my-btn{
+    .my-btn {
       width: 50px;
       height: 35px;
       img {
@@ -182,7 +231,7 @@ html {
         margin-top: 3px;
       }
     }
-    ul{
+    ul {
       top: 35px;
       max-height: 250px;
     }
@@ -219,7 +268,7 @@ html {
       overflow-y: auto;
       overflow-x: hidden;
       li {
-        overflow:hidden;
+        overflow: hidden;
         text-align: left;
         cursor: pointer;
         padding-left: 8px;
@@ -233,8 +282,6 @@ html {
       }
     }
   }
-
-
 
   input, textarea {
     border: 1px solid #d4d4d4;
@@ -459,7 +506,7 @@ html {
           border-bottom: 1px dashed @tdBorder;
           vertical-align: middle;
         }
-        td.right-border{
+        td.right-border {
           border-right: 1px dashed @tdBorder;
         }
         td:not(:first-child) {
@@ -725,7 +772,6 @@ html {
       font-size: 12px;
     }
   }
-
 
   /*模拟表格*/
   .shadow {

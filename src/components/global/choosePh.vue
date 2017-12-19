@@ -1,5 +1,5 @@
 <template>
-  <div class="transfer row">
+  <div class="transfer row" :id="phId">
     <loading v-if="loadingT"></loading>
 
 
@@ -52,7 +52,7 @@
 
 <script>
   export default {
-    props: ['rightData','parentRightCId'],
+    props: ['rightData','parentRightCId','phId'],
     data: function () {
       return {
         loadingT: '',
@@ -83,7 +83,7 @@
           });
           _vue.rightData.splice(spliceIndex,1)
         });
-        $('#choose-ph').find('.rightData-content').find("li").each(function () {
+        $('#'+_vue.phId).find('#choose-ph').find('.rightData-content').find("li").each(function () {
           $(this).find('.el-checkbox__input').removeClass('is-checked')
         })
       },
@@ -105,7 +105,7 @@
                 _vue.rightData.push(data);  //右边的增数据
                 _vue.rightCId.push(n2);
                 //删除左边的LI
-                $('.leftData-content').find('li').each(function () {
+                $('#'+_vue.phId).find('.leftData-content').find('li').each(function () {
                   if ($(this).data('key') == n2) {
                     $(this).remove()
                   }
@@ -140,7 +140,7 @@
 
         //勾选之后，计算哪些被勾选了
         _vue.leftCId = [];
-        $("#ph-left").find('.el-checkbox__input').each(function () {
+        $('#'+_vue.phId).find("#ph-left").find('.el-checkbox__input').each(function () {
           if($(this).hasClass('is-checked')){
             _vue.leftCId.push($(this).next().data('key'));
           }
@@ -157,7 +157,7 @@
         }
 
         //计算哪些被勾选
-        const _right = $("#choose-ph").find('.rightData-content');
+        const _right = $('#'+this.phId).find("#choose-ph").find('.rightData-content');
         this.rightToLeftId = [];
         _right.find('.el-checkbox__input').each(function () {
           if($(this).hasClass('is-checked')){

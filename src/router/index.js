@@ -8,7 +8,6 @@ import Gene from '@/components/Gene'
 import GeneD from '@/components/geneD'
 import Disease from '@/components/disease'
 import VariationD from '@/components/VariationD'
-import tool from '@/components/tool'
 import OMIM from '@/components/omim'
 import userList from '@/components/userList'
 
@@ -18,6 +17,9 @@ import sampleD from '@/components/sampleD'
 
 import Phenotype from '@/components/phenotype'
 import PhenotypeD from '@/components/PhenotypeD'
+
+import phSearch from '@/components/phSearch'
+
 
 import p404 from '@/components/404'
 
@@ -96,9 +98,9 @@ export default new Router({
       component: VariationD
     },
     {
-      path: '/tool',
-      name: 'tool',
-      component: tool
+      path: '/phSearch',
+      name: 'phSearch',
+      component: phSearch
     },
     {
       path: '/omim',
