@@ -140,6 +140,7 @@
         if (confirm('确定要退出登录吗？')) {
           localStorage.removeItem('token');
           localStorage.removeItem('uname');
+          localStorage.removeItem('grandGroup');
           this.$router.push({path: '/'})
         }
       },

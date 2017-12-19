@@ -4,7 +4,9 @@
     <nav-header v-if="!inLogin"></nav-header>
 
     <div class="router-content">
-      <router-view></router-view>
+      <router-view v-if="group !='guest'"></router-view> <!--正常用户全部显示-->
+      <router-view v-if="group =='guest' && !inData"></router-view>
+      <div v-if="group =='guest' && inData" class="no-data">您没有访问本数据的权限</div>
     </div>
 
   </div>
@@ -30,58 +32,69 @@
     },
     data: function () {
       return {
+        group: localStorage.grandGroup,
         inLogin: '',
         inGene: '',
-        ele11: ''
+        ele11: '',
+        inData: '',
       }
     },
     created: function () {
       this.baseBind();
-      this.getReads();//查看socket消息情况
     },
     mounted: function () {
-
       this.baseBind();
-      const name = this.$router.currentRoute.name;
-      if (name === 'aHome' || name === 'login' || name === 'p404') {
-        this.inLogin = true
-      } else {
-        this.inLogin = false;
-      }
+      this.setHeader();
     },
     updated: function () {
       this.baseBind();
     },
+
     watch: {
       '$route'(to, from) { //路由变化的时候判断需不需要加载头部
         if (from.name === 'login') {  //重新登录之后token不刷新
           this.myAxios.defaults.headers = {'Authorization': localStorage.token}
         }
-        if (to.name === 'aHome' || to.name === 'login') {
-          this.inLogin = true
-        } else {
-          this.inLogin = false;
-        }
+        this.setHeader();
       }
     },
     methods: {
-      getReads: function () {
-        const _vue = this;
-        this.myAxios({
-          url: 'manage/notification?unread=true'
-        }).then((resp) => {
-          let notification = resp.data;
-
-          const doMessage = async ()=> {
-            for (let val of notification) {
-              await _vue.showNotication(`${val.data.sn}样本已完成，<a href="#/result?id=${val.data._id}" target="_blank">点击查看结果</a>`, val._id);
-            }
+      setHeader: function () {
+        const name = this.$router.currentRoute.name;
+        if (name === 'aHome' || name === 'login' || name === 'p404') {
+          this.inLogin = true;
+          this.ininData = false;
+        } else {
+          this.inLogin = false;
+          if (name == 'myData' || name == 'addSample' || name == 'sampleD' || name == 'result' || name == 'report' || name == 'userList') {
+            this.inData = true
+          } else {
+            this.inData = false
           }
-          doMessage();
+        }
+        this.group=localStorage.grandGroup;
+        console.log(this.inData)
+        console.log(this.group)
+        this.getReads();//查看socket消息情况
+      },
+      getReads: function () {
+        if (this.group != 'guest' && !this.inLogin) {
+          const _vue = this;
+          this.myAxios({
+            url: 'manage/notification?unread=true'
+          }).then((resp) => {
+            let notification = resp.data;
+            const doMessage = async () => {
+              for (let val of notification) {
+                await _vue.showNotication(`${val.data.sn}样本已完成，<a href="#/result?id=${val.data._id}" target="_blank">点击查看结果</a>`, val._id);
+              }
+            }
+            doMessage();
 
-        }).catch((error) => {
-          _vue.catchFun(error)
-        })
+          }).catch((error) => {
+            _vue.catchFun(error)
+          })
+        }
 
       },
       showNotication: function (message, readId) {
@@ -95,7 +108,7 @@
           onClose: function () {
             Vue.prototype.ReadS(readId)
           },
-          onClick:function () {
+          onClick: function () {
             Vue.prototype.ReadS(readId)
           }
         });
@@ -173,6 +186,11 @@
         min-height: 100vh;
         /*overflow-x: hidden;*/
         position: relative;
+
+        .no-data {
+          color: red;
+          margin: 20px;
+        }
 
         .router-content {
           width: 100%;

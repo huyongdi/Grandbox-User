@@ -533,21 +533,12 @@
       }
     },
     mounted: function () {
-      const _vue = this;
       this.getList();
-//      this.getCap();
-//      const _vue = this;
       const _editM = $('#editModal');
       _editM.on('show.bs.modal', function (e) {
-//        _vue.hasGene = '';
-//        _vue.inputPanel = '';
-//        $("#editModal").on("click", function () {
-//          _vue.showPanel = false;
-//        });
         _editM.find(".fuzzy-content").find('.name').css("textAlign", 'right');
         _editM.find(".cascade-content").find('.title').css("textAlign", 'right')
       });
-//      this.getPanelOp();
     },
     methods: {
       /*获取capture选择框*/

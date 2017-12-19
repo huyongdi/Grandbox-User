@@ -226,7 +226,7 @@
                       <span v-if="dis.$inheritances && dis.$inheritances.length == 0" class="bold">[无]</span>
                       <span v-for="inheritance in dis.$inheritances">
                         <span class="po bold" data-toggle="tooltip" data-placement="top" :data-original-title='inheritance.name+"("+inheritance.chinese+")"'>
-                        [{{inheritance.ab}}]
+                        [{{inheritance}}]
                         </span>
                       </span>
 
@@ -456,17 +456,19 @@
                   <td>
                     <div v-for="dis in data.disease">
                       <!--[AD]-->
-                      <span v-if="dis.inheritances.length == 0" class="bold">[无]</span>
-                      <span v-for="inheritance in dis.inheritances">
-                        <span class="po bold" data-toggle="tooltip" data-placement="top" ><!--:data-original-title='inheritance.title.preferred+"("+inheritance.title.chinese+")"'-->
+                      <span v-if="dis.$inheritances && dis.$inheritances.length == 0" class="bold">[无]</span>
+                      <span v-for="inheritance in dis.$inheritances">
+                        <span class="po bold" data-toggle="tooltip" data-placement="top" :data-original-title='inheritance.name+"("+inheritance.chinese+")"'>
                         [{{inheritance}}]
+                        </span>
                       </span>
-                        <!--Pfeiffer综合征有中文名--><!---->
-                      <a class="po common-a"  data-toggle="tooltip" data-placement="top" :data-original-title='dis.title.preferred' @click="showHPO(dis._id)">
+
+                      <!--Pfeiffer综合征有中文名--><!---->
+                      <a v-if="dis.title" class="po common-a"  data-toggle="tooltip" data-placement="top" :data-original-title='dis.title.preferred' @click="showHPO(dis._id)">
                         {{dis.title.chinese?dis.title.chinese:dis.title.preferred}}
                       </a>
                       (<router-link :to="{path:'/omim',query:{id:dis.mimnumber}}" target="_blank">{{dis.mimnumber}}</router-link>)
-                    </span>
+
                     </div>
                   </td>
                   <td>
