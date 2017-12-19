@@ -21,12 +21,13 @@
           <th>受检者</th>
 
           <th>年龄</th>
-          <th>名族</th>
+          <th>民族</th>
           <th>籍贯</th>
           <th>病历</th>
 
           <!--<th>下载文件</th>-->
 
+          <th>报告状态</th>
           <th>变异信息</th>
           <th>选项</th>
         </tr>
@@ -43,27 +44,8 @@
           <td><span v-if="list.patient">{{list.patient.national ? list.patient.national : '-'}}</span></td>
           <td><span v-if="list.patient">{{list.patient.nativePlace ? list.patient.nativePlace : '-'}}</span></td>
           <td><span v-if="list.patient">{{list.patient.medical_record ? list.patient.medical_record : '-'}}</span></td>
-
-          <!--<td class="file-td">-->
-          <!--<span v-if="list.data_files.length!=0">-->
-            <!--&lt;!&ndash;<a v-for="file in list.data_files" href="javascript:void (0)"  @click="downloadFile(list._id,file._id)">{{file.filename}}</a>&lt;!&ndash;:href="apiUrl+''+file.downloadUrl"&ndash;&gt;&ndash;&gt;-->
-            <!--<span>{{file.filename}}</span>-->
-          <!--</span>-->
-          <!--</td>-->
+          <td>{{list.data_files[list.data_files.length-1].status|getStatus}}</td>
           <td>
-            <!--<div v-if="list.data_files">-->
-            <!--<div v-for="data in list.data_files">-->
-            <!--<i v-if='data.status == 0' class="fa fa-hourglass-1 text-success">等待</i>-->
-            <!--<span v-if="data.status == 1"> &lt;!&ndash;避免字跟着一起转&ndash;&gt;-->
-            <!--<i class="fa fa-spinner fa-pulse text-success"></i>运行中-->
-            <!--</span>-->
-            <!--<router-link :to="{path:'/result',query:{id:list._id}}" title="查看结果">-->
-            <!--<i v-if='data.status == 2' class="fa fa-check text-success po">已完成</i>-->
-            <!--</router-link>-->
-            <!--<i v-if='data.status == -1' class="fa fa-bug text-danger">出错</i>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--<div v-else="">待分析</div>-->
             <router-link :to="{path:'/result',query:{id:list._id}}" title="" target="_blank">
               查看结果
             </router-link>
@@ -121,7 +103,7 @@
                         <!--</el-form-item>-->
                       <!--</div>-->
                       <!--<div class="col-xs-6">-->
-                        <!--<el-form-item label="名族">-->
+                        <!--<el-form-item label="民族">-->
                           <!--<el-input v-model="ruleForm.national"></el-input>-->
                         <!--</el-form-item>-->
                       <!--</div>-->
@@ -181,7 +163,7 @@
                         <!--<div class="col-xs-7">{{gender}}</div>-->
                       <!--</div>-->
                       <!--<div class="col-xs-3" v-if="ruleForm.national">-->
-                        <!--<div class="col-xs-5">名族：</div>-->
+                        <!--<div class="col-xs-5">民族：</div>-->
                         <!--<div class="col-xs-7">{{ruleForm.national}}</div>-->
                       <!--</div>-->
                       <!--<div class="col-xs-3" v-if="ruleForm.nativePlace">-->
@@ -274,7 +256,7 @@
                     <!--</el-form-item>-->
                   <!--</div>-->
                   <!--<div class="col-xs-6">-->
-                    <!--<el-form-item label="名族">-->
+                    <!--<el-form-item label="民族">-->
                       <!--<el-input v-model="editForm.national"></el-input>-->
                     <!--</el-form-item>-->
                   <!--</div>-->
@@ -377,7 +359,7 @@
                   <!--<div class="col-xs-3">姓名：<span v-if="detailData.patient">{{detailData.patient.name}}</span></div>-->
                   <!--<div class="col-xs-3">编号：<span v-if="detailData">{{detailData.sn}}</span></div>-->
                   <!--<div class="col-xs-3">性别：<span v-if="detailData.patient">{{detailData.patient.gender}}</span></div>-->
-                  <!--<div class="col-xs-3">名族：<span v-if="detailData.patient">{{detailData.patient.national ? detailData.patient.national : '-'}}</span>-->
+                  <!--<div class="col-xs-3">民族：<span v-if="detailData.patient">{{detailData.patient.national ? detailData.patient.national : '-'}}</span>-->
                   <!--</div>-->
                   <!--<div class="col-xs-3">籍贯：<span v-if="detailData.patient">{{detailData.patient.nativePlace ? detailData.patient.nativePlace :-->
                     <!--'-'}}</span></div>-->
@@ -789,7 +771,7 @@
             sn: this.ruleForm.sn,
             gender: this.gender,
             medical_record: this.ruleForm.patientCase,
-            nation: this.ruleForm.national, /*名族*/
+            nation: this.ruleForm.national, /*民族*/
             native_place: this.ruleForm.nativePlace, /*籍贯*/
             age: this.ruleForm.age, /**/
 //            sn: this.addInfo.birth, /*表型 检测项目*/

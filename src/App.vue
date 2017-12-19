@@ -43,9 +43,8 @@
       }
     },
     created: function () {
-
       this.baseBind();
-      this.getReads();//查看socket消息情况
+//      this.getReads();//查看socket消息情况
     },
     mounted: function () {
       this.baseBind();
@@ -61,7 +60,6 @@
           this.myAxios.defaults.headers = {'Authorization': localStorage.token}
         }
         this.setHeader();
-        this.getReads();//查看socket消息情况
       }
     },
     methods: {
@@ -80,11 +78,7 @@
         }
         this.group = localStorage.grandGroup;
         this.isAd = localStorage.isAd;
-
-//        console.log('LOGIN:'+this.inLogin)
-//        console.log('group:'+this.group)
-//        console.log('isAd:'+this.isAd)
-
+        this.getReads();//查看socket消息情况
       },
       getReads: function () {
         if (this.group != 'guest' && !this.inLogin) {
@@ -122,15 +116,12 @@
             dangerouslyUseHTMLString: true,
             message: message,
             duration: 0, /*60s*/
+            offset: 50,
             onClose: function () {
-              if (status == 2) {
-                Vue.prototype.ReadS(readId)
-              }
+              Vue.prototype.ReadS(readId)
             },
             onClick: function () {
-              if (status == 2) {
-                Vue.prototype.ReadS(readId)
-              }
+              Vue.prototype.ReadS(readId)
             }
           });
 

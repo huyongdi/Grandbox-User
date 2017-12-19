@@ -34,7 +34,7 @@
                 </el-form-item>
               </div>
               <div class="col-xs-6">
-                <el-form-item label="名族">
+                <el-form-item label="民族">
                   <el-input v-model="ruleForm.national"></el-input>
                 </el-form-item>
               </div>
@@ -127,7 +127,7 @@
                 <div class="col-xs-7">{{gender}}</div>
               </div>
               <div class="col-xs-3" v-if="ruleForm.national">
-                <div class="col-xs-5">名族：</div>
+                <div class="col-xs-5">民族：</div>
                 <div class="col-xs-7">{{ruleForm.national}}</div>
               </div>
               <div class="col-xs-3" v-if="ruleForm.nativePlace">
@@ -309,7 +309,7 @@
             sn: this.ruleForm.sn,
             gender: this.gender,
             medical_record: this.ruleForm.patientCase,
-            nation: this.ruleForm.national, /*名族*/
+            nation: this.ruleForm.national, /*民族*/
             native_place: this.ruleForm.nativePlace, /*籍贯*/
             age: this.ruleForm.age,
             hpos : this.postHpo,
