@@ -49,6 +49,7 @@
           </thead>
 
           <tbody>
+
           <tr v-for="(result,index) in phList" :class="['p-tr-'+index]" :data-index="index" class="p-tr">
             <td style="position: relative">{{result.geneid}}</td>
             <td class="copy-gene">{{result.name.symbol}}</td>
@@ -88,6 +89,8 @@
   import toolHeader from './global/toolHeader.vue'
   import choosePh from './global/choosePh.vue'
   import hpoModal from './global/HpoModal.vue'
+
+
 
   export default {
     data: function () {

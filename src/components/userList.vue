@@ -123,8 +123,8 @@
               </el-form-item>
 
               <el-form-item label="身份">
-                <el-radio v-model="ruleForm.identity" label=guest >访客</el-radio>
-                <el-radio v-model="ruleForm.identity" label=user >普通用户</el-radio><!--:disabled="ruleForm.isAdmin"-->
+                <el-radio v-model="ruleForm.identity" label=guest :disabled="ruleForm.isAdmin">访客</el-radio>
+                <el-radio v-model="ruleForm.identity" label=user :disabled="ruleForm.isAdmin">普通用户</el-radio>
                 <!--<el-radio v-model="ruleForm.identity" label=true>管理员</el-radio>-->
               </el-form-item>
 

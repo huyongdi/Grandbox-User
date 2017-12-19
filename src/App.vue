@@ -4,9 +4,9 @@
     <nav-header v-if="!inLogin"></nav-header>
 
     <div class="router-content">
-      <router-view v-if="group !='guest'"></router-view> <!--正常用户全部显示-->
-      <router-view v-if="group =='guest' && !inData"></router-view>
-      <div v-if="group =='guest' && inData" class="no-data">您没有访问本数据的权限</div>
+      <router-view v-if="group !='guest' || isAd"></router-view> <!--正常用户全部显示-->
+      <router-view v-if="group =='guest' && !inData &&!isAd"></router-view>  <!--游客看除了我的数据的其它内容-->
+      <div v-if="group =='guest' && inData && !isAd" class="no-data">您没有访问本数据的权限</div>  <!--游客切换到我的数据有提示-->
     </div>
 
 
@@ -35,6 +35,7 @@
     data: function () {
       return {
         group: localStorage.grandGroup,
+        isAd: localStorage.isAd,
         inLogin: '',
         inGene: '',
         ele11: '',
@@ -42,7 +43,9 @@
       }
     },
     created: function () {
+
       this.baseBind();
+      this.getReads();//查看socket消息情况
     },
     mounted: function () {
       this.baseBind();
@@ -58,6 +61,7 @@
           this.myAxios.defaults.headers = {'Authorization': localStorage.token}
         }
         this.setHeader();
+        this.getReads();//查看socket消息情况
       }
     },
     methods: {
@@ -75,7 +79,12 @@
           }
         }
         this.group = localStorage.grandGroup;
-        this.getReads();//查看socket消息情况
+        this.isAd = localStorage.isAd;
+
+//        console.log('LOGIN:'+this.inLogin)
+//        console.log('group:'+this.group)
+//        console.log('isAd:'+this.isAd)
+
       },
       getReads: function () {
         if (this.group != 'guest' && !this.inLogin) {
@@ -84,9 +93,19 @@
             url: 'manage/notification?unread=true'
           }).then((resp) => {
             let notification = resp.data;
+            let messageStr = _vue.messageId.join(',')
             const doMessage = async () => {
               for (let val of notification) {
-                await _vue.showNotication(`${val.data.sn}样本已完成，<a href="#/result?id=${val.data._id}" target="_blank">点击查看结果</a>`, val._id);
+                if (!messageStr.includes(val.id)) {
+                  _vue.messageId.push(val.id);
+                  if (val.data.data_file.status == 2) {
+                    await _vue.showNotication(`${val.data.sn}样本已完成，<a href="#/result?id=${val.data._id}" target="_blank">点击查看结果</a>`, val._id, 2);
+                  } else if (val.data.data_file.status == 1) {
+                    await _vue.showNotication(`${val.data.sn}样本开始运行`, val._id, 1);
+                  } else if (val.data.data_file.status == -1) {
+                    await _vue.showNotication(`${val.data.sn}样本出错`, val._id, -1);
+                  }
+                }
               }
             }
             doMessage();
@@ -94,23 +113,42 @@
             _vue.catchFun(error)
           })
         }
-
       },
-      showNotication: function (message, readId) {
-        Vue.prototype.$notify({
-          customClass: 'abc123',
-          title: '成功',
-          dangerouslyUseHTMLString: true,
-          message: message,
-          type: 'success',
-          duration: 0, /*60s*/
-          onClose: function () {
-            Vue.prototype.ReadS(readId)
-          },
-          onClick: function () {
-            Vue.prototype.ReadS(readId)
-          }
-        });
+      showNotication: function (message, readId, status) {
+        if (status == 1 || status == 2) {
+          Vue.prototype.$notify({
+            title: '成功',
+            type: 'success',
+            dangerouslyUseHTMLString: true,
+            message: message,
+            duration: 0, /*60s*/
+            onClose: function () {
+              if (status == 2) {
+                Vue.prototype.ReadS(readId)
+              }
+            },
+            onClick: function () {
+              if (status == 2) {
+                Vue.prototype.ReadS(readId)
+              }
+            }
+          });
+
+        } else if (status == -1) {
+          this.$notify.error({
+            title: '错误',
+            message: message,
+            duration: 0,
+            offset: 50,
+            onClose: function () {
+              Vue.prototype.ReadS(readId)
+            },
+            onClick: function () {
+              Vue.prototype.ReadS(readId)
+            }
+          });
+        }
+
         return true
       },
       baseBind: function () {

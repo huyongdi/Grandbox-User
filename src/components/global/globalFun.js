@@ -123,6 +123,7 @@ Vue.prototype.upDown = function (e) {
 };
 
 //监听样本的完成情况
+Vue.prototype.messageId =[];
 $.getScript("http://192.168.2.192:6001/socket.io/socket.io.js", function () {
   let EchoS = new Echo({
     broadcaster: 'socket.io',
@@ -137,13 +138,14 @@ $.getScript("http://192.168.2.192:6001/socket.io/socket.io.js", function () {
     EchoS.private(('App.Models.Manage.User.' + localStorage.getItem('grandId')))
       .notification((e) => {
         console.log(e);
+        Vue.prototype.messageId.push(e.id);
         if (e.data_file.status == 2) {
-          Vue.prototype.showSuccessNotify(`${e.sn}样本已完成，<a href="#/result?id=${e._id}" target="_blank">点击查看结果</a>`,e._id);
-          EchoS.leave(`App.Models.Manage.Sample.' + ${e._id}`);
+          Vue.prototype.showSuccessNotify(`${e.sn}样本已完成，<a href="#/result?id=${e._id}" target="_blank">点击查看结果</a>`,e.id);
+//          EchoS.leave(`App.Models.Manage.Sample.' + ${e._id}`);
         } else if (e.data_file.status == -1) {
           Vue.prototype.$notify.error({
             title: '错误',
-            message: '样本' + sampleId + '出错',
+            message: '样本' + e.sn + '出错',
           });
         } else if (e.data_file.status == 1) {
           Vue.prototype.$notify({
