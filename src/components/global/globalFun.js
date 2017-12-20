@@ -6,6 +6,7 @@ import Echo from "laravel-echo"
 
 /*自定义全局函数*/
 // 捕获错误
+Vue.prototype.toLoginParam='';
 Vue.prototype.catchFun = function (error) {
   if (error.__proto__.__CANCEL__) {
     return
@@ -34,9 +35,12 @@ Vue.prototype.catchFun = function (error) {
       type: 'error'
     });
     if (error.response.status === 401) {
+      console.log(this.$route.name)
       if (this.$route.name !== 'login') {
 //        localStorage.token = '';
-        this.$router.push({path: '/login', query: {'next': this.$route.path}})
+        let _href =window.location.href;
+        Vue.prototype.toLoginParam = _href.substring(_href.indexOf('?')+1,_href.length);
+        this.$router.push({path: '/login'});
       }
     } else if (error.response.status === 404) {
       this.$router.push({path: '/p404'})

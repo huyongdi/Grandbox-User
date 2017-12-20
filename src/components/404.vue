@@ -2,8 +2,11 @@
   <div class="p404">
     <div class="content">
       <div class="title">404</div>
-
       <div class="char">页面未找到</div>
+
+
+      <router-link :to="{path:'/login'}" class="to-login">返回登录页</router-link>
+
     </div>
   </div>
 </template>
@@ -40,6 +43,11 @@
     }
     .char{
       font-size: 50px;
+    }
+    .to-login{
+      color: #fff;
+      display: block;
+      margin-top: 5vh;
     }
   }
 }

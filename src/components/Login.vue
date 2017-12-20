@@ -122,11 +122,21 @@
           localStorage.isAd = data.is_admin;
           localStorage.uname = data.name;
           localStorage.time = data.exp;
+
+
+          //成功后带参数跳转
           const nextPath = _vue.$route.query.next ? _vue.$route.query.next : '/myData';
-          _vue.$router.push({path: nextPath});
+          let queryStr =_vue.toLoginParam;
+          let arr = queryStr.split('&');
+          let queryObj= {};
+          $.each(arr,function (key,val) {
+            let a = val.substring(0,val.indexOf('='));
+            let b = val.substring(val.indexOf('=')+1,val.length);
+            queryObj[a] = b
+          });
+          _vue.$router.push({path: nextPath,query:queryObj});
 
           /*group 1 2 3 管理员 医生 用户*/
-
         }).catch(function (error) {
           _vue.catchFun(error);
         });

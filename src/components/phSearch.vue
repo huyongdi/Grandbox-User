@@ -167,6 +167,7 @@
           geneArr.push($.trim($(this).html()))
         });
         _copyInput.val(geneArr.join(','));
+        console.log(geneArr.join(','))
         const input = document.getElementById('copy-input');
         input.focus();
         input.select();

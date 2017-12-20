@@ -58,6 +58,7 @@
       '$route'(to, from) { //路由变化的时候判断需不需要加载头部
         if (from.name === 'login') {  //重新登录之后token不刷新
           this.myAxios.defaults.headers = {'Authorization': localStorage.token}
+          this.getReads();//单页面只有从登陆进来才需要请求，其余的刷新页面才请求
         }
         this.setHeader();
       }
@@ -78,7 +79,6 @@
         }
         this.group = localStorage.grandGroup;
         this.isAd = localStorage.isAd;
-        this.getReads();//查看socket消息情况
       },
       getReads: function () {
         if (this.group != 'guest' && !this.inLogin) {

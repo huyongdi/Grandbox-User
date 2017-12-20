@@ -29,8 +29,18 @@
 
       <div class="col-xs-6 page-1">
         <div class="patient-content">
-          <span class="col-xs-3">姓名：{{allData.sample &&allData.sample.patient&&allData.sample.patient.name}}</span>
-
+          <span class="col-xs-4">姓名：{{allData.sample &&allData.sample.patient&&allData.sample.patient.name}}</span>
+          <span class="col-xs-4">性别：{{allData.sample &&allData.sample.patient&&allData.sample.patient.gender}}</span>
+          <span class="col-xs-4">民族：{{allData.sample &&allData.sample.patient&&allData.sample.patient.nation}}</span>
+          <span class="col-xs-4">年龄：{{allData.sample &&allData.sample.patient&&allData.sample.patient.age}}</span>
+          <span class="col-xs-4">样本编号：{{allData.sample &&allData.sample.sn}}</span>
+          <span class="col-xs-4">检测方法：捕获靶向测序-高通量测序</span>
+          <div class="col-xs-12">
+            <div class="pull-left">检测项目：</div>
+            <div class="pull-left row" v-if="allData.sample">
+              <div v-for="p in allData.sample.panels" class="col-xs-4">{{p.name}}({{p.code}})</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -597,6 +607,8 @@
         }).then(function (resp) {
           _vue.allData = resp.data.data;
           _vue.loading = false;
+        }).catch(function (error) {
+          _vue.catchFun(error)
         })
       },
       /*20170915更新全部重写*/
@@ -924,7 +936,7 @@
   @title: rgb(83, 83, 83);
   #report-content {
     color: @gray;
-    .row {
+    >.row {
       background-color: #fff;
       padding: 20px;
       .top {
@@ -1006,9 +1018,6 @@
         }
       }
     }
-
-
-
 
 
 
