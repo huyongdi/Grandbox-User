@@ -1,6 +1,7 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
+import './main'
 import Vuex from 'vuex'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -20,17 +21,15 @@ Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.use(Vuex);
 
-let apiUrl = 'http://192.168.2.192:8000/api/';
-Vue.prototype.apiUrl = apiUrl;
-//let apiUrl = 'http://118.26.69.171:8765/api/';
+
 Vue.prototype.loginAxios = axios.create({
-  baseURL: apiUrl,
+  baseURL: Vue.prototype.apiUrl,
 });
 /*取消請求*/
 const CancelToken = axios.CancelToken;
 const source = CancelToken.source();
 Vue.prototype.myAxios = axios.create({
-  baseURL: apiUrl,
+  baseURL: Vue.prototype.apiUrl,
   cancelToken: source.token,
   headers: {'Authorization': localStorage.token},
 });
@@ -42,7 +41,7 @@ Vue.prototype.myAxios.interceptors.request.use(function (config) {
 
   if (currentSecond+1 > parseFloat(localStorage.time)) {
     $.ajax({
-      url: apiUrl + 'auth/refresh',
+      url: Vue.prototype.apiUrl + 'auth/refresh',
       type: 'get',
       async: false,
       beforeSend: function (xhr) {

@@ -44,10 +44,10 @@
     },
     created: function () {
       this.baseBind();
-//      this.getReads();//查看socket消息情况
+      this.getReads();//查看socket消息情况
     },
     mounted: function () {
-      this.baseBind();
+//      this.baseBind();
       this.setHeader();
     },
     updated: function () {
@@ -81,7 +81,7 @@
         this.isAd = localStorage.isAd;
       },
       getReads: function () {
-        if (this.group != 'guest' && !this.inLogin) {
+        if ((this.group != 'guest'||this.isAd) && !this.inLogin) {
           const _vue = this;
           this.myAxios({
             url: 'manage/notification?unread=true'
@@ -203,7 +203,7 @@
   }
 
   html {
-    min-width: 1430px;
+    /*min-width: 1430px;*/
     background: linear-gradient(to bottom, #f0f0f0, #ffffff);
     min-height: 100%;
     width: 100%;

@@ -19,393 +19,99 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <div class="col-md-12 col-lg-6 page-1 book fix-page">
         <div class="sample-title">
           <span class="big">基因分析报告</span>
           <span class="small">GENE ANALYSIS REPORT</span>
         </div>
-      </div>
-
-      <img src="../../static/img/report-3.png" alt="" class="w100">
-
-      <div class="col-xs-6 page-1">
+        <img src="../../static/img/report-4.png" alt="" class="w100">
         <div class="patient-content">
-          <span class="col-xs-4">姓名：{{allData.sample &&allData.sample.patient&&allData.sample.patient.name}}</span>
-          <span class="col-xs-4">性别：{{allData.sample &&allData.sample.patient&&allData.sample.patient.gender}}</span>
-          <span class="col-xs-4">民族：{{allData.sample &&allData.sample.patient&&allData.sample.patient.nation}}</span>
-          <span class="col-xs-4">年龄：{{allData.sample &&allData.sample.patient&&allData.sample.patient.age}}</span>
-          <span class="col-xs-4">样本编号：{{allData.sample &&allData.sample.sn}}</span>
+          <span class="col-xs-4">姓名：{{allData.sample && allData.sample.patient && allData.sample.patient.name}}</span>
+          <span class="col-xs-4">性别：{{allData.sample && allData.sample.patient && allData.sample.patient.gender}}</span>
+          <span class="col-xs-4">民族：{{allData.sample && allData.sample.patient && allData.sample.patient.nation}}</span>
+          <span class="col-xs-4">年龄：{{allData.sample && allData.sample.patient && allData.sample.patient.age}}</span>
+          <span class="col-xs-4">样本编号：{{allData.sample && allData.sample.sn}}</span>
           <span class="col-xs-4">检测方法：捕获靶向测序-高通量测序</span>
-          <div class="col-xs-12">
-            <div class="pull-left">检测项目：</div>
-            <div class="pull-left row" v-if="allData.sample">
+          <div class="col-xs-12 panel-all">
+            <div class="pull-left panel-name">检测项目：</div>
+            <div class="pull-left row panel-content" v-if="allData.sample">
               <div v-for="p in allData.sample.panels" class="col-xs-4">{{p.name}}({{p.code}})</div>
             </div>
           </div>
         </div>
+        <img src="../../static/img/report-4.png" alt="" class="w100">
+        <div class="clinical-info">
+          <span class="bold title">临床信息</span>
+          <span class="content">
+            {{allData.sample && allData.sample.patient && allData.sample.patient.medical_record}}
+          </span>
+        </div>
+
+        <div class="result-info">
+          <span class="block bold title">检测结果</span>
+          <div class="content" v-if="allData.majors">
+            <span class="no-data" v-if="allData.majors.length == 0">未检测到与患者临床表型相关的具有可能临床意义的变异（包括SNV和Indel）。</span>
+
+            <table class="table report-table" v-else="">
+              <thead>
+              <tr>
+                <th>序号</th>
+                <th>基因名</th>
+                <th>转录本</th>
+                <th>染色体位置</th>
+                <th>核苷酸改变</th>
+                <th>氨基酸改变</th>
+                <th>纯杂合</th>
+                <th>普通人群频率</th>
+                <th>变异类型</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr v-for="(list,index) in allData.majors">
+                <td>{{index + 1}}</td>
+                <td>{{list.change && list.change.gene}}</td>
+                <td>{{list.change && list.change.transcript}}</td>
+                <td>{{list.position}}</td>
+                <td>{{list.change && list.change.na_change}}</td>
+                <td>{{list.change && list.change.aa_change}}</td>
+                <td>{{list.hom_het}}</td>
+                <td>{{list.freq}}</td>
+                <td>{{list.intervar}}</td>
+              </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+
+        <div class="result-explain">
+          <span class="bold block title">结果说明</span>
+          <div class="content" v-if="allData.majors">
+
+          </div>
+        </div>
+
+        <div class="footer">
+          注：以上解读基于目前对单基因遗传病致病基因的研究。疾病简介、基因简介、一代验证及其他意义未明变异位点见附录。 变异的解释及证据定级是参照美国医学遗传学与基因组学学会（ACMG）发布的最新版基因变异解读标准和指南； Pathogenic表示致病性变异，Likely pathogenic表示疑似致病性变异， VUS表示临床性意义未明变异，Likely benign表示疑 似良性变异，Benign表示良性变异[1].参考基因组为hg19， 变异命名参照HGVS建议的规则给出
+        </div>
+
       </div>
 
-      <!--<div class="report bc-fff">-->
-        <!--<div class="has-url">-->
-          <!--<div class="sample-content">-->
-            <!--<img class="first-img" src="../../static/img/report-3.png" alt="">-->
 
-            <!--<div class="basic-content">-->
-              <!--<div class="one">-->
-                <!--<span>姓名：<span v-if="allData.patient">{{allData.patient.name}}</span></span>-->
-                <!--<span>性别：<span v-if="allData.patient">{{allData.patient.gender}}</span></span>-->
-                <!--<span>民族：<span v-if="allData.patient">{{allData.patient.nation}}</span></span>-->
-                <!--<span>出生年月：<span v-if="allData.patient">{{allData.patient.birth}}</span></span>-->
-                <!--<span>样本编号：<span v-if="allData.patient">{{allData.patient.sample.code}}</span></span>-->
-              <!--</div>-->
-              <!--<div class="two">-->
-                <!--<span>样品类型：<span v-if="allData.patient">{{allData.patient.sample.type ? allData.patient.sample.type : '未知'}}</span></span>-->
-                <!--<span>检测项目：<span v-if="allData.patient">{{allData.patient.testItems}}</span></span>-->
-                <!--<span>检测方法：<span v-if="allData.patient">{{allData.patient.method}}</span></span>-->
-                <!--<span>送检医院：<span v-if="allData.patient">{{allData.patient.hospital}}</span></span>-->
-              <!--</div>-->
-              <!--<img src="../../static/img/report-4.png" class="bottom-img" alt="">-->
-            <!--</div>-->
-            <!--<div class="first-page">-->
-              <!--<div class="one">-->
-                <!--&lt;!&ndash;<div class="title">临床信息</div>&ndash;&gt;-->
-                <!--&lt;!&ndash;<div class="content"><span v-if="allData.patient">{{allData.patient.clinical}}</span></div>&ndash;&gt;-->
-                <!--<div class="content"><span class="title">临床信息：</span><span v-if="allData.patient"-->
-                                                                           <!--style="word-break: break-all"> {{allData.patient.clinical}}</span></div>-->
-              <!--</div>-->
-              <!--<div class="one">-->
-                <!--<div class="title">检测结果</div>-->
-                <!--<div class="content">-->
-                  <!--<span class="no-data" v-if="allData.majors && allData.majors.length == 0">未检测到与患者临床表型相关的具有可能临床意义的变异（包括SNV和Indel）。</span>-->
-                  <!--<table class="table" id="main-result" v-if="allData.majors && allData.majors.length !=0">-->
-                    <!--<thead>-->
-                    <!--<tr>-->
-                      <!--<th>序号</th>-->
-                      <!--<th>基因名</th>-->
-                      <!--<th>转录本</th>-->
-                      <!--<th>染色体位置</th>-->
-                      <!--<th>核苷酸改变</th>-->
-                      <!--<th>氨基酸改变</th>-->
-                      <!--<th>纯杂合</th>-->
-                      <!--<th>普通人群频率</th>-->
-                      <!--<th>来源</th>-->
-                      <!--<th>变异类型</th>-->
-                    <!--</tr>-->
-                    <!--</thead>-->
-                    <!--<tbody>-->
-                    <!--<tr v-for="(list,index) in allData.majors">-->
-                      <!--<td>{{index + 1}}</td>-->
-                      <!--<td>{{list.gene}}</td>-->
-                      <!--<td>{{list.transcript}}</td>-->
-                      <!--<td>{{list.position}}</td>-->
-                      <!--<td>{{list.nachange ? list.nachange : '-'}}</td>-->
-                      <!--<td>{{list.aachange ? list.aachange : '-'}}</td>-->
-                      <!--<td>{{list.homhet}}</td>-->
-                      <!--<td>{{list.freq ? list.freq : 0}}</td>-->
-                      <!--<td>{{list.validation}}</td>-->
-                      <!--<td>-->
-                        <!--<router-link class="common-a" target="_blank" title="点击可修改"-->
-                                     <!--:to="{path:'/taskM/foo/getIntervar',query:{query:list.id}}">-->
-                          <!--{{list.intervar}}-->
-                        <!--</router-link>-->
-                      <!--</td>-->
-                    <!--</tr>-->
-                    <!--</tbody>-->
-                  <!--</table>-->
-                <!--</div>-->
-              <!--</div>-->
-              <!--<div class="one" v-if="allData.majors && allData.majors.length!=0">-->
-                <!--<div class="title">结果说明</div>-->
-                <!--<div class="content">-->
-                  <!--&lt;!&ndash;<span v-for="(major,index) in allData.majorsVue"> &lt;!&ndash;不同基因&ndash;&gt;&ndash;&gt;-->
-                  <!--&lt;!&ndash;{{major.gene.symbol}}基因是<span v-if="major.diseases.length === 1" v-for="(disease,index) in major.diseases"><span&ndash;&gt;-->
-                  <!--&lt;!&ndash;v-for="(list,index) in disease.inheritance">{{list | getName}}<span&ndash;&gt;-->
-                  <!--&lt;!&ndash;v-if="disease.inheritance.length!==1 &&index!==disease.inheritance.length">、</span></span>&ndash;&gt;-->
-                  <!--&lt;!&ndash;&lt;!&ndash;{{disease.inheritance|getName.join(',')}}&ndash;&gt;的{{disease.title.chinese}}(OMIM：# {{disease.mimNumber}};{{disease.title.english}})</span><span&ndash;&gt;-->
-                  <!--&lt;!&ndash;v-if="major.diseases.length === 2" v-for="(disease,index) in major.diseases">{{disease.inheritance.join(&ndash;&gt;-->
-                  <!--&lt;!&ndash;',')}}的{{disease.title.chinese}}(OMIM：# {{disease.mimNumber}};{{disease.title.english}}) <span v-if="index === 0">和</span></span>&ndash;&gt;-->
-                  <!--&lt;!&ndash;<span v-if="major.diseases.length > 2" v-for="(disease,index) in major.diseases">{{disease.inheritance.join(&ndash;&gt;-->
-                  <!--&lt;!&ndash;',')}}的{{disease.title.chinese}}(OMIM：# {{disease.mimNumber}};{{disease.title.english}}) <span&ndash;&gt;-->
-                  <!--&lt;!&ndash;v-if="index != major.diseases.length-1"> , </span></span><span v-if="index !== allData.majorsVue.length-1">。</span>&ndash;&gt;-->
-                  <!--&lt;!&ndash;</span>。在本次检测中，我们检测到受检者{{funStr}}。&ndash;&gt;-->
-                  <!--&lt;!&ndash;对于常染色体隐性遗传的疾病来说，单个致病性变异的携带者并不会发展为患者，只有纯合致病性变异和复合杂合型致病性变异（反式）才会导致疾病的发生。若父母均为携带者，每次剩余的子女均有25%的可能为患者。&ndash;&gt;-->
-                  <!--&lt;!&ndash;<span class="bold">疾病的最终确诊还需结合进一步的临床检查和家系调查。</span>&ndash;&gt;-->
-
-                  <!--<span v-for="(major,index) in resultsData">-->
-                    <!--{{major}} <span v-if="index ==resultsData.length-1">。</span>-->
-                  <!--</span>-->
-                  <!--<span>-->
-                    <!--在本次检测中，我们检测到受检者-->
-                      <!--<span v-for="(fuc,index) in resultsFuncsData">-->
-                        <!--{{fuc}}-->
-                        <!--<span v-if="index == resultsFuncsData.length-1">。</span>-->
-                        <!--<span v-else=""> , </span>-->
-                      <!--</span>-->
-                  <!--</span>-->
-                  <!--<span v-if="allData.presentation && allData.presentation.inheritances">{{allData.presentation.inheritances.join('  ')}}</span>-->
-                  <!--<span class="bold">疾病的最终确诊还需结合进一步的临床检查和家系调查。</span>-->
-
-                  <!--<div class="notice">-->
-                    <!--注：以上解读基于目前对单基因遗传病致病基因的研究。疾病简介、基因简介、一代验证及其他意义未明变异位点见附录。-->
-                    <!--变异的解释及证据定级是参照美国医学遗传学与基因组学学会（<span>ACMG</span>）发布的最新版基因变异解读标准和指南；-->
-                    <!--<span>Pathogenic</span>表示致病性变异，<span>Likely pathogenic</span>表示疑似致病性变异，-->
-                    <!--<span>VUS</span>表示临床性意义未明变异，<span>Likely benign</span>表示疑-->
-                    <!--似良性变异，<span>Benign</span>表示良性变异<sup>[1]</sup>.参考基因组为<span>hg19</span>，-->
-                    <!--变异命名参照<span>HGVS</span>建议的规则给出-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<div class="appendix-page"> &lt;!&ndash;附录&ndash;&gt;-->
-              <!--<div class="title">附录</div>-->
-              <!--<div class="one" v-if="allData.majors && allData.majors.length!=0">-->
-                <!--<div class="title">1.疾病简介</div>-->
-                <!--<div class="content">-->
-                  <!--<div class="appendix-content">-->
-                    <!--&lt;!&ndash;<div v-for="(majorD,index) in majorDiseases" class="diseases-content">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div class="diseases-content-title">{{index + 1}}) {{majorD.title.chinese ? majorD.title.chinese : majorD.title.english}}</div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div class="diseases-content-remark" v-show="majorD.hpoLength !==0">&ndash;&gt;-->
-                    <!--&lt;!&ndash;疾病概述：<span v-for="(list,index) in majorD.inheritance">{{list | getName}}<span&ndash;&gt;-->
-                    <!--&lt;!&ndash;v-if="majorD.inheritance.length!==1 &&index!==majorD.inheritance.length">、</span></span>&lt;!&ndash;{{majorD.inheritance.join(',')}}&ndash;&gt;&ndash;&gt;-->
-                    <!--&lt;!&ndash;，典型的临床症状包括<span v-for="(hpo,index) in majorD.hpos">{{hpo.titles.chinese ? hpo.titles.chinese : hpo.titles.english}}<span&ndash;&gt;-->
-                    <!--&lt;!&ndash;v-if="index!=majorD.hpos.length-1">、</span></span>。&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-                    <!--<div class="diseases-content" v-for="(majorD,index) in allData.diseases.major">-->
-                      <!--<div class="diseases-content-title">{{index + 1}}) {{majorD.name}}</div>-->
-                      <!--<div class="diseases-content-remark">-->
-                        <!--疾病概述：{{majorD.inheritance}}，典型的临床症状包括{{majorD.phenotypes}}。-->
-                      <!--</div>-->
-                    <!--</div>-->
-
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-              <!--<div class="one" v-if="allData.majors && allData.majors.length!=0">-->
-                <!--<div class="title">2.变异详情</div>-->
-                <!--<div class="content">-->
-                  <!--<div class="appendix-content">-->
-                    <!--<div class="diseases-content" v-for="(major,index) in allData.majors">-->
-                      <!--<div class="variation-title">{{index + 1}}) <span-->
-                        <!--class="variation-title-content">{{major.gene}}基因的{{major.position}}（{{major.aachange}}）变异</span></div>-->
-                      <!--<div class="variation-content">-->
-                        <!--&lt;!&ndash;该变异在EXAC普通人数据库东亚人群中的频率为{{major.freq}}(暂无}),该变异未见文献报道。&ndash;&gt;-->
-                        <!--<span v-for="list in allData.variants" v-if="major.aachange == list.aachange">{{list.evidences.join(';')}}</span>-->
-                        <!--。基于以上证据，我们建议判定该变异为{{major.intervar}}变异。-->
-                      <!--</div>-->
-                    <!--</div>-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-              <!--<div class="one" v-if="allData.majors && allData.majors.length!=0">-->
-                <!--<div class="title">3.一代验证结果</div>-->
-                <!--<div class="content" id="showImg">-->
-                  <!--<span class="my-btn" @click="showVer" style="width: 160px"><img src="../../static/img/red-submit.png" alt="">添加一代验证结果</span>-->
-
-                  <!--<div class="img-one" v-for="(list,index) in imgArr">-->
-
-                    <!--<table class="table">-->
-                      <!--<thead>-->
-                      <!--<tr>-->
-                        <!--<th>序号</th>-->
-                        <!--<th>基因名</th>-->
-                        <!--<th>转录本</th>-->
-                        <!--<th>染色体位置</th>-->
-                        <!--<th>核苷酸改变</th>-->
-                        <!--<th>氨基酸改变</th>-->
-                        <!--<th>受检者</th>-->
-                      <!--</tr>-->
-                      <!--</thead>-->
-                      <!--<tbody>-->
-                      <!--<tr>-->
-                        <!--<td>{{index + 1}}</td>-->
-                        <!--<td>{{list.gene}}</td>-->
-                        <!--<td>{{list.transcript}}</td>-->
-                        <!--<td>{{list.position}}</td>-->
-                        <!--<td>{{list.nachange ? list.nachange : '-'}}</td>-->
-                        <!--<td>{{list.aachange ? list.aachange : '-'}}</td>-->
-                        <!--<td>{{list.homhet}}</td>-->
-                      <!--</tr>-->
-                      <!--</tbody>-->
-                    <!--</table>-->
-
-                    <!--<table class="table">-->
-                      <!--<thead>-->
-                      <!--<tr>-->
-                        <!--<th colspan="3" style="padding: 3px">相关峰图</th>-->
-                      <!--</tr>-->
-                      <!--</thead>-->
-                      <!--<tbody>-->
-                      <!--<tr v-for="one in list.infoArr">-->
-                        <!--<td>{{one.name}}</td>-->
-                        <!--<td><img class="" :src="one.image" alt=""></td>-->
-                        <!--<td><a class="common-a" @click="changeImg" :data-id="list.snvid" :data-name="one.name" :data-genotype="one.genotype">修改图片</a>-->
-                        <!--</td>-->
-                      <!--</tr>-->
-                      <!--</tbody>-->
-                    <!--</table>-->
-                  <!--</div>-->
-
-
-                <!--</div>-->
-              <!--</div>-->
-              <!--<div class="one">-->
-                <!--<div class="title"><span v-if="allData.majors && allData.majors.length!=0">4.</span>其他变异信息</div>-->
-                <!--<div class="content">-->
-                  <!--<table class="table">-->
-                    <!--<thead>-->
-                    <!--<tr>-->
-                    <!--<tr>-->
-                      <!--<th>序号</th>-->
-                      <!--<th>基因名</th>-->
-                      <!--<th>转录本</th>-->
-                      <!--<th>染色体位置</th>-->
-                      <!--<th>核苷酸改变</th>-->
-                      <!--<th>氨基酸改变</th>-->
-                      <!--<th>纯/杂合</th>-->
-                      <!--<th>普通人群频率</th>-->
-                      <!--<th>遗传方式</th>-->
-                      <!--<th>疾病表型及OMIM编号</th>-->
-                    <!--</tr>-->
-                    <!--</thead>-->
-                    <!--<tbody>-->
-                    <!--<tr v-for="(list,index) in allData.minors">-->
-                      <!--<td>{{index + 1}}</td>-->
-                      <!--<td>{{list.gene}}</td>-->
-                      <!--<td>{{list.transcript}}</td>-->
-                      <!--<td>{{list.position}}</td>-->
-                      <!--<td>{{list.nachange ? list.nachange : '-'}}</td>-->
-                      <!--<td>{{list.aachange ? list.aachange : '-'}}</td>-->
-                      <!--<td>{{list.homhet}}</td>-->
-                      <!--<td>{{list.freq ? list.freq : 0}}</td>-->
-                      <!--<td>-->
-                        <!--<div v-for="a in list.diseases">{{a.inheritance}}</div>-->
-                      <!--</td>-->
-                      <!--<td>-->
-                        <!--<div v-for="a in list.diseases">-->
-                          <!--<span>{{a.name}}</span>-->
-                        <!--</div>-->
-                      <!--</td>-->
-                    <!--</tr>-->
-                    <!--</tbody>-->
-                  <!--</table>-->
-                  <!--<div class="notice">-->
-                    <!--(-->
-                    <!--注：以上次要变异均未经一代测序验证，AD表示常染色体遗传，AR表示常染色体隐性遗传，DR表示双基因隐性遗传，-->
-                    <!--DD表示双基因显性遗传，XLD表示X连锁显性遗传，XLR表示X连锁隐性遗传，IC表示散发病例-->
-                    <!--)-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-
-              <!--<div class="one" v-if="allData.majors && allData.majors.length!=0">-->
-                <!--<div class="title">5.其它变异疾病简介</div>-->
-                <!--<div class="content">-->
-                  <!--<div class="appendix-content">-->
-                    <!--<div class="diseases-content" v-for="(majorD,index) in allData.diseases.minor">-->
-                      <!--<div class="diseases-content-title">{{index + 1}}) {{majorD.name}}</div>-->
-                      <!--<div class="diseases-content-remark">-->
-                        <!--疾病概述：{{majorD.inheritance}}，典型的临床症状包括{{majorD.phenotypes}}。-->
-                      <!--</div>-->
-                    <!--</div>-->
-
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-
-              <!--<div class="one" v-if="allData.majors && allData.majors.length!=0">-->
-                <!--<div class="title">6.CNV分析结果<span id="normal-font">(置信区间内检测到的外显子CNV)</span></div>-->
-                <!--<div class="content">-->
-                  <!--对外显子数据进行CNV分析，结果显示：-->
-
-                  <!--<span v-for="(cnv,index) in allData.cnvs">-->
-
-                    <!--{{cnv.position}}位置可能存在约{{cnv.length}}的{{cnv.func}},该区域包含-->
-                    <!--<span v-if="cnv.genes.length == 1">{{cnv.genes[0]}}</span>-->
-                    <!--<span v-if="cnv.genes.length == 2">{{cnv.genes[0]}}和{{cnv.genes[1]}}</span>-->
-                    <!--<span v-if="cnv.genes.length>2">-->
-                      <!--<span v-for="(cnvGene,index) in cnv.genes">-->
-                        <!--{{cnvGene}}-->
-                        <!--<span v-if="index !== cnv.genes.length -1 && index !== cnv.genes.length -2">、</span>-->
-                        <!--<span v-if="index == cnv.genes.length -2">和</span>-->
-                      <!--</span>-->
-                    <!--</span>-->
-                    <!--基因的部分序列，-->
-                    <!--<span v-for="dis in cnv.diseases">-->
-                      <!--{{dis.gene}}基因与-->
-                      <!--<span v-if="dis.info.length == 1">-->
-                        <!--[-->
-                        <!--<span v-if="dis.info[0].inheritances.length == 0">无</span>-->
-                        <!--<span v-for="(inheritance,index) in dis.info[0].inheritances">{{inheritance.ab}}<span-->
-                          <!--v-if="index != dis.info[0].inheritances.length-1">,</span></span>-->
-                        <!--]-->
-                        <!--{{dis.info[0].name}}({{dis.info[0].mimNumber}})相关。-->
-                      <!--</span>-->
-                      <!--<span v-if="dis.info.length == 2">-->
-                        <!--[-->
-                        <!--<span v-if="dis.info[0].inheritances.length == 0">无</span>-->
-                        <!--<span v-for="(inheritance,index) in dis.info[0].inheritances">{{inheritance.ab}}<span-->
-                          <!--v-if="index != dis.info[0].inheritances.length-1">,</span></span>-->
-                        <!--]-->
-                        <!--{{dis.info[0].name}}({{dis.info[0].mimNumber}})和-->
-                        <!--[-->
-                        <!--<span v-if="dis.info[1].inheritances.length == 0">无</span>-->
-                        <!--<span v-for="(inheritance,index) in dis.info[1].inheritances">{{inheritance.ab}}<span-->
-                          <!--v-if="index != dis.info[1].inheritances.length-1">,</span></span>-->
-                        <!--]-->
-                        <!--{{dis.info[1].name}}({{dis.info[1].mimNumber}})相关。-->
-                      <!--</span>-->
-                      <!--<span v-if="dis.info.length > 2">-->
-                         <!--<span v-for="(infoSingle,index) in dis.info">-->
-                           <!--[-->
-                           <!--<span v-if="infoSingle.inheritances.length == 0">无</span>-->
-                           <!--<span v-for="(inheritance,index) in infoSingle.inheritances">{{inheritance.ab}}<span-->
-                             <!--v-if="index != infoSingle.inheritances.length-1">,</span></span>-->
-                           <!--]-->
-                           <!--{{infoSingle.name}}({{infoSingle.mimNumber}})-->
-                           <!--<span v-if="index !=dis.info.length -1 &&index !=dis.info.length -2">、</span>-->
-                           <!--<span v-if="index ==dis.info.length -2">和</span>-->
-                           <!--<span v-if="index ==dis.info.length-1">相关。</span>-->
-                         <!--</span>-->
-                      <!--</span>-->
-                    <!--</span>-->
-                    <!--该CNV临床意义未明,-->
-                    <!--<span v-if="cnv.genes.length == 1">{{cnv.genes[0]}}</span>-->
-                    <!--<span v-if="cnv.genes.length == 2">{{cnv.genes[0]}}和{{cnv.genes[1]}}</span>-->
-                    <!--<span v-if="cnv.genes.length>2">-->
-                      <!--<span v-for="(cnvGene,index) in cnv.genes">-->
-                        <!--{{cnvGene}}-->
-                        <!--<span v-if="index !== cnv.genes.length -1 && index !== cnv.genes.length -2">、</span>-->
-                        <!--<span v-if="index == cnv.genes.length -2">和</span>-->
-                      <!--</span>-->
-                    <!--</span>基因相关疾病表型与受检单上记录的受检者表型不符，<span class="bold">其临床意义的判断还需结合进一步的临床检查和家系调查。</span>-->
-
-                  <!--</span>-->
-                <!--</div>-->
-              <!--</div>-->
-
-              <!--<div class="one">-->
-                <!--<div class="title">7.检测基因列表<span>(临床表型较不相符或遗传模式不相符的变异信息)</span></div>-->
-                <!--<div class="content">-->
-                  <!--<table class="table">-->
-                    <!--<thead>-->
-                    <!--<tr>-->
-                      <!--<th colspan="8">相关疾病panel，共<span v-if="allData.genes">{{allData.genes.length}}</span>个基因</th>-->
-                    <!--</tr>-->
-                    <!--</thead>-->
-                    <!--<tbody>-->
-                    <!--<tr v-for="list in geneArr">-->
-                      <!--<td v-for="listS in list">{{listS}}</td>-->
-                    <!--</tr>-->
-                    <!--</tbody>-->
-                  <!--</table>-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-
-      <!--</div>-->
+      <div class="col-md-12 col-lg-6 page-2 book fix-page">
+        <span class="title-2">附录</span>
+        <div class="dis-content" v-if="allData.major_info">
+          <div class="n-title">1.疾病简介</div>
+          <div v-for="(dis,index) in allData.major_info.diseases">
+            <div>{{index+1}}) {{dis.title.chinese?dis.title.chinese:dis.title.preferred}}</div>
+            <div>
+              疾病概述：{{dis.inheritances.join(',')}}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!--一代验证结果modal-->
@@ -555,38 +261,30 @@
     data: function () {
       return {
         sn: this.$route.query.sn ? this.$route.query.sn : 0,
-        allData:'',
+        allData: '',
+        loading: true,
 
         hideT: true,
-
         judgeUrl: '',
-
         patientImg: '',
         fatherImg: '',
         motherImg: '',
-
         hasUrl: '',
         datafileUrl: '',
         patchUrl: '',
         refreshUrl: '',
         wordUrl: '',
         viewUrl: '',
-
         siteList: [],
-
         imgSnvId: '',
         imgName: '',
         imgGenotype: '',
         imgGenotypeName: '',
-
         id: this.$route.query.code,
         app: this.$route.query.app,
-
         datafile: '',
-
         geneArr: [],
         minorDiseases: [],
-        loading: true,
         token: '',
         funStr: '',
         majorDiseases: [],
@@ -934,28 +632,78 @@
   @green: rgb(112, 178, 79);
   @lineH: 23px;
   @title: rgb(83, 83, 83);
+  html {
+    overflow: hidden;
+  }
+
   #report-content {
+    overflow-x: hidden;
     color: @gray;
-    >.row {
+    > .row {
       background-color: #fff;
       padding: 20px;
-      .top {
-        position: relative;
-        .sample-title {
-          text-align: center;
-          margin: 10px 0 30px 0;
-          .big {
-            font-size: 48px;
-            color: @green;
-          }
-          .small {
-            display: block;
-            font-size: 18px;
-            font-family: "SIL";
-            color: rgb(137, 137, 137);
-            padding-left: 73px;
+      /*本页面公共样式*/
+      .title {
+        font-size: 16px;
+        color: #70b24f;
+        margin-bottom: 5px;
+      }
+      .report-table {
+        text-align: center;
+        thead {
+          /*background:linear-gradient(to right,rgb(35,129,27),rgb(143,185,84));*/
+          background: url('../../static/img/report-4.png');
+          background-size: 100% 100%;
+          color: #fff;
+          th {
+            border-right: 1px solid #fff;
+            text-align: center;
+            border-bottom: none;
           }
         }
+        tbody {
+          td {
+            background-color: rgb(239, 239, 239);
+            border-right: 1px solid #fff;
+            border-bottom: 1px solid #fff;
+          }
+        }
+      }
+      .book {
+        position: relative;
+        border: 1px #eee solid;
+        background-color: #fff;
+        box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2)
+      }
+      .book::after {
+        position: absolute;
+        content: '';
+        bottom: 10px;
+        left: 35px;
+        width: 50%;
+        height: 50%;
+        -webkit-transform: skew(-30deg) rotate(-6deg);
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: -1
+      }
+      .book::before {
+        position: absolute;
+        content: '';
+        bottom: 10px;
+        right: 35px;
+        width: 50%;
+        height: 50%;
+        -webkit-transform: skew(30deg) rotate(6deg);
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: -1
+      }
+      .fix-page {
+        position: relative;
+        height: 1200px;
+      }
+      /*公共样式结束*/
+      .top {
+        position: relative;
         .title-content {
           margin: 10px 0;
           > .my-btn {
@@ -1017,7 +765,79 @@
           }
         }
       }
+      .page-1 {
+        .sample-title {
+          text-align: center;
+          margin: 10px 0 30px 0;
+          .big {
+            font-size: 48px;
+            color: @green;
+          }
+          .small {
+            display: block;
+            font-size: 18px;
+            font-family: "SIL";
+            color: rgb(137, 137, 137);
+            padding-left: 73px;
+          }
+        }
+        .patient-content {
+          > span, > div {
+            margin: 5px 0;
+          }
+          .panel-all {
+            .panel-name {
+              width: 90px;
+            }
+            .panel-content {
+              width: calc(~"100% - 90px");
+              > div {
+                word-break: break-all;
+              }
+            }
+          }
+        }
+        .clinical-info {
+          overflow: hidden;
+          min-height: 50px;
+          padding-bottom: 20px;
+          .bold {
+            width: 90px;
+            float: left;
+          }
+          .content {
+            width: calc(~'100% - 90px');
+            float: left;
+            word-break: break-all;
+          }
+        }
+        .footer{
+          position: absolute;
+          bottom: 50px;
+          font-size: 12px;
+          margin-right: 15px;
+        }
+      }
+      .page-2{
+        .n-title{
+          font-size: 16px;
+          color: #535353;
+          margin-bottom: 5px;
+          font-weight: bold;
+        }
+        >.title-2{
+          color: #434343;
+          display: block;
+          font-weight: bold;
+          font-size: 18px;
+          text-align: center;
+          margin: 30px 0;
+        }
+      }
     }
+
+
+
 
 
 
@@ -1125,27 +945,7 @@
     .bold {
       font-weight: bold;
     }
-    table {
-      text-align: center;
-      thead {
-        /*background:linear-gradient(to right,rgb(35,129,27),rgb(143,185,84));*/
-        background: url('../../static/img/report-4.png');
-        background-size: 100% 100%;
-        color: #fff;
-        th {
-          border-right: 1px solid #fff;
-          text-align: center;
-          border-bottom: none;
-        }
-      }
-      tbody {
-        td {
-          background-color: rgb(239, 239, 239);
-          border-right: 1px solid #fff;
-          border-bottom: 1px solid #fff;
-        }
-      }
-    }
+
     .report {
       min-height: 200px;
       padding: 0 50px;

@@ -593,6 +593,13 @@
                       </i>
                     </div>
 
+                    <div class="col-sm-6">
+                      <span class="name">上传进度：</span>
+                      <div class="pro-content">
+                        <el-progress :percentage="filePercent"></el-progress>
+                      </div>
+                    </div>
+
                   </div>
                 </div>
               </div>
@@ -655,7 +662,8 @@
         //文件情况
         files: [],
         radioEdit:'1',
-        doEmail:'1'
+        doEmail:'1',
+        filePercent:0
       }
     },
     mounted: function () {
@@ -968,6 +976,7 @@
 
           this.radioEdit = '1';
           this.doEmail = '1';
+          this.filePercent = 0;
 
           $("#file-name-edit").val('');
           $("#hide-edit").val('');
@@ -989,7 +998,10 @@
           this.myAxios({
             url: 'manage/sample/' + this.sn + '/data_file',
             method: 'post',
-            data: postData
+            data: postData,
+            onUploadProgress: function (progressEvent) {
+              _vue.filePercent = parseFloat(((progressEvent.loaded/progressEvent.total)*100).toFixed(2));
+            },
           }).then(function () {
             _vue.success('上传成功');
             $('#fileModal').modal('hide');
@@ -1633,6 +1645,13 @@
             .name {
               display: inline-block;
               width: 28%;
+            }
+            .pro-content{
+              vertical-align: bottom;
+              margin-top: 10px;
+              display: inline-block;
+              width: 60%;
+              font-size: 12px;
             }
             .content {
               width: 60%;

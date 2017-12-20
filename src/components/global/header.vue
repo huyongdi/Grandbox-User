@@ -155,14 +155,16 @@
 
 <style scoped lang="less">
   .header {
-    min-width: 1300px;
+    /*min-width: 1100px;*/
     height: 50px;
     line-height: 40px;
     width: 100%;
     /*color: #fff;*/
     background: url('../../../static/img/header-bc.png') no-repeat center;
-    background-size: 100%;
-    border-bottom: 1px solid rgb(0, 77, 144);
+    background-size: 100% 60px;
+    /*border-bottom: 1px solid rgb(0, 77, 144);*/
+    overflow: hidden;
+
 
     .logo {
       color: #fff;

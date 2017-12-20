@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import './../../config'
 import './../../../node_modules/socket.io-client/dist/socket.io.slim'
 //import './socket.io'
 import Echo from "laravel-echo"
@@ -35,7 +36,6 @@ Vue.prototype.catchFun = function (error) {
       type: 'error'
     });
     if (error.response.status === 401) {
-      console.log(this.$route.name)
       if (this.$route.name !== 'login') {
 //        localStorage.token = '';
         let _href =window.location.href;
@@ -128,10 +128,10 @@ Vue.prototype.upDown = function (e) {
 
 //监听样本的完成情况
 Vue.prototype.messageId =[];
-$.getScript("http://192.168.2.192:6001/socket.io/socket.io.js", function () {
+$.getScript(Vue.prototype.socketUrl+"/socket.io/socket.io.js", function () {
   let EchoS = new Echo({
     broadcaster: 'socket.io',
-    host: 'http://192.168.2.192:6001',
+    host: Vue.prototype.socketUrl,
     auth: {
       headers: {
         Authorization: localStorage.token
