@@ -89,7 +89,7 @@
         <div class="result-explain">
           <span class="bold block title">结果说明</span>
           <div class="content" v-if="allData.majors">
-
+            {{allData.resultInfo}}
           </div>
         </div>
 
@@ -99,19 +99,127 @@
 
       </div>
 
-
       <div class="col-md-12 col-lg-6 page-2 book fix-page">
         <span class="title-2">附录</span>
         <div class="dis-content" v-if="allData.major_info">
           <div class="n-title">1.疾病简介</div>
-          <div v-for="(dis,index) in allData.major_info.diseases">
-            <div>{{index+1}}) {{dis.title.chinese?dis.title.chinese:dis.title.preferred}}</div>
-            <div>
-              疾病概述：{{dis.inheritances.join(',')}}
+          <div v-for="(dis,index) in allData.major_info.diseases" class="one">
+            <div>{{index + 1}}) {{dis.title.chinese ? dis.title.chinese : dis.title.preferred}}</div>
+            <div class="content">
+              疾病概述：{{dis.inheritances.join(',')}}，典型的临床症状包括
+              <span v-for="(ph,index) in dis.phenotypes">{{ph.name.chinese ? ph.name.chinese : ph.name.english}}
+                <span v-if="index!=dis.phenotypes.length-1">、</span>
+              </span>。
             </div>
           </div>
         </div>
+        <div class="variation-d">
+          <div class="n-title">2.变异详情</div>
+          <div v-for="(maj,index) in filterMajor(allData.majors)" class="one">
+            <div>{{index + 1}}) {{maj.change.gene}}基因的{{maj.position}}({{maj.change.aa_change ? maj.change.aa_change : '-'}})变异</div>
+            <div class="content">
+              在gnomAD普通人数据库东亚人群中的频率为{{maj.freq}}(PM2);生物信息学软件SIFT、Polyphen2和MCAP预测该变异分别为
+              <span v-if="maj.dbnsfp && maj.dbnsfp.length!=0">
+                {{maj.dbnsfp.sift.pred | otherData}}、{{maj.dbnsfp.mcap.pred | otherData}}和
+                <span v-if="maj.dbnsfp.polyphen2_hdiv.score>maj.dbnsfp.polyphen2_hvar.score">{{maj.dbnsfp.polyphen2_hdiv.pred | phData}}</span>
+                <span v-else="">{{maj.dbnsfp.polyphen2_hvar.pred | phData}}</span>
+              </span>。
+              基于以上证据，我们建议判定该变异为{{maj.intervar}}变异。
+            </div>
+          </div>
+        </div>
+        <!--<div class="Generation-content">-->
+        <!--<div class="n-title">3.一代验证结果</div>-->
+        <!--<span class="my-btn" @click="showVer" style="width: 160px"><img src="../../static/img/red-submit.png" alt="">添加一代验证结果</span>-->
+        <!--</div>-->
       </div>
+
+      <div class="col-xs-12 book page-3">
+        <div class="other-info">
+          <div class="n-title">4.其他变异信息</div>
+          <div class="content">
+            <table class="table report-table">
+              <thead>
+              <tr>
+              <tr>
+                <th>序号</th>
+                <th>基因名</th>
+                <th>转录本</th>
+                <th>染色体位置</th>
+                <th>核苷酸改变</th>
+                <th>氨基酸改变</th>
+                <th>纯/杂合</th>
+                <th>普通人群频率</th>
+                <th>遗传方式</th>
+                <th>疾病表型及OMIM编号</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr v-for="(list,index) in allData.minors">
+                <td>{{index + 1}}</td>
+                <td>{{list.change && list.change.gene}}</td>
+                <td>{{list.change &&list.change.transcript}}</td>
+                <td>{{list.position}}</td>
+                <td><span v-if="list.change">{{list.change.na_change ? list.change.na_change : '-'}}</span></td>
+                <td><span v-if="list.change">{{list.change.aa_change ? list.change.aa_change : '-'}}</span></td>
+                <td>{{list.hom_het}}</td>
+                <td>{{list.freq}}</td>
+                <td>
+                  没有数据
+                  <div v-for="a in list.diseases">{{a.inheritance}}</div>
+                </td>
+                <td>没有数据
+                  <div v-for="a in list.diseases">
+                    <span>{{a.name}}</span>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="otherDis-info">
+          <div class="n-title">5.其它变异疾病简介</div>
+          <div class="content" v-if="allData.minors_info">
+            <div v-for="(dis,index) in allData.minors_info.diseases" class="one">
+              <div>{{index + 1}}) {{dis.title.chinese ? dis.title.chinese : dis.title.preferred}}</div>
+              <div class="content">
+                疾病概述：{{dis.inheritances.join(',')}}，典型的临床症状包括
+                <span v-for="(ph,indexC) in dis.phenotypes">{{ph.name.chinese ? ph.name.chinese : ph.name.english}}
+                <span v-if="indexC!=dis.phenotypes.length-1">、</span>
+              </span>。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cnv-content">
+          <div class="n-title">6.CNV分析结果<span class="normal">(置信区间内检测到的外显子CNV)</span></div>
+        </div>
+      </div>
+
+      <div class="col-xs-12 book page-4">
+        <div class="genes-content">
+          <div class="n-title">7.检测基因列表<span class="normal">(临床表型较不相符或遗传模式不相符的变异信息)</span></div>
+
+
+          <table class="report-table">
+            <thead>
+            <tr>
+              <th colspan="8">相关疾病panel，共<span v-if="allData.genes">{{allData.genes.length}}</span>个基因</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="list in geneArr">
+              <td v-for="listS in list">{{listS}}</td>
+            </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+
     </div>
 
     <!--一代验证结果modal-->
@@ -215,7 +323,6 @@
       </div>
     </div>
 
-
     <div class="modal fade  bs-example-modal-lg" tabindex="-1" id="changeImg-modal" role="dialog"
          aria-labelledby="gridSystemModalLabel3">
       <div class="modal-dialog modal-dialog modal-lg" role="document">
@@ -263,6 +370,7 @@
         sn: this.$route.query.sn ? this.$route.query.sn : 0,
         allData: '',
         loading: true,
+        geneArr: [],
 
         hideT: true,
         judgeUrl: '',
@@ -283,7 +391,6 @@
         id: this.$route.query.code,
         app: this.$route.query.app,
         datafile: '',
-        geneArr: [],
         minorDiseases: [],
         token: '',
         funStr: '',
@@ -303,12 +410,32 @@
         this.myAxios({
           url: 'manage/report/' + this.sn
         }).then(function (resp) {
-          _vue.allData = resp.data.data;
+          let all = resp.data.data;
+//          $.each(all.majors, function (i, data) {
+//            _vue.siteList.push({id: data.id, showName: data.gene + '：' + data.transcript + '：' + data.nachange + '：' + data.aachange})
+//          });
+//          $.each(all.minors, function (i, data) {
+//            _vue.siteList.push({id: data.id, showName: data.gene + '：' + data.transcript + '：' + data.nachange + '：' + data.aachange})
+//          });
+
+          _vue.allData = all;
           _vue.loading = false;
         }).catch(function (error) {
           _vue.catchFun(error)
         })
       },
+
+      filterMajor: function (arr) {
+        let rArr = [];
+        $.each(arr, function (i, data) {
+          if (data.change.gene) {
+            rArr.push(data)
+          }
+        });
+        return rArr
+      },
+
+
       /*20170915更新全部重写*/
       changeImg: function (event) {
         const _name = $(event.target).data('name');
@@ -363,6 +490,7 @@
           _vue.loading = false
         })
       },
+
 
       showVer: function () {
         $('#verification-modal').modal('show')
@@ -556,6 +684,20 @@
     },
     watch: {
       allData: function () {
+        let genes = this.allData.major_info.genes;
+        let resultInfo = [];
+
+        $.each(genes,function (key,value) {
+          let str = key+'基因是';
+          let arr = [];
+          $.each(value,function (i,data) {
+            arr.push(data.inheritances.join('/')+'的'+data.title.chinese?data.title.chinese:data.title.preferred+'(OMIM:'+data.prefix+data.mimnumber+';'+data.title.preferred)
+          });
+          str +=arr.join(',');
+          resultInfo.push(str)
+        });
+        this.allData.resultInfo = resultInfo;
+
         /*将数组里面的值8个8个输出*/
 //        if (!this.allData) {
 //          return
@@ -604,6 +746,22 @@
       }
     },
     filters: {
+      otherData: function (data) {
+        if (data == 'T') {
+          return '可容忍的（Tolerable）'
+        } else {
+          return '有害的（Damaging）'
+        }
+      },
+      phData: function (data) {
+        if (data == 'B') {
+          return '良性的（benign）'
+        } else if (data == 'P') {
+          return '可能有害的（Possibly damaging）'
+        } else {
+          return '极有可能有害的（Porobably damaging）'
+        }
+      },
       getName: function (type) {
         switch (type) {
           case 'AR':
@@ -622,7 +780,7 @@
             return '未知遗传'
             break
         }
-      }
+      },
     }
   }
 </script>
@@ -647,6 +805,16 @@
         font-size: 16px;
         color: #70b24f;
         margin-bottom: 5px;
+      }
+      .n-title {
+        font-size: 16px;
+        color: #535353;
+        margin-bottom: 5px;
+        font-weight: bold;
+        .normal{
+          font-size: 12px;
+          font-weight: normal;
+        }
       }
       .report-table {
         text-align: center;
@@ -811,21 +979,15 @@
             word-break: break-all;
           }
         }
-        .footer{
+        .footer {
           position: absolute;
           bottom: 50px;
           font-size: 12px;
           margin-right: 15px;
         }
       }
-      .page-2{
-        .n-title{
-          font-size: 16px;
-          color: #535353;
-          margin-bottom: 5px;
-          font-weight: bold;
-        }
-        >.title-2{
+      .page-2 {
+        > .title-2 {
           color: #434343;
           display: block;
           font-weight: bold;
@@ -833,13 +995,40 @@
           text-align: center;
           margin: 30px 0;
         }
+        .dis-content {
+          .one {
+            margin-bottom: 8px;
+            .content {
+              margin: 2px 0;
+            }
+          }
+        }
+        .variation-d {
+          margin: 20px 0;
+          .one{
+            margin: 10px 0;
+            .content {
+              margin: 2px 0;
+            }
+          }
+        }
+      }
+      .page-3{
+        margin: 20px 0;
+        padding-bottom: 50px;
+        .other-info{
+          margin: 30px 0;
+        }
+        .otherDis-info{
+          margin-bottom: 30px;
+        }
+      }
+      .page-4{
+        .genes-content{
+          margin: 30px 0;
+        }
       }
     }
-
-
-
-
-
 
     #normal-font {
       font-weight: normal;

@@ -44,7 +44,7 @@
           <td><span v-if="list.patient">{{list.patient.national ? list.patient.national : '-'}}</span></td>
           <td><span v-if="list.patient">{{list.patient.nativePlace ? list.patient.nativePlace : '-'}}</span></td>
           <td><span v-if="list.patient">{{list.patient.medical_record ? list.patient.medical_record : '-'}}</span></td>
-          <td><!--{{list.data_files[list.data_files.length-1].status|getStatus}}--></td>
+          <td>{{list.report}}</td>
           <td>
             <router-link :to="{path:'/result',query:{id:list._id}}" title="" target="_blank">
               查看结果

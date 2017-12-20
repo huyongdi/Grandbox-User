@@ -216,7 +216,6 @@
                   <span class="my-btn" @click="showVer" style="width: 160px"><img src="../../static/img/red-submit.png" alt="">添加一代验证结果</span>
 
                   <div class="img-one" v-for="(list,index) in imgArr">
-
                     <table class="table">
                       <thead>
                       <tr>

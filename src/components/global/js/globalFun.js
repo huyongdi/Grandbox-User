@@ -1,6 +1,6 @@
 import Vue from 'vue'
-import './../../config'
-import './../../../node_modules/socket.io-client/dist/socket.io.slim'
+import '../../../config'
+import './../../../../node_modules/socket.io-client/dist/socket.io.slim'
 //import './socket.io'
 import Echo from "laravel-echo"
 

@@ -99,7 +99,7 @@
             生物信息学软件SIFT、Polyphen2和MCAP预测该变异分别为
             <span v-if="allData.snv && allData.snv.variant &&allData.snv.variant.info&&allData.snv.variant.info.dbnsfp">
             {{allData.snv.variant.info.dbnsfp.sift.pred | otherData}}、{{allData.snv.variant.info.dbnsfp.mcap.pred | otherData}}和
-            <span v-if="allData.snv.variant.info.dbnsfp.polyphen2_hdiv.score>allData.snv.variant.info.dbnsfp.polyphen2_hvar.score">allData.snv.variant.info.dbnsfp.polyphen2_hdiv.pred | phData</span>
+            <span v-if="allData.snv.variant.info.dbnsfp.polyphen2_hdiv.score>allData.snv.variant.info.dbnsfp.polyphen2_hvar.score">{{allData.snv.variant.info.dbnsfp.polyphen2_hdiv.pred | phData}}</span>
             <span v-else="">{{allData.snv.variant.info.dbnsfp.polyphen2_hvar.pred | phData}}</span>
           </span>
             <span v-else=""> - 、-和-</span>

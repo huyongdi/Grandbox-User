@@ -12,7 +12,7 @@ import '../node_modules/bootstrap/dist/js/bootstrap.min.js'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import '../node_modules/font-awesome/css/font-awesome.min.css'
 import '../node_modules/less/dist/less.js'
-import './components/global/globalFun.js'
+import './components/global/js/globalFun.js'
 
 Vue.prototype.Base64 = require('js-base64').Base64;
 Vue.prototype.$axios = axios;

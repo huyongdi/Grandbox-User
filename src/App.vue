@@ -16,7 +16,7 @@
   import header from './components/global/header.vue'
   import Vue from 'vue'
   import axios from 'axios'
-  import './components/global/globalFun'
+  import './components/global/js/globalFun'
 
   Vue.component('loading', {
     template: '<div class="spinner">' +
@@ -36,7 +36,7 @@
       return {
         group: localStorage.grandGroup,
         isAd: localStorage.isAd,
-        inLogin: '',
+        inLogin: true,
         inGene: '',
         ele11: '',
         inData: '',
