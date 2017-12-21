@@ -43,6 +43,7 @@
       }
     },
     created: function () {
+      this.judgePageCount();//判断打开了多少个页面
       this.baseBind();
       this.getReads();//查看socket消息情况
     },
@@ -81,7 +82,7 @@
         this.isAd = localStorage.isAd;
       },
       getReads: function () {
-        if ((this.group != 'guest'||this.isAd) && !this.inLogin) {
+        if ((this.group != 'guest' || this.isAd) && !this.inLogin) {
           const _vue = this;
           this.myAxios({
             url: 'manage/notification?unread=true'
@@ -141,6 +142,37 @@
         }
 
         return true
+      },
+      judgePageCount: function () {
+
+//        let hasPgaeStr = localStorage.getItem('grandPageArr')?localStorage.getItem('grandPageArr'):'';
+//        let hasPgaeArr = hasPgaeStr.split(',');
+//        const currentHref = location.href;
+//        const _vue = this;
+////        console.log(hasPgaeArr)
+////        console.log(location.href)
+//
+//        if (!hasPgaeStr.includes(currentHref)) {
+//          hasPgaeArr.push(currentHref);
+//          if (hasPgaeArr.length > 6) {
+//            alert(1111)
+////            _vue.alert('grandbox项目最多只允许开六个标签，感谢理解')
+//          }
+//          localStorage.setItem('grandPageArr', hasPgaeArr)
+//        }
+//
+//
+//        $(window).on("beforeunload", function(e) {
+//          let spliceIndex=0;
+//          $.each(hasPgaeArr,function (i,data) {
+//            if(data == currentHref){
+//              spliceIndex = i
+//            }
+//          });
+//          hasPgaeArr.splice(spliceIndex,1)
+//          localStorage.setItem('grandPageArr',hasPgaeArr)
+//        });
+
       },
       baseBind: function () {
         /*点击tr加背景色*/

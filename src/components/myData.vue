@@ -44,7 +44,7 @@
           <td><span v-if="list.patient">{{list.patient.national ? list.patient.national : '-'}}</span></td>
           <td><span v-if="list.patient">{{list.patient.nativePlace ? list.patient.nativePlace : '-'}}</span></td>
           <td><span v-if="list.patient">{{list.patient.medical_record ? list.patient.medical_record : '-'}}</span></td>
-          <td>{{list.report}}</td>
+          <td>{{list.report_status?list.report_status:'未报告'}}</td>
           <td>
             <router-link :to="{path:'/result',query:{id:list._id}}" title="" target="_blank">
               查看结果
@@ -426,15 +426,15 @@
 
 <script>
   import page from './global/Page.vue'
-  import fuzzyQuery from './global/fuzzyQuery.vue'
-  import cascadeQuery from './global/cascadeQuery.vue'
+//  import fuzzyQuery from './global/fuzzyQuery.vue'
+//  import cascadeQuery from './global/cascadeQuery.vue'
   import myDataH from './global/myDataHeader.vue'
 
   export default {
     components: {
       'page': page,
-      'fuzzyQuery': fuzzyQuery,
-      'cascadeQuery': cascadeQuery,
+//      'fuzzyQuery': fuzzyQuery,
+//      'cascadeQuery': cascadeQuery,
       'myDataH': myDataH,
     },
     data: function () {

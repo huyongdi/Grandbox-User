@@ -99,6 +99,8 @@
         </div>
       </div>
 
+
+
       <div class="content-one">
         <div class="header">
           <span class="fa fa-chevron-down" @click.self="showContent"></span> <span @click.self="showContent">疾病和表型</span>
@@ -119,6 +121,46 @@
               <li>{{hpo.name.chinese}}</li>
             </ul>
           </div>
+        </div>
+      </div>
+
+      <div class="content-one">
+        <div class="header">
+          <span class="fa fa-chevron-down" @click.self="showContent"></span> <span @click.self="showContent">有害性预测</span>
+        </div>
+        <div class="content" style="display: block">
+            <table class="special-table">
+              <tbody v-if="allData.gdi.prediction">
+              <tr>
+                <td class="t-bc">全部</td>
+                <td colspan="5">{{allData.gdi.prediction.all|getDis}}</td>
+              </tr>
+              <tr>
+                <td class="t-bc">癌症</td>
+                <td>{{allData.gdi.prediction.cancer|getDis}}</td>
+                <td class="t-bc">癌症显性</td>
+                <td>{{allData.gdi.prediction.cancer_d |getDis}}</td>
+                <td class="t-bc">癌症隐性</td>
+                <td>{{allData.gdi.prediction.cancer_r |getDis}}</td>
+              </tr>
+              <tr>
+                <td class="t-bc">孟德尔</td>
+                <td>{{allData.gdi.prediction.mendelian|getDis}}</td>
+                <td class="t-bc">孟德尔常染色体显性</td>
+                <td>{{allData.gdi.prediction.mendelian_ad|getDis}}</td>
+                <td class="t-bc">孟德尔常染色体隐性</td>
+                <td>{{allData.gdi.prediction.mendelian_ar|getDis}}</td>
+              </tr>
+              <tr>
+                <td class="t-bc">原发性免疫缺陷</td>
+                <td>{{allData.gdi.prediction.pid|getDis}}</td>
+                <td class="t-bc">原发性免疫缺陷常染色体显性</td>
+                <td>{{allData.gdi.prediction.pid_ad|getDis}}</td>
+                <td class="t-bc">原发性免疫缺陷常染色体隐性</td>
+                <td>{{allData.gdi.prediction.pid_ad|getDis}}</td>
+              </tr>
+              </tbody>
+            </table>
         </div>
       </div>
 
@@ -312,7 +354,17 @@
         })
       }
     },
-    filter: {}
+    filters: {
+      getDis:function (data) {
+        if(data == 'Low'){
+          return '低'
+        }else if(data == 'Medium'){
+          return '中'
+        }else{
+          return '高'
+        }
+      }
+    }
   }
 </script>
 

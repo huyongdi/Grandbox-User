@@ -89,7 +89,9 @@
         <div class="result-explain">
           <span class="bold block title">结果说明</span>
           <div class="content" v-if="allData.majors">
-            {{allData.resultInfo}}
+            {{allData.resultInfo.join('。')}}。
+            <!--在本次检测中，我们检测到受检者 1个错义位点 。 对于常染色体显性遗传的疾病来说，单个致病性变异即可导致疾病发生。-->
+            <span class="bold">疾病的最终确诊还需结合进一步的临床检查和家系调查。</span>
           </div>
         </div>
 
@@ -691,7 +693,8 @@
           let str = key+'基因是';
           let arr = [];
           $.each(value,function (i,data) {
-            arr.push(data.inheritances.join('/')+'的'+data.title.chinese?data.title.chinese:data.title.preferred+'(OMIM:'+data.prefix+data.mimnumber+';'+data.title.preferred)
+            const vTitle = data.title.chinese?data.title.chinese:data.title.preferred;
+            arr.push(data.inheritances.join('/')+'的'+vTitle+'(OMIM:'+data.prefix+data.mimnumber+';'+data.title.preferred+')')
           });
           str +=arr.join(',');
           resultInfo.push(str)

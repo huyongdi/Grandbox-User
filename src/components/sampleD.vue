@@ -207,16 +207,16 @@
 
 
 <script>
-  import fuzzyQuery from './global/fuzzyQuery.vue'
-  import cascadeQuery from './global/cascadeQuery.vue'
+//  import fuzzyQuery from './global/fuzzyQuery.vue'
+//  import cascadeQuery from './global/cascadeQuery.vue'
   import myDataH from './global/myDataHeader.vue'
   import choosePh from './global/choosePh.vue'
   import choosePa from './global/choosePa.vue'
 
   export default {
     components: {
-      'fuzzyQuery': fuzzyQuery,
-      'cascadeQuery': cascadeQuery,
+//      'fuzzyQuery': fuzzyQuery,
+//      'cascadeQuery': cascadeQuery,
       'myDataH': myDataH,
       'choosePa': choosePa,
       'choosePh': choosePh,
