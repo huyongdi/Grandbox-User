@@ -690,8 +690,8 @@
       },
       dbfreq: function () {
         let all_freq = this.allData.snv.variant.info.all_freq;
-        let gADe = all_freq && all_freq.gnomad.exome;
-        let gADg = all_freq && all_freq.gnomad.genome;
+        let gADe = all_freq && all_freq.gnomad && all_freq.gnomad.exome;
+        let gADg = all_freq && all_freq.gnomad && all_freq.gnomad.genome;
         let exac = all_freq && all_freq.exac;
         let onekg = all_freq && all_freq.onekg;
 

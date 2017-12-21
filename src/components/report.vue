@@ -167,8 +167,7 @@
                 <td>{{list.hom_het}}</td>
                 <td>{{list.freq}}</td>
                 <td>
-                  没有数据
-                  <div v-for="a in list.diseases">{{a.inheritance}}</div>
+                  {{list.info &&list.info.inheritances && list.info.inheritances.join(',')}}
                 </td>
                 <td>没有数据
                   <div v-for="a in list.diseases">
@@ -206,10 +205,10 @@
           <div class="n-title">7.检测基因列表<span class="normal">(临床表型较不相符或遗传模式不相符的变异信息)</span></div>
 
 
-          <table class="report-table">
+          <table class="report-table w100">
             <thead>
             <tr>
-              <th colspan="8">相关疾病panel，共<span v-if="allData.genes">{{allData.genes.length}}</span>个基因</th>
+              <th colspan="8">相关疾病panel，共<span>{{geneArr.length}}</span>个基因</th>
             </tr>
             </thead>
             <tbody>
@@ -686,10 +685,34 @@
     },
     watch: {
       allData: function () {
-        let genes = this.allData.major_info.genes;
+        const _vue = this;
+        /*将数组里面的值8个8个输出*/
+        const genes = this.allData.genes;
+        let arrCount = Math.ceil(genes.length / 8);
+        let pushArr = [];
+        while (arrCount) {
+          pushArr.push([]);
+          arrCount -= 1
+        }
+        $.each(genes, function (i, data) {
+          i += 1;
+          $.each(pushArr, function (k1, k2) {
+            if (Math.ceil(i / 8) === k1 + 1) {
+              k2.push(data)
+            }
+          })
+        });
+        $.each(pushArr, function (i, data) {
+          if (data.length !== 8) {
+            data.length = 8
+          }
+        });
+        this.geneArr = pushArr;
+
+        let maGenes = this.allData.major_info.genes;
         let resultInfo = [];
 
-        $.each(genes,function (key,value) {
+        $.each(maGenes,function (key,value) {
           let str = key+'基因是';
           let arr = [];
           $.each(value,function (i,data) {
@@ -701,32 +724,6 @@
         });
         this.allData.resultInfo = resultInfo;
 
-        /*将数组里面的值8个8个输出*/
-//        if (!this.allData) {
-//          return
-//        }
-//        const _vue = this
-//        const genes = this.allData.genes
-//        let arrCount = Math.ceil(genes.length / 8)
-//        let pushArr = []
-//        while (arrCount) {
-//          pushArr.push([])
-//          arrCount -= 1
-//        }
-//        $.each(genes, function (i, data) {
-//          i += 1
-//          $.each(pushArr, function (k1, k2) {
-//            if (Math.ceil(i / 8) === k1 + 1) {
-//              k2.push(data)
-//            }
-//          })
-//        })
-//        $.each(pushArr, function (i, data) {
-//          if (data.length !== 8) {
-//            data.length = 8
-//          }
-//        })
-//        this.geneArr = pushArr
 //
 //        //结果说明
 //        //基因

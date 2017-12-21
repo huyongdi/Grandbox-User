@@ -1000,7 +1000,7 @@
             method: 'post',
             data: postData,
             onUploadProgress: function (progressEvent) {
-              _vue.filePercent = parseFloat(((progressEvent.loaded/progressEvent.total)*100).toFixed(2));
+              _vue.filePercent = parseFloat(((progressEvent.loaded/progressEvent.total)*100).toFixed(1));
             },
           }).then(function () {
             _vue.success('上传成功');

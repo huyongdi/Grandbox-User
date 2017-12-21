@@ -144,7 +144,7 @@
         return true
       },
       judgePageCount: function () {
-
+//
 //        let hasPgaeStr = localStorage.getItem('grandPageArr')?localStorage.getItem('grandPageArr'):'';
 //        let hasPgaeArr = hasPgaeStr.split(',');
 //        const currentHref = location.href;

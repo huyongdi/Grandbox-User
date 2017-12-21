@@ -1,7 +1,7 @@
 <template>
   <div class="data-content" id="data-content">
     <myDataH></myDataH>
-    <div id="sample-detail" class="right-content drop-down">
+    <div id="sample-detail" class="right-content">
       <span class="my-btn up-file" @click="upFile"><img src="../../static/img/red-submit.png" alt="">上传文件</span>
 
       <span class="my-btn edit" v-if="!inEdit" @click="toEdit"><img src="../../static/img/red-submit.png" alt="">编辑样本</span>
@@ -13,6 +13,10 @@
       <loading v-if="loading"></loading>
 
       <el-form id="" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm drop-down">
+
+        <div class="title">
+          【样本详情】{{detailData.sn}}
+        </div>
 
         <div class="content-one">
           <div class="header">
@@ -506,7 +510,7 @@
             method: 'post',
             data: postData,
             onUploadProgress: function (progressEvent) {
-              _vue.filePercent = parseFloat(((progressEvent.loaded/progressEvent.total)*100).toFixed(2));
+              _vue.filePercent = parseFloat(((progressEvent.loaded/progressEvent.total)*100).toFixed(1));
             },
           }).then(function () {
             _vue.success('上传成功');
@@ -587,6 +591,10 @@
     .edit {
       margin: 0 10px;
     }
+  }
+
+  .drop-down{
+    margin-top: 20px;
   }
 
   #fileModal {
