@@ -17,27 +17,14 @@
         <!--<a class="block no-d">结果详情</a>-->
       </div>
     </li>
-    <!--<li id="li-1" @click="toPage('/addSample')">-->
-      <!--<div class="father">-->
-        <!--<span class="img analyze-soft"></span>-->
-        <!--<span>添加样本</span>-->
-        <!--<i class="triangle"></i>-->
-      <!--</div>-->
-    <!--</li>-->
-    <!--<li id="li-2" @click="toPage('')">-->
+    
+    <!--<li id="li-1" @click="toPage('')">-->
       <!--<div class="father">-->
         <!--<span class="img analyze-tool"></span>-->
-        <!--<span>样本详情</span>-->
+        <!--<span>统计</span>-->
         <!--<i class="triangle"></i>-->
       <!--</div>-->
     <!--</li>-->
-    <li id="li-1" @click="toPage('')">
-      <div class="father">
-        <span class="img analyze-tool"></span>
-        <span>统计</span>
-        <i class="triangle"></i>
-      </div>
-    </li>
   </ul>
 </template>
 

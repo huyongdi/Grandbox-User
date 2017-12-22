@@ -291,7 +291,7 @@
 
     .right-header {
       display: inline-block;
-      width: 380px;
+      /*width: 380px;*/
       /*overflow: hidden;*/  /*下拉菜单会被隐藏*/
       height: 50px;
       float: right;
