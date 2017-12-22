@@ -4,14 +4,14 @@
     <div class="row">
       <div class="top">
         <div class="title-content">
-          <span class="my-btn pull-left get-word" @click="showTemplate"><img src="../../static/img/red-submit.png" alt="">生成word文档</span>
-          <div class="template-content" :class="{'hide':hideT}">
-            <img src="../../static/img/th-1.png" alt="" class="up">
-            <ul>
-              <li @click="getWord(1)">模板1</li>
-              <li @click="getWord(2)">模板2</li>
-            </ul>
-          </div>
+          <!--<span class="my-btn pull-left get-word" @click="showTemplate"><img src="../../static/img/red-submit.png" alt="">生成word文档</span>-->
+          <!--<div class="template-content" :class="{'hide':hideT}">-->
+            <!--<img src="../../static/img/th-1.png" alt="" class="up">-->
+            <!--<ul>-->
+              <!--<li @click="getWord(1)">模板1</li>-->
+              <!--<li @click="getWord(2)">模板2</li>-->
+            <!--</ul>-->
+          <!--</div>-->
 
           <div class="logo-content">
             <div class="logo-left">
@@ -52,7 +52,7 @@
         <div class="result-info">
           <span class="block bold title">检测结果</span>
           <div class="content" v-if="allData.majors">
-            <span class="no-data" v-if="allData.majors.length == 0">未检测到与患者临床表型相关的具有可能临床意义的变异（包括SNV和Indel）。</span>
+            <span class="" v-if="allData.majors.length == 0">未检测到与患者临床表型相关的具有可能临床意义的变异（包括SNV和Indel）。</span>
 
             <table class="table report-table" v-else="">
               <thead>
@@ -120,12 +120,13 @@
           <div v-for="(maj,index) in filterMajor(allData.majors)" class="one">
             <div>{{index + 1}}) {{maj.change.gene}}基因的{{maj.position}}({{maj.change.aa_change ? maj.change.aa_change : '-'}})变异</div>
             <div class="content">
-              在gnomAD普通人数据库东亚人群中的频率为{{maj.freq}}(PM2);生物信息学软件SIFT、Polyphen2和MCAP预测该变异分别为
-              <span v-if="maj.dbnsfp && maj.dbnsfp.length!=0">
-                {{maj.dbnsfp.sift.pred | otherData}}、{{maj.dbnsfp.mcap.pred | otherData}}和
-                <span v-if="maj.dbnsfp.polyphen2_hdiv.score>maj.dbnsfp.polyphen2_hvar.score">{{maj.dbnsfp.polyphen2_hdiv.pred | phData}}</span>
-                <span v-else="">{{maj.dbnsfp.polyphen2_hvar.pred | phData}}</span>
-              </span>。
+              在gnomAD普通人数据库东亚人群中的频率为{{maj.freq}}(PM2),
+              <!--;生物信息学软件SIFT、Polyphen2和MCAP预测该变异分别为-->
+              <!--<span v-if="maj.dbnsfp && maj.dbnsfp.length!=0">-->
+                <!--{{maj.dbnsfp.sift.pred | otherData}}、{{maj.dbnsfp.mcap.pred | otherData}}和-->
+                <!--<span v-if="maj.dbnsfp.polyphen2_hdiv.score>maj.dbnsfp.polyphen2_hvar.score">{{maj.dbnsfp.polyphen2_hdiv.pred | phData}}</span>-->
+                <!--<span v-else="">{{maj.dbnsfp.polyphen2_hvar.pred | phData}}</span>-->
+              <!--</span>。-->
               基于以上证据，我们建议判定该变异为{{maj.intervar}}变异。
             </div>
           </div>
@@ -167,9 +168,14 @@
                 <td>{{list.hom_het}}</td>
                 <td>{{list.freq}}</td>
                 <td>
-                  {{list.info &&list.info.inheritances && list.info.inheritances.join(',')}}
+                  <div v-for="a in list.diseases">
+                    <span v-for="inh in a.inheritances">
+                      {{inh.ab?inh.ab:'-'}}
+                    </span>
+                    <span v-if="a.inheritances.length == 0"> - </span>
+                  </div>
                 </td>
-                <td>没有数据
+                <td>
                   <div v-for="a in list.diseases">
                     <span>{{a.name}}</span>
                   </div>
@@ -195,9 +201,9 @@
           </div>
         </div>
 
-        <div class="cnv-content">
-          <div class="n-title">6.CNV分析结果<span class="normal">(置信区间内检测到的外显子CNV)</span></div>
-        </div>
+        <!--<div class="cnv-content">-->
+          <!--<div class="n-title">6.CNV分析结果<span class="normal">(置信区间内检测到的外显子CNV)</span></div>-->
+        <!--</div>-->
       </div>
 
       <div class="col-xs-12 book page-4">
@@ -205,10 +211,10 @@
           <div class="n-title">7.检测基因列表<span class="normal">(临床表型较不相符或遗传模式不相符的变异信息)</span></div>
 
 
-          <table class="report-table w100">
+          <table class="report-table w100 table">
             <thead>
             <tr>
-              <th colspan="8">相关疾病panel，共<span>{{geneArr.length}}</span>个基因</th>
+              <th colspan="8">相关疾病panel，共<span v-if="allData.genes">{{allData.genes.length}}</span>个基因</th>
             </tr>
             </thead>
             <tbody>
@@ -1021,6 +1027,9 @@
         }
         .otherDis-info{
           margin-bottom: 30px;
+          .one{
+            margin: 5px 0;
+          }
         }
       }
       .page-4{

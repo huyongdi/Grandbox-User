@@ -17,7 +17,7 @@
         <!--<a class="block no-d">结果详情</a>-->
       </div>
     </li>
-    
+
     <!--<li id="li-1" @click="toPage('')">-->
       <!--<div class="father">-->
         <!--<span class="img analyze-tool"></span>-->
