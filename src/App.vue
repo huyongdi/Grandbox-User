@@ -235,7 +235,7 @@
   }
 
   html {
-    /*min-width: 1430px;*/
+    min-width: 1160px;
     background: linear-gradient(to bottom, #f0f0f0, #ffffff);
     min-height: 100%;
     width: 100%;

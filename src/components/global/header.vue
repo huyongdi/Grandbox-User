@@ -24,57 +24,51 @@
         </router-link>
       </li>
       <!--<li class="li-2">-->
-        <!--<router-link to="/disease">-->
-          <!--<span class="img-dataManage li-img"></span>-->
-          <!--<span>疾病档案库</span>-->
-        <!--</router-link>-->
+      <!--<router-link to="/disease">-->
+      <!--<span class="img-dataManage li-img"></span>-->
+      <!--<span>疾病档案库</span>-->
+      <!--</router-link>-->
       <!--</li>-->
       <!--<li class="li-3">-->
-        <!--<router-link to="/gene">-->
-          <!--<span class="img-dataAnalysis li-img"></span>-->
-          <!--<span>基因档案库</span>-->
-        <!--</router-link>-->
+      <!--<router-link to="/gene">-->
+      <!--<span class="img-dataAnalysis li-img"></span>-->
+      <!--<span>基因档案库</span>-->
+      <!--</router-link>-->
       <!--</li>-->
       <!--<li class="li-4">-->
-        <!--<router-link to="/phenotype">-->
-          <!--<span class="img-taskManage li-img"></span>-->
-          <!--<span>表型档案库</span>-->
-        <!--</router-link>-->
+      <!--<router-link to="/phenotype">-->
+      <!--<span class="img-taskManage li-img"></span>-->
+      <!--<span>表型档案库</span>-->
+      <!--</router-link>-->
       <!--</li>-->
     </ul>
 
-    <div class="pull-right po" @click="out">
-      <img src="../../../static/img/header-2.png"/>
-      <img class="register-img" src="../../../static/img/header-8.png"/>
-      <span class="register-span">注销</span>
-    </div>
-    <div class="pull-right po" @click="toPage1(0)">
-      <img src="../../../static/img/header-2.png"/>
-      <img class="register-img" src="../../../static/img/header-12.png"/>
-      <span class="register-span">反馈</span>
-    </div>
-    <div class="pull-right po" @click="toPage1(1)">
-      <img src="../../../static/img/header-2.png"/>
-      <img class="register-img" src="../../../static/img/header-11.png"/>
 
-
-      <span class="register-span">帮助</span>
-    </div>
-
-
-    <div class="pull-right po dropdown">
-      <div class="dropdown-toggle name-content" aria-haspopup="true" aria-expanded="true" data-toggle="dropdown"
-           id="hideContent">
-        <img src="../../../static/img/header-2.png"/>
-        <img class="register-img" src="../../../static/img/header-9.png"/>
-        <span class="register-span">{{uname}}</span>
-        <i class="triangle"></i>
+    <div class="right-header">
+      <div class="pull-right po h-50 login-out" @click="out">
+        <img class="register-img" src="../../../static/img/header-8.png"/>
+        <span class="register-span">注销</span>
       </div>
-      <ul class="dropdown-menu" aria-labelledby="hideContent">
-        <li><a href="javascript:void(0)" @click="showPModal">修改密码</a></li>
-        <li v-if="isAdmin" :data-abc="isAdmin"> <router-link :to="{path:'/userList'}">用户列表</router-link></li>
-      </ul>
+      <div class="pull-right po h-50 feedback" @click="toPage1(0)">
+        <img class="register-img" src="../../../static/img/header-12.png"/>
+        <span class="register-span">反馈</span>
+      </div>
+      <div class="pull-right po dropdown drop-content">
+        <div class="dropdown-toggle name-content" aria-haspopup="true" aria-expanded="true" data-toggle="dropdown"
+             id="hideContent">
+          <img class="register-img" src="../../../static/img/header-9.png"/>
+          <span class="register-span">{{uname}}</span>
+          <i class="triangle"></i>
+        </div>
+        <ul class="dropdown-menu" aria-labelledby="hideContent">
+          <li><a href="javascript:void(0)" @click="showPModal">修改密码</a></li>
+          <li v-if="isAdmin" :data-abc="isAdmin">
+            <router-link :to="{path:'/userList'}">用户列表</router-link>
+          </li>
+        </ul>
+      </div>
     </div>
+
     <changeP></changeP>
   </div>
 </template>
@@ -93,9 +87,9 @@
     },
     data: function () {
       return {
-        group:localStorage.grandGroup,
+        group: localStorage.grandGroup,
         uname: localStorage.uname,
-        isAdmin:localStorage.isAd == 'true'
+        isAdmin: localStorage.isAd == 'true'
       }
     },
     mounted: function () {  //兼容刷新的时候
@@ -107,7 +101,7 @@
       }
     },
     methods: {
-      cancelAxios:function () {
+      cancelAxios: function () {
         source.cancel();
       },
 
@@ -116,19 +110,21 @@
 
         const _header = $("#pathUl");
         _header.find('>.active').removeClass('active');
-        if(currentPath == 'myData' || currentPath == 'report' || currentPath=='result' ||currentPath == 'variationD' ||currentPath == 'addSample' ||currentPath=='sampleD'){
+        if (currentPath == 'myData' || currentPath == 'report' || currentPath == 'result' || currentPath == 'variationD' ||
+          currentPath == 'addSample' || currentPath == 'sampleD') {
           $(".li-1").addClass('active')
-        }else if( currentPath == 'gene' || currentPath == 'geneD'  || currentPath=='omim' || currentPath=='phenotype' ||currentPath == 'disease'){
+        } else if (currentPath == 'gene' || currentPath == 'geneD' || currentPath == 'omim' || currentPath == 'phenotype' ||
+          currentPath == 'disease') {
           $(".li-2").addClass('active')
-        }else if(currentPath == 'phSearch'){
+        } else if (currentPath == 'phSearch') {
           $(".li-3").addClass('active')
-        }else if(currentPath == 'phenotype'){
+        } else if (currentPath == 'phenotype') {
           $(".li-4").addClass('active')
         }
       },
       toPage1: function (type) {
         if (type) { //帮助
-          window.location.href =this.helpHtml;
+          window.location.href = this.helpHtml;
         } else { //反馈
           window.open(this.feedBackHtml)
         }
@@ -146,7 +142,7 @@
       },
 
       //修改密码
-      showPModal:function () {
+      showPModal: function () {
         $("#passwordModal").modal("show")
       }
     }
@@ -154,6 +150,32 @@
 </script>
 
 <style scoped lang="less">
+  .after {
+    &:after {
+      position: absolute;
+      top: 0;
+      content: "";
+      width: 1px;
+      height: 50px;
+      right: 0;
+      background-image: linear-gradient(180deg, #05afe7, #0c4983);
+
+    }
+  }
+
+  .before {
+    &:before {
+      position: absolute;
+      top: 0;
+      content: "";
+      width: 1px;
+      height: 50px;
+      left: 0;
+      background-image: linear-gradient(180deg, #13c8fd, #1a7eb9);
+
+    }
+  }
+
   .header {
     /*min-width: 1100px;*/
     height: 50px;
@@ -163,8 +185,7 @@
     background: url('../../../static/img/header-bc.png') no-repeat center;
     background-size: 100% 60px;
     /*border-bottom: 1px solid rgb(0, 77, 144);*/
-    overflow: hidden;
-
+    /*overflow-y: hidden;*/
 
     .logo {
       color: #fff;
@@ -186,6 +207,9 @@
     > ul {
       color: #fff;
       margin: 0;
+      float:left;
+      width: 500px;
+      overflow: hidden;
       li.active {
         background-color: #fff;
         color: rgb(0, 118, 192);
@@ -264,35 +288,81 @@
         }
       }
     }
-    .name-content {
-      color: #fff;
-      padding-right: 20px;
-      .triangle {
-        float: right;
-        width: 0;
-        height: 0;
-        border-top: 7px solid #fff;
-        border-right: 8px solid transparent;
-        border-left: 7px solid transparent;
-        margin: 23px 10px 0 -10px;
+
+    .right-header {
+      display: inline-block;
+      width: 380px;
+      /*overflow: hidden;*/  /*下拉菜单会被隐藏*/
+      height: 50px;
+      float: right;
+      .drop-content {
+        position: relative;
+        padding-left: 1px;
+        &:before {
+          position: absolute;
+          top: 0;
+          content: "";
+          width: 1px;
+          height: 50px;
+          left: 0;
+          background-image: linear-gradient(180deg, #05afe7, #0c4983);
+        }
+        .name-content {
+          color: #fff;
+          padding-right: 20px;
+          position: relative;
+          height: 50px;
+          line-height: 50px;
+          .triangle {
+            float: right;
+            width: 0;
+            height: 0;
+            border-top: 7px solid #fff;
+            border-right: 8px solid transparent;
+            border-left: 7px solid transparent;
+            margin: 23px 10px 0 -10px;
+          }
+          .register-img {
+            margin-left: 25px;
+          }
+          &:before {
+            position: absolute;
+            top: 0;
+            content: "";
+            width: 1px;
+            height: 50px;
+            left: 0;
+            background-image: linear-gradient(180deg, #13c8fd, #1a7eb9);
+          }
+          &:after {
+            position: absolute;
+            top: 0;
+            content: "";
+            width: 1px;
+            height: 50px;
+            right: 0;
+            background-image: linear-gradient(180deg, #05afe7, #0c4983);
+          }
+        }
+        .dropdown-menu {
+          color: #fff;
+          left: 0;
+        }
+      }
+      .feedback, .login-out {
+        height: 50px;
+        line-height: 50px;
+        position: relative;
+        .after;
+        .before;
       }
       .register-img {
-        margin-left: 25px;
+        margin: 0 5px 2px 20px;
       }
-    }
-    .dropdown-menu {
-      color: #fff;
-      left: 0;
-    }
-    .register-img {
-      margin: 0 5px 2px 20px;
-    }
-    .register-span {
-      color: #fff;
-      margin-right: 20px;
-    }
-    #modal-title{
-
+      .register-span {
+        color: #fff;
+        margin-right: 20px;
+      }
     }
   }
 
