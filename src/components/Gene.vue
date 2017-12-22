@@ -132,7 +132,7 @@
 //        _vue.firstLetter = '';
         _vue.loading = true;
         this.myAxios({
-          url:'biomeddb/gene/?page='+_vue.allGenePage+'&query='+_vue.geneValue
+          url:'biomeddb/gene?page='+_vue.allGenePage+'&query='+_vue.geneValue
         }).then(function (resp) {
           let result = resp.data;
           _vue.respGeneData = result.data;

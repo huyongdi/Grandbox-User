@@ -236,7 +236,7 @@
         const _vue = this;
         _vue.loading = true;
         this.myAxios({
-          url: 'biomeddb/hpo/?query=' + this.phValue
+          url: 'biomeddb/hpo?query=' + this.phValue
         }).then(function (resp) {
           let results = resp.data.data;
 //          $.each(results, function (i, data) {

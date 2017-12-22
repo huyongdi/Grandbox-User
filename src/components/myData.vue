@@ -527,7 +527,7 @@
       getCap: function () {
         const _vue = this;
         this.myAxios({
-          url: 'sample/capture/'
+          url: 'sample/capture'
         }).then(function (resp) {
           _vue.capArr = resp.data.results;
         }).catch(function (error) {
@@ -539,7 +539,7 @@
         _vue.loading = true;
         this.myAxios({
           method: 'get',
-          url: 'product/panel/'
+          url: 'product/panel'
         }).then(function (resp) {
           _vue.panelOptions = resp.data.results;
           _vue.loading = false;
@@ -706,7 +706,7 @@
         this.showPanel = true;
         _vue.loading = true;
         this.myAxios({
-          url: 'product/panel/search/?query=' + _vue.inputPanel
+          url: 'product/panel/search?query=' + _vue.inputPanel
         }).then(function (resp) {
           _vue.panelData = resp.data;
           _vue.loading = false
@@ -884,7 +884,7 @@
         const _vue = this;
         this.loading = true;
         this.myAxios({
-          url: 'biomeddb/hpo/?query=' + data,
+          url: 'biomeddb/hpo?query=' + data,
           type: 'get'
         }).then(function (resp) {
           _vue.loading = false;

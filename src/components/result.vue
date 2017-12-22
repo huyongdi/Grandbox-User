@@ -1019,7 +1019,7 @@
         const _vue = this
         this.loading = true
         this.myAxios({
-          url: 'sample/datafile/' + _vue.datafile + '/'
+          url: 'sample/datafile/' + _vue.datafile
         }).then(function (resp) {
           _vue.originalPanelData = []
           if (resp.data.geneinfo) {
@@ -1052,7 +1052,7 @@
           panelArr.push({name: n.value, code: n.key})
         });
         this.myAxios({
-          url: 'sample/datafile/' + this.datafile + '/',
+          url: 'sample/datafile/' + this.datafile,
           method: 'patch',
           data: {
             geneinfo: {

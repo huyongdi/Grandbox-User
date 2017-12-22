@@ -378,7 +378,7 @@
         const _vue = this;
         this.loadingPA = true;
         this.myAxios({
-          url: 'biomeddb/panel/suggest/',
+          url: 'biomeddb/panel/suggest',
           method: 'post',
           data: {
             hpos: _vue.parentRightCId
@@ -406,7 +406,7 @@
       getAllPanel: function () {
         const _vue = this;
         this.myAxios({
-          url: 'biomeddb/panel/',
+          url: 'biomeddb/panel',
         }).then((resp) => {
           let results = resp.data.data;
 

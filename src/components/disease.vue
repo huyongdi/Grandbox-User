@@ -95,7 +95,7 @@
         const _vue = this;
         this.loading = true;
         this.myAxios({
-          url: 'biomeddb/omim/?query=' + this.omValue
+          url: 'biomeddb/omim?query=' + this.omValue
         }).then((resp) => {
           _vue.loading = false;
           let results = resp.data.data;

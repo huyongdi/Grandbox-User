@@ -171,7 +171,7 @@
         const _vue = this;
         this.loadingPA = true;
         this.myAxios({
-          url: 'biomeddb/panel/suggest/',
+          url: 'biomeddb/panel/suggest',
           method: 'post',
 //          data:this.hasHpo
           data: {

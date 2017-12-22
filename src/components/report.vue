@@ -465,7 +465,7 @@
         const _vue = this;
         this.loading = true;
         this.myAxios({
-          url: _vue.patchUrl + 'sanger/',
+          url: _vue.patchUrl + 'sanger',
           method: 'post',
           data: new FormData(document.getElementById('addDataForm1'))
         }).then(function (resp) {

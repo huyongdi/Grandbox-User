@@ -170,7 +170,7 @@
         const _vue = this;
         this.loadingT = true;
         this.myAxios({
-          url: 'biomeddb/hpo/?query=' + this.sInput,
+          url: 'biomeddb/hpo?query=' + this.sInput,
           type: 'get'
         }).then(function (resp) {
           _vue.loadingT = false;
