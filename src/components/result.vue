@@ -204,13 +204,19 @@
                     <span v-if="data.record_count">{{data.record_count.private}} / {{data.record_count.public}}</span>
                   </td>
                   <td class="warp">
-                    <div v-if="data.snv && data.snv.annotation">
-                      <div  v-for="geneSingle in data.snv.annotation.gene.symbols">
-                        <router-link class="po common-a" target="_blank" :to="{path:'/geneD',query:{id:geneSingle}}">
-                          {{geneSingle}}
-                        </router-link>
-                      </div>
+                    <div v-for="gene in data.vueGenes">
+
+                      <router-link class="po common-a" target="_blank" :to="{path:'/geneD',query:{id:gene.id}}">
+                        {{gene.name}}
+                      </router-link>
                     </div>
+                    <!--<div v-if="data.snv && data.snv.annotation">-->
+                      <!--<div  v-for="geneSingle in data.snv.annotation.gene.symbols">-->
+                        <!--<router-link class="po common-a" target="_blank" :to="{path:'/geneD',query:{id:geneSingle}}">-->
+                          <!--{{geneSingle}}-->
+                        <!--</router-link>-->
+                      <!--</div>-->
+                    <!--</div>-->
                   </td>
                   <td class="warp">
                     <span v-if="data.snv &&data.snv.annotation">{{data.snv.annotation.regions.join(',')}}</span>
@@ -439,13 +445,19 @@
                     </router-link>
                   </td>
                   <td class="warp">
-                    <div v-if="data.snv && data.snv.annotation" >
-                      <div v-for="geneSingle in data.snv.annotation.gene.symbols">
-                        <router-link class="po common-a" target="_blank" :to="{path:'/geneD',query:{id:geneSingle}}">
-                          {{geneSingle}}
-                        </router-link>
-                      </div>
+                    <div v-for="gene in data.vueGenes">
+
+                      <router-link class="po common-a" target="_blank" :to="{path:'/geneD',query:{id:gene.id}}">
+                        {{gene.name}}
+                      </router-link>
                     </div>
+                    <!--<div v-if="data.snv && data.snv.annotation" >-->
+                      <!--<div v-for="geneSingle in data.snv.annotation.gene.symbols">-->
+                        <!--<router-link class="po common-a" target="_blank" :to="{path:'/geneD',query:{id:geneSingle}}">-->
+                          <!--{{geneSingle}}-->
+                        <!--</router-link>-->
+                      <!--</div>-->
+                    <!--</div>-->
                   </td>
                   <td class="warp">
                     <span v-if="data.snv &&data.snv.annotation">{{data.snv.annotation.regions.join(',')}}</span>
@@ -750,6 +762,22 @@
           _vue.count1 = data.meta.total;
           _vue.patient = data.meta.patient;
           _vue.sampleSn = data.meta.sample_sn;
+
+          $.each(data.data,function (key,value) {
+            let geneObj = {};
+            value.vueGenes=[];
+            $.each(value.snv.annotation.gene.geneids,function (n1,n2) {
+              $.each(value.snv.annotation.gene.symbols,function (n3,n4) {
+                if(n1 == n3){
+                  geneObj.id = n2;
+                  geneObj.name = n4;
+                  value.vueGenes.push(geneObj);
+                }
+              })
+            })
+
+          });
+
           _vue.lists1 = data.data;
           _vue.doneHttp = true;
         }).catch(function (error) {
@@ -850,6 +878,22 @@
           _vue.count2 = data.meta.total;
           _vue.patient = data.meta.patient;
           _vue.sampleSn = data.meta.sample_sn;
+
+          $.each(data.data,function (key,value) {
+            let geneObj = {};
+            value.vueGenes=[];
+            $.each(value.snv.annotation.gene.geneids,function (n1,n2) {
+              $.each(value.snv.annotation.gene.symbols,function (n3,n4) {
+                if(n1 == n3){
+                  geneObj.id = n2;
+                  geneObj.name = n4;
+                  value.vueGenes.push(geneObj);
+                }
+              })
+            })
+
+          });
+
           _vue.lists2 = data.data;
         }).catch(function (error) {
           _vue.catchFun(error)
