@@ -41,7 +41,7 @@ Vue.prototype.myAxios.interceptors.request.use(function (config) {
 
   if (currentSecond+1 > parseFloat(localStorage.time)) {
     $.ajax({
-      url: Vue.prototype.apiUrl + 'auth/refresh',
+      url: Vue.prototype.apiUrl + '/auth/refresh',
       type: 'get',
       async: false,
       beforeSend: function (xhr) {
